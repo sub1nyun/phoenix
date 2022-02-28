@@ -7,5 +7,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="승주꺼 브랜치만"/>
 
 </LinearLayout>
