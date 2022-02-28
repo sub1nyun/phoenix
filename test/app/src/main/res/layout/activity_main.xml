@@ -26,5 +26,11 @@
         android:layout_height="wrap_content"
         android:text="나 조규형이야!"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="내일 쉰데 규형아"
+        android:backgroundTint="#FF5722"/>
+
 
 </LinearLayout>
