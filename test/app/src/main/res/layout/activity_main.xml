@@ -38,5 +38,11 @@
         android:text="내 이름 리승주"
         android:backgroundTint="#FFC107"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="내 이름 리승주 진짜임"
+        android:backgroundTint="#03A9F4"/>
+
 
 </LinearLayout>
