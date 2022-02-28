@@ -32,5 +32,11 @@
         android:text="내일 쉰데 규형아"
         android:backgroundTint="#FF5722"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="내 이름 리승주"
+        android:backgroundTint="#FFC107"/>
+
 
 </LinearLayout>
