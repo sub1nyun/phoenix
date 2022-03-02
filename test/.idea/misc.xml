@@ -4,6 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.26403985507246375" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_dairy.xml" value="0.25" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_date_picker.xml" value="0.26927083333333335" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_detail.xml" value="0.26927083333333335" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_diary.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_iot.xml" value="0.3515625" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_item_list.xml" value="0.2546875" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_map.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_my.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_sns.xml" value="0.3515625" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/item_diary.xml" value="0.26927083333333335" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/test/app/src/main/res/layout/activity_main.xml" value="0.15881458966565348" />
       </map>

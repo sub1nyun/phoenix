@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        
+
         container = findViewById(R.id.container);
         tab_main = findViewById(R.id.tab_main);
         tab_diary = findViewById(R.id.tab_diary);
