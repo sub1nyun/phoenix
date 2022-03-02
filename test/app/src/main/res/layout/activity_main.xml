@@ -7,4 +7,43 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:id="@+id/container"
+        />
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/tab_main">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_diary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다이어리"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="맵"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_iot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="iot"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_sns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sns"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="my"/>
+    </com.google.android.material.tabs.TabLayout>
+
 </LinearLayout>
