@@ -11,6 +11,15 @@
         android:theme="@style/Theme.Test">
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".join.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sns.SnsNewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".join.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -6,7 +6,11 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+<<<<<<< HEAD
 import com.example.test.my.MyFragment;
+=======
+import com.example.test.sns.SnsFragment;
+>>>>>>> 11ce8cc82f734e0efc8976304699dcf153c481b2
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
@@ -19,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         container = findViewById(R.id.container);
         tab_main = findViewById(R.id.tab_main);
