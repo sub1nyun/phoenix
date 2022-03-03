@@ -20,7 +20,8 @@ public class RelationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_relation, container, false);
-
+        JoinMainActivity.go = 5;
+        JoinMainActivity.back = 5;
         btn_back = rootView.findViewById(R.id.btn_back);
         btn_mother = rootView.findViewById(R.id.btn_mother);
         btn_father = rootView.findViewById(R.id.btn_father);
@@ -33,12 +34,7 @@ public class RelationFragment extends Fragment {
 
 
 
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         btn_mother.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,12 +65,7 @@ public class RelationFragment extends Fragment {
 
             }
         });
-        btn_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
 
 

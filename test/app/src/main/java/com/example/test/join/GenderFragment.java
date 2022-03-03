@@ -17,7 +17,18 @@ public class GenderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gender, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_gender, container, false);
+        JoinMainActivity.go = 4;
+        JoinMainActivity.back = 4;
+
+
+
+
+
+
+
+
+
+        return rootView;
     }
 }
