@@ -3,7 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/circle_btn.xml" value="0.2985" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/tv_custom.xml" value="0.2985" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.26403985507246375" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/dialog_rels.xml" value="0.358695652173913" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_body.xml" value="0.1875" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_edit.xml" value="0.358695652173913" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_my.xml" value="0.358695652173913" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_setting.xml" value="0.33" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/spinner_custom.xml" value="0.358695652173913" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/xml/settings_preference.xml" value="0.358695652173913" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/test/app/src/main/res/layout/activity_main.xml" value="0.15881458966565348" />
       </map>
