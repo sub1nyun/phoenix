@@ -3,6 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/circle_btn.xml" value="0.2985" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/tv_custom.xml" value="0.2985" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.26403985507246375" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/dialog_rels.xml" value="0.358695652173913" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_body.xml" value="0.1875" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_edit.xml" value="0.358695652173913" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_my.xml" value="0.358695652173913" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_setting.xml" value="0.33" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/spinner_custom.xml" value="0.358695652173913" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/xml/settings_preference.xml" value="0.358695652173913" />
+=======
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/font/hsfont.xml" value="0.3963541666666667" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/font/leeseoyun.xml" value="0.3963541666666667" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/font/leeseoyunfont.xml" value="0.3963541666666667" />
@@ -17,6 +29,7 @@
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_gender.xml" value="0.22" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_join_main.xml" value="0.265625" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.33" />
+>>>>>>> 11ce8cc82f734e0efc8976304699dcf153c481b2
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_relation.xml" value="0.22" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_splash.xml" value="0.36614583333333334" />
