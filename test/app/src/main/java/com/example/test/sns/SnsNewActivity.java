@@ -14,7 +14,7 @@ public class SnsNewActivity extends AppCompatActivity {
     ImageView sns_new_back;
     TextView sns_new_share;
 
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
