@@ -35,8 +35,8 @@ import java.util.Date;
 
 public class SnsNewActivity extends AppCompatActivity {
 
-    RecyclerView sns_img_rev;
-    ImageView sns_new_back, sns_camera, sns_new_img;
+    //RecyclerView sns_img_rev;
+    ImageView sns_new_back, sns_camera, sns_img;
     TextView sns_new_share;
     String[] sns_item = {"카메라", "갤러리"};
     Intent intent;
@@ -60,7 +60,7 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_back = findViewById(R.id.sns_new_back);
         sns_new_share = findViewById(R.id.sns_new_share);
         sns_camera = findViewById(R.id.sns_camera);
-        sns_img_rev = findViewById(R.id.sns_img_rev);
+        sns_img = findViewById(R.id.sns_img);
 
 
         sns_camera.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +160,7 @@ public class SnsNewActivity extends AppCompatActivity {
             //getContentResolver.query <= 경로를 받아오는 처리. 실제 저장경로 Uri를 알아옴.
             Uri selectImageUri = data.getData();
             imgFilePath = getGalleryRealPath(selectImageUri);
-            Glide.with(SnsNewActivity.this).load(imgFilePath).into(sns_new_img);
+            Glide.with(SnsNewActivity.this).load(imgFilePath).into(sns_img);
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
@@ -18,6 +19,8 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.test.MainActivity;
+import com.example.test.MyFragment;
 import com.example.test.R;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
@@ -29,12 +32,14 @@ public class SnsFragment extends Fragment {
 
     ViewPager2 snspager;
     ArrayList<SnsDTO> snslist = new ArrayList<>();
-    ImageView sns_plus, sns_more, testImg;
+    ImageView sns_plus, sns_more, testImg, sns_profile;
     Intent intent;
     DotsIndicator dotsIndicator;
   //  String imgFilePath = null;
     public static ArrayList<String> img_list = new ArrayList<>();
     SnsViewPagerAdapter snsadapter ;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +50,9 @@ public class SnsFragment extends Fragment {
         sns_plus = rootView.findViewById(R.id.sns_plus);
         sns_more = rootView.findViewById(R.id.sns_more);
         testImg = rootView.findViewById(R.id.testImg);
+        sns_profile = rootView.findViewById(R.id.sns_profile);
+
+
 
        snsadapter = new SnsViewPagerAdapter(inflater,snslist , getContext());
        snspager.setAdapter(snsadapter);
@@ -59,6 +67,15 @@ public class SnsFragment extends Fragment {
                 startActivity(intent);
            }
        });
+
+
+        sns_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
 
 
 

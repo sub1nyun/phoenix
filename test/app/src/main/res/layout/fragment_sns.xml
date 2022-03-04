@@ -46,6 +46,7 @@
             android:background="#FFFFFF">
 
             <ImageView
+                android:id="@+id/sns_profile"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
