@@ -46,13 +46,12 @@
 
     </LinearLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
+    <androidx.recyclerview.widget.RecyclerView
         android:scaleType="fitXY"
         android:layout_weight="5"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:src="@drawable/sns_logo"
-        android:id="@+id/sns_new_img_pager"
+        android:id="@+id/sns_img_rev"
         android:text="사진 업로드시 써질 공간"/>
 
   <TextView

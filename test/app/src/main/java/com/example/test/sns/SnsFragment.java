@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -25,17 +26,15 @@ import java.util.ArrayList;
 
 public class SnsFragment extends Fragment {
 
-    public SnsFragment() {
-    }
 
     ViewPager2 snspager;
     ArrayList<SnsDTO> snslist = new ArrayList<>();
     ImageView sns_plus, sns_more, testImg;
     Intent intent;
     DotsIndicator dotsIndicator;
-
-    String imgFilePath = null;
-
+  //  String imgFilePath = null;
+    public static ArrayList<String> img_list = new ArrayList<>();
+    SnsViewPagerAdapter snsadapter ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,24 +46,12 @@ public class SnsFragment extends Fragment {
         sns_more = rootView.findViewById(R.id.sns_more);
         testImg = rootView.findViewById(R.id.testImg);
 
-
-
-
-
-       snslist.add(new SnsDTO(R.drawable.sns_test4, "테스트1"));
-       snslist.add(new SnsDTO(R.drawable.sns_test3, "테스트2"));
-       snslist.add(new SnsDTO(R.drawable.sns_test2, "테스트3"));
-       snslist.add(new SnsDTO(R.drawable.sns_test, "테스트4"));
-
-       SnsViewPagerAdapter snsadapter = new SnsViewPagerAdapter(inflater,snslist);
+       snsadapter = new SnsViewPagerAdapter(inflater,snslist , getContext());
        snspager.setAdapter(snsadapter);
        dotsIndicator.setViewPager2(snspager);
 
         PopupMenu popupMenu = new PopupMenu(getContext(), rootView);
         popupMenu.getMenuInflater().inflate(R.menu.sns_submenu, popupMenu.getMenu());
-
-
-
        sns_plus.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -100,15 +87,22 @@ public class SnsFragment extends Fragment {
            }
        });
 
-
-//        imgFilePath = intent.getStringExtra("path");
-//        Glide.with(this).load(imgFilePath).into(testImg);
-
-
-
-
-
-
         return rootView;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        for(int i = 0 ; i<img_list.size() ; i++){
+            snslist.add(new SnsDTO(img_list.get(i), "테스트1"));
+        }
+        //쿼리 작성할 부분
+        img_list = new ArrayList<>();
+        snsadapter.notifyDataSetChanged();
     }
 }

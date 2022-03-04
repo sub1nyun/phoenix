@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
@@ -34,7 +35,7 @@ import java.util.Date;
 
 public class SnsNewActivity extends AppCompatActivity {
 
-    ViewPager2 sns_new_img_pager;
+    RecyclerView sns_img_rev;
     ImageView sns_new_back, sns_camera, sns_new_img;
     TextView sns_new_share;
     String[] sns_item = {"카메라", "갤러리"};
@@ -48,6 +49,9 @@ public class SnsNewActivity extends AppCompatActivity {
     String imgFilePath = null;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +60,7 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_back = findViewById(R.id.sns_new_back);
         sns_new_share = findViewById(R.id.sns_new_share);
         sns_camera = findViewById(R.id.sns_camera);
-        sns_new_img_pager = findViewById(R.id.sns_new_img_pager);
+        sns_img_rev = findViewById(R.id.sns_img_rev);
 
 
         sns_camera.setOnClickListener(new View.OnClickListener() {
@@ -77,18 +81,8 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SnsFragment snsFragment = new SnsFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("img", imgFilePath);
-                snsFragment.setArguments(bundle);
-
-
-
-
-
-
-
-
+                SnsFragment.img_list.add(imgFilePath);
+                finish();
             }
         });
 
