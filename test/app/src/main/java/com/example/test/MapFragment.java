@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+<<<<<<< HEAD
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -32,6 +33,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return rootView;
     }
 
+=======
+public class MapFragment extends Fragment {
+>>>>>>> 9e390c83f233d32fb6a811b2dd8579dd51d157c3
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         googleMap = googleMap;
