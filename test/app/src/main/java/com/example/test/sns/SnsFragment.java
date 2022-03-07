@@ -87,6 +87,21 @@ public class SnsFragment extends Fragment {
                 builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                        builder1.setTitle("정말 삭제하실 건가요?").setMessage("");
+                        builder1.setPositiveButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        builder1.setNegativeButton("삭제", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        AlertDialog alertDialog = builder1.create();
+                        alertDialog.show();
                     }
                 });
                 AlertDialog alertDialog = builder.create();
