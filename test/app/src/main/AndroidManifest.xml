@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
         <activity
+            android:name=".diary.GraphActivity"
+            android:exported="false" />
+        <activity
+            android:name=".diary.DetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

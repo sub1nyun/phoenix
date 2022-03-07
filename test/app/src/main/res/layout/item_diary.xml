@@ -3,21 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="50dp">
     <TextView
+        android:id="@+id/tv_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00:00 pm"
         android:layout_gravity="center"/>
     <ImageView
+        android:id="@+id/imv_state"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:src="@drawable/pharmacy"
+        android:src="@drawable/pills"
         android:layout_gravity="center"/>
     <TextView
+        android:id="@+id/tv_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="투약"
         android:layout_gravity="center"/>
     <TextView
+        android:id="@+id/tv_how"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10분"
@@ -29,6 +33,7 @@
         android:layout_weight="1"
         />
     <ImageView
+        android:id="@+id/imv_detail"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:src="@drawable/arrow_forward"

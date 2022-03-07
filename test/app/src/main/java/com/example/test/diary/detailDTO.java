@@ -1,17 +1,57 @@
 package com.example.test.diary;
 
-public class detailDTO {
-    private String str;
+import java.io.Serializable;
 
-    public detailDTO(String str) {
-        this.str = str;
+public class detailDTO implements Serializable {
+    private String state, start_time, end_time, memo;
+    private int img;
+
+    public detailDTO() {
     }
 
-    public String getStr() {
-        return str;
+    public detailDTO(String state, String start_time, int img) {
+        this.state = state;
+        this.start_time = start_time;
+        this.img = img;
     }
 
-    public void setStr(String str) {
-        this.str = str;
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
+    }
+
+    public String getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public int getImg() {
+        return img;
+    }
+
+    public void setImg(int img) {
+        this.img = img;
     }
 }
