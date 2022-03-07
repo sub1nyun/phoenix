@@ -7,10 +7,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,16 +34,17 @@ import com.example.test.R;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class SnsNewActivity extends AppCompatActivity {
 
-    //RecyclerView sns_img_rev;
-    ImageView sns_new_back, sns_camera, sns_img;
+    //RecyclerView recyclerView;
+    ImageView sns_new_back, sns_camera, sns_new_img;
     TextView sns_new_share;
     String[] sns_item = {"카메라", "갤러리"};
     Intent intent;
-
+    public static ArrayList<Uri> uriList = new ArrayList<>();
 
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;
@@ -48,6 +52,7 @@ public class SnsNewActivity extends AppCompatActivity {
     File imgFile = null;
     String imgFilePath = null;
 
+    Sns_MultiImageAdapter adapter;
 
 
 
@@ -60,7 +65,8 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_back = findViewById(R.id.sns_new_back);
         sns_new_share = findViewById(R.id.sns_new_share);
         sns_camera = findViewById(R.id.sns_camera);
-        sns_img = findViewById(R.id.sns_img);
+        //recyclerView = findViewById(R.id.recyclerView);
+        sns_new_img = findViewById(R.id.sns_new_img);
 
 
         sns_camera.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +113,12 @@ public class SnsNewActivity extends AppCompatActivity {
     }
 
     public void go_gallery() {
+//        Intent intent = new Intent(Intent.ACTION_PICK);
+//        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+//        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true); //다중이미지 허용
+//        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
+
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_PICK);
@@ -152,15 +164,52 @@ public class SnsNewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
-            Toast.makeText(SnsNewActivity.this, "사진을 잘찍었음.", Toast.LENGTH_SHORT).show();
+//        if(requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
+//            if(data ==null) {
+//                Toast.makeText(SnsNewActivity.this, "이미지를 선택하세요", Toast.LENGTH_SHORT).show();
+//            }else {
+//                if(data.getClipData() ==null){ //이미지하나
+//                    Uri imageUri = data.getData();
+//                    uriList.add(imageUri);
+//
+//                    adapter = new Sns_MultiImageAdapter(uriList,this, getLayoutInflater());
+//                    recyclerView.setAdapter(adapter);
+//                    recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+//                }else { //이미지 여러장
+//                    ClipData clipData = data.getClipData();
+//                    if(clipData.getItemCount() > 5) {
+//                        Toast.makeText(SnsNewActivity.this, "사진은 5장까지 선택 가능합니다", Toast.LENGTH_SHORT).show();
+//                    }else {
+//                        for(int i=0; i<clipData.getItemCount(); i++) {
+//                            Uri imageUri = clipData.getItemAt(i).getUri(); //선택한 이미지들의 uri를 가져옴
+//                            try {
+//                                uriList.add(imageUri); //uri를 list에 담음
+//                            }catch (Exception e) {
+//                                Toast.makeText(SnsNewActivity.this, "에러", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                        adapter = new Sns_MultiImageAdapter(uriList,this,getLayoutInflater());
+//                        recyclerView.setAdapter(adapter);
+//                        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+//
+//                    }
+//
+//                }
+//
+//
+//
+//
+//
+//            }
+       if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
+           Toast.makeText(SnsNewActivity.this, "사진을 잘찍었음.", Toast.LENGTH_SHORT).show();
             Glide.with(SnsNewActivity.this).load(imgFilePath).into(sns_camera);
         } else if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
             Toast.makeText(SnsNewActivity.this, "갤러리 사진 가져옴", Toast.LENGTH_SHORT).show();
             //getContentResolver.query <= 경로를 받아오는 처리. 실제 저장경로 Uri를 알아옴.
             Uri selectImageUri = data.getData();
             imgFilePath = getGalleryRealPath(selectImageUri);
-            Glide.with(SnsNewActivity.this).load(imgFilePath).into(sns_img);
+            Glide.with(SnsNewActivity.this).load(imgFilePath).into(sns_new_img);
         }
     }
 

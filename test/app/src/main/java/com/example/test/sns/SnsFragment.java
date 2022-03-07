@@ -1,7 +1,10 @@
 package com.example.test.sns;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,12 +35,15 @@ public class SnsFragment extends Fragment {
 
     ViewPager2 snspager;
     ArrayList<SnsDTO> snslist = new ArrayList<>();
-    ImageView sns_plus, sns_more, testImg, sns_profile;
+    ImageView sns_plus, sns_more, testImg, sns_profile, sns_view;
     Intent intent;
     DotsIndicator dotsIndicator;
   //  String imgFilePath = null;
     public static ArrayList<String> img_list = new ArrayList<>();
     SnsViewPagerAdapter snsadapter ;
+
+    //public static ArrayList<Uri> uriList = new ArrayList<>();
+
 
 
     @Override
@@ -58,8 +64,6 @@ public class SnsFragment extends Fragment {
        snspager.setAdapter(snsadapter);
        dotsIndicator.setViewPager2(snspager);
 
-        PopupMenu popupMenu = new PopupMenu(getContext(), rootView);
-        popupMenu.getMenuInflater().inflate(R.menu.sns_submenu, popupMenu.getMenu());
        sns_plus.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -68,41 +72,27 @@ public class SnsFragment extends Fragment {
            }
        });
 
-
-        sns_profile.setOnClickListener(new View.OnClickListener() {
+        sns_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("수정이나 삭제할 게시물이 있으신가요?").setMessage("");
+                builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getContext(), SnsNewActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
-
-
-
-
-       sns_more.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-                popupMenu.show();
-           }
-       });
-
-       popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-           @Override
-           public boolean onMenuItemClick(MenuItem item) {
-
-               if(item.getItemId() == R.id.sns_new_edit) {
-                   intent = new Intent(getContext(), SnsNewActivity.class);
-                   startActivity(intent);
-               }else if(item.getItemId() == R.id.sns_new_delete) {
-                    Sns_Delete_Dialog delete_dialog = new Sns_Delete_Dialog(getContext());
-                    delete_dialog.show();
-
-               }
-
-               return false;
-           }
-       });
 
         return rootView;
     }
