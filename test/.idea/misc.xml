@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/circle_btn.xml" value="0.2985" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/tv_custom.xml" value="0.2985" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.26403985507246375" />
@@ -30,6 +31,19 @@
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_join_main.xml" value="0.265625" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.33" />
 >>>>>>> 11ce8cc82f734e0efc8976304699dcf153c481b2
+=======
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.26403985507246375" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_sns_new.xml" value="0.2046875" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_iot.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_map.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_my.xml" value="0.2046875" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_sns.xml" value="0.2046875" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/multi_item.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/sns_delete_dialog.xml" value="1.0" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/sns_image_item.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/sns_item.xml" value="0.2957427536231884" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/menu/sns_submenu.xml" value="0.36614583333333334" />
+>>>>>>> ysb
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_relation.xml" value="0.22" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_splash.xml" value="0.36614583333333334" />

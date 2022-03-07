@@ -2,19 +2,19 @@ package com.example.test.sns;
 
 public class SnsDTO {
 
-    private int snsImg;
+    private String snsImg;
     private String snscomment;
 
-    public SnsDTO(int snsImg, String snscomment) {
+    public SnsDTO(String snsImg, String snscomment) {
         this.snsImg = snsImg;
         this.snscomment = snscomment;
     }
 
-    public int getSnsImg() {
+    public String getSnsImg() {
         return snsImg;
     }
 
-    public void setSnsImg(int snsImg) {
+    public void setSnsImg(String snsImg) {
         this.snsImg = snsImg;
     }
 
