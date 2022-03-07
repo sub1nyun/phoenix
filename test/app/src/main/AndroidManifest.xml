@@ -10,17 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
         <activity
-<<<<<<< HEAD
+
             android:name=".diary.GraphActivity"
             android:exported="false" />
         <activity
             android:name=".diary.DetailActivity"
-=======
-            android:name=".join.JoinMainActivity"
->>>>>>> ce11e49193ecf2fcaa055554376bb3254fce9e34
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".join.JoinMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".join.SplashActivity"
             android:exported="false" />
         <activity
             android:name=".join.LoginActivity"
@@ -29,7 +29,7 @@
             android:name=".sns.SnsNewActivity"
             android:exported="false" />
         <activity
-            android:name=".join.SplashActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
