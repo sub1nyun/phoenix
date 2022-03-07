@@ -3,42 +3,125 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SnsFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".sns.SnsFragment"
     android:orientation="vertical"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FF5722"
+        android:background="#F2FFFFFF"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:orientation="horizontal"
-            android:background="#3B1F98">
+            android:background="#03A9F4">
 
             <TextView
-                android:layout_width="0dp"
                 android:layout_weight="9"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Baby Smile Support"
-                android:textSize="30dp"/>
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"/>
 
+            <ImageView
+                android:id="@+id/sns_plus"
+                android:layout_gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:src="@drawable/more" />
+        </LinearLayout>
 
+        <LinearLayout
+           android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#FFFFFF">
 
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_launcher_background"/>
 
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="7.5"
+                    android:layout_height="wrap_content"
+                    android:text="엄마"
+                    android:id="@+id/sns_user_id"/>
 
+            <ImageView
+                android:id="@+id/sns_more"
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:layout_height="match_parent"
+                android:src="@drawable/view_more"/>
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <androidx.viewpager2.widget.ViewPager2
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#123456"
+                android:id="@+id/sns_view_pager"/>
 
-
-
-
-
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sns_indicator"
+                app:progressMode="true"
+                app:dotsSize="16dp"
+                app:dotsColor="#ffffff"
+                app:dotsCornerRadius="8dp"
+                app:dotsWidthFactor="2.5"
+                app:selectedDotColor="#1572cf"
+                android:layout_gravity="center"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="여기에 작성한 내용을 적을 겁니다."
+                android:id="@+id/sns_user_content"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#123456" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="여기에 작성한 내용을 적을 겁니다." />
+        </LinearLayout>
+
+
+
+
 
 
 

@@ -11,7 +11,15 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import com.example.test.diary.detailDTO;
+=======
+<<<<<<< HEAD
+import com.example.test.my.MyFragment;
+=======
+import com.example.test.sns.SnsFragment;
+>>>>>>> 11ce8cc82f734e0efc8976304699dcf153c481b2
+>>>>>>> ce11e49193ecf2fcaa055554376bb3254fce9e34
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
