@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
-<<<<<<< HEAD
+
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String a ="";
@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-=======
 
 
->>>>>>> ysb
+
+
 }

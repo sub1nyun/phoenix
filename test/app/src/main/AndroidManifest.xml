@@ -49,7 +49,7 @@
             android:name=".diary.GraphActivity"
             android:exported="false" />
         <activity
-            android:name=".join.SplashActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".join.JoinMainActivity"
@@ -64,7 +64,7 @@
             android:name=".sns.SnsNewActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".join.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -72,12 +72,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
+
         <!--구글 맵 API 메타 데이터 추가-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE"/>
-=======
+
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -98,7 +98,7 @@
 
 
 
->>>>>>> ysb
+
     </application>
 
 </manifest>

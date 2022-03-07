@@ -46,12 +46,12 @@ dependencies {
     // sns 사진 indicator 사용하려고 추가함 ysb 2022-03-02 추가
     implementation 'com.tbuonomo:dotsindicator:4.2'
 
-<<<<<<< HEAD
+
     // 구글 맵 사용하려고 추가함 ysm 2022-03-07 추가
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
-=======
+
     // 사진을 좀 편하게 사용하기 위한 API 추가 ysb 2022-03-03
     implementation group: 'com.github.bumptech.glide', name: 'glide', version: '4.8.0'
->>>>>>> ysb
+
 }

@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
-import com.example.test.MyFragment;
+
 import com.example.test.R;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
