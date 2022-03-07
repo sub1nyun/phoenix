@@ -10,17 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
         <activity
-
+<<<<<<< HEAD
+            android:name=".join.SplashActivity"
+=======
+<<<<<<< HEAD
             android:name=".diary.GraphActivity"
             android:exported="false" />
         <activity
             android:name=".diary.DetailActivity"
-            android:exported="false" />
-        <activity
+=======
             android:name=".join.JoinMainActivity"
+>>>>>>> ce11e49193ecf2fcaa055554376bb3254fce9e34
             android:exported="false" />
         <activity
-            android:name=".join.SplashActivity"
+            android:name=".MainActivity"
+>>>>>>> 9e390c83f233d32fb6a811b2dd8579dd51d157c3
             android:exported="false" />
         <activity
             android:name=".join.LoginActivity"
@@ -37,6 +41,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--구글 맵 API 메타 데이터 추가-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE"/>
     </application>
 
 </manifest>

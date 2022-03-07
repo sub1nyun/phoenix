@@ -38,7 +38,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"/>
+        android:layout_weight="2"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9">
+            <TextView
+                android:id="@+id/my_diary_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="~~의 육아일기"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:textSize="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+        <ImageView
+            android:id="@+id/my_diary_title_edit"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_edit"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -106,5 +131,20 @@
             android:text="이름\n"
             android:textSize="17dp"
             android:background="@drawable/tv_custom"/>
+        <Button
+            android:id="@+id/btn_co_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:text="  공동 양육자  "
+            android:layout_marginTop="20dp"
+            />
+        <Button
+            android:id="@+id/delete_baby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아이 정보 삭제"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 </LinearLayout>
