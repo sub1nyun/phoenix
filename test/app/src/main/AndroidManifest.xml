@@ -19,7 +19,7 @@
             android:name=".sns.SnsNewActivity"
             android:exported="false" />
         <activity
-            android:name=".join.SplashActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--구글 맵 API 메타 데이터 추가-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE"/>
     </application>
 
 </manifest>

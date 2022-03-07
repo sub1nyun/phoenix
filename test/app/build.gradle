@@ -43,4 +43,8 @@ dependencies {
 
     // sns 사진 indicator 사용하려고 추가함 ysb 2022-03-02 추가
     implementation 'com.tbuonomo:dotsindicator:4.2'
+
+    // 구글 맵 사용하려고 추가함 ysm 2022-03-07 추가
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
 }

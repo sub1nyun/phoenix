@@ -30,6 +30,7 @@
                 android:textColor="#000"
                 android:layout_gravity="center"/>
             <ImageView
+                android:id="@+id/edit_ok"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:src="@android:drawable/ic_menu_edit"
@@ -48,12 +49,14 @@
             android:layout_height="wrap_content"
             android:text="기본 정보"
             android:textColor="#000"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textSize="18dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="10dp">
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -63,6 +66,7 @@
                 android:textColor="#000"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/tv_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -73,7 +77,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="10dp">
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -83,6 +88,7 @@
                 android:textColor="#000"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/tv_gender"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -92,14 +98,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:text="출생시 신체 정보"
             android:textColor="#673AB7"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textSize="18dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="10dp">
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -107,25 +116,32 @@
                 android:src="@drawable/weight_icon"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:layout_gravity="center"
+                android:textAlignment="center"
                 android:text="몸무게"/>
             <EditText
                 android:id="@+id/edit_weight"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:textAlignment="textEnd"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center"
+                android:textAlignment="center"
                 android:text="kg"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="10dp">
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -133,19 +149,24 @@
                 android:src="@drawable/tall_icon"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:layout_gravity="center"
+                android:textAlignment="center"
                 android:text="키"/>
             <EditText
                 android:id="@+id/edit_height"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:textAlignment="textEnd"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center"
+                android:textAlignment="center"
                 android:text="kg"/>
         </LinearLayout>
 
