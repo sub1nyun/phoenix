@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.example.test"
         minSdk 21
-        targetSdk 31
+        targetSdk 25
         versionCode 1
         versionName "1.0"
 
@@ -47,6 +47,9 @@ dependencies {
     implementation 'com.tbuonomo:dotsindicator:4.2'
 
     // 구글 맵 사용하려고 추가함 ysm 2022-03-07 추가
-    implementation 'com.google.android.gms:play-services-maps:18.0.2'
-    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'noman.placesapi:placesAPI:1.1.3'
+
 }
