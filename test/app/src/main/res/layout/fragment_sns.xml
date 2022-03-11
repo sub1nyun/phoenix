@@ -46,16 +46,19 @@
             android:background="#FFFFFF">
 
             <ImageView
+                android:id="@+id/sns_profile"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_launcher_background"/>
 
-                <EditText
+                <TextView
                     android:layout_width="0dp"
                     android:layout_weight="7.5"
                     android:layout_height="wrap_content"
                     android:text="엄마"
+                    android:textSize="25dp"
+                    android:layout_gravity="center"
                     android:id="@+id/sns_user_id"/>
 
             <ImageView
@@ -96,10 +99,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="여기에 작성한 내용을 적을 겁니다."
+                android:textSize="20dp"
                 android:id="@+id/sns_user_content"/>
         </LinearLayout>
 
@@ -109,7 +113,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.viewpager2.widget.ViewPager2
+            <ImageView
+                android:id="@+id/testImg"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:background="#123456" />
