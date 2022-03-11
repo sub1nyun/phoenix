@@ -54,4 +54,7 @@ dependencies {
     // 사진을 좀 편하게 사용하기 위한 API 추가 ysb 2022-03-03
     implementation group: 'com.github.bumptech.glide', name: 'glide', version: '4.8.0'
 
+    //카카오 맵 활용을 위한 추가
+    implementation files('libs/libDaumMapAndroid.jar')
+
 }

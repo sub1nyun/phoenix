@@ -69,28 +69,21 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_img = findViewById(R.id.sns_new_img);
 
 
-        sns_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-            }
-        });
-
-        sns_new_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        sns_camera.setOnClickListener(v -> {
+            showDialog();
         });
 
 
-        sns_new_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SnsFragment.img_list.add(imgFilePath);
-                finish();
-            }
+        sns_new_back.setOnClickListener(v -> {
+            finish();
         });
+
+
+        sns_new_share.setOnClickListener(v -> {
+            SnsFragment.img_list.add(imgFilePath);
+            finish();
+        });
+
 
     }//onCreate
 

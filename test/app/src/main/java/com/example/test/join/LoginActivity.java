@@ -5,7 +5,12 @@ import androidx.fragment.app.Fragment;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,6 +20,9 @@ import android.widget.TextView;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity {
     Button btn_login,btn_join,btn_forget;
@@ -37,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         btn_kakao = findViewById(R.id.btn_kakao);
         btn_naver = findViewById(R.id.btn_naver);
 
+
+        getHashKey();
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +83,31 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
+
+
     }
 
+    private void getHashKey(){
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (packageInfo == null)
+            Log.e("KeyHash", "KeyHash:null");
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            } catch (NoSuchAlgorithmException e) {
+                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
+    }
 
 
 
