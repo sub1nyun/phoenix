@@ -18,21 +18,8 @@
         android:textSize="30dp"
         >
     </TextView>
-<<<<<<< HEAD
 
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="5"
-            android:progress="0"
-            android:id="@+id/SeekBar"/>
-
-
-
-    <EditText
-=======
     <LinearLayout
->>>>>>> a1b0d83a72f64e933541337235a7b5e7f6870de1
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/border_round"

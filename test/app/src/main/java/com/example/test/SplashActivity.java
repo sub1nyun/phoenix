@@ -14,19 +14,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-<<<<<<< HEAD:test/app/src/main/java/com/example/test/join/SplashActivity.java
-=======
 
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashActivity.this , LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        },100);
->>>>>>> a1b0d83a72f64e933541337235a7b5e7f6870de1:test/app/src/main/java/com/example/test/SplashActivity.java
 
         moveMain();
 

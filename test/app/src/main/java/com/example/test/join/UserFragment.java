@@ -31,24 +31,7 @@ public class UserFragment extends Fragment {
 
         edt_id = rootVIew.findViewById(R.id.edt_id);
         edt_pw = rootVIew.findViewById(R.id.edt_pw);
-        SeekBar = rootVIew.findViewById(R.id.SeekBar);
 
-        SeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(android.widget.SeekBar seekBar, int progress, boolean fromUser) {
-                //조작중
-            }
-
-            @Override
-            public void onStartTrackingTouch(android.widget.SeekBar seekBar) {
-                //처음
-            }
-
-            @Override
-            public void onStopTrackingTouch(android.widget.SeekBar seekBar) {
-                // 끝끝
-           }
-        });
 
 
 

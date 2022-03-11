@@ -82,12 +82,8 @@ public class JoinMainActivity extends AppCompatActivity {
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
 
-<<<<<<< HEAD
 
-                }else if( back == 2 ){
-=======
                 }else if( go==2 ){
->>>>>>> a1b0d83a72f64e933541337235a7b5e7f6870de1
                     changeFrag( new UserFragment() );
                 }else if( go==3 ){
                     changeFrag( new NewFamilyFragment() );
