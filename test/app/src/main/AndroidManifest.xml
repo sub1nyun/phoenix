@@ -73,7 +73,6 @@
             </intent-filter>
         </activity>
         <activity
-<<<<<<< HEAD
             android:name=".diary.GraphActivity"
             android:exported="false" />
         <activity
@@ -81,7 +80,8 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-=======
+            android:exported="false" />
+        <activity
             android:name=".MapActivity"
             android:exported="false" />
         <!-- 구글 맵 API 메타 데이터 추가 ysm 2022.03.10-->
@@ -93,14 +93,10 @@
             android:name=".diary.GraphActivity"
             android:exported="false" />
         <activity
-            android:name=".join.SplashActivity"
-            android:exported="false" />
-        <activity
             android:name=".join.JoinMainActivity"
             android:exported="false" />
         <activity
             android:name=".diary.DetailActivity"
->>>>>>> 95000f3826a7d5c5b1e61f9b85b99cd03076a2cc
             android:exported="false" />
         <activity
             android:name=".diary.DetailActivity"
@@ -120,12 +116,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <!-- 구글 맵 API 메타 데이터 추가 -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
-=======
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -144,7 +138,6 @@
 
         </provider>
 
->>>>>>> 95000f3826a7d5c5b1e61f9b85b99cd03076a2cc
     </application>
 
 </manifest>

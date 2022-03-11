@@ -69,7 +69,7 @@ public class JoinMainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int id)
                         {
-                            Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
