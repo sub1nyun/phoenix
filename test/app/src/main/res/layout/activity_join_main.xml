@@ -8,13 +8,21 @@
     android:orientation="vertical"
     >
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:src="@drawable/login_back"
-        android:id="@+id/btn_back"
-        />
+    <LinearLayout
+        android:id="@+id/linear_back"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#FFBABA">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/login_back"
+            android:id="@+id/btn_back"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+
+    </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

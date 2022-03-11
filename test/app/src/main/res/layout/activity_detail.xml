@@ -17,6 +17,7 @@
             android:background="#FFBABA"
             android:layout_marginBottom="10dp">
             <TextView
+                android:id="@+id/tv_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="00월 00일"
@@ -24,6 +25,7 @@
                 android:textSize="25dp"
                 android:padding="5dp"/>
             <TextView
+                android:id="@+id/tv_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="모유"
@@ -70,25 +72,6 @@
                 android:textSize="30dp"/>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/linear_location"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="모유먹인 위치"
-                android:textSize="20dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="왼쪽 오른쪽 모름"
-                android:textAlignment="center"
-                android:textSize="30dp"/>
-        </LinearLayout>
-        <LinearLayout
             android:id="@+id/linear_amount"
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -108,6 +91,7 @@
                 android:textSize="30dp"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/linear_temp"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:orientation="vertical"
@@ -126,6 +110,7 @@
                 android:textSize="30dp"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/linear_many"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:orientation="vertical"
@@ -136,12 +121,35 @@
                 android:text="종류"
                 android:textSize="20dp"
                 />
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="종류들"
-                android:textAlignment="center"
-                android:textSize="30dp"/>
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="버튼1"/>
+                <Button
+                    android:id="@+id/btn2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="버튼2"/>
+                <Button
+                    android:id="@+id/btn3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="버튼3"/>
+                <Button
+                    android:id="@+id/btn4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="버튼4"/>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

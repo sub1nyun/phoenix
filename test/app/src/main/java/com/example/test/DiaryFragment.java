@@ -70,7 +70,7 @@ public class DiaryFragment extends Fragment {
         imv_sleep = rootview.findViewById(R.id.imv_sleep);
         imv_eat = rootview.findViewById(R.id.imv_eat);
         imv_toilet = rootview.findViewById(R.id.imv_toilet);
-        imv_phar = rootview.findViewById(R.id.imv_phar);
+        imv_phar = rootview.findViewById(R.id.imv_pills);
         imv_mou = rootview.findViewById(R.id.imv_mou);
         imv_bunu = rootview.findViewById(R.id.imv_bunu);
         imv_water = rootview.findViewById(R.id.imv_water);
@@ -99,6 +99,7 @@ public class DiaryFragment extends Fragment {
         callbackMethod = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                today.set(year, month, dayOfMonth);
                 tv_today.setText(year + "년" + (month+1) + "월" + dayOfMonth + "일");
             }
         };
@@ -146,6 +147,7 @@ public class DiaryFragment extends Fragment {
                 dto.setImg(R.drawable.bath);
                 dto.setStart_time(time);
                 dto.setEnd_time(time);
+                dto.setDate((today.get(Calendar.MONTH)+1)+"월"+today.get(Calendar.DATE)+"일");
                 intent.putExtra("dto", dto);
                 getActivity().startActivityForResult(intent, CODE);
                 /*list.add(new detailDTO("목욕", getNowtime(), R.drawable.bath));
@@ -163,6 +165,7 @@ public class DiaryFragment extends Fragment {
                 dto.setImg(R.drawable.temp);
                 dto.setStart_time(time);
                 dto.setEnd_time(time);
+                dto.setDate((today.get(Calendar.MONTH)+1)+"월"+today.get(Calendar.DATE)+"일");
                 intent.putExtra("dto", dto);
                 getActivity().startActivityForResult(intent, CODE);
             }
@@ -178,6 +181,7 @@ public class DiaryFragment extends Fragment {
                 dto.setImg(R.drawable.sleep);
                 dto.setStart_time(time);
                 dto.setEnd_time(time);
+                dto.setDate((today.get(Calendar.MONTH)+1)+"월"+today.get(Calendar.DATE)+"일");
                 intent.putExtra("dto", dto);
                 getActivity().startActivityForResult(intent, CODE);
             }
@@ -193,6 +197,7 @@ public class DiaryFragment extends Fragment {
                 dto.setImg(R.drawable.eat);
                 dto.setStart_time(time);
                 dto.setEnd_time(time);
+                dto.setDate((today.get(Calendar.MONTH)+1)+"월"+today.get(Calendar.DATE)+"일");
                 intent.putExtra("dto", dto);
                 getActivity().startActivityForResult(intent, CODE);
             }
@@ -208,6 +213,7 @@ public class DiaryFragment extends Fragment {
                 dto.setImg(R.drawable.toilet);
                 dto.setStart_time(time);
                 dto.setEnd_time(time);
+                dto.setDate((today.get(Calendar.MONTH)+1)+"월"+today.get(Calendar.DATE)+"일");
                 intent.putExtra("dto", dto);
                 getActivity().startActivityForResult(intent, CODE);
             }
@@ -223,6 +229,7 @@ public class DiaryFragment extends Fragment {
                 dto.setImg(R.drawable.pills);
                 dto.setStart_time(time);
                 dto.setEnd_time(time);
+                dto.setDate((today.get(Calendar.MONTH)+1)+"월"+today.get(Calendar.DATE)+"일");
                 intent.putExtra("dto", dto);
                 getActivity().startActivityForResult(intent, CODE);
             }
@@ -238,6 +245,7 @@ public class DiaryFragment extends Fragment {
                 dto.setImg(R.drawable.mou);
                 dto.setStart_time(time);
                 dto.setEnd_time(time);
+                dto.setDate((today.get(Calendar.MONTH)+1)+"월"+today.get(Calendar.DATE)+"일");
                 intent.putExtra("dto", dto);
                 getActivity().startActivityForResult(intent, CODE);
             }
@@ -253,6 +261,7 @@ public class DiaryFragment extends Fragment {
                 dto.setImg(R.drawable.bunu);
                 dto.setStart_time(time);
                 dto.setEnd_time(time);
+                dto.setDate((today.get(Calendar.MONTH)+1)+"월"+today.get(Calendar.DATE)+"일");
                 intent.putExtra("dto", dto);
                 getActivity().startActivityForResult(intent, CODE);
             }
@@ -268,6 +277,7 @@ public class DiaryFragment extends Fragment {
                 dto.setImg(R.drawable.water);
                 dto.setStart_time(time);
                 dto.setEnd_time(time);
+                dto.setDate((today.get(Calendar.MONTH)+1)+"월"+today.get(Calendar.DATE)+"일");
                 intent.putExtra("dto", dto);
                 getActivity().startActivityForResult(intent, CODE);
             }
@@ -283,6 +293,7 @@ public class DiaryFragment extends Fragment {
                 dto.setImg(R.drawable.danger);
                 dto.setStart_time(time);
                 dto.setEnd_time(time);
+                dto.setDate((today.get(Calendar.MONTH)+1)+"월"+today.get(Calendar.DATE)+"일");
                 intent.putExtra("dto", dto);
                 getActivity().startActivityForResult(intent, CODE);
             }

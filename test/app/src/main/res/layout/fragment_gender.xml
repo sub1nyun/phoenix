@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".join.GenderFragment"
     android:orientation="vertical"
-    >
+    android:padding="30dp">
 
 
 
@@ -18,11 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="아이의                                  성별을 알고 있나요?"
+            android:text="아이의\n성별을 알고 있나요?"
             android:textStyle="bold"
-            android:textSize="33dp"
-            android:textColor="#303030"
-            android:lines="2">
+            android:textSize="30dp"
+            android:textColor="#303030">
         </TextView>
     </LinearLayout>
 
@@ -30,6 +29,7 @@
 
 
     <LinearLayout
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -37,30 +37,31 @@
         <Button
             android:id="@+id/btn_man"
             android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_margin="5dp"
-            android:backgroundTint="#FFB2B2"
+            android:layout_height="130dp"
+            android:backgroundTint="#FFBABA"
             android:layout_weight="1"
-            android:text="아들" />
+            android:text="아들"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:backgroundTint="#FFB2B2"
+            android:backgroundTint="#FFBABA"
             android:text="딸"
+            android:textColor="#ffffff"
             android:id="@+id/btn_woman"
-            />
+            android:textStyle="bold"/>
         <Button
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:backgroundTint="#FFB2B2"
+            android:backgroundTint="#FFBABA"
             android:text="아직 모름"
+            android:textColor="#ffffff"
             android:id="@+id/btn_random"
-            />
+            android:textStyle="bold"/>
     </LinearLayout>
 
 

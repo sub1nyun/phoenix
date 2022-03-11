@@ -9,31 +9,50 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
+        <!--<activity
+            android:name=".InviteLinkActivity"
+            android:exported="false" />-->
         <activity
-<<<<<<< HEAD
-            android:name=".join.SplashActivity"
-=======
-<<<<<<< HEAD
+            android:name="com.example.test.InviteActivity"
+            android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- setLink()에 전달하는 링크와 동일한 host, path, scheme -->
+                <data
+                    android:host="babysmilesupport.page.link"
+                    android:path="/invite"
+                    android:scheme="https" />
+
+                <data
+                    android:host="babysmilesupport.page.link"
+                    android:path="/invite"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".diary.GraphActivity"
             android:exported="false" />
         <activity
-            android:name=".diary.DetailActivity"
-=======
             android:name=".join.JoinMainActivity"
->>>>>>> ce11e49193ecf2fcaa055554376bb3254fce9e34
             android:exported="false" />
         <activity
             android:name=".MainActivity"
->>>>>>> 9e390c83f233d32fb6a811b2dd8579dd51d157c3
             android:exported="false" />
         <activity
-            android:name=".join.LoginActivity"
+            android:name=".diary.DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".sns.SnsNewActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,10 +60,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--구글 맵 API 메타 데이터 추가-->
+        <!-- 구글 맵 API 메타 데이터 추가 -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE"/>
+            android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
     </application>
 
 </manifest>
