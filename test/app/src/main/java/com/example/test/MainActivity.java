@@ -5,8 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -17,6 +22,9 @@ import com.example.test.sns.SnsFragment;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class MainActivity extends AppCompatActivity {
     Fragment fragment;
     FrameLayout container;
@@ -26,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getAppKeyHash();
 
         container = findViewById(R.id.container);
         tab_main = findViewById(R.id.tab_main);
@@ -43,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
                 if(tab.getPosition()==0){
                     fragment = new DiaryFragment();
                 } else if(tab.getPosition()==1){
-                    fragment = new MapFragment();
+                    Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                    startActivity(intent);
                 } else if(tab.getPosition()==2){
                     fragment = new IotFragment();
                 } else if(tab.getPosition()==3){
@@ -70,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
-
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String a ="";
@@ -82,8 +91,19 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-
-
-
+    private void getAppKeyHash() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                Log.e("Hash key", something);
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            Log.e("name not found", e.toString());
+        }
+    }
 }

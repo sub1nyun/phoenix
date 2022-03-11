@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".join.BabyFragment"
     android:orientation="vertical"
-    >
+    android:padding="30dp">
 
 
 
@@ -13,29 +13,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="소중한아이의                                   이름(태명)을 알려주세요!"
+        android:text="소중한아이의\n이름(태명)을 알려주세요!"
         android:textStyle="bold"
-        android:textSize="33dp"
+        android:textSize="30dp"
         android:textColor="#303030"
-        android:lines="2">
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="태명 혹은 이름"
-        android:textColor="@color/black"
-        android:layout_marginLeft="20dp"
         />
-
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/border_round">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
-        android:textSize="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="20dp"
         android:id="@+id/edt_pw"
-        android:hint="입력해주세요"
-        android:background="#EFEFEF"
+        android:hint="태명 혹은 이름"
+        android:background="#ffffff"
+        android:layout_gravity="center_vertical"
         />
-
+    </LinearLayout>
 </LinearLayout>

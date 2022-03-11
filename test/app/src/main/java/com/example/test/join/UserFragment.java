@@ -28,7 +28,6 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootVIew = (ViewGroup)  inflater.inflate(R.layout.fragment_user, container, false);
         JoinMainActivity.go = 1;
-        JoinMainActivity.back = 1;
 
         edt_id = rootVIew.findViewById(R.id.edt_id);
         edt_pw = rootVIew.findViewById(R.id.edt_pw);
@@ -50,14 +49,6 @@ public class UserFragment extends Fragment {
                 // 끝끝
            }
         });
-
-
-
-
-
-
-
-
 
 
 

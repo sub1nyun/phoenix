@@ -18,11 +18,11 @@ import java.util.ArrayList;
 
 public class RelsDialog extends Dialog implements View.OnClickListener {
     private DialogListener dialogListener;
-    Button rels_mom, rels_dad, rels_sitter, rels_grmom, rels_grdad, rels_other;
+    //Button rels_mom, rels_dad, rels_sitter, rels_grmom, rels_grdad, rels_other;
     ImageView my_close;
     Button btn_rels;
     String rels = "";
-    GradientDrawable gradientDrawable;
+    //GradientDrawable gradientDrawable;
     ArrayList<Button> buttons = new ArrayList<>();
     public RelsDialog(@NonNull Context context) {
         super(context);
@@ -41,6 +41,7 @@ public class RelsDialog extends Dialog implements View.OnClickListener {
 
         my_close = findViewById(R.id.my_close);
         btn_rels = findViewById(R.id.btn_rels);
+
         buttons.add(findViewById(R.id.rels_mom));
         buttons.add(findViewById(R.id.rels_dad));
         buttons.add(findViewById(R.id.rels_sitter));
@@ -50,6 +51,7 @@ public class RelsDialog extends Dialog implements View.OnClickListener {
 
         my_close.setOnClickListener(this);
         btn_rels.setOnClickListener(this);
+
         buttons.get(0).setOnClickListener(this);
         buttons.get(1).setOnClickListener(this);
         buttons.get(2).setOnClickListener(this);
@@ -94,18 +96,22 @@ public class RelsDialog extends Dialog implements View.OnClickListener {
                 rels = "기타";
                 chageBtn(5);
                 break;
+
         }
     }
 
     public void chageBtn(int index){
-        for(int i=0; i<buttons.size(); i++){
+
+        for(int i=0; i<6; i++){
             if(i == index){
-                gradientDrawable = (GradientDrawable) buttons.get(i).getBackground();
-                gradientDrawable.setColor(Color.parseColor("#FFC5C5"));
+                //GradientDrawable gradientDrawable = gradientDrawable = (GradientDrawable) buttons.get(i).getBackground();
+                //gradientDrawable.setColor(Color.parseColor("#ff9999"));
+                (buttons.get(i)).setBackground(getContext().getDrawable(R.drawable.circle_btn_select));
                 buttons.get(i).setTextColor(Color.parseColor("#ffffff"));
             } else{
-                gradientDrawable = (GradientDrawable) buttons.get(i).getBackground();
-                gradientDrawable.setColor(Color.parseColor("#ffffff"));
+                //GradientDrawable gradientDrawable = gradientDrawable = (GradientDrawable) buttons.get(i).getBackground();
+                //gradientDrawable.setColor(Color.parseColor("#ffffff"));
+                (buttons.get(i)).setBackground(getContext().getDrawable(R.drawable.circle_btn));
                 buttons.get(i).setTextColor(Color.parseColor("#000000"));
             }
         }

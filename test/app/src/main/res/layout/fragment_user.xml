@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".join.UserFragment"
     android:orientation="vertical"
-    >
+    android:padding="30dp">
 
 
 
@@ -13,12 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="로그인에 사용할                         정보를 입력하세요!"
+        android:text="사용자(양육자)의 정보를\n입력해주세요"
         android:textStyle="bold"
-        android:textSize="33dp"
-        android:textColor="#303030"
-        android:lines="2">
+        android:textSize="30dp"
+        >
     </TextView>
+<<<<<<< HEAD
 
         <SeekBar
             android:layout_width="match_parent"
@@ -30,24 +30,59 @@
 
 
     <EditText
+=======
+    <LinearLayout
+>>>>>>> a1b0d83a72f64e933541337235a7b5e7f6870de1
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
-        android:textSize="25dp"
-        android:hint="이메일을 입력하세요"
-        android:id="@+id/edt_id"
-        android:background="#EFEFEF"
-        />
-    <EditText
+        android:layout_height="50dp"
+        android:background="@drawable/border_round"
+        android:layout_marginTop="50dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="이메일을 입력해주세요"
+            android:id="@+id/edt_id"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
-        android:textSize="25dp"
-        android:id="@+id/edt_pw"
-        android:hint="비밀번호를 입력하세요"
-        android:background="#EFEFEF"
-        />
+        android:layout_height="50dp"
+        android:background="@drawable/border_round"
+        android:layout_marginTop="10dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="비밀번호를 입력해주세요"
+            android:id="@+id/edt_pw"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/border_round"
+        android:layout_marginTop="10dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="비밀번호를 다시 입력해주세요"
+            android:id="@+id/edt_pwchk"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
 
 </LinearLayout>

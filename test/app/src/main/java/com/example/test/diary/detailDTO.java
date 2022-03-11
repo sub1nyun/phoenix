@@ -3,7 +3,7 @@ package com.example.test.diary;
 import java.io.Serializable;
 
 public class detailDTO implements Serializable {
-    private String state, start_time, end_time, memo;
+    private String state, start_time, end_time, memo, date;
     private int img;
 
     public detailDTO() {
@@ -13,6 +13,14 @@ public class detailDTO implements Serializable {
         this.state = state;
         this.start_time = start_time;
         this.img = img;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getState() {
