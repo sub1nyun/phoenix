@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="사용자(양육자)의 정보를\n입력해주세요"
-        android:textStyle="bold"
+        android:textColor="#44526C"
         android:textSize="30dp"
         >
     </TextView>
@@ -22,7 +22,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/border_round"
+        android:background="@drawable/border_round_gray"
         android:layout_marginTop="50dp">
         <EditText
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:hint="이메일을 입력해주세요"
+            android:hint="아이디을 입력해주세요"
             android:id="@+id/edt_id"
             android:background="#ffffff"
             />
@@ -39,7 +39,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/border_round"
+        android:background="@drawable/border_round_gray"
         android:layout_marginTop="10dp">
         <EditText
             android:layout_width="match_parent"
@@ -57,7 +57,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/border_round"
+        android:background="@drawable/border_round_gray"
         android:layout_marginTop="10dp">
         <EditText
             android:layout_width="match_parent"

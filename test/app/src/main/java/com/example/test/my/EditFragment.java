@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
@@ -33,6 +34,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.test.MainActivity;
+import com.example.test.OnBackPressedListenser;
 import com.example.test.R;
 
 import org.w3c.dom.Text;
@@ -46,7 +48,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class EditFragment extends Fragment {
+public class EditFragment extends Fragment implements OnBackPressedListenser {
     Button my_rels, cur_kg_btn, cur_cm_btn, btn_man, btn_woman;
     TextView edit_birth;
     ImageView edit_cancel, edit_ok, edit_photo;
@@ -61,9 +63,11 @@ public class EditFragment extends Fragment {
     File imgFile = null;
     String imgFilePath = null;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_edit, container, false);
+
 
         my_rels = rootView.findViewById(R.id.my_rels);
         edit_birth = rootView.findViewById(R.id.edit_birth);
@@ -95,6 +99,7 @@ public class EditFragment extends Fragment {
                 alertDialog.show();
             }
         });
+
 
         edit_ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -306,5 +311,24 @@ public class EditFragment extends Fragment {
                 }
             }
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder_cancel = new AlertDialog.Builder(getContext()).setTitle("취소").setMessage("현재 수정하신 내용이 저장되지 않습니다.\n정말 취소하시겠습니까?")
+                .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((MainActivity)getActivity()).changeFrag(new MyFragment());
+                    }
+                }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        AlertDialog alertDialog = builder_cancel.create();
+        alertDialog.show();
     }
 }

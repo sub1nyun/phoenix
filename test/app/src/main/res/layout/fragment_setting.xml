@@ -6,14 +6,18 @@
     tools:context=".my.SettingFragment"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/setting_back"
-        android:layout_width="50dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/my_left_arrow"/>
-
+        android:layout_weight="1"
+        android:background="#44526C">
+        <ImageView
+            android:id="@+id/setting_back"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/arrow_back"
+            android:layout_marginLeft="20dp"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

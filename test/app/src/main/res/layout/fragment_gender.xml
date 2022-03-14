@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="아이의\n성별을 알고 있나요?"
-            android:textStyle="bold"
+            android:textColor="#44526C"
             android:textSize="30dp"
-            android:textColor="#303030">
+            >
         </TextView>
     </LinearLayout>
 
@@ -34,34 +34,55 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
-        <Button
+        <LinearLayout
             android:id="@+id/btn_man"
             android:layout_width="0dp"
             android:layout_height="130dp"
-            android:backgroundTint="#FFBABA"
+            android:background="@drawable/border_round_gray"
             android:layout_weight="1"
-            android:text="아들"
-            android:textColor="#ffffff"
-            android:textStyle="bold"/>
+            android:layout_marginRight="10dp">
+            <TextView
+                android:id="@+id/tv_man"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="남아"
+                />
+        </LinearLayout>
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:backgroundTint="#FFBABA"
-            android:text="딸"
-            android:textColor="#ffffff"
+        <LinearLayout
             android:id="@+id/btn_woman"
-            android:textStyle="bold"/>
-        <Button
             android:layout_width="0dp"
             android:layout_height="130dp"
+            android:background="@drawable/border_round_gray"
             android:layout_weight="1"
-            android:backgroundTint="#FFBABA"
-            android:text="아직 모름"
-            android:textColor="#ffffff"
+            android:layout_marginRight="10dp">
+            <TextView
+                android:id="@+id/tv_woman"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="여아"
+                />
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/btn_random"
-            android:textStyle="bold"/>
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:background="@drawable/border_round_gray"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp">
+            <TextView
+                android:id="@+id/tv_random"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="아직 모름"
+                />
+        </LinearLayout>
     </LinearLayout>
 
 

@@ -5,174 +5,185 @@
     android:layout_height="match_parent"
     tools:context=".my.EditFragment"
     android:orientation="vertical"
-    android:layout_marginHorizontal="10dp">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#44526C">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/edit_cancel"
                 android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:src="@drawable/my_left_arrow"
-                android:layout_gravity="center_vertical"/>
+                android:layout_height="match_parent"
+                android:src="@drawable/arrow_back"
+                android:layout_marginLeft="20dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="아이 정보 수정"
                 android:textStyle="bold"
                 android:textSize="20dp"
-                android:textColor="#000"
+                android:textColor="#fff"
                 android:layout_gravity="center"/>
-            <ImageView
+            <TextView
                 android:id="@+id/edit_ok"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:src="@android:drawable/ic_menu_edit"
-                android:layout_gravity="center_vertical|right"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="저장"
+                android:textColor="#fff"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="20dp"/>
+
         </FrameLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+        <ImageView
+            android:id="@+id/edit_photo"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:src="@drawable/ic_launcher_background"
+            android:layout_gravity="center"/>
 
-    <ImageView
-        android:id="@+id/edit_photo"
-        android:layout_width="200dp"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:src="@drawable/ic_launcher_background"
-        android:layout_gravity="center"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="이름(별명)"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:layout_gravity="center_vertical"/>
-        <EditText
-            android:id="@+id/edit_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:hint="이름(별명)"
-            android:layout_gravity="center_vertical"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="성별"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:layout_gravity="center_vertical"/>
-        <Button
-            android:id="@+id/btn_man"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="남자"
-            android:layout_gravity="center_vertical"/>
-        <Button
-            android:id="@+id/btn_woman"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="여자"
-            android:layout_gravity="center_vertical"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="출생일"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:layout_gravity="center_vertical"/>
-        <TextView
-            android:id="@+id/edit_birth"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="7"
-            android:layout_gravity="center_vertical"
-            android:text="출생일"
-            android:textSize="18dp"
-            android:gravity="center_vertical"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="나와의 관계"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:layout_gravity="center_vertical"/>
-        <Button
-            android:id="@+id/my_rels"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="엄마"
-            android:layout_gravity="center_vertical"/>
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5">
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="신체 정보"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:layout_gravity="center_vertical"/>
-    </FrameLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="이름(별명)"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_gravity="center_vertical"/>
+            <EditText
+                android:id="@+id/edit_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:hint="이름(별명)"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="성별"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_gravity="center_vertical"/>
+            <Button
+                android:id="@+id/btn_man"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="남자"
+                android:layout_gravity="center_vertical"/>
+            <Button
+                android:id="@+id/btn_woman"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="여자"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="출생일"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/edit_birth"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="7"
+                android:layout_gravity="center_vertical"
+                android:text="출생일"
+                android:textSize="18dp"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="나와의 관계"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_gravity="center_vertical"/>
+            <Button
+                android:id="@+id/my_rels"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="엄마"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="20dp">
-        <Button
-            android:id="@+id/cur_kg_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="신체 정보"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_gravity="center_vertical"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="-kg"
-            android:layout_gravity="center_vertical"/>
-        <Button
-            android:id="@+id/cur_cm_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="-cm"
-            android:layout_gravity="center_vertical"/>
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="20dp">
+            <Button
+                android:id="@+id/cur_kg_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-kg"
+                android:layout_gravity="center_vertical"/>
+            <Button
+                android:id="@+id/cur_cm_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-cm"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
