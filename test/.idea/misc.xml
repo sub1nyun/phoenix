@@ -6,22 +6,12 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_detail.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_home.xml" value="0.3619791666666667" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_join_main.xml" value="0.2046875" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.17708333333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.26403985507246375" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_sns_new.xml" value="0.2046875" />
-<<<<<<< HEAD
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_birth.xml" value="0.19010416666666666" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_edit.xml" value="0.25" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_iot.xml" value="0.36614583333333334" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_map.xml" value="0.36614583333333334" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_my.xml" value="0.2046875" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_relation.xml" value="0.19010416666666666" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_setting.xml" value="0.19010416666666666" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_sns.xml" value="0.2046875" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_user.xml" value="0.5" />
-=======
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_baby.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_dairy.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_edit.xml" value="0.20208333333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_iot.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_map.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_music.xml" value="0.36614583333333334" />
@@ -30,7 +20,6 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_sns.xml" value="0.2046875" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_user.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/home_main.xml" value="0.3619791666666667" />
->>>>>>> 89b7da0a0603dc8637f3c25147afcc16a93795e2
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/multi_item.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/sns_delete_dialog.xml" value="1.0" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/sns_image_item.xml" value="0.36614583333333334" />
@@ -41,6 +30,8 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/test4.xml" value="0.3619791666666667" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/test5.xml" value="0.3619791666666667" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/menu/sns_submenu.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/xml/network_security_config.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/xml/settings_preference.xml" value="0.2046875" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/test/app/src/main/res/layout/activity_main.xml" value="0.15881458966565348" />
       </map>
