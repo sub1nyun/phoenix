@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
 
         mPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        mPager.setCurrentItem(1000);
+        mPager.setCurrentItem(0);
         mPager.setOffscreenPageLimit(5);
 
         mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {

@@ -9,15 +9,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="#44526C">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingHorizontal="20dp">
             <ImageView
                 android:id="@+id/family_back"
                 android:layout_width="30dp"
                 android:layout_height="50dp"
-                android:src="@drawable/my_left_arrow"
+                android:src="@drawable/arrow_back"
                 android:layout_gravity="center_vertical"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -25,7 +27,7 @@
                 android:text="공동 양육자 정보"
                 android:textStyle="bold"
                 android:textSize="20dp"
-                android:textColor="#000"
+                android:textColor="#fff"
                 android:layout_gravity="center"/>
         </FrameLayout>
     </LinearLayout>

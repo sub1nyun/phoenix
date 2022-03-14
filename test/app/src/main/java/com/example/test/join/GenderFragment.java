@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 
 public class GenderFragment extends Fragment {
-    LinearLayout btn_woman, btn_man, btn_random;
+    LinearLayout linear_woman, linear_man, linear_random;
     TextView tv_woman, tv_man, tv_random;
 
     @Override
@@ -26,42 +26,42 @@ public class GenderFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_gender, container, false);
         JoinMainActivity.go = 6;
 
-        btn_man = rootView.findViewById(R.id.btn_man);
-        btn_woman = rootView.findViewById(R.id.btn_woman);
-        btn_random = rootView.findViewById(R.id.btn_random);
+        linear_man = rootView.findViewById(R.id.linear_man);
+        linear_woman = rootView.findViewById(R.id.linear_woman);
+        linear_random = rootView.findViewById(R.id.linear_random);
 
         tv_man = rootView.findViewById(R.id.tv_man);
         tv_woman = rootView.findViewById(R.id.tv_woman);
         tv_random = rootView.findViewById(R.id.tv_random);
 
-        btn_man.setOnClickListener(new View.OnClickListener() {
+        linear_man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_man.setBackground(getContext().getDrawable(R.drawable.select_btn));
-                btn_woman.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
-                btn_random.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
+                linear_man.setBackground(getContext().getDrawable(R.drawable.select_btn));
+                linear_woman.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
+                linear_random.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
                 tv_man.setTextColor(Color.parseColor("#ffffff"));
                 tv_woman.setTextColor(Color.parseColor("#707070"));
                 tv_random.setTextColor(Color.parseColor("#707070"));
             }
         });
-        btn_woman.setOnClickListener(new View.OnClickListener() {
+        linear_woman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_man.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
-                btn_woman.setBackground(getContext().getDrawable(R.drawable.select_btn));
-                btn_random.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
+                linear_man.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
+                linear_woman.setBackground(getContext().getDrawable(R.drawable.select_btn));
+                linear_random.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
                 tv_man.setTextColor(Color.parseColor("#707070"));
                 tv_woman.setTextColor(Color.parseColor("#ffffff"));
                 tv_random.setTextColor(Color.parseColor("#707070"));
             }
         });
-        btn_random.setOnClickListener(new View.OnClickListener() {
+        linear_random.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_man.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
-                btn_woman.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
-                btn_random.setBackground(getContext().getDrawable(R.drawable.select_btn));
+                linear_man.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
+                linear_woman.setBackground(getContext().getDrawable(R.drawable.border_round_gray));
+                linear_random.setBackground(getContext().getDrawable(R.drawable.select_btn));
                 tv_man.setTextColor(Color.parseColor("#707070"));
                 tv_woman.setTextColor(Color.parseColor("#707070"));
                 tv_random.setTextColor(Color.parseColor("#ffffff"));
