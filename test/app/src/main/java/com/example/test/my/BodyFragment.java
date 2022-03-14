@@ -18,9 +18,9 @@ import com.example.test.MainActivity;
 import com.example.test.R;
 
 public class BodyFragment extends Fragment {
-    TextView tv_name, tv_gender;
+    TextView tv_name, tv_gender, edit_ok;
     EditText edit_weight, edit_height;
-    ImageView edit_cancel, edit_ok;
+    ImageView edit_cancel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_body, container, false);

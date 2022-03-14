@@ -34,7 +34,7 @@
                 android:id="@+id/edit_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="17dp"
                 android:text="저장"
                 android:textColor="#fff"
                 android:layout_gravity="center_vertical|right"
@@ -104,14 +104,14 @@
                 android:id="@+id/btn_man"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:text="남자"
                 android:layout_gravity="center_vertical"/>
             <Button
                 android:id="@+id/btn_woman"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:text="여자"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
@@ -128,15 +128,17 @@
                 android:textStyle="bold"
                 android:textColor="#000"
                 android:layout_gravity="center_vertical"/>
+
             <LinearLayout
+                android:id="@+id/edit_birth"
                 android:layout_width="0dp"
                 android:layout_weight="7"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_round_gray"
                 android:layout_gravity="center">
                 <TextView
+                    android:id="@+id/tv_birth"
                     android:layout_margin="10dp"
-                    android:id="@+id/edit_birth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1999/06/30"

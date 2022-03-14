@@ -6,7 +6,9 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -30,6 +33,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -50,8 +54,9 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class EditFragment extends Fragment implements OnBackPressedListenser {
-    Button my_rels, cur_kg_btn, cur_cm_btn, btn_man, btn_woman;
-    TextView edit_birth, edit_ok;
+    Button my_rels, btn_man, btn_woman;
+    LinearLayout edit_birth, cur_kg_btn, cur_cm_btn;
+    TextView edit_ok, tv_birth;
     ImageView edit_cancel, edit_photo;
     EditText edit_name;
     Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("JST"));
@@ -72,6 +77,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
 
         my_rels = rootView.findViewById(R.id.my_rels);
         edit_birth = rootView.findViewById(R.id.edit_birth);
+        tv_birth = rootView.findViewById(R.id.tv_birth);
         cur_kg_btn = rootView.findViewById(R.id.cur_kg_btn);
         cur_cm_btn = rootView.findViewById(R.id.cur_cm_btn);
         edit_cancel = rootView.findViewById(R.id.edit_cancel);
@@ -152,7 +158,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             {
                 h = hourOfDay;
                 mi = minute;
-                edit_birth.setText(y + "년 " + m + "월 " + d + "일 " + h + "시 " + mi + "분");
+                tv_birth.setText(y + "년 " + m + "월 " + d + "일 " + h + "시 " + mi + "분");
             }
         };
 
@@ -188,7 +194,20 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         btn_man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_man.setBackground(ColorDrawable);
+                btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
+                btn_man.setTextColor(getResources().getColorStateList(R.color.white));
+                btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D6D6D6")));
+                btn_woman.setTextColor(getResources().getColorStateList(R.color.black));
+            }
+        });
+
+        btn_woman.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
+                btn_woman.setTextColor(getResources().getColorStateList(R.color.white));
+                btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D6D6D6")));
+                btn_man.setTextColor(getResources().getColorStateList(R.color.black));
             }
         });
         return rootView;

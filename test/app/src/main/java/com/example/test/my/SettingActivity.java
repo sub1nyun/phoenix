@@ -11,10 +11,9 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.test.MainActivity;
 import com.example.test.R;
 
-public class SettimgActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
     ImageView setting_back;
     TextView set_secession, set_logout;
     Switch set_bell, set_vibration;
@@ -42,7 +41,7 @@ public class SettimgActivity extends AppCompatActivity {
         set_secession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder_secession = new AlertDialog.Builder(SettimgActivity.this).setTitle("회원탈퇴").setMessage("저장된 기록이 모두 삭제됩니다.\n정말 탈퇴하시겠습니까?")
+                AlertDialog.Builder builder_secession = new AlertDialog.Builder(SettingActivity.this).setTitle("회원탈퇴").setMessage("저장된 기록이 모두 삭제됩니다.\n정말 탈퇴하시겠습니까?")
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -62,7 +61,7 @@ public class SettimgActivity extends AppCompatActivity {
         set_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder_logout = new AlertDialog.Builder(SettimgActivity.this).setTitle("로그아웃").setMessage("정말 로그아웃 하시겠습니까?")
+                AlertDialog.Builder builder_logout = new AlertDialog.Builder(SettingActivity.this).setTitle("로그아웃").setMessage("정말 로그아웃 하시겠습니까?")
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
