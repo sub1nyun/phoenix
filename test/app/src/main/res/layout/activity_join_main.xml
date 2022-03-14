@@ -12,14 +12,14 @@
         android:id="@+id/linear_back"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#FFBABA">
+        >
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/login_back"
+            android:src="@drawable/btn_back"
             android:id="@+id/btn_back"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             />
 
     </LinearLayout>
@@ -32,10 +32,14 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.8"
         android:id="@+id/btn_next"
         android:text="다  음"
-        android:backgroundTint="#FFB2B2"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:backgroundTint="#44526C"
+        android:background="@drawable/border_round"
+        android:layout_margin="20dp"
         />
 
 

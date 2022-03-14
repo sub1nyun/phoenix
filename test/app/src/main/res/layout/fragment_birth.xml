@@ -13,23 +13,23 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="아이의 출산(예정)일은\n언제인가요?"
-        android:textStyle="bold"
+        android:textColor="#44526C"
         android:textSize="30dp"
         android:lines="2">
     </TextView>
 
 
     <LinearLayout
+        android:id="@+id/linear_bir"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/border_round"
+        android:background="@drawable/border_round_gray"
         android:layout_marginTop="50dp">
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:id="@+id/edt_bir"
-            android:hint="0000/00/00"
+            android:id="@+id/tv_bir"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:background="#ffffff"

@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.test">
-
     <!-- 구글맵 사용 위해 넣음 ysm 22-03-10 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 카메라, 갤러리 사용을 위해 넣음 ysb 22-03-03 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
-    <!-- 카메라, 갤러리 사용을 위해 넣음 ysb 22-03-03 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-
-    <uses-feature android:name="android.hardware.camera2"
+    <uses-feature
+        android:name="android.hardware.camera2"
         android:required="true" />
 
     <queries>
+
         <!-- WebView -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <category android:name="android.intent.category.BROWSABLE" />
+
             <data android:scheme="http" />
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <category android:name="android.intent.category.BROWSABLE" />
+
             <data android:scheme="https" />
         </intent>
         <!-- Camera -->
@@ -48,11 +51,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
-        <!--<activity
-            android:name=".InviteLinkActivity"
-            android:exported="false" />-->
         <activity
-            android:name="com.example.test.InviteActivity"
+            android:name=".my.SettimgActivity"
+            android:exported="false" />
+        <!--
+        <activity
+            android:name=".InviteLinkActivity"
+            android:exported="false" />
+        -->
+        <activity
+            android:name=".InviteActivity"
             android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -65,7 +73,6 @@
                     android:host="babysmilesupport.page.link"
                     android:path="/invite"
                     android:scheme="https" />
-
                 <data
                     android:host="babysmilesupport.page.link"
                     android:path="/invite"
@@ -83,8 +90,7 @@
             android:exported="false" />
         <activity
             android:name=".MapActivity"
-            android:exported="false" />
-        <!-- 구글 맵 API 메타 데이터 추가 ysm 2022.03.10-->
+            android:exported="false" /> <!-- 구글 맵 API 메타 데이터 추가 ysm 2022.03.10 -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
@@ -115,8 +121,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- 구글 맵 API 메타 데이터 추가 -->
+        </activity> <!-- 구글 맵 API 메타 데이터 추가 -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
@@ -124,20 +129,19 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-
-        <!--provider authorities:도메인.
-            public , 파일 처리를 위한 파일프로바이더.-->
+        <!--
+provider authorities:도메인.
+            public , 파일 처리를 위한 파일프로바이더.
+        -->
         <provider
-            android:authorities="${applicationId}.fileprovider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepath"/>
-
+                android:resource="@xml/filepath" />
         </provider>
-
     </application>
 
 </manifest>

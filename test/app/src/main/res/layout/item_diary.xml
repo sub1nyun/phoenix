@@ -8,26 +8,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00:00 pm"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
+        android:textColor="#fff"/>
     <ImageView
         android:id="@+id/imv_state"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:src="@drawable/pills"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"/>
     <TextView
         android:id="@+id/tv_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="투약"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:textColor="#fff"/>
     <TextView
         android:id="@+id/tv_how"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10분"
         android:layout_gravity="center"
-        android:layout_marginLeft="30dp"/>
+        android:layout_marginLeft="30dp"
+        android:textColor="#fff"/>
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"

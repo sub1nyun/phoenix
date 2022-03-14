@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.test.MainActivity;
 import com.example.test.R;
 
 public class JoinMainActivity extends AppCompatActivity {
@@ -53,6 +54,10 @@ public class JoinMainActivity extends AppCompatActivity {
                     changeFrag( new RelationFragment() );
                 }else if( go == 7 ){
                     changeFrag( new PictureFragment() );
+                }else if( go == 8 ){
+                    Intent intent = new Intent(JoinMainActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
