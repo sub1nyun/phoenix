@@ -80,12 +80,13 @@ public class JoinMainActivity extends AppCompatActivity {
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int id)
-                        {
+                         {
                             Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
                         }
                     });
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
+
 
                 }else if( go==2 ){
                     changeFrag( new UserFragment() );

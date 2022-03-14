@@ -25,6 +25,8 @@ import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 
 import com.example.test.R;
+import com.example.test.my.EditFragment;
+import com.example.test.my.MyFragment;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
@@ -64,49 +66,35 @@ public class SnsFragment extends Fragment {
        snspager.setAdapter(snsadapter);
        dotsIndicator.setViewPager2(snspager);
 
-       sns_plus.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-                intent = new Intent(getContext(), SnsNewActivity.class);
-                startActivity(intent);
-           }
+       sns_plus.setOnClickListener(v -> {
+           intent = new Intent(getContext(), SnsNewActivity.class);
+           startActivity(intent);
        });
 
-        sns_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("수정이나 삭제할 게시물이 있으신가요?").setMessage("");
-                builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getContext(), SnsNewActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
-                        builder1.setTitle("정말 삭제하실 건가요?").setMessage("");
-                        builder1.setPositiveButton("취소", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        });
-                        builder1.setNegativeButton("삭제", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+        sns_profile.setOnClickListener(v -> {
+            ((MainActivity)getActivity()).changeFrag(new MyFragment());
+        });
 
-                            }
-                        });
-                        AlertDialog alertDialog = builder1.create();
-                        alertDialog.show();
-                    }
+
+        sns_more.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("수정이나 삭제할 게시물").setMessage("");
+            builder.setPositiveButton("수정하기", (dialogInterface, i) -> {
+                Intent intent = new Intent(getContext(), SnsNewActivity.class);
+                startActivity(intent);
+            });
+            builder.setNegativeButton("삭제하기", (dialogInterface, i) -> {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                builder1.setTitle("정말 삭제할거임?").setMessage("");
+                builder1.setPositiveButton("취소", (dialogInterface1, i1) -> {
                 });
-                AlertDialog alertDialog = builder.create();
+                builder1.setNegativeButton("삭제", (dialogInterface1, i1) -> {
+                });
+                AlertDialog alertDialog = builder1.create();
                 alertDialog.show();
-            }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         });
 
         return rootView;

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -15,17 +16,17 @@ public class SplashActivity extends AppCompatActivity {
 
 
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashActivity.this , LoginActivity.class);
+        moveMain();
+
+    }
+
+    private void moveMain() {
+        runOnUiThread(()->{
+            new Handler(Looper.myLooper()).postDelayed(()->{
+                Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
-                finish();
-            }
-        },100);
-
-
-
+            }, 100);
+        });
     }
 
 }

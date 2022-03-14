@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class SnsViewPagerAdapter extends RecyclerView.Adapter<SnsViewPagerAdapter.ViewHolder>{
 
     LayoutInflater inflater;
-    ArrayList<SnsDTO> snslist = new ArrayList<>();
+    ArrayList<SnsDTO> snslist;
     Context context;
 
     public SnsViewPagerAdapter(LayoutInflater inflater, ArrayList<SnsDTO> snslist, Context context) {
@@ -39,7 +39,7 @@ public class SnsViewPagerAdapter extends RecyclerView.Adapter<SnsViewPagerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Glide.with(context).load(snslist.get(position).getSnsImg()+"").into(  holder.sns_item_imgv);
-        //holder.sns_item_imgv.setImageResource(snslist.get(position).getSnsImg());
+        //holder.sns_item_imgv.setImageResource(snslist.get(position).getSnsImg()); test
         holder.sns_item_text.setText(snslist.get(position).getSnscomment());
 
     }

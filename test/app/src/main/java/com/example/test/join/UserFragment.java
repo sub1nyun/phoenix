@@ -13,11 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 
 import com.example.test.R;
 
 public class UserFragment extends Fragment {
     EditText edt_id ,edt_pw;
+    SeekBar SeekBar;
+
 
 
     @Override
@@ -28,6 +31,7 @@ public class UserFragment extends Fragment {
 
         edt_id = rootVIew.findViewById(R.id.edt_id);
         edt_pw = rootVIew.findViewById(R.id.edt_pw);
+
 
 
 
