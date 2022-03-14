@@ -135,7 +135,7 @@
             android:name="com.google.android.geo.API_KEY"
 
             android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
- <!-- 카카오 맵 app key 추가 -->
+        <!-- 카카오 맵 app key 추가 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="884cf31c300f60971b6a3d015d8c005e" />
