@@ -66,9 +66,17 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+<<<<<<< HEAD
 
         android:theme="@style/Theme.Test"
         android:usesCleartextTraffic="true">
+=======
+        android:theme="@style/Theme.Test"
+        android:usesCleartextTraffic="true">
+
+
+
+>>>>>>> 6f6273e8a29fed8195f358e83a2816a312635711
 
         <activity
             android:name=".home.HomeActivity"
@@ -119,6 +127,7 @@
             android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
 
 
+<<<<<<< HEAD
         <activity
             android:name=".diary.GraphActivity"
             android:exported="false" />
@@ -129,6 +138,8 @@
             android:name=".diary.DetailActivity"
             android:exported="false" />
 
+=======
+>>>>>>> 6f6273e8a29fed8195f358e83a2816a312635711
         <activity
             android:name=".diary.DetailActivity"
             android:exported="false" />
@@ -153,11 +164,14 @@
             android:name="com.google.android.geo.API_KEY"
 
             android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
+<<<<<<< HEAD
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="884cf31c300f60971b6a3d015d8c005e" />
 
 
+=======
+>>>>>>> 6f6273e8a29fed8195f358e83a2816a312635711
         <!-- 카카오 맵 app key 추가 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
