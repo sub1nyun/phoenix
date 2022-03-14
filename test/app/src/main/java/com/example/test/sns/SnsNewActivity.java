@@ -1,5 +1,6 @@
 package com.example.test.sns;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +40,8 @@ import java.util.Date;
 
 public class SnsNewActivity extends AppCompatActivity {
 
+    //private ActivityResultLauncher<Intent> resultLauncher;
+
     //RecyclerView recyclerView;
     ImageView sns_new_back, sns_camera, sns_new_img;
     TextView sns_new_share;
@@ -64,12 +67,12 @@ public class SnsNewActivity extends AppCompatActivity {
 
         sns_new_back = findViewById(R.id.sns_new_back);
         sns_new_share = findViewById(R.id.sns_new_share);
-        sns_camera = findViewById(R.id.sns_camera);
+        //sns_camera = findViewById(R.id.sns_camera);
         //recyclerView = findViewById(R.id.recyclerView);
         sns_new_img = findViewById(R.id.sns_new_img);
 
 
-        sns_camera.setOnClickListener(v -> {
+        sns_new_img.setOnClickListener(v -> {
             showDialog();
         });
 
@@ -80,8 +83,13 @@ public class SnsNewActivity extends AppCompatActivity {
 
 
         sns_new_share.setOnClickListener(v -> {
-            SnsFragment.img_list.add(imgFilePath);
-            finish();
+            if(imgFilePath != null) {
+                SnsFragment.img_list.add(imgFilePath);
+                finish();
+            }else {
+                Toast.makeText(SnsNewActivity.this, "사진 선택하라고", Toast.LENGTH_SHORT).show();
+            }
+
         });
 
 
@@ -89,6 +97,7 @@ public class SnsNewActivity extends AppCompatActivity {
 
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
         builder.setTitle("업로드 방법 선택")
                 .setSingleChoiceItems(sns_item, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -116,6 +125,7 @@ public class SnsNewActivity extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_PICK);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
+       // resultLauncher.launch(intent);
         intent.putExtra("paht",imgFilePath);
     }
 
@@ -137,6 +147,9 @@ public class SnsNewActivity extends AppCompatActivity {
                         getApplicationContext().getPackageName() + ".fileprovider",
                         imgFile
                 );
+
+
+
                 //버전 분기를 위한 처리.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri); // imgUri를 통해서 카메라로 찍은사진을 받음.
@@ -149,7 +162,6 @@ public class SnsNewActivity extends AppCompatActivity {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
         }
     }//Camera
@@ -196,7 +208,7 @@ public class SnsNewActivity extends AppCompatActivity {
 //            }
        if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
            Toast.makeText(SnsNewActivity.this, "사진을 잘찍었음.", Toast.LENGTH_SHORT).show();
-            Glide.with(SnsNewActivity.this).load(imgFilePath).into(sns_camera);
+            Glide.with(SnsNewActivity.this).load(imgFilePath).into(sns_new_img);
         } else if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
             Toast.makeText(SnsNewActivity.this, "갤러리 사진 가져옴", Toast.LENGTH_SHORT).show();
             //getContentResolver.query <= 경로를 받아오는 처리. 실제 저장경로 Uri를 알아옴.
