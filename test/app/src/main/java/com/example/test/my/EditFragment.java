@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -181,6 +182,13 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        btn_man.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_man.setBackground(ColorDrawable);
             }
         });
         return rootView;

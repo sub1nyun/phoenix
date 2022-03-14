@@ -129,18 +129,19 @@
                 android:textColor="#000"
                 android:layout_gravity="center_vertical"/>
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="">
-            <TextView
-                android:id="@+id/edit_birth"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
                 android:layout_weight="7"
-                android:layout_gravity="center_vertical"
-                android:text="출생일"
-                android:textSize="18dp"
-                android:gravity="center_vertical"/>
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_round_gray"
+                android:layout_gravity="center">
+                <TextView
+                    android:layout_margin="10dp"
+                    android:id="@+id/edit_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1999/06/30"
+                    android:textSize="18dp"
+                    />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -182,22 +183,38 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="20dp">
-            <Button
-                android:id="@+id/cur_kg_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-kg"
-                android:layout_gravity="center_vertical"/>
-            <Button
+            android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/cur_kg_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/border_round_gray"
+                    android:layout_marginRight="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:text="-kg"
+                        android:layout_margin="10dp"
+                        android:textAlignment="textEnd"/>
+                </LinearLayout>
+            <LinearLayout
                 android:id="@+id/cur_cm_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="-cm"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/border_round_gray">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="-cm"
+                    android:textSize="17dp"
+                    android:layout_margin="10dp"
+                    android:textAlignment="textEnd"/>
+        </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
