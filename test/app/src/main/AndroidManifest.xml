@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.test">
+<<<<<<< HEAD
     <!-- 구글맵 사용 위해 넣음 ysm 22-03-10 -->
+=======
+    <!-- 카카오 지도 테스트용 넣음 ysh 22-03-08 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 구글맵 사용 위해 넣음 ysm 22-03-10 -->
+>>>>>>> 89b7da0a0603dc8637f3c25147afcc16a93795e2
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 카메라, 갤러리 사용을 위해 넣음 ysb 22-03-03 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -48,11 +57,17 @@
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+<<<<<<< HEAD
         android:theme="@style/Theme.Test">
+=======
+        android:theme="@style/Theme.Test"
+        android:usesCleartextTraffic="true">
+>>>>>>> 89b7da0a0603dc8637f3c25147afcc16a93795e2
         <activity
-            android:name=".my.SettimgActivity"
+            android:name=".home.HomeActivity"
             android:exported="false" />
         <!--
         <activity
@@ -95,6 +110,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
 
+<<<<<<< HEAD
         <activity
             android:name=".diary.GraphActivity"
             android:exported="false" />
@@ -104,6 +120,8 @@
         <activity
             android:name=".diary.DetailActivity"
             android:exported="false" />
+=======
+>>>>>>> 89b7da0a0603dc8637f3c25147afcc16a93795e2
         <activity
             android:name=".diary.DetailActivity"
             android:exported="false" />
@@ -124,7 +142,14 @@
         </activity> <!-- 구글 맵 API 메타 데이터 추가 -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
+<<<<<<< HEAD
             android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
+=======
+            android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" /> <!-- 카카오 맵 app key 추가 -->
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="884cf31c300f60971b6a3d015d8c005e" />
+>>>>>>> 89b7da0a0603dc8637f3c25147afcc16a93795e2
 
         <uses-library
             android:name="org.apache.http.legacy"

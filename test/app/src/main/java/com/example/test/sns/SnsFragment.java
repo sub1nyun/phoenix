@@ -78,6 +78,7 @@ public class SnsFragment extends Fragment {
 
         sns_more.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setCancelable(false);
             builder.setTitle("수정이나 삭제할 게시물").setMessage("");
             builder.setPositiveButton("수정하기", (dialogInterface, i) -> {
                 Intent intent = new Intent(getContext(), SnsNewActivity.class);
@@ -85,6 +86,7 @@ public class SnsFragment extends Fragment {
             });
             builder.setNegativeButton("삭제하기", (dialogInterface, i) -> {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                builder1.setCancelable(false);
                 builder1.setTitle("정말 삭제할거임?").setMessage("");
                 builder1.setPositiveButton("취소", (dialogInterface1, i1) -> {
                 });
