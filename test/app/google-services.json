@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "715972115125",
+    "project_id": "babysmilesupport",
+    "storage_bucket": "babysmilesupport.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:715972115125:android:87968deeef0772c2d95cfc",
+        "android_client_info": {
+          "package_name": "com.example.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "715972115125-pako5k8q0ac77ol5cfjp5v1ih7um0blv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.test",
+            "certificate_hash": "9a2296268c81d59bce07bc3db72eaa540752b812"
+          }
+        },
+        {
+          "client_id": "715972115125-on9f8lgrdrr3mgpvc2lp8rmvrs8ne9ft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6Pi8kU6lrKXWO9yAQKVYLBDQqc34XHpg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "715972115125-on9f8lgrdrr3mgpvc2lp8rmvrs8ne9ft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

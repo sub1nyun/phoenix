@@ -5,14 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".join.LoginActivity"
+    tools:context=".LoginActivity"
 
-    >
+    android:padding="30dp">
+    <!--<Button
 
+    android:background="#44526C"배경색
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="초대하기"
+        android:backgroundTint="#EECDCD"
+        android:id="@+id/btn_invite"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="3"
         android:gravity="center|bottom"
         android:orientation="vertical"
         android:layout_marginBottom="10dp"
@@ -22,6 +30,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:src="@drawable/bss_logo"
+            android:layout_marginBottom="10dp"
             />
 
     </LinearLayout>
@@ -33,91 +42,120 @@
         android:layout_weight="6"
         android:orientation="vertical"
         >
-        <EditText
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:hint="   아이디"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="25dp"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#777777"
-            android:background="#EFEFEF"
-            android:id="@+id/edt_id"
-            />
-        <EditText
+            android:layout_height="50dp"
+            android:background="@drawable/border_round_gray"
+            android:layout_marginBottom="15dp"
+            android:padding="5dp"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="아이디"
+                android:id="@+id/edt_id"
+                android:background="#ffffff"
+                />
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:hint="   비밀번호"
-            android:layout_marginTop="3dp"
-            android:layout_marginHorizontal="25dp"
-            android:textColor="#D1D1D1"
-            android:textColorHint="#777777"
-            android:background="#EFEFEF"
-            android:id="@+id/edt_pw"
-            />
+            android:layout_height="50dp"
+            android:background="@drawable/border_round_gray"
+            android:layout_marginBottom="15dp"
+            android:padding="5dp"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="비밀번호"
+                android:id="@+id/edt_pw"
+                android:background="#ffffff"
+                />
+        </LinearLayout>
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="로그인 정보 저장"
-            android:textColor="#303030"
-            android:layout_marginLeft="20dp"
+            android:textColor="#111"
             android:id="@+id/chk_auto"
+            android:layout_gravity="right"
             />
         <Button
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="25dp"
-            android:backgroundTint="#FFC5C5"
+            android:layout_height="60dp"
+            android:backgroundTint="#FFBABA"
             android:text="로그인"
             android:textStyle="bold"
             android:id="@+id/btn_login"
             />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="25dp"
-            android:backgroundTint="#FFC5C5"
-            android:text="새 계정 만들기"
-            android:id="@+id/btn_join"
-            android:textStyle="bold"
-            />
 
+        <Button
+            android:id="@+id/btn_join"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="#FFBABA"
+            android:text="새 계정 만들기"
+            android:textStyle="bold" />
+<!--
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="horizontal"
-          android:layout_marginHorizontal="20dp"
           android:gravity="center"
+          android:layout_marginTop="20dp"
           >
 
           <ImageView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginRight="15dp"
-
               android:src="@drawable/kakao"
               android:id="@+id/btn_kakao"
+              android:layout_marginRight="30dp"
               />
           <ImageView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginLeft="15dp"
               android:src="@drawable/naver"
               android:id="@+id/btn_naver"
               />
-      </LinearLayout>
+      </LinearLayout>-->
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="3dp"
+            android:src="@drawable/kakaologinbtn"
+            android:id="@+id/btn_kakao"
+            />
 
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="3dp"
+            android:src="@drawable/naverloginbtn"
+            android:id="@+id/btn_naver"
+            />
         <Button
+            android:id="@+id/btn_forget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="7dp"
             android:background="#00ff0000"
             android:text="비밀번호를 잊으셨나요?"
-            android:textColor="#FC494949"
-            android:textStyle="bold"
-            android:layout_marginTop="7dp"
-            android:id="@+id/btn_forget"
-            />
+            android:textColor="#fff"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

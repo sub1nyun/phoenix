@@ -26,13 +26,6 @@
             android:layout_weight="5"
             android:layout_height="wrap_content" />
 
-        <ImageView
-            android:id="@+id/sns_camera"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:src="@drawable/sns_camera"/>
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -47,6 +40,7 @@
     </LinearLayout>
 
     <ImageView
+        android:src="@drawable/sns_logo"
         android:scaleType="fitXY"
         android:layout_weight="5"
         android:layout_width="match_parent"

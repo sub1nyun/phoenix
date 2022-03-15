@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 
 import com.example.test.diary.detailDTO;
+import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
 import com.example.test.sns.SnsFragment;
 import com.google.android.material.tabs.TabItem;
@@ -110,6 +111,33 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             } catch (NoSuchAlgorithmException e) {
                 Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
+    }
+
+
+    //백버튼 처리
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+
+    //플래그먼트마다의 백버튼 처리
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if(fragment.getClass() == EditFragment.class){
+            ((OnBackPressedListenser)fragment).onBackPressed();
+        }else{
+            if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+            {
+                finish();
+            }
+            else
+            {
+                backPressedTime = tempTime;
+                Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
             }
         }
     }

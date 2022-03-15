@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".join.ChildBirthFragment"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="아기가 태어났나요?"
+        android:textColor="#44526C"
+        android:textSize="30dp"
+        android:layout_marginBottom="50dp"/>
+    <LinearLayout
+        android:id="@+id/linear_birth_yes"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/border_round_gray"
+        android:layout_marginBottom="20dp">
+        <TextView
+            android:id="@+id/tv_birth_yes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="네, 태어났어요."
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linear_birth_no"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/border_round_gray"
+        android:layout_marginBottom="20dp">
+        <TextView
+            android:id="@+id/tv_birth_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="아니요, 아직 태어나지 않았어요."
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+
+</LinearLayout>

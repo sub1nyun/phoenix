@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.test.MainActivity;
 import com.example.test.R;
 
 public class JoinMainActivity extends AppCompatActivity {
@@ -20,7 +22,6 @@ public class JoinMainActivity extends AppCompatActivity {
     ImageView btn_back;
     FrameLayout container;
     static int go = 0;
-    static int back = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +38,26 @@ public class JoinMainActivity extends AppCompatActivity {
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( go == 1 ){
-                    changeFrag( new BabyFragment() );
+                if( go == 0 ){
+                    changeFrag( new UserFragment() );
+                }else if( go == 1 ){
+                    changeFrag( new NewFamilyFragment() );
                 }else if( go == 2 ){
-                    changeFrag( new BirthFragment() );
+                    changeFrag( new ChildBirthFragment() );
                 }else if( go == 3 ){
-                    changeFrag( new GenderFragment() );
+                    changeFrag( new BirthFragment() );
                 }else if( go == 4 ){
+                    changeFrag( new BabyFragment() );
+                }else if( go == 5 ){
+                    changeFrag( new GenderFragment() );
+                }else if( go == 6 ){
                     changeFrag( new RelationFragment() );
+                }else if( go == 7 ){
+                    changeFrag( new PictureFragment() );
+                }else if( go == 8 ){
+                    Intent intent = new Intent(JoinMainActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -52,7 +65,7 @@ public class JoinMainActivity extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( back == 1 ){
+                if( go == 1 ){
                     /*Intent intent = new Intent( JoinMainActivity.this , LoginActivity.class);
                     startActivity( intent );*/
                     AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
@@ -61,27 +74,34 @@ public class JoinMainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int id)
                         {
-                            Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int id)
-                        {
+                         {
                             Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
                         }
                     });
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
 
-                }else if( back == 2 ){
+
+                }else if( go==2 ){
                     changeFrag( new UserFragment() );
-                }else if( back == 3 ){
-                    changeFrag( new BabyFragment() );
-                }else if( back == 4 ){
+                }else if( go==3 ){
+                    changeFrag( new NewFamilyFragment() );
+                }else if( go==4 ){
+                    changeFrag( new ChildBirthFragment() );
+                }else if( go==5 ){
                     changeFrag( new BirthFragment() );
-                }else if( back == 5 ){
+                }else if( go==6 ){
+                    changeFrag( new BabyFragment() );
+                }else if( go==7 ){
                     changeFrag( new GenderFragment() );
+                }else if( go==8 ){
+                    changeFrag( new RelationFragment() );
                 }
             }
         });

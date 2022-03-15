@@ -6,17 +6,22 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -28,12 +33,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
+import com.example.test.OnBackPressedListenser;
 import com.example.test.R;
 
 import org.w3c.dom.Text;
@@ -47,10 +54,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class EditFragment extends Fragment {
-    Button my_rels, cur_kg_btn, cur_cm_btn, btn_man, btn_woman;
-    TextView edit_birth;
-    ImageView edit_cancel, edit_ok, edit_photo;
+public class EditFragment extends Fragment implements OnBackPressedListenser {
+    Button my_rels, btn_man, btn_woman;
+    LinearLayout edit_birth, cur_kg_btn, cur_cm_btn;
+    TextView edit_ok, tv_birth;
+    ImageView edit_cancel, edit_photo;
     EditText edit_name;
     Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("JST"));
     private  DatePickerDialog.OnDateSetListener callbackMethod;
@@ -62,13 +70,16 @@ public class EditFragment extends Fragment {
     File imgFile = null;
     String imgFilePath = null;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_edit, container, false);
         checkDangerousPermissions();
 
+
         my_rels = rootView.findViewById(R.id.my_rels);
         edit_birth = rootView.findViewById(R.id.edit_birth);
+        tv_birth = rootView.findViewById(R.id.tv_birth);
         cur_kg_btn = rootView.findViewById(R.id.cur_kg_btn);
         cur_cm_btn = rootView.findViewById(R.id.cur_cm_btn);
         edit_cancel = rootView.findViewById(R.id.edit_cancel);
@@ -97,6 +108,7 @@ public class EditFragment extends Fragment {
                 alertDialog.show();
             }
         });
+
 
         edit_ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +160,7 @@ public class EditFragment extends Fragment {
             {
                 h = hourOfDay;
                 mi = minute;
-                edit_birth.setText(y + "년 " + m + "월 " + d + "일 " + h + "시 " + mi + "분");
+                tv_birth.setText(y + "년 " + m + "월 " + d + "일 " + h + "시 " + mi + "분");
             }
         };
 
@@ -178,6 +190,26 @@ public class EditFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showDialog();
+            }
+        });
+
+        btn_man.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
+                btn_man.setTextColor(getResources().getColorStateList(R.color.white));
+                btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D6D6D6")));
+                btn_woman.setTextColor(getResources().getColorStateList(R.color.black));
+            }
+        });
+
+        btn_woman.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
+                btn_woman.setTextColor(getResources().getColorStateList(R.color.white));
+                btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D6D6D6")));
+                btn_man.setTextColor(getResources().getColorStateList(R.color.black));
             }
         });
         return rootView;
@@ -308,5 +340,24 @@ public class EditFragment extends Fragment {
                 }
             }
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder_cancel = new AlertDialog.Builder(getContext()).setTitle("취소").setMessage("현재 수정하신 내용이 저장되지 않습니다.\n정말 취소하시겠습니까?")
+                .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((MainActivity)getActivity()).changeFrag(new MyFragment());
+                    }
+                }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        AlertDialog alertDialog = builder_cancel.create();
+        alertDialog.show();
     }
 }

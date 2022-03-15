@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".diary.DetailActivity"
+    android:background="#ffffff"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,182 +15,213 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:orientation="vertical"
-            android:background="#FFBABA"
-            android:layout_marginBottom="10dp">
+            android:background="#44526C"
+            android:layout_marginBottom="10dp"
+            >
             <TextView
+                android:id="@+id/tv_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="00월 00일"
                 android:textAlignment="center"
                 android:textSize="25dp"
-                android:padding="5dp"/>
+                android:padding="5dp"
+                android:textColor="#fff"/>
             <TextView
+                android:id="@+id/tv_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:text="모유"
                 android:textAlignment="center"
-                android:textSize="30dp"/>
+                android:textSize="30dp"
+                android:textColor="#fff"/>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/linear_start"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="시작시간"
-                android:textSize="20dp"
-                />
-            <TextView
-                android:id="@+id/tv_start"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="00:00 pm"
-                android:textAlignment="center"
-                android:textSize="30dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/linear_end"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="20dp">
-            <TextView
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/linear_start"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="시작시간"
+                    android:textSize="20dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00:00 pm"
+                    android:textAlignment="center"
+                    android:textSize="30dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_end"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="종료시간"
+                    android:textSize="20dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00:00 pm"
+                    android:textAlignment="center"
+                    android:textSize="30dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_amount"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="먹인 양"
+                    android:textSize="20dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="100ml"
+                    android:textAlignment="center"
+                    android:textSize="30dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_temp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="체온"
+                    android:textSize="20dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="36.5"
+                    android:textAlignment="center"
+                    android:textSize="30dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_many"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="종류"
+                    android:textSize="20dp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btn1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="버튼1"
+                        />
+                    <Button
+                        android:id="@+id/btn2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="버튼2"
+                        />
+                    <Button
+                        android:id="@+id/btn3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="버튼3"
+                        />
+                    <Button
+                        android:id="@+id/btn4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="버튼4"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="메모"
+                    android:textSize="20dp"
+                    />
+                <EditText
+                    android:id="@+id/edt_memo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="메모입력"
+                    android:textSize="20dp"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="종료시간"
-                android:textSize="20dp"
-                />
-            <TextView
-                android:id="@+id/tv_end"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="00:00 pm"
-                android:textAlignment="center"
-                android:textSize="30dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/linear_location"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="모유먹인 위치"
-                android:textSize="20dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="왼쪽 오른쪽 모름"
-                android:textAlignment="center"
-                android:textSize="30dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/linear_amount"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="먹인 양"
-                android:textSize="20dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="100ml"
-                android:textAlignment="center"
-                android:textSize="30dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="체온"
-                android:textSize="20dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="36.5"
-                android:textAlignment="center"
-                android:textSize="30dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="종류"
-                android:textSize="20dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="종류들"
-                android:textAlignment="center"
-                android:textSize="30dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="메모"
-                android:textSize="20dp"
-                />
-            <EditText
-                android:id="@+id/edt_memo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="메모입력"
-                android:textSize="20dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#44526C"
+                    android:text="취소"
+                    android:textColor="#fff"
+                    android:textSize="20dp"
+                    android:padding="15dp"/>
+                <Button
+                    android:id="@+id/btn_save"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#44526C"
+                    android:text="저장"
+                    android:textColor="#fff"
+                    android:textSize="20dp"
+                    android:padding="15dp"/>
+            </LinearLayout>
             <Button
-                android:id="@+id/btn_cancel"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="취소"
+                android:text="삭제"
+                android:textColor="#fff"
+                android:backgroundTint="#44526C"
                 android:textSize="20dp"
                 android:padding="15dp"/>
-            <Button
-                android:id="@+id/btn_save"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="저장"
-                android:textSize="20dp"
-                android:padding="15dp"/>
         </LinearLayout>
-        <Button
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="삭제"
-            android:textSize="20dp"
-            android:padding="15dp"/>
     </LinearLayout>
 </ScrollView>
