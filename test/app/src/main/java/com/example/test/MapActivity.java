@@ -1,407 +1,363 @@
 package com.example.test;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
-import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.snackbar.Snackbar;
+import com.crowdfire.cfalertdialog.CFAlertDialog;
+import com.example.test.api.ApiClient;
+import com.example.test.api.ApiInterface;
+import com.example.test.model.category_search.CategoryResult;
+import com.example.test.model.category_search.Document;
+import com.example.test.utils.BusProvider;
+import com.example.test.utils.IntentKey;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
-import java.io.IOException;
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapView;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
 
-import noman.googleplaces.NRPlaces;
-import noman.googleplaces.Place;
-import noman.googleplaces.PlaceType;
-import noman.googleplaces.PlacesException;
-import noman.googleplaces.PlacesListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, PlacesListener {
-    private GoogleMap mMap;
-    private Marker currentMarker = null;
+public class MapActivity extends AppCompatActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener, MapView.OpenAPIKeyAuthenticationResultListener, MapView.CurrentLocationEventListener {
+    final static String TAG = "MapTAG";
+    MapView mMapView;
+    ViewGroup mMapViewContainer;
+    EditText mSearchEdit;
+    RelativeLayout mLoaderLayout;
+    RecyclerView recyclerView;
 
-    private static final String TAG = "googlemap_example";
-    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private static final int UPDATE_INTERVAL_MS = 1000;
-    private static final int FASTEST_UPDATE_INTERVAL_MS = 500;
+    MapPoint currentMapPoint;
+    private double mCurrentLng;
+    private double mCurrentLat;
+    private double mSearchLng = -1;
+    private double mSearchLat = -1;
+    private String mSearchName;
+    boolean isTrackingMode = false;
+    Bus bus = BusProvider.getInstance();
 
-    private static final int PERMISSION_REQUEST_CODE = 100;
-    boolean needRequest = false;
-
-    String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-
-    Location mCurrentLocation;
-    LatLng currentPosition;
-
-    private FusedLocationProviderClient mFusedLocationClient;
-    private LocationRequest locationRequest;
-    private Location location;
-
-    private View mLayout;
-
-    List<Marker> previous_marker = null;
-    Button btn_search;
-    ImageView back_main;
+    ArrayList<Document> documentArrayList = new ArrayList<>();
+    MapPOIItem searchMarker = new MapPOIItem();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_map);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.activity_kakao_map);
+        bus.register(this);
+        initView();
+    }
 
-        mLayout = findViewById(R.id.layout_main);
-        previous_marker = new ArrayList<Marker>();
+    private void initView() {
+        mSearchEdit = findViewById(R.id.map_et_search);
+        mLoaderLayout = findViewById(R.id.loaderLayout);
+        mMapView = new MapView(this);
+        mMapViewContainer = findViewById(R.id.map_mv_mapcontainer);
+        mMapViewContainer.addView(mMapView);
+        recyclerView = findViewById(R.id.map_recyclerview);
+        LocationAdapter locationAdapter = new LocationAdapter(documentArrayList, getApplicationContext(), mSearchEdit, recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(locationAdapter);
 
-        back_main = findViewById(R.id.back_main);
-        back_main.setOnClickListener(new View.OnClickListener() {
+        mMapView.setMapViewEventListener(this);
+        mMapView.setPOIItemEventListener(this);
+        mMapView.setOpenAPIKeyAuthenticationResultListener(this);
+
+        Toast.makeText(this, "맵을 로딩중입니다", Toast.LENGTH_SHORT).show();
+
+        mMapView.setCurrentLocationEventListener(this);
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+        mLoaderLayout.setVisibility(View.VISIBLE);
+
+        findViewById(R.id.exit_map).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MapActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
-        btn_search = findViewById(R.id.btn_search);
-        btn_search.setOnClickListener(new View.OnClickListener() {
+        mSearchEdit.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                showPlaceInformation(currentPosition);
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+                recyclerView.setVisibility(View.VISIBLE);
             }
-        });
 
-        locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(locationRequest);
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-    }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        Log.d(TAG, "onMapReady: ");
-        mMap = googleMap;
-        setDefaultLocation();
-
-        int hasFineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        if(hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED){
-            startLocationUpdates();
-        } else{
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])){
-                Snackbar.make(mLayout, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityCompat.requestPermissions(MapActivity.this, REQUIRED_PERMISSIONS, PERMISSION_REQUEST_CODE);
-                    }
-                }).show();
-            } else{
-                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, PERMISSION_REQUEST_CODE);
-            }
-        }
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapClick(@NonNull LatLng latLng) {
-                Log.d(TAG, "onMapClick: ");
-            }
-        });
-    }
-    LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(@NonNull LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-            List<Location> locationList = locationResult.getLocations();
-
-            if(locationList.size() > 0){
-                location = locationList.get(locationList.size() - 1);
-                currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
-
-                String markerTitle = getCurrentAddress(currentPosition);
-                String markerSnippet = "위도:" + String.valueOf(location.getLatitude()) + "경도:" + String.valueOf(location.getLongitude());
-                Log.d(TAG, "onLocationResult: " + markerSnippet);
-
-                setCurrentLocation(location, markerTitle, markerSnippet);
-                mCurrentLocation = location;
-            }
-        }
-    };
-
-    private void startLocationUpdates(){
-        if(!checkLocationServicesStatus()){
-            Log.d(TAG, "startLocationUpdates: call showDialogForLocationServiceSetting");
-            showDialogForLocationServiceSetting();
-        } else{
-            int hasFineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-            int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-
-            if(hasFineLocationPermission != PackageManager.PERMISSION_GRANTED || hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED){
-                Log.d(TAG, "startLocationUpdates: 퍼미션 없음");
-                return;
-            }
-            Log.d(TAG, "startLocationUpdates: call mFusedLocationClient.requestLocationUpdates");
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-
-            if(checkPermission()) mMap.setMyLocationEnabled(true);
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: ");
-
-        if(checkPermission()){
-            Log.d(TAG, "onStart: call mFusedLocationClient.requestLocationUpdates");
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
-            if(mMap != null) mMap.setMyLocationEnabled(true);
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(mFusedLocationClient != null){
-            Log.d(TAG, "onStop: call stopLocationUpdates");
-            mFusedLocationClient.removeLocationUpdates(locationCallback);
-        }
-    }
-
-    public String getCurrentAddress(LatLng latLng){
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses;
-
-        try{
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-        } catch (IOException e){
-            Toast.makeText(this, "지오코더 서비스 사용 불가", Toast.LENGTH_SHORT).show();
-            return "지오코더 서비스 사용불가";
-        } catch (IllegalArgumentException e){
-            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_SHORT).show();
-            return "잘못된 GPS 좌표";
-        }
-
-        if(addresses == null || addresses.size() == 0){
-            Toast.makeText(this, "주소 미발견", Toast.LENGTH_SHORT).show();
-            return "주소 미발견";
-        } else{
-            Address address = addresses.get(0);
-            return address.getAddressLine(0).toString();
-        }
-    }
-
-    public boolean checkLocationServicesStatus(){
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
-
-    public void setCurrentLocation(Location location, String markerTitle, String markerSnippet){
-        if(currentMarker != null) currentMarker.remove();
-
-        LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(currentLatLng);
-        markerOptions.title(markerTitle);
-        markerOptions.snippet(markerSnippet);
-        markerOptions.draggable(true);
-
-        currentMarker = mMap.addMarker(markerOptions);
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
-        mMap.moveCamera(cameraUpdate);
-    }
-
-    public void setDefaultLocation(){
-        LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
-        String markerTitle = "위치정보 가져올 수 없음";
-        String markerSnippet = "위치 퍼미션과 GPS 활성 여부 확인";
-
-        if(currentMarker != null) currentMarker.remove();
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(DEFAULT_LOCATION);
-        markerOptions.title(markerTitle);
-        markerOptions.snippet(markerSnippet);
-        markerOptions.draggable(true);
-        currentMarker = mMap.addMarker(markerOptions);
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
-        mMap.moveCamera(cameraUpdate);
-    }
-
-    private boolean checkPermission(){
-        int hasFineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        if(hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED){
-            return true;
-        }
-        return false;
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == PERMISSION_REQUEST_CODE && grantResults.length == REQUIRED_PERMISSIONS.length){
-            boolean check_result = true;
-
-            for(int result : grantResults){
-                if(result != PackageManager.PERMISSION_GRANTED){
-                    check_result = false;
-                    break;
-                }
-            }
-
-            if(check_result){
-                startLocationUpdates();
-            } else{
-                if(ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0]) || ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[1])){
-                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.", Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if (charSequence.length() >= 1) {
+                    documentArrayList.clear();
+                    locationAdapter.clear();
+                    locationAdapter.notifyDataSetChanged();
+                    ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+                    Call<CategoryResult> call = apiInterface.getSearchLocationDetail(getString(R.string.restapi_key), charSequence.toString(), String.valueOf(mCurrentLng), String.valueOf(mCurrentLat), 15);
+                    call.enqueue(new Callback<CategoryResult>() {
                         @Override
-                        public void onClick(View v) {
-                            finish();
+                        public void onResponse(@NotNull Call<CategoryResult> call, @NotNull Response<CategoryResult> response) {
+                            if (response.isSuccessful()) {
+                                assert response.body() != null;
+                                for (Document document : response.body().getDocuments()) {
+                                    locationAdapter.addItem(document);
+                                }
+                                locationAdapter.notifyDataSetChanged();
+                            }
                         }
-                    }).show();
-                } else{
-                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 설정에서 퍼미션을 허용해야 합니다.", Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
+
                         @Override
-                        public void onClick(View v) {
-                            finish();
+                        public void onFailure(@NotNull Call<CategoryResult> call, @NotNull Throwable t) {
+
                         }
-                    }).show();
-                }
-            }
-        }
-    }
-
-    private void showDialogForLocationServiceSetting(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
-        builder.setTitle("위치 서비스 활성화");
-        builder.setMessage("앱을 사용하기 위해서는 위치서비스가 필요합니다.\n위치 설정을 수정하시겠습니까?");
-        builder.setCancelable(true);
-        builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent callGPSSettingIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
-            }
-        });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.create().show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case GPS_ENABLE_REQUEST_CODE:
-                if(checkLocationServicesStatus()){
-                    if(checkLocationServicesStatus()){
-                        Log.d(TAG, "onActivityResult: GPS 활성화됨");
-                        needRequest = true;
-                        return;
+                    });
+                } else {
+                    if (charSequence.length() <= 0) {
+                        recyclerView.setVisibility(View.GONE);
                     }
                 }
-                break;
-        }
-    }
+            }
 
-    @Override
-    public void onPlacesFailure(PlacesException e) {
-
-    }
-
-    @Override
-    public void onPlacesStart() {
-
-    }
-
-    @Override
-    public void onPlacesSuccess(final List<Place> places) {
-        runOnUiThread(new Runnable() {
             @Override
-            public void run() {
-                for(noman.googleplaces.Place place:places){
-                    LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-                    String markerSnippet = getCurrentAddress(latLng);
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(latLng);
-                    markerOptions.title(place.getName());
-                    markerOptions.snippet(markerSnippet);
-                    Marker item = mMap.addMarker(markerOptions);
-                    previous_marker.add(item);
+        mSearchEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                } else {
+                    recyclerView.setVisibility(View.GONE);
                 }
-
-                HashSet<Marker> hashSet = new HashSet<>();
-                hashSet.addAll(previous_marker);
-                previous_marker.clear();
-                previous_marker.addAll(hashSet);
             }
         });
     }
 
     @Override
-    public void onPlacesFinished() {
+    public void onMapViewInitialized(MapView mapView) {
+    }
+
+    @Override
+    public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
+    }
+
+    @Override
+    public void onMapViewZoomLevelChanged(MapView mapView, int i) {
+    }
+
+    @Override
+    public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
 
     }
 
-    public void showPlaceInformation(LatLng location){
-        mMap.clear();
+    @Override
+    public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
 
-        if(previous_marker != null) previous_marker.clear();
-        new NRPlaces.Builder().listener(MapActivity.this).key("AIzaSyCVhjSn5WKeKOjmuN48c1iJIsNDNzfTITA").
-                latlng(location.latitude, location.longitude).radius(1000).
-                type(PlaceType.HOSPITAL).build().execute();
+    }
+
+    @Override
+    public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
+
+    }
+
+    @Override
+    public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
+
+    }
+
+    @Override
+    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
+
+    }
+
+    @Override
+    public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s) {
+
+    }
+
+    @Override
+    public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
+
+    }
+
+    public void showMap(Uri geoLocation) {
+        Intent intent;
+        try {
+            Toast.makeText(this, "카카오맵으로 길찾기를 시도합니다", Toast.LENGTH_SHORT).show();
+            intent = new Intent(Intent.ACTION_VIEW, geoLocation);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, "길찾기에는 카카오맵이 필요합니다. 다운받아주시길 바랍니다.", Toast.LENGTH_SHORT).show();
+            intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://play.google.com/store/apps/details?id=net.daum.android.map&hl=ko"));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
+    }
+
+    @Override
+    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
+        double lat = mapPOIItem.getMapPoint().getMapPointGeoCoord().latitude;
+        double lng = mapPOIItem.getMapPoint().getMapPointGeoCoord().longitude;
+        Toast.makeText(this, mapPOIItem.getItemName(), Toast.LENGTH_SHORT).show();
+        CFAlertDialog.Builder builder = new CFAlertDialog.Builder(this);
+        builder.setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT);
+        builder.setTitle("선택해주세요");
+        builder.setSingleChoiceItems(new String[]{"장소 정보", "길찾기"}, 2, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int index) {
+                if (index == 0) {
+                    mLoaderLayout.setVisibility(View.VISIBLE);
+                    ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+                    Call<CategoryResult> call = apiInterface.getSearchLocationDetail(getString(R.string.restapi_key), mapPOIItem.getItemName(), String.valueOf(lat), String.valueOf(lng), 1);
+                    call.enqueue(new Callback<CategoryResult>() {
+                        @Override
+                        public void onResponse(@NotNull Call<CategoryResult> call, @NotNull Response<CategoryResult> response) {
+                            mLoaderLayout.setVisibility(View.GONE);
+                            if (response.isSuccessful()) {
+                                Intent intent = new Intent(MapActivity.this, PlaceDetailActivity.class);
+                                assert response.body() != null;
+                                intent.putExtra(IntentKey.PLACE_SEARCH_DETAIL_EXTRA, response.body().getDocuments().get(0));
+                                startActivity(intent);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CategoryResult> call, Throwable t) {
+                            Toast.makeText(MapActivity.this, "해당장소에 대한 상세정보는 없습니다.", Toast.LENGTH_SHORT).show();
+                            mLoaderLayout.setVisibility(View.GONE);
+                            Intent intent = new Intent(MapActivity.this, PlaceDetailActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                } else if (index == 1) {
+                    showMap(Uri.parse("daummaps://route?sp=" + mCurrentLat + "," + mCurrentLng + "&ep=" + lat + "," + lng + "&by=FOOT"));
+                }
+            }
+        });
+        builder.addButton("취소", -1, -1, CFAlertDialog.CFAlertActionStyle.POSITIVE, CFAlertDialog.CFAlertActionAlignment.END, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+
+    }
+
+    @Override
+    public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
+        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
+        mSearchName = "드래그한 장소";
+        mSearchLng = mapPointGeo.longitude;
+        mSearchLat = mapPointGeo.latitude;
+        mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mSearchLat, mSearchLng), true);
+        searchMarker.setItemName(mSearchName);
+        MapPoint mapPoint2 = MapPoint.mapPointWithGeoCoord(mSearchLat, mSearchLng);
+        searchMarker.setMapPoint(mapPoint2);
+        searchMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+        searchMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+        searchMarker.setDraggable(true);
+        mMapView.addPOIItem(searchMarker);
+    }
+
+    @Override
+    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float accuracyInMeters) {
+        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
+        Log.i(TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
+        currentMapPoint = MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude);
+        mMapView.setMapCenterPoint(currentMapPoint, true);
+        mCurrentLat = mapPointGeo.latitude;
+        mCurrentLng = mapPointGeo.longitude;
+        Log.d(TAG, "현재위치 => " + mCurrentLat + "  " + mCurrentLng);
+        mLoaderLayout.setVisibility(View.GONE);
+        if (!isTrackingMode) {
+            mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+        }
+    }
+
+    @Override
+    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
+
+    }
+
+    @Override
+    public void onCurrentLocationUpdateFailed(MapView mapView) {
+        Log.i(TAG, "onCurrentLocationUpdateFailed");
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+    }
+
+    @Override
+    public void onCurrentLocationUpdateCancelled(MapView mapView) {
+        Log.i(TAG, "onCurrentLocationUpdateCancelled");
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+    }
+
+    @Subscribe
+    public void search(Document document) {
+        mSearchName = document.getPlaceName();
+        mSearchLng = Double.parseDouble(document.getX());
+        mSearchLat = Double.parseDouble(document.getY());
+        mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mSearchLat, mSearchLng), true);
+        mMapView.removePOIItem(searchMarker);
+        searchMarker.setItemName(mSearchName);
+        searchMarker.setTag(10000);
+        MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(mSearchLat, mSearchLng);
+        searchMarker.setMapPoint(mapPoint);
+        searchMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+        searchMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+        searchMarker.setDraggable(true);
+        mMapView.addPOIItem(searchMarker);
+    }
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        bus.unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+        mMapView.setShowCurrentLocationMarker(false);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

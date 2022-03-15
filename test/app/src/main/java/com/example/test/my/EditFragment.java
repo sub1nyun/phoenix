@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 import com.example.test.R;
 
@@ -64,6 +65,7 @@ public class EditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_edit, container, false);
+        checkDangerousPermissions();
 
         my_rels = rootView.findViewById(R.id.my_rels);
         edit_birth = rootView.findViewById(R.id.edit_birth);
@@ -175,7 +177,7 @@ public class EditFragment extends Fragment {
         edit_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showDialog();
             }
         });
         return rootView;
@@ -240,17 +242,17 @@ public class EditFragment extends Fragment {
         return rtnPath;
     }
 
-    /*@Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == CAMERA_CODE && resultCode == MainActivity.RESULT_OK){
+        if(requestCode == CAMERA_CODE && resultCode == getActivity().RESULT_OK){
             Glide.with(getContext()).load(imgFilePath).into(edit_photo);
-        }else if(requestCode == GELLARY_CODE && resultCode == MainActivity.RESULT_OK){
+        }else if(requestCode == GELLARY_CODE && resultCode == getActivity().RESULT_OK){
             Uri selectImageUri = data.getData();
             imgFilePath = getGalleryRealPath(selectImageUri);
             Glide.with(getContext()).load(imgFilePath).into(edit_photo);
         }
-    }*/
+    }
 
     //파일 생성을 위한처리 .
     public File createFile(){

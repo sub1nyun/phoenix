@@ -13,13 +13,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <Button
-                android:id="@+id/my_grow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="성장곡선"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"/>
             <Spinner
                 android:id="@+id/my_spinner"
                 android:layout_width="wrap_content"
@@ -82,7 +75,8 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:src="@drawable/ic_launcher_background"
-                    android:layout_marginLeft="40dp"/>
+                    android:layout_marginLeft="40dp"
+                    android:scaleType="fitXY"/>
                 <TextView
                     android:id="@+id/my_gender_man"
                     android:layout_width="wrap_content"

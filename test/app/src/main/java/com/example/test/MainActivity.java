@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.example.test.diary.detailDTO;
 import com.example.test.my.MyFragment;
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getAppKeyHash();
+        getHashKey();
 
         container = findViewById(R.id.container);
         tab_main = findViewById(R.id.tab_main);
@@ -51,17 +49,21 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition()==0){
                     fragment = new DiaryFragment();
+                    changeFrag(fragment);
                 } else if(tab.getPosition()==1){
                     Intent intent = new Intent(MainActivity.this, MapActivity.class);
                     startActivity(intent);
+                    finish();
                 } else if(tab.getPosition()==2){
                     fragment = new IotFragment();
+                    changeFrag(fragment);
                 } else if(tab.getPosition()==3){
                     fragment = new SnsFragment();
+                    changeFrag(fragment);
                 } else if(tab.getPosition()==4){
                     fragment = new MyFragment();
+                    changeFrag(fragment);
                 }
-                changeFrag(fragment);
             }
 
             @Override
@@ -91,19 +93,24 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-    private void getAppKeyHash() {
+    private void getHashKey(){
+        PackageInfo packageInfo = null;
         try {
-            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md;
-                md = MessageDigest.getInstance("SHA");
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (packageInfo == null)
+            Log.e("KeyHash", "KeyHash:null");
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                String something = new String(Base64.encode(md.digest(), 0));
-                Log.e("Hash key", something);
+                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            } catch (NoSuchAlgorithmException e) {
+                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
             }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            Log.e("name not found", e.toString());
         }
     }
 }
