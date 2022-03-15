@@ -1,5 +1,6 @@
 package com.example.test;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +20,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.crowdfire.cfalertdialog.CFAlertDialog;
 import com.example.test.api.ApiClient;
 import com.example.test.api.ApiInterface;
 import com.example.test.model.category_search.CategoryResult;
@@ -232,19 +232,18 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
         double lat = mapPOIItem.getMapPoint().getMapPointGeoCoord().latitude;
         double lng = mapPOIItem.getMapPoint().getMapPointGeoCoord().longitude;
         Toast.makeText(this, mapPOIItem.getItemName(), Toast.LENGTH_SHORT).show();
-        CFAlertDialog.Builder builder = new CFAlertDialog.Builder(this);
-        builder.setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("선택해주세요");
         builder.setSingleChoiceItems(new String[]{"장소 정보", "길찾기"}, 2, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int index) {
-                if (index == 0) {
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == 0){
                     mLoaderLayout.setVisibility(View.VISIBLE);
                     ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
                     Call<CategoryResult> call = apiInterface.getSearchLocationDetail(getString(R.string.restapi_key), mapPOIItem.getItemName(), String.valueOf(lat), String.valueOf(lng), 1);
                     call.enqueue(new Callback<CategoryResult>() {
                         @Override
-                        public void onResponse(@NotNull Call<CategoryResult> call, @NotNull Response<CategoryResult> response) {
+                        public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
                             mLoaderLayout.setVisibility(View.GONE);
                             if (response.isSuccessful()) {
                                 Intent intent = new Intent(MapActivity.this, PlaceDetailActivity.class);
@@ -262,19 +261,18 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
                             startActivity(intent);
                         }
                     });
-                } else if (index == 1) {
+                } else if (which == 1) {
                     showMap(Uri.parse("daummaps://route?sp=" + mCurrentLat + "," + mCurrentLng + "&ep=" + lat + "," + lng + "&by=FOOT"));
                 }
             }
         });
-        builder.addButton("취소", -1, -1, CFAlertDialog.CFAlertActionStyle.POSITIVE, CFAlertDialog.CFAlertActionAlignment.END, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
         builder.show();
-
     }
 
     @Override

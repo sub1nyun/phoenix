@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.example.test.diary.detailDTO;
 import com.example.test.my.EditFragment;
