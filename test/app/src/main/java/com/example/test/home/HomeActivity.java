@@ -16,7 +16,6 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 import me.relex.circleindicator.CircleIndicator3;
 
 public class HomeActivity extends AppCompatActivity {
-
     ViewPager2 mPager;
     FragmentStateAdapter pagerAdapter;
     int num_page = 5;
@@ -24,11 +23,13 @@ public class HomeActivity extends AppCompatActivity {
     Button btn_login, btn_join;
     Intent intent;
     CircleIndicator3 nIndicator;
+    public static HomeActivity activity_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_main);
+        activity_home = this;
 
         btn_join = findViewById(R.id.btn_join);
         btn_login = findViewById(R.id.btn_login);

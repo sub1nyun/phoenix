@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.test.diary.detailDTO;
+import com.example.test.home.HomeActivity;
 import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
 import com.example.test.sns.SnsFragment;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        HomeActivity.activity_home.finish();
         getHashKey();
 
         container = findViewById(R.id.container);

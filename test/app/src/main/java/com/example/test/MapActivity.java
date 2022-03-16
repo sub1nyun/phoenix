@@ -42,6 +42,7 @@ import retrofit2.Response;
 
 public class MapActivity extends AppCompatActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener, MapView.OpenAPIKeyAuthenticationResultListener, MapView.CurrentLocationEventListener {
     final static String TAG = "MapTAG";
+    private long backTime = 0;
     MapView mMapView;
     ViewGroup mMapViewContainer;
     RelativeLayout mLoaderLayout;
@@ -381,8 +382,6 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
         mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
         mMapView.setShowCurrentLocationMarker(false);
     }
-
-    private long backTime = 0;
 
     @Override
     public void onBackPressed() {
