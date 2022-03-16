@@ -1,4 +1,4 @@
-package com.example.test.model.category_search;
+package com.example.test.mapmodel;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.test.model.category_search.Document;
+import com.example.test.mapmodel.Document;
 import com.example.test.utils.IntentKey;
 
 public class PlaceDetailActivity extends AppCompatActivity {

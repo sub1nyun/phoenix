@@ -4,14 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.test.model.category_search.Document;
+import com.example.test.mapmodel.Document;
 import com.example.test.utils.BusProvider;
 
 import java.util.ArrayList;
@@ -19,13 +18,11 @@ import java.util.ArrayList;
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
     Context context;
     ArrayList<Document> items;
-    EditText editText;
     RecyclerView recyclerView;
 
-    public LocationAdapter(ArrayList<Document> items, Context context, EditText editText, RecyclerView recyclerView) {
+    public LocationAdapter(ArrayList<Document> items, Context context, RecyclerView recyclerView) {
         this.context = context;
         this.items = items;
-        this.editText = editText;
         this.recyclerView = recyclerView;
     }
 
@@ -55,8 +52,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_location, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_location, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -68,8 +64,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         holder.location_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editText.setText(model.getPlaceName());
-                recyclerView.setVisibility(View.GONE);
                 BusProvider.getInstance().post(model);
             }
         });

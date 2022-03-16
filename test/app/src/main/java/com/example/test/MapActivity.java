@@ -11,21 +11,20 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.test.api.ApiClient;
 import com.example.test.api.ApiInterface;
-import com.example.test.model.category_search.CategoryResult;
-import com.example.test.model.category_search.Document;
+import com.example.test.mapmodel.CategoryResult;
+import com.example.test.mapmodel.Document;
 import com.example.test.utils.BusProvider;
 import com.example.test.utils.IntentKey;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -45,9 +44,12 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
     final static String TAG = "MapTAG";
     MapView mMapView;
     ViewGroup mMapViewContainer;
-    EditText mSearchEdit;
     RelativeLayout mLoaderLayout;
     RecyclerView recyclerView;
+    LocationAdapter locationAdapter;
+    ImageView imgv_injection, imgv_product, imgv_cafe, imgv_garten;
+    FloatingActionButton fab;
+    String category = "소아과";
 
     MapPoint currentMapPoint;
     private double mCurrentLng;
@@ -59,6 +61,7 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
     Bus bus = BusProvider.getInstance();
 
     ArrayList<Document> documentArrayList = new ArrayList<>();
+    ArrayList<MapPOIItem> markers = new ArrayList<>();
     MapPOIItem searchMarker = new MapPOIItem();
 
     @Override
@@ -70,18 +73,56 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
         initView();
     }
 
+    private void seleteList(double mCurrentLat, double mCurrentLng, String category){
+        for(int i=0; i<markers.size(); i++){
+            mMapView.removePOIItem(markers.get(i));
+        }
+        markers.clear();
+        documentArrayList.clear();
+        locationAdapter.clear();
+        locationAdapter.notifyDataSetChanged();
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<CategoryResult> call = apiInterface.getSearchLocationDetail(getString(R.string.restapi_key), category, String.valueOf(mCurrentLng), String.valueOf(mCurrentLat), 15);
+        call.enqueue(new Callback<CategoryResult>() {
+            @Override
+            public void onResponse(@NotNull Call<CategoryResult> call, @NotNull Response<CategoryResult> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    for (Document document : response.body().getDocuments()) {
+                        locationAdapter.addItem(document);
+                        MapPOIItem marker = new MapPOIItem();
+                        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(document.getY()), Double.parseDouble(document.getX())));
+                        marker.setItemName(document.getPlaceName());
+                        markers.add(marker);
+                    }
+                    mMapView.addPOIItems(markers.toArray(new MapPOIItem[markers.size()]));
+                    locationAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CategoryResult> call, @NotNull Throwable t) {
+
+            }
+        });
+    }
+
     private void initView() {
-        mSearchEdit = findViewById(R.id.map_et_search);
         mLoaderLayout = findViewById(R.id.loaderLayout);
         mMapView = new MapView(this);
         mMapViewContainer = findViewById(R.id.map_mv_mapcontainer);
         mMapViewContainer.addView(mMapView);
         recyclerView = findViewById(R.id.map_recyclerview);
-        LocationAdapter locationAdapter = new LocationAdapter(documentArrayList, getApplicationContext(), mSearchEdit, recyclerView);
+        locationAdapter = new LocationAdapter(documentArrayList, getApplicationContext(), recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(locationAdapter);
+        imgv_injection = findViewById(R.id.imgv_injection);
+        imgv_product = findViewById(R.id.imgv_product);
+        imgv_cafe = findViewById(R.id.imgv_cafe);
+        imgv_garten = findViewById(R.id.imgv_garten);
+        fab = findViewById(R.id.fab);
 
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
@@ -102,56 +143,44 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
             }
         });
 
-        mSearchEdit.addTextChangedListener(new TextWatcher() {
+        imgv_injection.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-                recyclerView.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (charSequence.length() >= 1) {
-                    documentArrayList.clear();
-                    locationAdapter.clear();
-                    locationAdapter.notifyDataSetChanged();
-                    ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-                    Call<CategoryResult> call = apiInterface.getSearchLocationDetail(getString(R.string.restapi_key), charSequence.toString(), String.valueOf(mCurrentLng), String.valueOf(mCurrentLat), 15);
-                    call.enqueue(new Callback<CategoryResult>() {
-                        @Override
-                        public void onResponse(@NotNull Call<CategoryResult> call, @NotNull Response<CategoryResult> response) {
-                            if (response.isSuccessful()) {
-                                assert response.body() != null;
-                                for (Document document : response.body().getDocuments()) {
-                                    locationAdapter.addItem(document);
-                                }
-                                locationAdapter.notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NotNull Call<CategoryResult> call, @NotNull Throwable t) {
-
-                        }
-                    });
-                } else {
-                    if (charSequence.length() <= 0) {
-                        recyclerView.setVisibility(View.GONE);
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
+            public void onClick(View v) {
+                category = "소아과";
+                seleteList(mCurrentLat, mCurrentLng, category);
             }
         });
 
-        mSearchEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        imgv_product.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                } else {
-                    recyclerView.setVisibility(View.GONE);
-                }
+            public void onClick(View v) {
+                category = "유아용품";
+                seleteList(mCurrentLat, mCurrentLng, category);
+            }
+        });
+
+        imgv_cafe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                category = "키즈카페";
+                seleteList(mCurrentLat, mCurrentLng, category);
+            }
+        });
+
+        imgv_garten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                category = "어린이집";
+                seleteList(mCurrentLat, mCurrentLng, category);
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seleteList(mCurrentLat, mCurrentLng, category);
+                mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                mMapView.setMapCenterPoint(currentMapPoint, true);
             }
         });
     }
@@ -170,7 +199,6 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
 
     @Override
     public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
-        recyclerView.setVisibility(View.GONE);
     }
 
     @Override
@@ -304,6 +332,7 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
         if (!isTrackingMode) {
             mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
         }
+        seleteList(mCurrentLat, mCurrentLng, category);
     }
 
     @Override
@@ -340,7 +369,6 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
         mMapView.addPOIItem(searchMarker);
     }
 
-
     @Override
     public void finish() {
         super.finish();
@@ -354,8 +382,19 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
         mMapView.setShowCurrentLocationMarker(false);
     }
 
+    private long backTime = 0;
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if(System.currentTimeMillis() > backTime + 2000){
+            backTime = System.currentTimeMillis();
+            Toast.makeText(this, "한 번 더 누르면 맵이 꺼집니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(System.currentTimeMillis() <= backTime + 2000){
+            Intent intent = new Intent(MapActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }
