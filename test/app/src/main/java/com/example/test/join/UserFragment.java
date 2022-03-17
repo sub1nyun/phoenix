@@ -15,11 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.test.R;
 
 public class UserFragment extends Fragment {
-<<<<<<< HEAD
-    EditText edt_id ,edt_pw;
-=======
     EditText edt_id ,edt_pw, edt_pwchk;
->>>>>>> 077ea6418818c46c50b8ac3609d5e90ae055fc1c
     ImageView join_kakao, join_naver;
 
     String family_id;
@@ -38,7 +34,7 @@ public class UserFragment extends Fragment {
         ViewGroup rootVIew = (ViewGroup)  inflater.inflate(R.layout.fragment_user, container, false);
         JoinMainActivity.go = 1;
         if(family_id != null){
-            JoinMainActivity.go = 8;
+            JoinMainActivity.go = 7;
         }
 
         edt_id = rootVIew.findViewById(R.id.edt_id);

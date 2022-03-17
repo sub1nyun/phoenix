@@ -42,18 +42,13 @@ public class JoinMainActivity extends AppCompatActivity {
         container = findViewById(R.id.constraint);
 
 
-
-
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if( go == 0 ){
-
                     changeFrag( new UserFragment() );
-
                 }else if( go == 1 ){
                     changeFrag( new NewFamilyFragment() );//제목
-
                 }else if( go == 2 ){
                     changeFrag( new RelationFragment() );//관계
                 }else if( go == 3 ){
@@ -79,26 +74,7 @@ public class JoinMainActivity extends AppCompatActivity {
                 if( go == 1 ){
                     /*Intent intent = new Intent( JoinMainActivity.this , LoginActivity.class);
                     startActivity( intent );*/
-                    AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
-                    builder.setTitle("회원가입을 종료 하시겠습니까?").setMessage("");
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialog, int id)
-                        {
-                            finish();
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialog, int id)
-                         {
-                            Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-
-
+                    altDialog();
                 }else if( go==2 ){
                     changeFrag( new UserFragment() );
                 }else if( go==3 ){
@@ -107,17 +83,41 @@ public class JoinMainActivity extends AppCompatActivity {
                     changeFrag( new RelationFragment() );
                 }else if( go==5 ){
                     changeFrag( new BirthFragment() );
-                }else if( go==6 ){
+                }/*else if( go==6 ){
                     changeFrag( new BabyFragment() );
-                }else if( go==7 ){
+                }*/else if( go==6 ){
                     changeFrag( new GenderFragment() );
-                }else if( go==8 ){
-                    changeFrag( new PictureFragment() );
+                }else if( go==7 ){
+                    if(family_id != null){
+                        altDialog();
+                    }else{
+                        changeFrag( new PictureFragment() );
+                    }
                 }
             }
         });
     }//onCreate()
 
+    public void altDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
+        builder.setTitle("회원가입을 종료 하시겠습니까?").setMessage("");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                finish();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
     void changeFrag(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
