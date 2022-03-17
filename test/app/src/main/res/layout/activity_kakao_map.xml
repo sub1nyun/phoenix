@@ -41,7 +41,7 @@
                         android:id="@+id/imgv_cafe"
                         android:layout_width="130dp"
                         android:layout_height="match_parent"
-                        android:src="@drawable/kidscafe"/>
+                        android:src="@drawable/kidcafe"/>
                     <ImageView
                         android:id="@+id/imgv_garten"
                         android:layout_width="130dp"
