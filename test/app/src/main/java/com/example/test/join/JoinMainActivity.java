@@ -105,15 +105,7 @@ public class JoinMainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }//onCreate()
-
-
-
-
-
 
     void changeFrag(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();

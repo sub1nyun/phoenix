@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapActivity"
+    android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:orientation="horizontal"
+            android:background="#44526C">
+
+            <ImageView
+                android:id="@+id/exit_map"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/arrow_back"/>
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="9">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/imgv_injection"
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baby_injection"/>
+                    <ImageView
+                        android:id="@+id/imgv_product"
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baby_product"/>
+                    <ImageView
+                        android:id="@+id/imgv_cafe"
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/kidscafe"/>
+                    <ImageView
+                        android:id="@+id/imgv_garten"
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/kidergarten"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/map_mv_mapcontainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7.5"
+            android:orientation="vertical" >
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="15sp"
+                android:layout_marginBottom="15dp"
+                android:src="@drawable/gps"
+                android:visibility="visible"
+                app:backgroundTint="#ffffff"
+                app:elevation="6dp"
+                app:pressedTranslationZ="12dp" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/map_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            />
+    <include
+        layout="@layout/view_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

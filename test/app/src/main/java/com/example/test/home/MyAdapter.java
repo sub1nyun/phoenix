@@ -19,11 +19,11 @@ public class MyAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         int index = getRealPosition(position);
 
-        if(index == 0) return new MainFragment();
-        else if(index ==1) return new IotFragment();
-        else if(index ==2) return new ShareFragment();
-        else if(index ==3) return  new DiaryFragment();
-        else return new SnsFragment();
+        if(index == 0) return new Home_MainFragment();
+        else if(index ==1) return new Home_IotFragment();
+        else if(index ==2) return new Home_ShareFragment();
+        else if(index ==3) return  new Home_DiaryFragment();
+        else return new Home_SnsFragment();
     }
 
     @Override
