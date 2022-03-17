@@ -39,13 +39,13 @@ public class LoginActivity extends AppCompatActivity {
         btn_naver = findViewById(R.id.btn_naver);
 
         ////초대 버튼 임시 생성
-        /*btn_invite = findViewById(R.id.btn_invite);
+        btn_invite = findViewById(R.id.btn_invite);
         btn_invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createDynamicLink();
             }
-        });*/
+        });
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,16 +89,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private void createDynamicLink() {
         String familyId = "tmdwn12345";
-        String invitationLink = "https://babysmilesupport.page.link/invite?uid="+familyId; //생성할 다이나믹 링크
+        String invitationLink = "https://babysmilesupport.page.link/invite?familyId="+familyId; //생성할 다이나믹 링크
 
         DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLink(Uri.parse(invitationLink))    //정보를 담는 json 사이트를 넣자!!
                 .setDomainUriPrefix("https://babysmilesupport.page.link")
-                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder(getPackageName()).build())
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
                 .buildDynamicLink();
 
         Uri dynamicLinkUri = dynamicLink.getUri();   //긴 URI
-        Log.d("asd: ", "long uri : " + dynamicLinkUri.toString());
+        Log.d("asd: ", "long uri : " + dynamicLinkUri);
 
     }
 

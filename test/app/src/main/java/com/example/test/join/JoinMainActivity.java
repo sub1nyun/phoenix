@@ -29,9 +29,17 @@ public class JoinMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_join_main);
         changeFrag( new UserFragment() );
 
+        //초대코드로 왔을 때
+        Intent intent = getIntent();
+        String family_id = intent.getStringExtra("family_id");
+        if(family_id != null){
+            changeFrag( new UserFragment(family_id) );
+        }
+
         btn_next = findViewById(R.id.btn_next);
         btn_back = findViewById(R.id.btn_back);
         container = findViewById(R.id.constraint);
+
 
 
 
