@@ -1,30 +1,29 @@
 package com.example.test.join;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.test.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class BirthFragment extends Fragment {
 
     TextView tv_bir;
     LinearLayout linear_bir;
     DatePickerDialog.OnDateSetListener callbackMethod;
+    Date born;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +46,14 @@ public class BirthFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 today.set(year, month, dayOfMonth);
-                tv_bir.setText(year + "년" + (month+1) + "월" + dayOfMonth + "일");
+                tv_bir.setText(year + "년" + (month + 1) + "월" + dayOfMonth + "일");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    born = format.parse(tv_bir.getText().toString());
+                    JoinMainActivity.vo.setBorn(born);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         };
 

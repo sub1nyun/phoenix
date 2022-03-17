@@ -17,15 +17,16 @@
         android:layout_height="50dp"
         android:background="@drawable/border_round_gray"
         android:layout_marginTop="50dp">
+
         <EditText
+            android:id="@+id/edt_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="육아일기 제목을 입력해주세요."
-            android:textSize="20dp"
-            android:background="#ffffff"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            />
+            android:background="#ffffff"
+            android:hint="육아일기 제목을 입력해주세요."
+            android:textSize="20dp" />
     </LinearLayout>
 </LinearLayout>

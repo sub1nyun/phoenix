@@ -7,14 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -22,6 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.test.R;
@@ -49,7 +48,7 @@ public class PictureFragment extends Fragment {
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_picture, container, false);
         checkDangerousPermissions();
         imv_photo = rootview.findViewById(R.id.imv_photo);
-        JoinMainActivity.go = 8;
+        JoinMainActivity.go = 7;
         imv_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

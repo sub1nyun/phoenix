@@ -1,26 +1,25 @@
 package com.example.test.join;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.test.R;
 
 public class UserFragment extends Fragment {
+<<<<<<< HEAD
     EditText edt_id ,edt_pw;
+=======
+    EditText edt_id ,edt_pw, edt_pwchk;
+>>>>>>> 077ea6418818c46c50b8ac3609d5e90ae055fc1c
     ImageView join_kakao, join_naver;
 
     String family_id;
@@ -44,6 +43,8 @@ public class UserFragment extends Fragment {
 
         edt_id = rootVIew.findViewById(R.id.edt_id);
         edt_pw = rootVIew.findViewById(R.id.edt_pw);
+        edt_pwchk = rootVIew.findViewById(R.id.edt_pwchk);
+
         join_kakao = rootVIew.findViewById(R.id.join_kakao);
         join_naver = rootVIew.findViewById(R.id.join_naver);
 
@@ -56,11 +57,54 @@ public class UserFragment extends Fragment {
         });
 
 
+                JoinMainActivity.vo.setId( edt_id.getText().toString() );
+
+        edt_pw.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                JoinMainActivity.vo.setPw( edt_pw.getText().toString() );
+            }
+        });
+        edt_pwchk.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                JoinMainActivity.vo.setPw_chk( edt_pwchk.getText().toString() );
+            }
+        });
+
+
 
 
 
 
 
         return rootVIew;
-    }
+    }//onCreateView
+
+
+
+
+
+
+
+
+
+
+
 }
