@@ -2,14 +2,13 @@ package com.example.test.join;
 
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.test.R;
 
@@ -21,7 +20,7 @@ public class ChildBirthFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_child_birth, container, false);
-        JoinMainActivity.go = 3;
+        JoinMainActivity.go = 8;
 
         linear_birth_yes = rootview.findViewById(R.id.linear_birth_yes);
         linear_birth_no = rootview.findViewById(R.id.linear_birth_no);

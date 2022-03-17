@@ -22,7 +22,8 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
     HttpPost httpPost;
     MultipartEntityBuilder builder;
     final String HTTPIP = "http://192.168.0.26";
-    final String SVRPATH = "/middle/";
+    final String HTTPIP_JGH = "http://192.168.0.50";
+    final String SVRPATH = "/bss/";
     String mapping;
     private String postUrl ;
     //String형태의 json구조를 가진 파라메터들을 추가할때사용 ,addTextBody
@@ -41,9 +42,10 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
         fileParams.add(new ParamDTO(key , value));
     }
 
+
     @Override
     protected InputStream doInBackground(String... strings) {
-        postUrl = HTTPIP + SVRPATH + mapping ;//url에 넣고 enter key쳤을때 (요청,주소)
+        postUrl = HTTPIP_JGH + SVRPATH + mapping ;//url에 넣고 enter key쳤을때 (요청,주소)
         builder = MultipartEntityBuilder.create();//빌더 초기화식.(가져다가쓰면됨)
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);//인터넷 켜놓고 엔터치는 형식
 

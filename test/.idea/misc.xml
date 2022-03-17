@@ -28,7 +28,16 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/view_loader.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/menu/line.xml" value="0.1796875" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/menu/sns_submenu.xml" value="0.36614583333333334" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_join_main.xml" value="0.22" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_baby.xml" value="0.17916666666666667" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_birth.xml" value="0.17916666666666667" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_child_birth.xml" value="0.17916666666666667" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_gender.xml" value="0.17916666666666667" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_new_family.xml" value="0.17916666666666667" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_picture.xml" value="0.17916666666666667" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_relation.xml" value="0.17916666666666667" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_user.xml" value="0.17916666666666667" />
         <entry key="..\:/test/app/src/main/res/layout/activity_main.xml" value="0.15881458966565348" />
       </map>
     </option>

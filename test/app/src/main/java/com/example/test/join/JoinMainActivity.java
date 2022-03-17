@@ -1,9 +1,5 @@
 package com.example.test.join;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,17 +7,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
+import com.example.test.common.AskTask;
 
 public class JoinMainActivity extends AppCompatActivity {
     Button btn_next;
     ImageView btn_back;
     FrameLayout container;
     static int go = 0;
+    static UserVO vo = new UserVO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +40,24 @@ public class JoinMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if( go == 0 ){
+
                     changeFrag( new UserFragment() );
+
                 }else if( go == 1 ){
-                    changeFrag( new NewFamilyFragment() );
+                    changeFrag( new NewFamilyFragment() );//제목
+
                 }else if( go == 2 ){
-                    changeFrag( new ChildBirthFragment() );
+                    changeFrag( new RelationFragment() );//관계
                 }else if( go == 3 ){
-                    changeFrag( new BirthFragment() );
+                    changeFrag( new BirthFragment() );//출생일
                 }else if( go == 4 ){
-                    changeFrag( new BabyFragment() );
+                    changeFrag( new BabyFragment() );//이름
                 }else if( go == 5 ){
-                    changeFrag( new GenderFragment() );
+                    changeFrag( new GenderFragment() );//성별
                 }else if( go == 6 ){
-                    changeFrag( new RelationFragment() );
+                    changeFrag( new PictureFragment() );//사진
                 }else if( go == 7 ){
-                    changeFrag( new PictureFragment() );
-                }else if( go == 8 ){
+                    //changeFrag( new ChildBirthFragment() );
                     Intent intent = new Intent(JoinMainActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -93,7 +96,7 @@ public class JoinMainActivity extends AppCompatActivity {
                 }else if( go==3 ){
                     changeFrag( new NewFamilyFragment() );
                 }else if( go==4 ){
-                    changeFrag( new ChildBirthFragment() );
+                    changeFrag( new RelationFragment() );
                 }else if( go==5 ){
                     changeFrag( new BirthFragment() );
                 }else if( go==6 ){
@@ -101,7 +104,7 @@ public class JoinMainActivity extends AppCompatActivity {
                 }else if( go==7 ){
                     changeFrag( new GenderFragment() );
                 }else if( go==8 ){
-                    changeFrag( new RelationFragment() );
+                    changeFrag( new PictureFragment() );
                 }
             }
         });
@@ -110,4 +113,11 @@ public class JoinMainActivity extends AppCompatActivity {
     void changeFrag(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
+
+    public void id_check(){
+        AskTask task = new AskTask("id_check");
+        task.addParam( "","");
+    }
+
+
 }
