@@ -10,14 +10,14 @@ import androidx.fragment.app.Fragment;
 import com.example.test.R;
 
 
-public class SnsFragment extends Fragment {
+public class Home_ShareFragment extends Fragment {
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.test5, container, false);
+       ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.test3, container, false);
         return rootView;
     }
 }

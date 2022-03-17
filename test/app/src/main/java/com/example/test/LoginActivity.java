@@ -22,8 +22,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
     ImageView btn_kakao, btn_naver;
-
-    ////
     Button btn_invite;
 
     @Override
@@ -40,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         btn_kakao = findViewById(R.id.btn_kakao);
         btn_naver = findViewById(R.id.btn_naver);
 
-
         ////초대 버튼 임시 생성
         /*btn_invite = findViewById(R.id.btn_invite);
         btn_invite.setOnClickListener(new View.OnClickListener() {
@@ -50,13 +47,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });*/
 
-
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (edt_id.getText().toString().equals("a") && edt_pw.getText().toString().equals("a")) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -65,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, JoinMainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_forget.setOnClickListener(new View.OnClickListener() {

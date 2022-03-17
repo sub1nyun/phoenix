@@ -21,14 +21,13 @@ import com.example.test.MainActivity;
 import com.example.test.R;
 
 public class MyFragment extends Fragment {
-    Button my_grow, btn_co_parent, delete_baby;
+    Button btn_co_parent, delete_baby;
     Spinner my_spinner;
     ImageView my_setting, my_detail, my_main_photo, my_diary_title_edit;
     TextView my_birth_tv, my_name_tv, my_diary_title;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_my, container, false);
-        my_grow = rootView.findViewById(R.id.my_grow);
         my_setting = rootView.findViewById(R.id.my_setting);
         my_detail = rootView.findViewById(R.id.my_detail);
         my_spinner = rootView.findViewById(R.id.my_spinner);

@@ -1,6 +1,8 @@
 package com.example.test.sns;
 
-public class SnsDTO {
+import java.io.Serializable;
+
+public class SnsDTO implements Serializable {
 
     private String snsImg;
     private String snscomment;
