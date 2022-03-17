@@ -1,14 +1,13 @@
 package com.example.test;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.test.home.HomeActivity;
-import com.example.test.join.JoinMainActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -28,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
                 finish();
-            }, 100);
+            }, 3000);
         });
     }
 
