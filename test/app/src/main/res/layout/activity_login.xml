@@ -6,12 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".LoginActivity"
-
     android:padding="30dp">
     <Button
-
-    android:background="#44526C"
-
+        android:background="#44526C"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="초대하기"

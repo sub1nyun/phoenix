@@ -22,7 +22,7 @@ import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
 import com.kakao.sdk.user.UserApiClient;
 import com.nhn.android.naverlogin.OAuthLogin;
-import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
+import com.nhn.android.naverlogin.OAuthLoginHandler;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
@@ -36,13 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-    private static String OAUTH_CLIENT_ID;
-    private static String OAUTH_CLIENT_SECRET;
-    private static String OAUTH_CLIENT_NAME;
-    private  static OAuthLogin mOAuthLoginInstance;
-    private OAuthLoginButton mOAuthLoginButton;
     public static OAuthLogin mOAuthLoginModule;
-
     Context mContext;
 
 
@@ -53,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
         KakaoSdk.init(this,"884cf31c300f60971b6a3d015d8c005e");
 
-
+        mContext = getApplicationContext();
 
 
         btn_login = findViewById(R.id.btn_login);
@@ -64,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         chk_auto = findViewById(R.id.chk_auto);
         btn_kakao = findViewById(R.id.btn_kakao);
        btn_naver = findViewById(R.id.btn_naver);
+
 
         ////초대 버튼 임시 생성
         btn_invite = findViewById(R.id.btn_invite);
@@ -125,6 +120,33 @@ public class LoginActivity extends AppCompatActivity {
         btn_naver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mOAuthLoginModule = OAuthLogin.getInstance();
+                mOAuthLoginModule.init(mContext,
+                        getString(R.string.client_id),
+                        getString(R.string.client_secret),
+                        getString(R.string.client_name));
+
+                OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
+                    @Override
+                    public void run(boolean success) {
+                        if(success) {
+                            String accessToken = mOAuthLoginModule.getAccessToken(mContext);
+                            String refreshToken = mOAuthLoginModule.getRefreshToken(mContext);
+                            long expiresAt = mOAuthLoginModule.getExpiresAt(mContext);
+                            String tokenType = mOAuthLoginModule.getTokenType(mContext);
+                            Log.i("LoginData","accessToken : "+ accessToken);
+                            Log.i("LoginData","refreshToken : "+ refreshToken);
+                            Log.i("LoginData","expiresAt : "+ expiresAt);
+                            Log.i("LoginData","tokenType : "+ tokenType);
+
+                        } else {
+                            String errorCode = mOAuthLoginModule.getLastErrorCode(mContext).getCode();
+                            String errorDesc = mOAuthLoginModule.getLastErrorDesc(mContext);
+                            Toast.makeText(mContext, "errorCode:"+errorCode+", errorDesc:"+errorDesc, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+                mOAuthLoginModule.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);
             }
         });
     }
