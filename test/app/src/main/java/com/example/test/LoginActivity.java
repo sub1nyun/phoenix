@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
     ImageView btn_kakao, btn_naver;
-    Button btn_invite;
+    Button btn_invite, btn_logout;
 
 
 
@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         chk_auto = findViewById(R.id.chk_auto);
         btn_kakao = findViewById(R.id.btn_kakao);
        btn_naver = findViewById(R.id.btn_naver);
+        btn_logout = findViewById(R.id.btn_logout);
 
 
         ////초대 버튼 임시 생성
@@ -117,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
         btn_naver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +150,11 @@ public class LoginActivity extends AppCompatActivity {
                 };
                 mOAuthLoginModule.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);
             }
+        });
+
+        btn_logout.setOnClickListener(view -> {
+            mOAuthLoginModule.logout(mContext);
+            Toast.makeText(LoginActivity.this, "로그아웃 테스트", Toast.LENGTH_SHORT).show();
         });
     }
 
