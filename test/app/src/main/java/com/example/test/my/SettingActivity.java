@@ -2,10 +2,15 @@ package com.example.test.my;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -35,6 +40,40 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        set_bell_volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { //조작 중
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { //처음 터치 시
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { //터치 끝
+
+            }
+        });
+
+        set_vibration_volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { //조작 중
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { //처음 터치
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { //터치 끝
+
             }
         });
 

@@ -1,8 +1,6 @@
 package com.example.test;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,22 +10,45 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.test.join.JoinMainActivity;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.kakao.sdk.auth.model.OAuthToken;
+import com.kakao.sdk.common.KakaoSdk;
+import com.kakao.sdk.user.UserApiClient;
+import com.nhn.android.naverlogin.OAuthLogin;
+import com.nhn.android.naverlogin.OAuthLoginHandler;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
 
 public class LoginActivity extends AppCompatActivity {
     Button btn_login, btn_join, btn_forget;
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
     ImageView btn_kakao, btn_naver;
-    Button btn_invite;
+    Button btn_invite, btn_logout;
+
+
+
+    public static OAuthLogin mOAuthLoginModule;
+    Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        KakaoSdk.init(this,"884cf31c300f60971b6a3d015d8c005e");
+
+        mContext = getApplicationContext();
+
 
         btn_login = findViewById(R.id.btn_login);
         btn_join = findViewById(R.id.btn_join);
@@ -36,7 +57,9 @@ public class LoginActivity extends AppCompatActivity {
         edt_pw = findViewById(R.id.edt_pw);
         chk_auto = findViewById(R.id.chk_auto);
         btn_kakao = findViewById(R.id.btn_kakao);
-        btn_naver = findViewById(R.id.btn_naver);
+       btn_naver = findViewById(R.id.btn_naver);
+        btn_logout = findViewById(R.id.btn_logout);
+
 
         ////초대 버튼 임시 생성
         btn_invite = findViewById(R.id.btn_invite);
@@ -46,6 +69,20 @@ public class LoginActivity extends AppCompatActivity {
                 createDynamicLink();
             }
         });
+
+        Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
+            @Override
+            public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+
+                if(throwable != null) {
+                    Toast.makeText(LoginActivity.this, "오류"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }if(oAuthToken != null){
+                    Toast.makeText(LoginActivity.this, "받아옴", Toast.LENGTH_SHORT).show();
+                }
+                return null;
+            }
+        };
+
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,14 +111,53 @@ public class LoginActivity extends AppCompatActivity {
         btn_kakao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){
+                    UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callBack);
+                }else {
+                    UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callBack);
+                }
             }
         });
+
         btn_naver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mOAuthLoginModule = OAuthLogin.getInstance();
+                mOAuthLoginModule.init(mContext,
+                        getString(R.string.client_id),
+                        getString(R.string.client_secret),
+                        getString(R.string.client_name));
+
+                OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
+                    @Override
+                    public void run(boolean success) {
+                        if(success) {
+                            String accessToken = mOAuthLoginModule.getAccessToken(mContext);
+                            String refreshToken = mOAuthLoginModule.getRefreshToken(mContext);
+                            long expiresAt = mOAuthLoginModule.getExpiresAt(mContext);
+                            String tokenType = mOAuthLoginModule.getTokenType(mContext);
+                            Log.i("LoginData","accessToken : "+ accessToken);
+                            Log.i("LoginData","refreshToken : "+ refreshToken);
+                            Log.i("LoginData","expiresAt : "+ expiresAt);
+                            Log.i("LoginData","tokenType : "+ tokenType);
+
+                        } else {
+                            String errorCode = mOAuthLoginModule.getLastErrorCode(mContext).getCode();
+                            String errorDesc = mOAuthLoginModule.getLastErrorDesc(mContext);
+                            Toast.makeText(mContext, "errorCode:"+errorCode+", errorDesc:"+errorDesc, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+                mOAuthLoginModule.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);
             }
         });
+
+        btn_logout.setOnClickListener(view -> {
+            mOAuthLoginModule.logout(mContext);
+            Toast.makeText(LoginActivity.this, "로그아웃 테스트", Toast.LENGTH_SHORT).show();
+        });
     }
+
     public void changeFrag(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
@@ -101,6 +177,25 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("asd: ", "long uri : " + dynamicLinkUri);
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    }//Class
+
+
+
+
+
+
 
     /////
     /*private fun sendInviteLink(inviteLink: Uri) {
@@ -123,4 +218,4 @@ public class LoginActivity extends AppCompatActivity {
         }
     }*/
 
-}
+

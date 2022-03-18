@@ -21,8 +21,12 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
     HttpClient httpClient;
     HttpPost httpPost;
     MultipartEntityBuilder builder;
+<<<<<<< HEAD
     String HTTPIP;
     final String HTTPIP_JGH = "http://192.168.0.50";
+=======
+    final String HTTPIP = "http://192.168.0.26";
+>>>>>>> a9a84415fb67261b276ce2d0bc883eeda5be73b7
     final String SVRPATH = "/bss/";
     String mapping;
     private String postUrl ;
@@ -47,7 +51,6 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
     public void addFileParam(String key , String value){
         fileParams.add(new ParamDTO(key , value));
     }
-
 
     @Override
     protected InputStream doInBackground(String... strings) {

@@ -70,7 +70,6 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     File imgFile = null;
     String imgFilePath = null;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_edit, container, false);

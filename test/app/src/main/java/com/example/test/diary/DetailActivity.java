@@ -3,10 +3,12 @@ package com.example.test.diary;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -54,6 +56,9 @@ public class DetailActivity extends AppCompatActivity {
         linear_amount = findViewById(R.id.linear_amount);
         linear_temp = findViewById(R.id.linear_temp);
         linear_many = findViewById(R.id.linear_many);
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(edt_memo.getWindowToken(), 0);
 
 
         //플래그먼트에서 dto 받기

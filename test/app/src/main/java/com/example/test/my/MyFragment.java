@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -19,12 +20,22 @@ import android.widget.TextView;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-public class MyFragment extends Fragment {
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+
+public class MyFragment extends Fragment implements AdapterView.OnItemSelectedListener{
     Button btn_co_parent, delete_baby;
     Spinner my_spinner;
     ImageView my_setting, my_detail, my_main_photo, my_diary_title_edit;
     TextView my_birth_tv, my_name_tv, my_diary_title;
+    Gson gson = new Gson();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_my, container, false);
@@ -38,6 +49,10 @@ public class MyFragment extends Fragment {
         delete_baby = rootView.findViewById(R.id.delete_baby);
         my_diary_title = rootView.findViewById(R.id.my_diary_title);
         my_diary_title_edit = rootView.findViewById(R.id.my_diary_title_edit);
+
+        AskTask task = new AskTask("list.bif");
+        InputStream in = CommonMethod.excuteGet(task);
+        List<BabyInfoVO> list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
 
         my_diary_title_edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +72,10 @@ public class MyFragment extends Fragment {
                 });
             }
         });
+
+        my_spinner.setOnItemSelectedListener(this);
+        BabySelectAdapter babySelectAdapter = new BabySelectAdapter(list, inflater, getContext());
+        my_spinner.setAdapter(babySelectAdapter);
 
         my_setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,5 +120,15 @@ public class MyFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

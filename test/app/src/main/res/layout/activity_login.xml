@@ -6,17 +6,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".LoginActivity"
-
     android:padding="30dp">
-    <Button
-
-    android:background="#44526C"
-
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="초대하기"
-        android:backgroundTint="#EECDCD"
-        android:id="@+id/btn_invite"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:background="#44526C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="초대하기"
+            android:backgroundTint="#EECDCD"
+            android:id="@+id/btn_invite"/>
+
+        <Button
+            android:background="#44526C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="네이버 로그아웃"
+            android:backgroundTint="#4CAF50"
+            android:id="@+id/btn_logout"/>
+    </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

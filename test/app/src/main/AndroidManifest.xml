@@ -1,35 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.test">
-
-    <!-- 구글맵 사용 위해 넣음 ysm 22-03-10 -->
-
-
-    <!-- 구글맵 사용 위해 넣음 ysm 22-03-10 -->
-
-
     <!-- 카카오 지도 테스트용 넣음 ysh 22-03-08 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 구글맵 사용 위해 넣음 ysm 22-03-10 -->
-
-
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 카메라, 갤러리 사용을 위해 넣음 ysb 22-03-03 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
 
     <queries>
-
         <!-- WebView -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -116,25 +104,12 @@
             android:exported="false" />
         <activity
             android:name=".MapActivity"
-            android:exported="false" /> <!-- 구글 맵 API 메타 데이터 추가 ysm 2022.03.10 -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
-
-
-        <activity
-            android:name=".diary.GraphActivity"
-            android:exported="false" />
-        <activity
-            android:name=".join.JoinMainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".diary.DetailActivity"
             android:exported="false" />
 
         <activity
             android:name=".diary.DetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
 
 
         <activity
@@ -151,19 +126,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- 구글 맵 API 메타 데이터 추가 -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-
-            android:value="AIzaSyDcrSE1KK37_hUCnpqBFXwhStnWp9O9pHE" />
-
-
+        </activity>
         <!-- 카카오 맵 app key 추가 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="9bb5096013cc3ff738a2ca42f3fd61d1" />
-
-
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -182,5 +149,4 @@ provider authorities:도메인.
                 android:resource="@xml/filepath" />
         </provider>
     </application>
-
 </manifest>

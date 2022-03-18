@@ -1,15 +1,23 @@
 package com.example.test;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -24,6 +32,8 @@ import com.example.test.sns.SnsFragment;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import net.daum.mf.map.api.MapView;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -32,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout container;
     TabLayout tab_main;
     TabItem tab_diary, tab_map, tab_iot, tab_sns, tab_my;
+
+    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
+    private static final int PERMISSIONS_REQUEST_CODE = 100;
+    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +71,11 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new DiaryFragment();
                     changeFrag(fragment);
                 } else if(tab.getPosition()==1){
-                    Intent intent = new Intent(MainActivity.this, MapActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if(!checkLocationServicesStatus()){
+                        showDialogForLocationServiceSetting();
+                    } else{
+                        checkRunTimePermission();
+                    }
                 } else if(tab.getPosition()==2){
                     fragment = new IotFragment();
                     changeFrag(fragment);
@@ -96,6 +113,16 @@ public class MainActivity extends AppCompatActivity {
             Log.d("asd", "onActivityResult: "+dto.getStart_time());
         }else if(requestCode == 1001){//<- ex) 카메라 기능을 사용하고나서의 결과를 처리.
 
+        }
+        switch (requestCode){
+            case GPS_ENABLE_REQUEST_CODE:
+                if(checkLocationServicesStatus()){
+                    if(checkLocationServicesStatus()){
+                        checkRunTimePermission();
+                        return;
+                    }
+                }
+                break;
         }
     }
     private void getHashKey(){
@@ -144,5 +171,73 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == PERMISSIONS_REQUEST_CODE && grantResults.length == REQUIRED_PERMISSIONS.length){
+            boolean check_result = true;
+
+            for(int result : grantResults){
+                if(result != PackageManager.PERMISSION_GRANTED){
+                    check_result = false;
+                    break;
+                }
+            }
+            if(check_result){
+                Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        } else{
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])){
+                Toast.makeText(this, "권한이 거부되어 현재 위치를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+            } else{
+                Toast.makeText(this, "퍼미션이 거부되었습니다. 설정에서 퍼미션을 다시 설정해주세요", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    void checkRunTimePermission(){
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if(hasFineLocationPermission == PackageManager.PERMISSION_GRANTED){
+            Intent intent = new Intent(MainActivity.this, MapActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, REQUIRED_PERMISSIONS[0])){
+                Toast.makeText(this, "맵을 보기 위해 위치 접근 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+                ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS, PERMISSIONS_REQUEST_CODE);
+            } else{
+                ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS, PERMISSIONS_REQUEST_CODE);
+            }
+        }
+    }
+
+    private void showDialogForLocationServiceSetting(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("위치 서비스 비활성화").setMessage("현재 위치 중심으로 검색하기 위해 위치 서비스가 필요합니다\n위처 설정을 수정하시겠습니까?").setCancelable(true).setPositiveButton("설정", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent callGPSSettingIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
+    }
+
+
+
+    public boolean checkLocationServicesStatus(){
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 }
