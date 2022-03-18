@@ -8,15 +8,15 @@
     tools:context=".LoginActivity"
 
     android:padding="30dp">
-    <!--<Button
+    <Button
 
-    android:background="#44526C"배경색
+    android:background="#44526C"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="초대하기"
         android:backgroundTint="#EECDCD"
-        android:id="@+id/btn_invite"/>-->
+        android:id="@+id/btn_invite"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
