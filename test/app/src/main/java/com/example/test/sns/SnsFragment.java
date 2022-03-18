@@ -1,31 +1,19 @@
 package com.example.test.sns;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
-
 import com.example.test.R;
-import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
@@ -36,7 +24,7 @@ public class SnsFragment extends Fragment {
 
 
     ViewPager2 snspager;
-    ArrayList<SnsDTO> snslist = new ArrayList<>();
+    ArrayList<SnsVO> snslist = new ArrayList<>();
     ImageView sns_plus, sns_more, testImg, sns_profile, sns_view;
     Intent intent;
     DotsIndicator dotsIndicator;
@@ -111,7 +99,7 @@ public class SnsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         for(int i = 0 ; i<img_list.size() ; i++){
-            snslist.add(new SnsDTO(img_list.get(i), "테스트1"));
+            snslist.add(new SnsVO(img_list.get(i), "테스트1"));
         }
         //쿼리 작성할 부분
         img_list = new ArrayList<>();

@@ -2,12 +2,12 @@ package com.example.test.sns;
 
 import java.io.Serializable;
 
-public class SnsDTO implements Serializable {
+public class SnsVO implements Serializable {
 
     private String snsImg;
     private String snscomment;
 
-    public SnsDTO(String snsImg, String snscomment) {
+    public SnsVO(String snsImg, String snscomment) {
         this.snsImg = snsImg;
         this.snscomment = snscomment;
     }
