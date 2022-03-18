@@ -3,29 +3,33 @@ package com.example.test;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.test.join.JoinMainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
 public class InviteActivity extends AppCompatActivity {
-    TextView tv;
+    Button btn_login, btn_join;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
 
-        tv = findViewById(R.id.tv);
 
-        handleDeepLink();
-    }
+        btn_login = findViewById(R.id.btn_login);
+        btn_join = findViewById(R.id.btn_join);
 
-    private void handleDeepLink() {
+        String family_id;
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
                 .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
@@ -34,18 +38,23 @@ public class InviteActivity extends AppCompatActivity {
                         Uri deepLink = null;
                         //app으로 실행 했을 경우 (deeplink 없는 경우)
                         if (pendingDynamicLinkData == null) {
-                            String family_id = deepLink.getQueryParameter("uid");
+                            //String family_id = deepLink.getQueryParameter("familyId");
+
                             Log.d("asd: ", "No have dynamic link");
-                            tv.setText(family_id);
+                            //tv.setText(family_id);
                             /*Intent intent = new Intent(InviteLinkActivity.this, SplashActivity.class);
                             startActivity(intent);
                             finish();*/
+
+
                         }
                         //deeplink로 app 넘어 왔을 경우
-                        if(deepLink != null && deepLink.getBooleanQueryParameter("uid",false)){
-                            String family_id = deepLink.getQueryParameter("uid");
+                        //pendingDynamicLinkData != null && deepLink.getBooleanQueryParameter("familyId",false)-- 조건
+                        else {
+                            deepLink = pendingDynamicLinkData.getLink();
+                            String family_id = deepLink.getQueryParameter("familyId");
                             Log.d("asd : ", "family_id: " + family_id);
-                            tv.setText(family_id);
+                            //tv.setText(family_id);
                             /*deepLink = pendingDynamicLinkData.getLink();
                             Log.d("asd: ", "deepLink: " + deepLink);
                             String segment = deepLink.getLastPathSegment();
@@ -57,6 +66,22 @@ public class InviteActivity extends AppCompatActivity {
                                     showCheckDialog(code);      //임의로 dialog로 key값 띄움
                                     break;
                             }*/
+                            btn_login.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(InviteActivity.this, LoginActivity.class);
+                                    intent.putExtra("family_id",family_id);
+                                    startActivity(intent);
+                                }
+                            });
+                            btn_join.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(InviteActivity.this, JoinMainActivity.class);
+                                    intent.putExtra("family_id",family_id);
+                                    startActivity(intent);
+                                }
+                            });
                         }
 
 
@@ -69,4 +94,5 @@ public class InviteActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }
