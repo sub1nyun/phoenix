@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginVertical="5dp">
+    <ImageView
+        android:id="@+id/baby_info_photo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="2"
+        android:src="@drawable/bss_logo"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/baby_info_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:layout_gravity="center"
+        android:text="아기이름"/>
+    <TextView
+        android:id="@+id/baby_info_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:text="육아일기제목"
+        android:layout_gravity="center"/>
+</LinearLayout>
