@@ -103,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
+    public void backFrag(Fragment fragment){
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
+    }
+
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String a ="";
@@ -232,8 +236,6 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
-
-
 
     public boolean checkLocationServicesStatus(){
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);

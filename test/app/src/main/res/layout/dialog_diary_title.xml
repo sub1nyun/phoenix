@@ -35,6 +35,13 @@
             android:layout_marginTop="30dp"
             android:textAlignment="center"
             android:text="원제목"/>
+        <TextView
+            android:id="@+id/check_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="40dp"
+            android:textSize="10dp"/>
         <Button
             android:id="@+id/diary_title_ok"
             android:layout_width="wrap_content"

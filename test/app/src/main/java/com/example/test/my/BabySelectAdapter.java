@@ -2,6 +2,7 @@ package com.example.test.my;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,18 @@ public class BabySelectAdapter extends BaseAdapter {
         TextView baby_info_name = convertView.findViewById(R.id.baby_info_name);
         TextView baby_info_title = convertView.findViewById(R.id.baby_info_title);
 
-        baby_info_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(position).getBaby_photo()));
+        if(list.get(position).getBaby_photo() == null){
+            baby_info_photo.setImageResource(R.drawable.bss_logo);
+        } else{
+            baby_info_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(position).getBaby_photo()));
+        }
+        if(list.get(position).getTitle().length() < 8){
+            baby_info_title.setText(list.get(position).getTitle());
+        } else{
+            baby_info_title.setText(list.get(position).getTitle().substring(0, 8));
+        }
         baby_info_name.setText(list.get(position).getBaby_name());
-        baby_info_title.setText(list.get(position).getTitle());
+
         return convertView;
     }
 }

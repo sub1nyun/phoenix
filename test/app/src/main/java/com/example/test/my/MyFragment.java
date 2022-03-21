@@ -2,11 +2,15 @@ package com.example.test.my;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,14 +31,18 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MyFragment extends Fragment implements AdapterView.OnItemSelectedListener{
+public class MyFragment extends Fragment{
     Button btn_co_parent, delete_baby;
     Spinner my_spinner;
     ImageView my_setting, my_detail, my_main_photo, my_diary_title_edit;
-    TextView my_birth_tv, my_name_tv, my_diary_title;
+    TextView my_birth_tv, my_name_tv, my_diary_title, my_gender_man, my_gender_woman;
     Gson gson = new Gson();
+    List<BabyInfoVO> list;
+    BabyInfoVO cntBaby;
+    SharedPreferences preferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,15 +57,18 @@ public class MyFragment extends Fragment implements AdapterView.OnItemSelectedLi
         delete_baby = rootView.findViewById(R.id.delete_baby);
         my_diary_title = rootView.findViewById(R.id.my_diary_title);
         my_diary_title_edit = rootView.findViewById(R.id.my_diary_title_edit);
+        my_gender_man = rootView.findViewById(R.id.my_gender_man);
+        my_gender_woman = rootView.findViewById(R.id.my_gender_woman);
 
         AskTask task = new AskTask("list.bif");
         InputStream in = CommonMethod.excuteGet(task);
-        List<BabyInfoVO> list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
+        list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
 
+        //육아일기 수정
         my_diary_title_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DiaryTitleDialog dialog = new DiaryTitleDialog(getContext());
+                DiaryTitleDialog dialog = new DiaryTitleDialog(getContext(), gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getTitle());
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -67,16 +78,62 @@ public class MyFragment extends Fragment implements AdapterView.OnItemSelectedLi
                 dialog.setDialogListener(new DiaryTitleDialog.DialogListener() {
                     @Override
                     public void onPositiveClick(String name) {
-                        my_diary_title.setText(name);
+                        AskTask task = new AskTask("chTitle.bif");
+                        task.addParam("title", name);
+                        task.addParam("baby_id", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getBaby_id());
+                        InputStream in = CommonMethod.excuteGet(task);
+                        ((MainActivity)getActivity()).changeFrag(new MyFragment());
                     }
                 });
             }
         });
 
-        my_spinner.setOnItemSelectedListener(this);
+        //아기 선택
         BabySelectAdapter babySelectAdapter = new BabySelectAdapter(list, inflater, getContext());
         my_spinner.setAdapter(babySelectAdapter);
+        my_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                saveCntBaby(position);
+                Log.d("asd", "onItemSelected: " + list.get(position).getBaby_gender());
+                my_diary_title.setText(list.get(position).getTitle());
+                if(list.get(position).getBaby_photo() == null){
+                    my_main_photo.setImageResource(R.drawable.bss_logo);
+                } else{
+                    my_main_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(position).getBaby_photo()));
+                }
+                if(list.get(position).getBaby_gender().equals("남아")){
+                    my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom_select));
+                    my_gender_man.setTextColor(Color.parseColor("#ffffff"));
+                    my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom));
+                    my_gender_woman.setTextColor(Color.parseColor("#000000"));
+                } else if(list.get(position).getBaby_gender().equals("여아")){
+                    my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom_select));
+                    my_gender_woman.setTextColor(Color.parseColor("#ffffff"));
+                    my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom));
+                    my_gender_man.setTextColor(Color.parseColor("#000000"));
+                } else{
+                    my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom));
+                    my_gender_woman.setTextColor(Color.parseColor("#000000"));
+                    my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom));
+                    my_gender_man.setTextColor(Color.parseColor("#000000"));
+                }
+                my_birth_tv.setText(list.get(position).getBaby_birth().toString());
+                my_name_tv.setText(list.get(position).getBaby_name());
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                saveCntBaby(0);
+                my_diary_title.setText(list.get(0).getTitle());
+                my_main_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(0).getBaby_photo()));
+
+                my_birth_tv.setText(list.get(0).getBaby_birth().toString());
+                my_name_tv.setText(list.get(0).getBaby_name());
+            }
+        });
+
+        //알림, 진동 설정
         my_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,20 +142,33 @@ public class MyFragment extends Fragment implements AdapterView.OnItemSelectedLi
             }
         });
 
+        //아기 정보 수정
         my_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeFrag(new EditFragment());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("cntBaby", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class));
+                Fragment fragment = new EditFragment();
+                fragment.setArguments(bundle);
+                ((MainActivity)getActivity()).backFrag(new EditFragment());
+                ((MainActivity)getActivity()).changeFrag(fragment);
             }
         });
 
+        //공동양육자 버튼 선택
         btn_co_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeFrag(new CoParentFragment());
+                AskTask task = new AskTask("coparent.bif");
+                task.addParam("baby_id", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getBaby_id());
+                InputStream in = CommonMethod.excuteGet(task);
+                List<CoParentVO> coparent = gson.fromJson(new InputStreamReader(in), new TypeToken<List<CoParentVO>>(){}.getType());
+                ((MainActivity)getActivity()).backFrag(new CoParentFragment(coparent));
+                ((MainActivity)getActivity()).changeFrag(new CoParentFragment(coparent));
             }
         });
 
+        //아이 정보 삭제
         delete_baby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,13 +192,16 @@ public class MyFragment extends Fragment implements AdapterView.OnItemSelectedLi
         return rootView;
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    //현재 애기 누구인지 저장
+    public void saveCntBaby(int positiion){
+        try{
+            preferences = getActivity().getPreferences(getActivity().MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("baby_id", list.get(positiion).getBaby_id());
+            editor.putString("cntBaby", gson.toJson(list.get(positiion)));
+            editor.commit();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

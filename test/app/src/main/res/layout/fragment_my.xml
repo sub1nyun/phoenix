@@ -27,7 +27,8 @@
                 android:id="@+id/my_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"/>
             <ImageView
                 android:id="@+id/my_setting"
                 android:layout_width="30dp"
@@ -87,7 +88,6 @@
                     android:text="남자"
                     android:textSize="17dp"
                     android:padding="10dp"
-                    android:backgroundTint="#E2E2E2"
                     android:background="@drawable/tv_custom"/>
                 <TextView
                     android:layout_marginLeft="20dp"
@@ -97,7 +97,6 @@
                     android:text="여자"
                     android:textSize="17dp"
                     android:padding="10dp"
-                    android:backgroundTint="#E2E2E2"
                     android:background="@drawable/tv_custom"/>
                 </LinearLayout>
             <ImageView

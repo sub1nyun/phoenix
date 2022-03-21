@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -42,11 +43,17 @@ import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 import com.example.test.OnBackPressedListenser;
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,7 +64,7 @@ import java.util.TimeZone;
 public class EditFragment extends Fragment implements OnBackPressedListenser {
     Button my_rels, btn_man, btn_woman;
     LinearLayout edit_birth, cur_kg_btn, cur_cm_btn;
-    TextView edit_ok, tv_birth;
+    TextView edit_ok, tv_birth, baby_kg_edit, baby_cm_edit;
     ImageView edit_cancel, edit_photo;
     EditText edit_name;
     Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("JST"));
@@ -69,12 +76,14 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     public final int GELLARY_CODE = 1005;
     File imgFile = null;
     String imgFilePath = null;
+    Gson gson = new Gson();
+    BabyInfoVO vo;
+    String rels = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_edit, container, false);
         checkDangerousPermissions();
-
 
         my_rels = rootView.findViewById(R.id.my_rels);
         edit_birth = rootView.findViewById(R.id.edit_birth);
@@ -87,7 +96,31 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         btn_man = rootView.findViewById(R.id.btn_man);
         btn_woman = rootView.findViewById(R.id.btn_woman);
         edit_photo = rootView.findViewById(R.id.edit_photo);
+        baby_kg_edit = rootView.findViewById(R.id.baby_kg_edit);
+        baby_cm_edit = rootView.findViewById(R.id.baby_cm_edit);
 
+        //초기 세팅
+        if(getArguments() != null){
+            vo = (BabyInfoVO) getArguments().getSerializable("cntBaby");
+            if(vo.getBaby_photo() == null){
+                edit_photo.setImageResource(R.drawable.bss_logo);
+            } else{
+                edit_photo.setImageBitmap(BitmapFactory.decodeFile(vo.getBaby_photo()));
+            }
+            edit_name.setText(vo.getBaby_name());
+            changeBtn(vo.getBaby_gender());
+            tv_birth.setText(vo.getBaby_birth().toString());
+            baby_kg_edit.setText(Double.toString(vo.getBaby_kg()) + " kg");
+            baby_cm_edit.setText(Double.toString(vo.getBaby_cm()) + " cm");
+
+            AskTask task = new AskTask("rels.bif");
+            task.addParam("baby", vo.getBaby_id());
+            InputStream in = CommonMethod.excuteGet(task);
+            rels = gson.fromJson(new InputStreamReader(in), new TypeToken<String>(){}.getType());
+            my_rels.setText(rels);
+        }
+
+        //뒤로가기
         edit_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +128,8 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ((MainActivity)getActivity()).changeFrag(new MyFragment());
+                                getActivity().getSupportFragmentManager().beginTransaction().remove(EditFragment.this).commit();
+                                getActivity().getSupportFragmentManager().popBackStack();
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override
@@ -108,37 +142,38 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             }
         });
 
-
+        //저장
         edit_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //dto 수정
+                vo.setBaby_name(edit_name.getText().toString().trim());
+                vo.setBaby_kg(Double.parseDouble(baby_kg_edit.getText().toString().split(" ")[0]));
+                vo.setBaby_cm(Double.parseDouble(baby_cm_edit.getText().toString().split(" ")[0]));
                 ((MainActivity)getActivity()).changeFrag(new MyFragment());
             }
         });
 
+        //관계
         my_rels.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                RelsDialog dialog = new RelsDialog(getContext());
+                RelsDialog dialog = new RelsDialog(getContext(), rels);
                 //현재 관계 넘기기
-
                 dialog.show();
                 dialog.setDialogListener(new RelsDialog.DialogListener() {
                     @Override
                     public void onPositiveClick(String name) {
+                        rels = name;
                         my_rels.setText(name);
                     }
                 });
             }
         });
 
-        callbackMethod = new DatePickerDialog.OnDateSetListener()
-        {
+        callbackMethod = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
-            {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 y = year;
                 m = monthOfYear + 1;
                 d = dayOfMonth;
@@ -152,17 +187,17 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             }
         };
 
-        callbackTime = new TimePickerDialog.OnTimeSetListener()
-        {
+        callbackTime = new TimePickerDialog.OnTimeSetListener() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute)
-            {
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 h = hourOfDay;
                 mi = minute;
-                tv_birth.setText(y + "년 " + m + "월 " + d + "일 " + h + "시 " + mi + "분");
+                vo.setBaby_birth(y + "-" + (m/10<1 ? "0" + m : m)  + "-" + (d/10<1 ? "0" + d : d) + " " + (h/10<1 ? "0" + h : h) + ":" + (mi/10<1 ? "0" + mi : mi));
+                tv_birth.setText(y + "-" + (m/10<1 ? "0" + m : m)  + "-" + (d/10<1 ? "0" + d : d) + " " + (h/10<1 ? "0" + h : h) + ":" + (mi/10<1 ? "0" + mi : mi));
             }
         };
 
+        //출생일
         edit_birth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,20 +206,33 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             }
         });
 
+        //뭄무게
         cur_kg_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeFrag(new BodyFragment());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("cntBaby", vo);
+                Fragment fragment = new BodyFragment();
+                fragment.setArguments(bundle);
+                ((MainActivity)getActivity()).backFrag(new BodyFragment());
+                ((MainActivity)getActivity()).changeFrag(fragment);
             }
         });
 
+        //키
         cur_cm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("cntBaby", vo);
+                Fragment fragment = new BodyFragment();
+                fragment.setArguments(bundle);
+                ((MainActivity)getActivity()).backFrag(new BodyFragment());
                 ((MainActivity)getActivity()).changeFrag(new BodyFragment());
             }
         });
 
+        //사진
         edit_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,23 +240,18 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             }
         });
 
+        //성별
         btn_man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
-                btn_man.setTextColor(getResources().getColorStateList(R.color.white));
-                btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D6D6D6")));
-                btn_woman.setTextColor(getResources().getColorStateList(R.color.black));
+                changeBtn("남아");
             }
         });
 
         btn_woman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
-                btn_woman.setTextColor(getResources().getColorStateList(R.color.white));
-                btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D6D6D6")));
-                btn_man.setTextColor(getResources().getColorStateList(R.color.black));
+                changeBtn("여아");
             }
         });
         return rootView;
@@ -358,5 +401,25 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                 });
         AlertDialog alertDialog = builder_cancel.create();
         alertDialog.show();
+    }
+
+    //버튼 색 변경
+    public void changeBtn(String gender){
+        if(gender.equals("남아")){
+            btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
+            btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));
+            btn_man.setTextColor(Color.parseColor("#ffffff"));
+            btn_woman.setTextColor(Color.parseColor("#000000"));
+        } else if(gender.equals("여아")){
+            btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
+            btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));
+            btn_woman.setTextColor(Color.parseColor("#ffffff"));
+            btn_man.setTextColor(Color.parseColor("#000000"));
+        } else {
+            btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));
+            btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));
+            btn_man.setTextColor(Color.parseColor("#000000"));
+            btn_woman.setTextColor(Color.parseColor("#000000"));
+        }
     }
 }

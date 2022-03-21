@@ -18,14 +18,13 @@ import java.util.ArrayList;
 
 public class RelsDialog extends Dialog implements View.OnClickListener {
     private DialogListener dialogListener;
-    //Button rels_mom, rels_dad, rels_sitter, rels_grmom, rels_grdad, rels_other;
     ImageView my_close;
     Button btn_rels;
     String rels = "";
-    //GradientDrawable gradientDrawable;
     ArrayList<Button> buttons = new ArrayList<>();
-    public RelsDialog(@NonNull Context context) {
+    public RelsDialog(@NonNull Context context, String rels) {
         super(context);
+        this.rels = rels;
     }
 
     interface DialogListener{
@@ -59,6 +58,20 @@ public class RelsDialog extends Dialog implements View.OnClickListener {
         buttons.get(4).setOnClickListener(this);
         buttons.get(5).setOnClickListener(this);
 
+        if(rels.equals("엄마")){
+            changeBtn(0);
+        } else if(rels.equals("아빠")){
+            changeBtn(1);
+        } else if(rels.equals("시터")){
+            changeBtn(2);
+        } else if(rels.equals("할머니")){
+            changeBtn(3);
+        } else if(rels.equals("할아버지")){
+            changeBtn(4);
+        } else{
+            changeBtn(5);
+        }
+
         //현재 받아온 값만 하이라이트 처리, 나머지는 디폴트로로
     }
     @Override
@@ -74,43 +87,38 @@ public class RelsDialog extends Dialog implements View.OnClickListener {
                 break;
             case R.id.rels_mom:
                 rels = "엄마";
-                chageBtn(0);
+                changeBtn(0);
                 break;
             case R.id.rels_dad:
                 rels = "아빠";
-                chageBtn(1);
+                changeBtn(1);
                 break;
             case R.id.rels_sitter:
                 rels = "시터";
-                chageBtn(2);
+                changeBtn(2);
                 break;
             case R.id.rels_grmom:
                 rels = "할머니";
-                chageBtn(3);
+                changeBtn(3);
                 break;
             case R.id.rels_grdad:
                 rels = "할아버지";
-                chageBtn(4);
+                changeBtn(4);
                 break;
             case R.id.rels_other:
                 rels = "기타";
-                chageBtn(5);
+                changeBtn(5);
                 break;
 
         }
     }
 
-    public void chageBtn(int index){
-
+    public void changeBtn(int index){
         for(int i=0; i<6; i++){
             if(i == index){
-                //GradientDrawable gradientDrawable = gradientDrawable = (GradientDrawable) buttons.get(i).getBackground();
-                //gradientDrawable.setColor(Color.parseColor("#ff9999"));
                 (buttons.get(i)).setBackground(getContext().getDrawable(R.drawable.circle_btn_select));
                 buttons.get(i).setTextColor(Color.parseColor("#ffffff"));
             } else{
-                //GradientDrawable gradientDrawable = gradientDrawable = (GradientDrawable) buttons.get(i).getBackground();
-                //gradientDrawable.setColor(Color.parseColor("#ffffff"));
                 (buttons.get(i)).setBackground(getContext().getDrawable(R.drawable.circle_btn));
                 buttons.get(i).setTextColor(Color.parseColor("#000000"));
             }

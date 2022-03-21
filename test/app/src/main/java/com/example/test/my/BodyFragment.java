@@ -21,6 +21,7 @@ public class BodyFragment extends Fragment {
     TextView tv_name, tv_gender, edit_ok;
     EditText edit_weight, edit_height;
     ImageView edit_cancel;
+    BabyInfoVO vo;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_body, container, false);
@@ -31,6 +32,20 @@ public class BodyFragment extends Fragment {
         edit_weight = rootView.findViewById(R.id.edit_weight);
         edit_height = rootView.findViewById(R.id.edit_height);
 
+        if(getArguments() != null){
+            vo = (BabyInfoVO) getArguments().getSerializable("cntBaby");
+            tv_name.setText(vo.getBaby_name());
+            if(vo.getBaby_gender().equals("남아")){
+                tv_gender.setText("남자");
+            } else if(vo.getBaby_gender().equals("여아")){
+                tv_gender.setText("여자");
+            } else{
+                tv_gender.setText("성별 모름");
+            }
+            edit_weight.setText(vo.getBaby_kg()+"");
+            edit_height.setText(vo.getBaby_cm()+"");
+        }
+
         edit_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,7 +53,8 @@ public class BodyFragment extends Fragment {
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ((MainActivity)getActivity()).changeFrag(new EditFragment());
+                                getActivity().getSupportFragmentManager().beginTransaction().remove(BodyFragment.this).commit();
+                                getActivity().getSupportFragmentManager().popBackStack();
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override
@@ -55,7 +71,13 @@ public class BodyFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //정보 수정
-                ((MainActivity)getActivity()).changeFrag(new EditFragment());
+                Bundle bundle = new Bundle();
+                bundle.putDouble("kg", Double.parseDouble(edit_weight.getText().toString() != "" ? edit_weight.getText().toString() : "0"));
+                bundle.putDouble("cm", Double.parseDouble(edit_height.getText().toString() != "" ? edit_height.getText().toString() : "0"));
+                Fragment fragment = new BodyFragment();
+                fragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
 
