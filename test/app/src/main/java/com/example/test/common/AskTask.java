@@ -21,6 +21,9 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
     HttpClient httpClient;
     HttpPost httpPost;
     MultipartEntityBuilder builder;
+
+    String HTTPIP;
+    final String HTTPIP_JGH = "http://192.168.0.50";
     final String HTTPIP = "http://192.168.0.26";
     final String SVRPATH = "/bss/";
     String mapping;
@@ -29,7 +32,13 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
     ArrayList<ParamDTO> params = new ArrayList<>();
     //String으로 경로를 받아와서 File로 바꿔서 파라메터로 사용 , addPart(File)
     ArrayList<ParamDTO> fileParams = new ArrayList<>();
+
     public AskTask(String mapping) {
+        this.mapping = mapping;
+    }
+
+    public AskTask(String HTTPIP, String mapping) {
+        this.HTTPIP = HTTPIP;
         this.mapping = mapping;
     }
 

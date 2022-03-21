@@ -1,4 +1,4 @@
-package com.example.test;
+package com.example.test.diary;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.test.R;
 import com.example.test.diary.DetailActivity;
 import com.example.test.diary.DiaryAdapter;
 import com.example.test.diary.GraphActivity;

@@ -23,6 +23,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.test.diary.DiaryFragment;
 import com.example.test.diary.detailDTO;
 import com.example.test.home.HomeActivity;
 import com.example.test.my.EditFragment;

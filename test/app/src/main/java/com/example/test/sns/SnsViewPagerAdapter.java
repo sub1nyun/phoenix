@@ -18,10 +18,10 @@ import java.util.ArrayList;
 public class SnsViewPagerAdapter extends RecyclerView.Adapter<SnsViewPagerAdapter.ViewHolder>{
 
     LayoutInflater inflater;
-    ArrayList<SnsDTO> snslist;
+    ArrayList<SnsVO> snslist;
     Context context;
 
-    public SnsViewPagerAdapter(LayoutInflater inflater, ArrayList<SnsDTO> snslist, Context context) {
+    public SnsViewPagerAdapter(LayoutInflater inflater, ArrayList<SnsVO> snslist, Context context) {
         this.inflater = inflater;
         this.snslist = snslist;
         this.context = context;
