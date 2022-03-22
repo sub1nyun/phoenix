@@ -23,14 +23,10 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
     MultipartEntityBuilder builder;
 
     String HTTPIP;
-<<<<<<< HEAD
-    //final String HTTPIP_JGH = "http://192.168.0.50";
-    //final String HTTPIP = "http://192.168.0.26";
-=======
     final String HTTPIP_JGH = "http://192.168.0.50";
     final String HTTPIP_YSM = "http://192.168.0.26";
->>>>>>> 0a0467332c76bfcce7e3a321290610553a847b5c
     final String SVRPATH = "/bss/";
+    
     String mapping;
     private String postUrl ;
     //String형태의 json구조를 가진 파라메터들을 추가할때사용 ,addTextBody
