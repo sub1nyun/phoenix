@@ -53,8 +53,21 @@ public class UserFragment extends Fragment {
         });
 
 
-                JoinMainActivity.vo.setId( edt_id.getText().toString() );
 
+        edt_id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                JoinMainActivity.vo.setId( edt_id.getText().toString() );
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         edt_pw.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

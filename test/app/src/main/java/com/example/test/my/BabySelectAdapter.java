@@ -2,7 +2,6 @@ package com.example.test.my;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
