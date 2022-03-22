@@ -13,17 +13,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CoParentFragment extends Fragment {
     RecyclerView rcv_co_parent;
     Button exit_family;
     ImageView family_back;
+    List<CoParentVO> list;
+
+    public CoParentFragment(List<CoParentVO> list) {
+        this.list = list;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_co_parent, container, false);
@@ -31,18 +37,19 @@ public class CoParentFragment extends Fragment {
         exit_family = rootView.findViewById(R.id.exit_family);
         family_back = rootView.findViewById(R.id.family_back);
 
-        ArrayList<CoParentDTO> list = new ArrayList<>(); //데이터 받아오는걸로 변경
-        list.add(new CoParentDTO("엄마다", "엄마")); //테스트용
+        //ArrayList<CoParentVO> list = new ArrayList<>(); //데이터 받아오는걸로 변경
+        /*list.add(new CoParentDTO("엄마다", "엄마")); //테스트용
         list.add(new CoParentDTO("아빠다", "아빠"));
         list.add(new CoParentDTO("시터다", "시터"));
         list.add(new CoParentDTO("다른사람이다", "기타"));
         list.add(new CoParentDTO("할머니다", "할머니"));
-        list.add(new CoParentDTO("할아버지다", "할아버지"));
+        list.add(new CoParentDTO("할아버지다", "할아버지"));*/
         CoParentAdapter adapter = new CoParentAdapter(list, inflater);
         rcv_co_parent.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rcv_co_parent.setLayoutManager(manager);
 
+        //공동양육 포기
         exit_family.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +73,8 @@ public class CoParentFragment extends Fragment {
         family_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeFrag(new MyFragment());
+                getActivity().getSupportFragmentManager().beginTransaction().remove(CoParentFragment.this).commit();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
 

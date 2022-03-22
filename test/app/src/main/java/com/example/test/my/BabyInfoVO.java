@@ -6,7 +6,7 @@ import java.sql.Date;
 public class BabyInfoVO implements Serializable {
 	String baby_id, title, baby_name, baby_photo, baby_gender;
 	double baby_kg, baby_cm;
-	Date baby_birth;
+	String baby_birth;
 
 	public String getBaby_id() {
 		return baby_id;
@@ -64,11 +64,11 @@ public class BabyInfoVO implements Serializable {
 		this.baby_cm = baby_cm;
 	}
 
-	public Date getBaby_birth() {
+	public String getBaby_birth() {
 		return baby_birth;
 	}
 
-	public void setBaby_birth(Date baby_birth) {
+	public void setBaby_birth(String baby_birth) {
 		this.baby_birth = baby_birth;
 	}
 }

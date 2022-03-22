@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
+    public void backFrag(Fragment fragment){
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
+    }
+
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1000 && resultCode == Activity.RESULT_OK){// 한 화면에서 액티비티 또는 인텐트로 여러 기능을 사용했을때
@@ -230,8 +234,6 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
-
-
 
     public boolean checkLocationServicesStatus(){
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
