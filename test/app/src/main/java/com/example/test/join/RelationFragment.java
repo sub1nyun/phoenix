@@ -27,6 +27,10 @@ public class RelationFragment extends Fragment {
     ArrayList<TextView> tv_list = new ArrayList<>();
 
 
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,12 +55,15 @@ public class RelationFragment extends Fragment {
         tv_list.add(rootView.findViewById(R.id.tv_others));
 
         chg_linear(0);
+        ((JoinMainActivity)getActivity()).btn_back.setVisibility(View.VISIBLE);//뒤로가기버튼 생성
+
 
         linear_list.get(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chg_linear(0);
                 btn = "엄마";
+
 
             }
         });
@@ -99,6 +106,8 @@ public class RelationFragment extends Fragment {
 
         return rootView;
     }
+
+
 
     public void chg_linear(int num){
         for(int i=0; i<6; i++){
