@@ -21,8 +21,10 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
     HttpClient httpClient;
     HttpPost httpPost;
     MultipartEntityBuilder builder;
-    final String HTTPIP = "http://192.168.0.26";
+
+    String HTTPIP;
     final String HTTPIP_JGH = "http://192.168.0.50";
+    final String HTTPIP = "http://192.168.0.26";
     final String SVRPATH = "/bss/";
     String mapping;
     private String postUrl ;
@@ -30,7 +32,13 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
     ArrayList<ParamDTO> params = new ArrayList<>();
     //String으로 경로를 받아와서 File로 바꿔서 파라메터로 사용 , addPart(File)
     ArrayList<ParamDTO> fileParams = new ArrayList<>();
+
     public AskTask(String mapping) {
+        this.mapping = mapping;
+    }
+
+    public AskTask(String HTTPIP, String mapping) {
+        this.HTTPIP = HTTPIP;
         this.mapping = mapping;
     }
 
@@ -42,10 +50,9 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
         fileParams.add(new ParamDTO(key , value));
     }
 
-
     @Override
     protected InputStream doInBackground(String... strings) {
-        postUrl = HTTPIP_JGH + SVRPATH + mapping ;//url에 넣고 enter key쳤을때 (요청,주소)
+        postUrl = HTTPIP + SVRPATH + mapping ;//url에 넣고 enter key쳤을때 (요청,주소)
         builder = MultipartEntityBuilder.create();//빌더 초기화식.(가져다가쓰면됨)
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);//인터넷 켜놓고 엔터치는 형식
 

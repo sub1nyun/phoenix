@@ -3,10 +3,12 @@ package com.example.test.diary;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -14,6 +16,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class DetailActivity extends AppCompatActivity {
     Button btn_cancel, btn_save, btn1, btn2, btn3, btn4;
@@ -46,6 +56,9 @@ public class DetailActivity extends AppCompatActivity {
         linear_amount = findViewById(R.id.linear_amount);
         linear_temp = findViewById(R.id.linear_temp);
         linear_many = findViewById(R.id.linear_many);
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(edt_memo.getWindowToken(), 0);
 
 
         //플래그먼트에서 dto 받기
@@ -153,6 +166,14 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dto.setMemo(edt_memo.getText()+"");
+
+                AskTask task = new AskTask("http://192.168.0.4","insert.di");
+                InputStream in = CommonMethod.excuteGet(task);
+                Gson gson = new Gson();
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.get("is");
+                //Boolean is = gson.fromJson(InputStreamReader(in), boolean);
+
                 Intent intent = new Intent();
                 intent.putExtra("dto", dto);
                 setResult(RESULT_OK, intent);

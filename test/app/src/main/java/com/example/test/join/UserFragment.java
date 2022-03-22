@@ -18,14 +18,24 @@ public class UserFragment extends Fragment {
     EditText edt_id ,edt_pw, edt_pwchk;
     ImageView join_kakao, join_naver;
 
+    String family_id;
 
+    public UserFragment() {
 
+    }
+
+    public UserFragment(String family_id) {
+        this.family_id = family_id;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootVIew = (ViewGroup)  inflater.inflate(R.layout.fragment_user, container, false);
         JoinMainActivity.go = 1;
+        if(family_id != null){
+            JoinMainActivity.go = 7;
+        }
 
         edt_id = rootVIew.findViewById(R.id.edt_id);
         edt_pw = rootVIew.findViewById(R.id.edt_pw);
