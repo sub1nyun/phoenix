@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.example.test.MainActivity;
 import com.example.test.R;
 
 public class BodyFragment extends Fragment {
@@ -65,6 +67,7 @@ public class BodyFragment extends Fragment {
                         });
                 AlertDialog alertDialog = builder_cancel.create();
                 alertDialog.show();
+                Toast.makeText(getContext(), "asdasd", Toast.LENGTH_SHORT).show();
             }
         });
 
