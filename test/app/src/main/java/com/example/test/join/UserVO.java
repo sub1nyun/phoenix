@@ -3,9 +3,16 @@ package com.example.test.join;
 import java.util.Date;
 
 public class UserVO {
-    private String title, relation, id, pw, pw_chk, name;
+    private String title, relation, id, pw, pw_chk, name, gender;
     private Date born;
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public String getName() {
         return name;

@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
-import com.example.test.common.AskTask;
 
 public class JoinMainActivity extends AppCompatActivity {
     Button btn_next;
@@ -23,6 +22,8 @@ public class JoinMainActivity extends AppCompatActivity {
     FrameLayout container;
     static int go = 0;
     static UserVO vo = new UserVO();
+    static int id_chk = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +41,10 @@ public class JoinMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if( go == 0 ){
-
                     changeFrag( new UserFragment() );
-
                 }else if( go == 1 ){
-                    changeFrag( new NewFamilyFragment() );//제목
-
+                    id_chk = 1;
+                    emptychk();
                 }else if( go == 2 ){
                     changeFrag( new RelationFragment() );//관계
                 }else if( go == 3 ){
@@ -114,9 +113,77 @@ public class JoinMainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
-    public void id_check(){
-        AskTask task = new AskTask("id_check");
-        task.addParam( "","");
+    public int id_check( int id_chk){
+        String aa = "";
+        /*AskTask task = new AskTask("id_check");
+        task.addParam("","");*/
+        return id_chk;
+    }
+
+    public void emptychk(){
+        String aa = "";
+        AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
+        if( vo.getId() == null ){
+            String aaa = "";
+            builder.setTitle("아이디를 입력해주세요").setMessage("");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }else if ( id_chk == 0 ){
+            String aaa = "";
+            builder.setTitle("아이디 중복확인을 해주세요").setMessage("");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }else if ( vo.getPw() == null ){
+            String aaa = "";
+            builder.setTitle("비밀번호를 입력해주세요").setMessage("");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }else if ( vo.getPw_chk() == null ){
+            String aaa = "";
+            builder.setTitle("비밀번호확인을 입력해주세요").setMessage("");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }else if( !vo.getPw_chk().equals( vo.getPw() )  ) {
+            String aaa = "";
+            builder.setTitle("비밀번호가 일치하지않습니다").setMessage("");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }else {
+            String aaa = "";
+            changeFrag( new NewFamilyFragment() );//제목
+
+        }
+
     }
 
 

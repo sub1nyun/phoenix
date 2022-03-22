@@ -2,24 +2,22 @@ package com.example.test.join;
 
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.test.R;
-
-import java.util.ArrayList;
 
 
 public class GenderFragment extends Fragment {
     LinearLayout linear_woman, linear_man, linear_random;
     TextView tv_woman, tv_man, tv_random;
-
+    String btn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +41,12 @@ public class GenderFragment extends Fragment {
                 tv_man.setTextColor(Color.parseColor("#ffffff"));
                 tv_woman.setTextColor(Color.parseColor("#707070"));
                 tv_random.setTextColor(Color.parseColor("#707070"));
+                btn = "남아";
+                Toast.makeText(getContext(), JoinMainActivity.vo.getGender(), Toast.LENGTH_SHORT).show();
+                if( JoinMainActivity.vo.getGender().equals("") ){
+                    JoinMainActivity.vo.setGender(btn);
+                }
+
             }
         });
         linear_woman.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +58,8 @@ public class GenderFragment extends Fragment {
                 tv_man.setTextColor(Color.parseColor("#707070"));
                 tv_woman.setTextColor(Color.parseColor("#ffffff"));
                 tv_random.setTextColor(Color.parseColor("#707070"));
+                btn = "여아";
+
             }
         });
         linear_random.setOnClickListener(new View.OnClickListener() {
@@ -65,11 +71,22 @@ public class GenderFragment extends Fragment {
                 tv_man.setTextColor(Color.parseColor("#707070"));
                 tv_woman.setTextColor(Color.parseColor("#707070"));
                 tv_random.setTextColor(Color.parseColor("#ffffff"));
+                btn = "아직모름";
+
+
             }
         });
 
 
 
         return rootView;
-    }
+    }//onCreateView()
+
+
+
+
+
+
+
+
 }
