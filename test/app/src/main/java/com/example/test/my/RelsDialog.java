@@ -3,8 +3,6 @@ package com.example.test.my;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
