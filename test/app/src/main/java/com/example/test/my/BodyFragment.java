@@ -22,6 +22,11 @@ public class BodyFragment extends Fragment {
     EditText edit_weight, edit_height;
     ImageView edit_cancel;
     BabyInfoVO vo;
+
+    public BodyFragment(BabyInfoVO vo) {
+        this.vo = vo;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_body, container, false);
@@ -32,20 +37,19 @@ public class BodyFragment extends Fragment {
         edit_weight = rootView.findViewById(R.id.edit_weight);
         edit_height = rootView.findViewById(R.id.edit_height);
 
-        if(getArguments() != null){
-            vo = (BabyInfoVO) getArguments().getSerializable("cntBaby");
-            tv_name.setText(vo.getBaby_name());
-            if(vo.getBaby_gender().equals("남아")){
-                tv_gender.setText("남자");
-            } else if(vo.getBaby_gender().equals("여아")){
-                tv_gender.setText("여자");
-            } else{
-                tv_gender.setText("성별 모름");
-            }
-            edit_weight.setText(vo.getBaby_kg()+"");
-            edit_height.setText(vo.getBaby_cm()+"");
+        //초기 세팅
+        tv_name.setText(vo.getBaby_name());
+        if(vo.getBaby_gender().equals("남아")){
+            tv_gender.setText("남자");
+        } else if(vo.getBaby_gender().equals("여아")){
+            tv_gender.setText("여자");
+        } else{
+            tv_gender.setText("성별 모름");
         }
+        edit_weight.setText(vo.getBaby_kg()+"");
+        edit_height.setText(vo.getBaby_cm()+"");
 
+        //뒤로가기
         edit_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,17 +71,16 @@ public class BodyFragment extends Fragment {
             }
         });
 
-        edit_ok.setOnClickListener(new View.OnClickListener() {
+        //저장
+       edit_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //정보 수정
                 Bundle bundle = new Bundle();
-                bundle.putDouble("kg", Double.parseDouble(edit_weight.getText().toString() != "" ? edit_weight.getText().toString() : "0"));
-                bundle.putDouble("cm", Double.parseDouble(edit_height.getText().toString() != "" ? edit_height.getText().toString() : "0"));
-                Fragment fragment = new BodyFragment();
+                bundle.putDouble("kg", Double.parseDouble(edit_weight.getText().toString() != "" ? edit_weight.getText().toString() : "0.0"));
+                bundle.putDouble("cm", Double.parseDouble(edit_height.getText().toString() != "" ? edit_height.getText().toString() : "0.0"));
+                Fragment fragment = new EditFragment(vo);
                 fragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                getActivity().getSupportFragmentManager().popBackStack();
+                ((MainActivity)getActivity()).changeFrag(fragment);
             }
         });
 

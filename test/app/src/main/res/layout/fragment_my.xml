@@ -150,8 +150,7 @@
                 android:backgroundTint="#44526C"
                 android:textColor="#fff"
                 android:background="@drawable/tv_custom"
-                android:layout_marginRight="10dp"
-                />
+                android:layout_marginRight="10dp" />
             <Button
                 android:id="@+id/delete_baby"
                 android:layout_width="0dp"
@@ -161,8 +160,7 @@
                 android:text="아이 정보 삭제"
                 android:textColor="#fff"
                 android:backgroundTint="#44526C"
-                android:background="@drawable/tv_custom"
-                />
+                android:background="@drawable/tv_custom" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

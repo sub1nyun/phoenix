@@ -21,11 +21,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
+import com.example.test.diary.DetailActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -41,7 +43,6 @@ public class MyFragment extends Fragment{
     TextView my_birth_tv, my_name_tv, my_diary_title, my_gender_man, my_gender_woman;
     Gson gson = new Gson();
     List<BabyInfoVO> list;
-    BabyInfoVO cntBaby;
     SharedPreferences preferences;
 
     @Override
@@ -60,7 +61,9 @@ public class MyFragment extends Fragment{
         my_gender_man = rootView.findViewById(R.id.my_gender_man);
         my_gender_woman = rootView.findViewById(R.id.my_gender_woman);
 
-        AskTask task = new AskTask("list.bif");
+        AskTask task = new AskTask("http://192.168.0.26", "list.bif");
+        //로그인 정보로 수정 필요
+        task.addParam("id", "a");
         InputStream in = CommonMethod.excuteGet(task);
         list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
 
@@ -78,7 +81,7 @@ public class MyFragment extends Fragment{
                 dialog.setDialogListener(new DiaryTitleDialog.DialogListener() {
                     @Override
                     public void onPositiveClick(String name) {
-                        AskTask task = new AskTask("chTitle.bif");
+                        AskTask task = new AskTask("http://192.168.0.26", "chTitle.bif");
                         task.addParam("title", name);
                         task.addParam("baby_id", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getBaby_id());
                         InputStream in = CommonMethod.excuteGet(task);
@@ -89,37 +92,42 @@ public class MyFragment extends Fragment{
         });
 
         //아기 선택
+        list.add(new BabyInfoVO());
         BabySelectAdapter babySelectAdapter = new BabySelectAdapter(list, inflater, getContext());
         my_spinner.setAdapter(babySelectAdapter);
         my_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                saveCntBaby(position);
-                Log.d("asd", "onItemSelected: " + list.get(position).getBaby_gender());
-                my_diary_title.setText(list.get(position).getTitle());
-                if(list.get(position).getBaby_photo() == null){
-                    my_main_photo.setImageResource(R.drawable.bss_logo);
-                } else{
-                    my_main_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(position).getBaby_photo()));
+                if(position == list.size()-1){
+                    Toast.makeText(getContext(), "아기추가로 이동", Toast.LENGTH_SHORT).show();
+                } else {
+                    saveCntBaby(position);
+                    Log.d("asd", "onItemSelected: " + list.get(position).getBaby_gender());
+                    my_diary_title.setText(list.get(position).getTitle());
+                    if(list.get(position).getBaby_photo() == null){
+                        my_main_photo.setImageResource(R.drawable.bss_logo);
+                    } else{
+                        my_main_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(position).getBaby_photo()));
+                    }
+                    if(list.get(position).getBaby_gender().equals("남아")){
+                        my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom_select));
+                        my_gender_man.setTextColor(Color.parseColor("#ffffff"));
+                        my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom));
+                        my_gender_woman.setTextColor(Color.parseColor("#000000"));
+                    } else if(list.get(position).getBaby_gender().equals("여아")){
+                        my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom_select));
+                        my_gender_woman.setTextColor(Color.parseColor("#ffffff"));
+                        my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom));
+                        my_gender_man.setTextColor(Color.parseColor("#000000"));
+                    } else{
+                        my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom));
+                        my_gender_woman.setTextColor(Color.parseColor("#000000"));
+                        my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom));
+                        my_gender_man.setTextColor(Color.parseColor("#000000"));
+                    }
+                    my_birth_tv.setText(list.get(position).getBaby_birth().toString());
+                    my_name_tv.setText(list.get(position).getBaby_name());
                 }
-                if(list.get(position).getBaby_gender().equals("남아")){
-                    my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom_select));
-                    my_gender_man.setTextColor(Color.parseColor("#ffffff"));
-                    my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom));
-                    my_gender_woman.setTextColor(Color.parseColor("#000000"));
-                } else if(list.get(position).getBaby_gender().equals("여아")){
-                    my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom_select));
-                    my_gender_woman.setTextColor(Color.parseColor("#ffffff"));
-                    my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom));
-                    my_gender_man.setTextColor(Color.parseColor("#000000"));
-                } else{
-                    my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom));
-                    my_gender_woman.setTextColor(Color.parseColor("#000000"));
-                    my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom));
-                    my_gender_man.setTextColor(Color.parseColor("#000000"));
-                }
-                my_birth_tv.setText(list.get(position).getBaby_birth().toString());
-                my_name_tv.setText(list.get(position).getBaby_name());
             }
 
             @Override
@@ -146,11 +154,8 @@ public class MyFragment extends Fragment{
         my_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("cntBaby", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class));
-                Fragment fragment = new EditFragment();
-                fragment.setArguments(bundle);
-                ((MainActivity)getActivity()).backFrag(new EditFragment());
+                Fragment fragment = new EditFragment(gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class));
+                ((MainActivity)getActivity()).backFrag(new EditFragment(gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class)));
                 ((MainActivity)getActivity()).changeFrag(fragment);
             }
         });
@@ -159,7 +164,7 @@ public class MyFragment extends Fragment{
         btn_co_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AskTask task = new AskTask("coparent.bif");
+                AskTask task = new AskTask("http://192.168.0.26", "coparent.bif");
                 task.addParam("baby_id", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getBaby_id());
                 InputStream in = CommonMethod.excuteGet(task);
                 List<CoParentVO> coparent = gson.fromJson(new InputStreamReader(in), new TypeToken<List<CoParentVO>>(){}.getType());

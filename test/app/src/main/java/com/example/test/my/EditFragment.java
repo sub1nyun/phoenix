@@ -80,6 +80,10 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     BabyInfoVO vo;
     String rels = "";
 
+    public EditFragment(BabyInfoVO vo) {
+        this.vo = vo;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_edit, container, false);
@@ -100,25 +104,28 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         baby_cm_edit = rootView.findViewById(R.id.baby_cm_edit);
 
         //초기 세팅
+        if(vo.getBaby_photo() == null){
+            edit_photo.setImageResource(R.drawable.bss_logo);
+        } else{
+            edit_photo.setImageBitmap(BitmapFactory.decodeFile(vo.getBaby_photo()));
+        }
+        edit_name.setText(vo.getBaby_name());
+        changeBtn(vo.getBaby_gender());
+        tv_birth.setText(vo.getBaby_birth().toString());
         if(getArguments() != null){
-            vo = (BabyInfoVO) getArguments().getSerializable("cntBaby");
-            if(vo.getBaby_photo() == null){
-                edit_photo.setImageResource(R.drawable.bss_logo);
-            } else{
-                edit_photo.setImageBitmap(BitmapFactory.decodeFile(vo.getBaby_photo()));
-            }
-            edit_name.setText(vo.getBaby_name());
-            changeBtn(vo.getBaby_gender());
-            tv_birth.setText(vo.getBaby_birth().toString());
+            baby_kg_edit.setText(Double.toString(getArguments().getDouble("kg")) + " kg");
+            baby_cm_edit.setText(Double.toString(getArguments().getDouble("cm")) + " cm");
+        } else {
             baby_kg_edit.setText(Double.toString(vo.getBaby_kg()) + " kg");
             baby_cm_edit.setText(Double.toString(vo.getBaby_cm()) + " cm");
-
-            AskTask task = new AskTask("rels.bif");
-            task.addParam("baby", vo.getBaby_id());
-            InputStream in = CommonMethod.excuteGet(task);
-            rels = gson.fromJson(new InputStreamReader(in), new TypeToken<String>(){}.getType());
-            my_rels.setText(rels);
         }
+
+        //아이와의 관계 불러오기
+        AskTask task = new AskTask("http://192.168.0.26", "rels.bif");
+        task.addParam("baby", vo.getBaby_id());
+        InputStream in = CommonMethod.excuteGet(task);
+        rels = gson.fromJson(new InputStreamReader(in), new TypeToken<String>(){}.getType());
+        my_rels.setText(rels);
 
         //뒤로가기
         edit_cancel.setOnClickListener(new View.OnClickListener() {
@@ -148,8 +155,11 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             public void onClick(View v) {
                 //dto 수정
                 vo.setBaby_name(edit_name.getText().toString().trim());
+                vo.setBaby_birth(tv_birth.getText().toString());
                 vo.setBaby_kg(Double.parseDouble(baby_kg_edit.getText().toString().split(" ")[0]));
                 vo.setBaby_cm(Double.parseDouble(baby_cm_edit.getText().toString().split(" ")[0]));
+                AskTask task_save = new AskTask("http://192.168.0.26", "updatebaby.bif");
+                InputStream in = CommonMethod.excuteGet(task_save);
                 ((MainActivity)getActivity()).changeFrag(new MyFragment());
             }
         });
@@ -210,11 +220,8 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         cur_kg_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("cntBaby", vo);
-                Fragment fragment = new BodyFragment();
-                fragment.setArguments(bundle);
-                ((MainActivity)getActivity()).backFrag(new BodyFragment());
+                Fragment fragment = new BodyFragment(vo);
+                ((MainActivity)getActivity()).backFrag(fragment);
                 ((MainActivity)getActivity()).changeFrag(fragment);
             }
         });
@@ -223,12 +230,9 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         cur_cm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("cntBaby", vo);
-                Fragment fragment = new BodyFragment();
-                fragment.setArguments(bundle);
-                ((MainActivity)getActivity()).backFrag(new BodyFragment());
-                ((MainActivity)getActivity()).changeFrag(new BodyFragment());
+                Fragment fragment = new BodyFragment(vo);
+                ((MainActivity)getActivity()).backFrag(fragment);
+                ((MainActivity)getActivity()).changeFrag(fragment);
             }
         });
 
@@ -244,6 +248,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         btn_man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vo.setBaby_gender("남아");
                 changeBtn("남아");
             }
         });
@@ -251,6 +256,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         btn_woman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vo.setBaby_gender("여아");
                 changeBtn("여아");
             }
         });
