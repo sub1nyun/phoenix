@@ -98,6 +98,7 @@
                     android:textSize="20dp"
                     />
                 <TextView
+                    android:id="@+id/tv_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="100ml"
@@ -118,6 +119,7 @@
                     android:textSize="20dp"
                     />
                 <TextView
+                    android:id="@+id/tv_temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="36.5"
@@ -215,6 +217,7 @@
                     android:padding="15dp"/>
             </LinearLayout>
             <Button
+                android:id="@+id/btn_del"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="삭제"

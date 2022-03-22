@@ -109,8 +109,8 @@
         <activity
             android:name=".diary.DetailActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-
+            />
+        <!--android:windowSoftInputMode="stateAlwaysHidden" 이거 뭐야-->
 
         <activity
             android:name=".LoginActivity"

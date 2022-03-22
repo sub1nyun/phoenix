@@ -23,8 +23,8 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
     MultipartEntityBuilder builder;
 
     String HTTPIP;
-    final String HTTPIP_JGH = "http://192.168.0.50";
-    final String HTTPIP = "http://192.168.0.26";
+    //final String HTTPIP_JGH = "http://192.168.0.50";
+    //final String HTTPIP = "http://192.168.0.26";
     final String SVRPATH = "/bss/";
     String mapping;
     private String postUrl ;

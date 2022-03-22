@@ -24,15 +24,13 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.test.diary.DiaryFragment;
-import com.example.test.diary.detailDTO;
+import com.example.test.diary.DiaryVO;
 import com.example.test.home.HomeActivity;
 import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
 import com.example.test.sns.SnsFragment;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-
-import net.daum.mf.map.api.MapView;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -106,12 +104,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String a ="";
         if(requestCode == 1000 && resultCode == Activity.RESULT_OK){// 한 화면에서 액티비티 또는 인텐트로 여러 기능을 사용했을때
-            detailDTO dto = (detailDTO) data.getSerializableExtra("dto");
-            changeFrag(new DiaryFragment(dto));
-            Log.d("asd", "onActivityResult: "+dto.getStart_time());
-        }else if(requestCode == 1001){//<- ex) 카메라 기능을 사용하고나서의 결과를 처리.
+            //DiaryVO dto = (DiaryVO) data.getSerializableExtra("dto");
+            changeFrag(new DiaryFragment());
+            //Log.d("asd", "onActivityResult: "+dto.getStart_time());
+        }else if(requestCode == 1001){
 
         }
         switch (requestCode){

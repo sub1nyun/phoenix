@@ -14,16 +14,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
 
-    ArrayList<detailDTO> list = new ArrayList<>();
+    List<DiaryVO> list;
     LayoutInflater inflater;
     Context context;
 
-    public DiaryAdapter(ArrayList<detailDTO> list, Context context) {
+    Gson gson = new Gson();
+
+    public DiaryAdapter(List<DiaryVO> list, Context context) {
         this.list = list;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
@@ -58,15 +67,43 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
             imv_state = itemView.findViewById(R.id.imv_state);
         }
         public void bind(@NonNull ViewHolder holder, int i){
-            holder.tv_state.setText(list.get(i).getState());
+            holder.tv_state.setText(list.get(i).getBaby_category());
             holder.tv_how.setText("0분");
-            holder.tv_start.setText(list.get(i).getStart_time());
-            holder.imv_state.setImageResource(list.get(i).getImg());
+            holder.tv_start.setText(list.get(i).getStart_time()+"");
+            if(list.get(i).getBaby_category().equals("모유")){
+                holder.imv_state.setImageResource(R.drawable.mou);
+            } else if(list.get(i).getBaby_category().equals("분유")){
+                holder.imv_state.setImageResource(R.drawable.bunu);
+            } else if(list.get(i).getBaby_category().equals("이유식")){
+                holder.imv_state.setImageResource(R.drawable.eat);
+            } else if(list.get(i).getBaby_category().equals("기저귀")){
+                holder.imv_state.setImageResource(R.drawable.toilet);
+            } else if(list.get(i).getBaby_category().equals("수면")){
+                holder.imv_state.setImageResource(R.drawable.sleep);
+            } else if(list.get(i).getBaby_category().equals("목욕")){
+                holder.imv_state.setImageResource(R.drawable.bath);
+            } else if(list.get(i).getBaby_category().equals("체온")){
+                holder.imv_state.setImageResource(R.drawable.temp);
+            } else if(list.get(i).getBaby_category().equals("물")){
+                holder.imv_state.setImageResource(R.drawable.water);
+            } else if(list.get(i).getBaby_category().equals("투약")){
+                holder.imv_state.setImageResource(R.drawable.pills);
+            } else if(list.get(i).getBaby_category().equals("간식")){
+                holder.imv_state.setImageResource(R.drawable.danger);
+            }
             holder.imv_detail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra("dto",new detailDTO("dbㅠ","00:00",R.drawable.danger));
+
+                    AskTask task = new AskTask("http://192.168.0.4","detail.di");
+                    //수정
+                    task.addParam("no",list.get(i).getDiary_id()+"");
+                    InputStream in = CommonMethod.excuteGet(task);
+                    DiaryVO dto = gson.fromJson(new InputStreamReader(in), new TypeToken<DiaryVO>(){}.getType());
+
+                    intent.putExtra("dto",dto);
+                    intent.putExtra("is_info",true);
                     ((Activity)context).startActivityForResult(intent, 1000);
                 }
             });
