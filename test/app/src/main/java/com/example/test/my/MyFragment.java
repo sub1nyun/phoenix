@@ -40,7 +40,7 @@ import java.net.URL;
 import java.util.List;
 
 public class MyFragment extends Fragment{
-    LinearLayout btn_co_parent, delete_baby;
+    Button btn_co_parent, delete_baby;
     Spinner my_spinner;
     ImageView my_setting, my_detail, my_main_photo, my_diary_title_edit;
     TextView my_birth_tv, my_name_tv, my_diary_title, my_gender_man, my_gender_woman;
