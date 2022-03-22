@@ -71,7 +71,7 @@ public class JoinMainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        Toast.makeText(JoinMainActivity.this, "sdf", Toast.LENGTH_SHORT).show();
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
