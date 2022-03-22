@@ -99,14 +99,26 @@
                 android:text="성별"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="신체 정보"
-            android:textColor="#673AB7"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="신체 정보"
+                android:textColor="#673AB7"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
+            <ImageView
+                android:id="@+id/view_graph"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/graph_black"
+                android:layout_gravity="right|bottom"/>
+        </FrameLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -173,7 +185,5 @@
                 android:textAlignment="center"
                 android:text="kg"/>
         </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>

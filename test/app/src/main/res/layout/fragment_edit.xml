@@ -55,7 +55,8 @@
             android:layout_weight="2"
             android:src="@drawable/bss_logo"
             android:background="@drawable/border_round"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:scaleType="fitXY"/>
 
         <LinearLayout
             android:layout_width="match_parent"

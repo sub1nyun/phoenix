@@ -19,7 +19,7 @@ import com.example.test.R;
 public class BodyFragment extends Fragment {
     TextView tv_name, tv_gender, edit_ok;
     EditText edit_weight, edit_height;
-    ImageView edit_cancel;
+    ImageView edit_cancel, view_graph;
     BabyInfoVO vo;
 
     public BodyFragment(BabyInfoVO vo) {
@@ -35,6 +35,7 @@ public class BodyFragment extends Fragment {
         tv_gender = rootView.findViewById(R.id.tv_gender);
         edit_weight = rootView.findViewById(R.id.edit_weight);
         edit_height = rootView.findViewById(R.id.edit_height);
+        view_graph = rootView.findViewById(R.id.view_graph);
 
         //초기 세팅
         tv_name.setText(vo.getBaby_name());
@@ -67,7 +68,6 @@ public class BodyFragment extends Fragment {
                         });
                 AlertDialog alertDialog = builder_cancel.create();
                 alertDialog.show();
-                Toast.makeText(getContext(), "asdasd", Toast.LENGTH_SHORT).show();
             }
         });
 

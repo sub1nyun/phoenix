@@ -2,7 +2,7 @@ package com.example.test.my;
 
 import java.io.Serializable;
 
-public class CoParentVO implements Serializable {
+public class FamilyInfoVO implements Serializable {
     private String title, id, family_rels;
 
     public String getTitle() {

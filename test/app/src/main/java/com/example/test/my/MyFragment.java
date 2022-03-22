@@ -19,25 +19,28 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
-import com.example.test.diary.DetailActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class MyFragment extends Fragment{
-    Button btn_co_parent, delete_baby;
+    LinearLayout btn_co_parent, delete_baby;
     Spinner my_spinner;
     ImageView my_setting, my_detail, my_main_photo, my_diary_title_edit;
     TextView my_birth_tv, my_name_tv, my_diary_title, my_gender_man, my_gender_woman;
@@ -107,7 +110,7 @@ public class MyFragment extends Fragment{
                     if(list.get(position).getBaby_photo() == null){
                         my_main_photo.setImageResource(R.drawable.bss_logo);
                     } else{
-                        my_main_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(position).getBaby_photo()));
+                        Glide.with(getContext()).load(list.get(position).getBaby_photo()).into(my_main_photo);
                     }
                     if(list.get(position).getBaby_gender().equals("남아")){
                         my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom_select));
@@ -134,8 +137,11 @@ public class MyFragment extends Fragment{
             public void onNothingSelected(AdapterView<?> parent) {
                 saveCntBaby(0);
                 my_diary_title.setText(list.get(0).getTitle());
-                my_main_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(0).getBaby_photo()));
-
+                if(list.get(0).getBaby_photo() == null){
+                    my_main_photo.setImageResource(R.drawable.bss_logo);
+                } else{
+                    Glide.with(getContext()).load(list.get(0).getBaby_photo()).into(my_main_photo);
+                }
                 my_birth_tv.setText(list.get(0).getBaby_birth().toString());
                 my_name_tv.setText(list.get(0).getBaby_name());
             }
@@ -167,7 +173,7 @@ public class MyFragment extends Fragment{
                 AskTask task = new AskTask("http://192.168.0.26", "coparent.bif");
                 task.addParam("baby_id", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getBaby_id());
                 InputStream in = CommonMethod.excuteGet(task);
-                List<CoParentVO> coparent = gson.fromJson(new InputStreamReader(in), new TypeToken<List<CoParentVO>>(){}.getType());
+                List<FamilyInfoVO> coparent = gson.fromJson(new InputStreamReader(in), new TypeToken<List<FamilyInfoVO>>(){}.getType());
                 ((MainActivity)getActivity()).backFrag(new CoParentFragment(coparent));
                 ((MainActivity)getActivity()).changeFrag(new CoParentFragment(coparent));
             }

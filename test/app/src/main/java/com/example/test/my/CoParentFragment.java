@@ -14,19 +14,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.test.MainActivity;
 import com.example.test.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CoParentFragment extends Fragment {
     RecyclerView rcv_co_parent;
     Button exit_family;
     ImageView family_back;
-    List<CoParentVO> list;
+    List<FamilyInfoVO> list;
 
-    public CoParentFragment(List<CoParentVO> list) {
+    public CoParentFragment(List<FamilyInfoVO> list) {
         this.list = list;
     }
 

@@ -15,14 +15,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <Button
-                android:id="@+id/my_grow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="성장곡선"
-                android:layout_gravity="center_vertical"
-                android:backgroundTint="#fff"
-                android:layout_marginLeft="20dp"/>
             <Spinner
                 android:id="@+id/my_spinner"
                 android:layout_width="wrap_content"
@@ -140,27 +132,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_co_parent"
-                android:layout_weight="1"
+            <TextView
                 android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:text="공동 양육자"
-                android:textSize="16dp"
-                android:backgroundTint="#44526C"
-                android:textColor="#fff"
-                android:background="@drawable/tv_custom"
-                android:layout_marginRight="10dp" />
-            <Button
-                android:id="@+id/delete_baby"
-                android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:text="아이 정보 삭제"
-                android:textColor="#fff"
-                android:backgroundTint="#44526C"
-                android:background="@drawable/tv_custom" />
+                android:layout_weight="8"
+                android:text="육아일기 제목"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_weight="2"
+                android:src="@drawable/my_next"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:text="성장 그래프"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_weight="2"
+                android:src="@drawable/my_next"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btn_co_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:text="공동 양육자"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_weight="2"
+                android:src="@drawable/my_next"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/delete_baby"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:text="아이 정보 삭제"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_weight="2"
+                android:src="@drawable/my_next"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
