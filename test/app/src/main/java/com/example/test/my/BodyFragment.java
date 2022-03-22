@@ -1,6 +1,7 @@
 package com.example.test.my;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
+import com.example.test.diary.GraphActivity;
 
 public class BodyFragment extends Fragment {
     TextView tv_name, tv_gender, edit_ok;
@@ -81,6 +83,15 @@ public class BodyFragment extends Fragment {
                 Fragment fragment = new EditFragment(vo);
                 fragment.setArguments(bundle);
                 ((MainActivity)getActivity()).changeFrag(fragment);
+            }
+        });
+
+       //그래프 보기
+        view_graph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), GraphActivity.class);
+                startActivity(intent);
             }
         });
 
