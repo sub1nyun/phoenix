@@ -22,13 +22,10 @@ import com.example.test.common.CommonMethod;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class DiaryFragment extends Fragment {
@@ -52,9 +49,9 @@ public class DiaryFragment extends Fragment {
 
     }
 
-    public DiaryFragment(DiaryVO dto) {
-        this.dto = dto;
-    }
+//    public DiaryFragment(DiaryVO dto) {
+//        this.dto = dto;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

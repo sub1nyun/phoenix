@@ -21,7 +21,10 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
@@ -68,7 +71,18 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
         }
         public void bind(@NonNull ViewHolder holder, int i){
             holder.tv_state.setText(list.get(i).getBaby_category());
-            holder.tv_how.setText("0분");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            long diffMin = 0;
+            try {
+                if(list.get(i).getEnd_time() != null){
+                    Date date1 = dateFormat.parse(list.get(i).getEnd_time());
+                    Date date2 = dateFormat.parse(list.get(i).getStart_time());
+                    diffMin = (date1.getTime() - date2.getTime()) / 60000;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            holder.tv_how.setText(diffMin+"분");
             holder.tv_start.setText(list.get(i).getStart_time()+"");
             if(list.get(i).getBaby_category().equals("모유")){
                 holder.imv_state.setImageResource(R.drawable.mou);

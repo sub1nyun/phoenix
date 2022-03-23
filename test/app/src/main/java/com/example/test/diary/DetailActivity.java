@@ -212,13 +212,22 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dto.setMemo(edt_memo.getText()+"");
 
-                AskTask task = new AskTask("http://192.168.0.4","insert.di");
-                String dtogson = gson.toJson(dto);
-                task.addParam("dto", dtogson);
-                InputStream in = CommonMethod.excuteGet(task);
-                Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                if(intent.getSerializableExtra("is_info") != null){
+                    AskTask task = new AskTask("http://192.168.0.4","update.di");
+                    String dtogson = gson.toJson(dto);
+                    task.addParam("dto", dtogson);
+                    InputStream in = CommonMethod.excuteGet(task);
+                    Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                }else{
+                    AskTask task = new AskTask("http://192.168.0.4","insert.di");
+                    String dtogson = gson.toJson(dto);
+                    task.addParam("dto", dtogson);
+                    InputStream in = CommonMethod.excuteGet(task);
+                    Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                }
 
-                Log.d("isSucc : ", isSucc+"");
+
+                //Log.d("isSucc : ", isSucc+"");
                 Intent intent = new Intent();
                 //intent.putExtra("dto", dto);
                 setResult(RESULT_OK, intent);
@@ -249,12 +258,12 @@ public class DetailActivity extends AppCompatActivity {
         String getTime = dateFormat.format(date);
         return  getTime;
     }
-    public java.sql.Date getnowDate(){
+    public String getnowDate(){
         //현재 시간
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String getTime = dateFormat.format(date);
-        java.sql.Date date1 = java.sql.Date.valueOf(getTime);
-        return  date1;
+        //java.sql.Date date1 = java.sql.Date.valueOf(getTime);
+        return  getTime;
     }
 }
