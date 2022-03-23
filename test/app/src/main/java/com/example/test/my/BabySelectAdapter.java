@@ -29,7 +29,7 @@ public class BabySelectAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return list.size()+1;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class BabySelectAdapter extends BaseAdapter {
         TextView baby_info_name = convertView.findViewById(R.id.baby_info_name);
         TextView baby_info_title = convertView.findViewById(R.id.baby_info_title);
 
-        if(position == list.size()-1){
+        if(position == list.size()){
             baby_info_photo.setImageResource(R.drawable.plus_baby);
             baby_info_name.setText("아이 추가");
             baby_info_title.setText("");

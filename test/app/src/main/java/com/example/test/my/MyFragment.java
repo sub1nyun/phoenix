@@ -29,6 +29,7 @@ import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,7 +48,6 @@ public class MyFragment extends Fragment{
     Gson gson = new Gson();
     List<BabyInfoVO> list;
     SharedPreferences preferences;
-    BabyInfoVO cntBaby;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,12 +66,12 @@ public class MyFragment extends Fragment{
         my_gender_woman = rootView.findViewById(R.id.my_gender_woman);
         baby_body = rootView.findViewById(R.id.baby_body);
 
-        AskTask task = new AskTask("http://192.168.0.26", "list.bif");
+        //AskTask task = new AskTask("http://192.168.0.26", "list.bif");
         //로그인 정보로 수정 필요
-        task.addParam("id", "a");
-        InputStream in = CommonMethod.excuteGet(task);
-        list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
-
+        //task.addParam("id", "a");
+        //InputStream in = CommonMethod.excuteGet(task);
+        //list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
+        list = CommonVal.baby_list;
 
 
         //육아일기 수정
@@ -99,16 +99,18 @@ public class MyFragment extends Fragment{
         });
 
         //아기 선택
-        list.add(new BabyInfoVO());
+        //list.add(new BabyInfoVO());
         BabySelectAdapter babySelectAdapter = new BabySelectAdapter(list, inflater, getContext());
         my_spinner.setAdapter(babySelectAdapter);
         my_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == list.size()-1){
+                if(position == list.size()){
                     Toast.makeText(getContext(), "아기추가로 이동", Toast.LENGTH_SHORT).show();
                 } else {
                     saveCntBaby(position);
+
+                    CommonVal.curbaby = list.get(position);
 
                     AskTask body_task = new AskTask("http://192.168.0.26", "cntbody.stor");
                     body_task.addParam("baby_id", list.get(position).getBaby_id());
@@ -146,6 +148,9 @@ public class MyFragment extends Fragment{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 saveCntBaby(0);
+
+                CommonVal.curbaby = list.get(0);
+
                 AskTask body_task = new AskTask("http://192.168.0.26", "cntbody.stor");
 
                 body_task.addParam("baby_id", list.get(0).getBaby_id());
@@ -206,8 +211,8 @@ public class MyFragment extends Fragment{
                             public void onClick(DialogInterface dialog, int which) {
                                 //어딘가로 이동
                                 AskTask task_delete = new AskTask("http://192.168.0.26", "babydel.bif");
-                                task.addParam("baby_id", preferences.getString("cntBaby", ""));
-                                InputStream in = CommonMethod.excuteGet(task);
+                                task_delete.addParam("baby_id", preferences.getString("cntBaby", ""));
+                                InputStream in = CommonMethod.excuteGet(task_delete);
                                 if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())){
                                     Toast.makeText(getContext(), "아기 정보가 성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                     if((list.size() - 1) == 0){

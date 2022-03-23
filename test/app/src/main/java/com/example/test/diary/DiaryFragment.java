@@ -17,10 +17,12 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -87,6 +89,8 @@ public class DiaryFragment extends Fragment {
             String[] strDate = pageDate.split("-");
             today.set(Integer.parseInt(strDate[0]), Integer.parseInt(strDate[1]) - 1, Integer.parseInt(strDate[2]));
         }
+
+        Toast.makeText(getContext(), CommonVal.curbaby.getBaby_name(), Toast.LENGTH_SHORT).show();
 
 
         //그래프

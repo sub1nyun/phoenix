@@ -1,7 +1,13 @@
 package com.example.test.common;
 
-public class CommonVal {
-    final String HTTPIP_YSB = "http://192.168.219.173"; //수빈
-    final public String HTTPIP_LSJ= "http://192.168.0.4"; //tmdwn
+import com.example.test.join.UserVO;
+import com.example.test.my.BabyInfoVO;
 
+import java.util.ArrayList;
+import java.util.List;
+
+public class CommonVal {
+    public static List<BabyInfoVO> baby_list = new ArrayList<>();
+    public static UserVO curuser = new UserVO();
+    public static BabyInfoVO curbaby = new BabyInfoVO();
 }
