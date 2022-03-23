@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION};
+    int position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 if(tab.getPosition()==0){
                     fragment = new DiaryFragment();
                     changeFrag(fragment);
+                    position = 0;
                 } else if(tab.getPosition()==1){
                     if(!checkLocationServicesStatus()){
                         showDialogForLocationServiceSetting();
@@ -78,12 +80,15 @@ public class MainActivity extends AppCompatActivity {
                 } else if(tab.getPosition()==2){
                     fragment = new IotFragment();
                     changeFrag(fragment);
+                    position = 2;
                 } else if(tab.getPosition()==3){
                     fragment = new SnsFragment();
                     changeFrag(fragment);
+                    position = 3;
                 } else if(tab.getPosition()==4){
                     fragment = new MyFragment();
                     changeFrag(fragment);
+                    position = 4;
                 }
             }
 
@@ -191,7 +196,8 @@ public class MainActivity extends AppCompatActivity {
             if(check_result){
                 Intent intent = new Intent(MainActivity.this, MapActivity.class);
                 startActivity(intent);
-                finish();
+                TabLayout.Tab tab = tab_main.getTabAt(position);
+                tab.select();
             }
         } else{
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])){
@@ -207,7 +213,8 @@ public class MainActivity extends AppCompatActivity {
         if(hasFineLocationPermission == PackageManager.PERMISSION_GRANTED){
             Intent intent = new Intent(MainActivity.this, MapActivity.class);
             startActivity(intent);
-            finish();
+            TabLayout.Tab tab = tab_main.getTabAt(position);
+            tab.select();
         }
         else{
             if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, REQUIRED_PERMISSIONS[0])){
