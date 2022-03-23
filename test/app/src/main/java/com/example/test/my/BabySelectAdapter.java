@@ -14,6 +14,8 @@ import com.example.test.R;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class BabySelectAdapter extends BaseAdapter {
     List<BabyInfoVO> list;
     LayoutInflater inflater;
@@ -43,7 +45,7 @@ public class BabySelectAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = inflater.inflate(R.layout.my_spinner_item, parent, false);
-        ImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
+        CircleImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
         TextView baby_info_name = convertView.findViewById(R.id.baby_info_name);
         TextView baby_info_title = convertView.findViewById(R.id.baby_info_title);
 

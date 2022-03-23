@@ -48,8 +48,6 @@ public class BodyFragment extends Fragment {
         } else{
             tv_gender.setText("성별 모름");
         }
-        edit_weight.setText(vo.getBaby_kg()+"");
-        edit_height.setText(vo.getBaby_cm()+"");
 
         //뒤로가기
         edit_cancel.setOnClickListener(new View.OnClickListener() {
