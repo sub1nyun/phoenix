@@ -73,10 +73,8 @@ public class UserFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(JoinMainActivity.id_chk == 0){
                     JoinMainActivity.vo.setId( edt_id.getText().toString() );
 
-                }
                 String aa = "";
             }
             @Override
@@ -115,8 +113,7 @@ public class UserFragment extends Fragment {
         tv_id_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id_check();         //중복확인
-                if( !id_check() ){
+                if( !id_check() ){      //중복확인
                     AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
                     builder.setTitle("아이디를 사용할 수 없습니다").setMessage("");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){

@@ -22,7 +22,7 @@ public class GenderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_gender, container, false);
-        JoinMainActivity.go = 6;
+
 
         linear_man = rootView.findViewById(R.id.linear_man);
         linear_woman = rootView.findViewById(R.id.linear_woman);

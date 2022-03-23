@@ -48,7 +48,7 @@ public class PictureFragment extends Fragment {
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_picture, container, false);
         checkDangerousPermissions();
         imv_photo = rootview.findViewById(R.id.imv_photo);
-        JoinMainActivity.go = 7;
+
         imv_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

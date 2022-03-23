@@ -32,20 +32,27 @@ public class JoinMainActivity extends AppCompatActivity {
     static String id_chkchk = vo.getId();
     Gson gson = new Gson();
     List<UserVO> list;
-    UserFragment UserFragment = new UserFragment();
-    NewFamilyFragment NewFamilyFragment = new NewFamilyFragment();
+    UserFragment userFragment = new UserFragment();
+    NewFamilyFragment newFamilyFragment = new NewFamilyFragment();
     RelationFragment relationFragment = new RelationFragment();
+    BirthFragment birthFragment = new BirthFragment();
+    BabyFragment babyFragment = new BabyFragment();
+    GenderFragment genderFragment = new GenderFragment();
+    PictureFragment pictureFragment = new PictureFragment();
 
+
+
+    String family_id ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_main);
-        changeFrag( UserFragment);
+        changeFrag( userFragment);
 
         //초대코드로 왔을 때
         Intent intent = getIntent();
-        String family_id = intent.getStringExtra("family_id");
+        family_id = intent.getStringExtra("family_id");
         if(family_id != null){
             changeFrag( new UserFragment(family_id) );
         }
@@ -58,78 +65,78 @@ public class JoinMainActivity extends AppCompatActivity {
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.d("testt", "onClick: " + fragment.edt_id.getText() + "");
-                if( go == 0 ){
-                    changeFrag( new UserFragment() );
-                }else if( go == 1 ){
-                    emptychk();
-                    //changeFrag( new NewFamilyFragment() );//제목
-                    if( !UserFragment.edt_id.getText().toString().equals( vo.getId() )){
-                        id_chk = 0;
-                    }
-                }else if( go == 2 ){
-
-                    changeFrag( new RelationFragment() );//관계
-                }else if( go == 3 ){
-                    changeFrag( new BirthFragment() );//출생일
-                }else if( go == 4 ){
-                    changeFrag( new BabyFragment() );//이름
-                }else if( go == 5 ){
-                    changeFrag( new GenderFragment() );//성별
-                }else if( go == 6 ){
-                    changeFrag( new PictureFragment() );//사진
-                }else if( go == 7 ){
-                    //changeFrag( new ChildBirthFragment() );
-                    Intent intent = new Intent(JoinMainActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+                gogo();
             }
         });
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( go == 1 ){          //로그인 화면가기
-                    altDialog();
-                }else if( go==2 ){      //
-                    UserFragment.edt_id.setText( vo.getId() );
-                    UserFragment.edt_pw.setText( vo.getPw() );
-                    UserFragment.edt_pwchk.setText( vo.getPw_chk() );
-                    getSupportFragmentManager().beginTransaction().remove(NewFamilyFragment).commit();
-                    getSupportFragmentManager().popBackStack();
-
-
-                }else if( go==3 ){
-                    //changeFrag( new NewFamilyFragment() );
-                    //----------------------------------------------------------------------------------------------------------------------------------------------------------------
-                    backFrag(relationFragment);
-                    changeFrag(relationFragment);
-                    NewFamilyFragment.edt_title.setText( vo.getTitle() );
-                    getSupportFragmentManager().beginTransaction().remove(relationFragment).commit();
-                    getSupportFragmentManager().popBackStack();
-                }else if( go==4 ){
-                    changeFrag( new RelationFragment() );
-                }else if( go==5 ){
-                    changeFrag( new BirthFragment() );
-                }/*else if( go==6 ){
-                    changeFrag( new BabyFragment() );
-                }*/else if( go==6 ){
-                    changeFrag( new GenderFragment() );
-                }else if( go==7 ){
-                    if(family_id != null){
-                        altDialog();
-                    }else{
-                        changeFrag( new PictureFragment() );
-                    }
-                }
+                back();
             }
         });
 
     }//onCreate()
 
+
+    public void gogo(){//앞으로
+        if( go==1 ){
+            emptychk();
+        }else if( go==2 ){
+            changeFrag( relationFragment );
+            go++;
+        }else if( go==3 ){
+            changeFrag( birthFragment );
+            go++;
+        }else if( go==4 ){
+            changeFrag( babyFragment );
+            go++;
+        }else if( go==5 ){
+            changeFrag( genderFragment );
+            go++;
+        }else if( go==6 ){
+            changeFrag( pictureFragment );
+            go++;
+        }else if( go==7 ){
+            Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+            startActivity(intent);
+        }
+    }
+
+    public void back(){//뒤로
+        if( go==1 ){
+            altDialog();
+        }else if( go==2 ){//
+            changeFrag( userFragment );
+            go--;
+        }else if( go==3 ){
+            changeFrag( newFamilyFragment );
+            go--;
+        }else if( go==4 ){
+            changeFrag( relationFragment );
+            go--;
+        }else if( go==5 ){
+            changeFrag( birthFragment );
+            go--;
+        }else if( go==6 ){
+            changeFrag( babyFragment );
+            go--;
+        }else if( go==7 ){
+            changeFrag( genderFragment );
+            go--;
+        }
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        back();
+    }
     public void backFrag(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
     }
+
+
 
     public void altDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
@@ -156,7 +163,7 @@ public class JoinMainActivity extends AppCompatActivity {
     public void emptychk(){
         String aa = "";
         AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
-        if( UserFragment.edt_id.getText().toString().equals( "" ) ){
+        if( userFragment.edt_id.getText().toString().equals( "" ) ){
             String aaa = "";
             builder.setTitle("아이디를 입력해주세요").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
@@ -178,17 +185,7 @@ public class JoinMainActivity extends AppCompatActivity {
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-        }/*else if( UserFragment.edt_id.getText().toString().equals( id_chkchk )  ){
-            builder.setTitle("아이디 중복확인을 해주세요").setMessage("");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-
-                }
-            });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-        }*/ else if ( UserFragment.edt_pw.getText().toString().equals("") ){
+        }else if ( userFragment.edt_pw.getText().toString().equals("") ){
             String aaa = "";
             builder.setTitle("비밀번호를 입력해주세요").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
@@ -199,7 +196,7 @@ public class JoinMainActivity extends AppCompatActivity {
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-        }else if ( UserFragment.edt_pwchk.getText().toString().equals("") ){
+        }else if ( userFragment.edt_pwchk.getText().toString().equals("") ){
             String aaa = "";
             builder.setTitle("비밀번호를 입력해주세요").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
@@ -227,11 +224,9 @@ public class JoinMainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id)
                 {
-                    if( !UserFragment.edt_id.getText().toString().equals( vo.getId() )){
-                        id_chk = 0;
-                    }
-                    backFrag(NewFamilyFragment);
-                    changeFrag(NewFamilyFragment);
+                  //  backFrag(newFamilyFragment);
+                    changeFrag(newFamilyFragment);
+                    go++;
                 }
             });
             AlertDialog alertDialog = builder.create();
@@ -240,8 +235,6 @@ public class JoinMainActivity extends AppCompatActivity {
         }
 
     }
-    public void relation(){
 
-    }
 
 }

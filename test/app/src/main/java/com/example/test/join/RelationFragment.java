@@ -22,7 +22,7 @@ public class RelationFragment extends Fragment {
     LinearLayout tv_mother, tv_father, tv_sitter, tv_gmother, tv_gfather, tv_others;
     Button btn_next;
     String btn = "엄마";
-
+    int choose = 0;
     ArrayList<LinearLayout> linear_list = new ArrayList<>();
     ArrayList<TextView> tv_list = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class RelationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_relation, container, false);
-        JoinMainActivity.go = 3;
+
 
         btn_back = rootView.findViewById(R.id.btn_back);
         btn_next = rootView.findViewById(R.id.btn_next);
@@ -63,8 +63,6 @@ public class RelationFragment extends Fragment {
             public void onClick(View v) {
                 chg_linear(0);
                 btn = "엄마";
-
-
             }
         });
         linear_list.get(1).setOnClickListener(new View.OnClickListener() {
@@ -108,10 +106,16 @@ public class RelationFragment extends Fragment {
     }
 
 
+    public int setchoose (int choose){
+
+        return choose;
+    }
 
     public void chg_linear(int num){
+        String aa = "" ;
         for(int i=0; i<6; i++){
             if(i==num){
+                int rtn_index = num;
                 JoinMainActivity.vo.setRelation(btn);
                 linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.select_btn));
                 tv_list.get(i).setTextColor(Color.parseColor("#ffffff"));
@@ -121,4 +125,10 @@ public class RelationFragment extends Fragment {
             }
         }
     }
+
+    public void rtn_linear(int rtn_index){
+
+    }
+
+
 }
