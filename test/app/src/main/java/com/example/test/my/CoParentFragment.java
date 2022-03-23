@@ -15,7 +15,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
 
+import java.io.InputStream;
 import java.util.List;
 
 public class CoParentFragment extends Fragment {

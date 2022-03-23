@@ -213,7 +213,7 @@ public class MyFragment extends Fragment{
                                     if((list.size() - 1) == 0){
                                         //육아일기 생성 페이지로 이동
                                     } else{
-
+                                        
                                     }
                                 }
                             }
