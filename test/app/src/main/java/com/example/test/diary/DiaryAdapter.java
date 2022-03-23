@@ -110,7 +110,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DetailActivity.class);
 
-                    AskTask task = new AskTask("http://192.168.0.4","detail.di");
+                    AskTask task = new AskTask("http://192.168.0.13","detail.di");
                     //수정
                     task.addParam("no",list.get(i).getDiary_id()+"");
                     InputStream in = CommonMethod.excuteGet(task);
