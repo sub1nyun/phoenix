@@ -19,31 +19,35 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
-import com.example.test.diary.DetailActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class MyFragment extends Fragment{
     Button btn_co_parent, delete_baby;
     Spinner my_spinner;
     ImageView my_setting, my_detail, my_main_photo, my_diary_title_edit;
-    TextView my_birth_tv, my_name_tv, my_diary_title, my_gender_man, my_gender_woman;
+    TextView my_birth_tv, my_name_tv, my_diary_title, my_gender_man, my_gender_woman, baby_body;
     Gson gson = new Gson();
     List<BabyInfoVO> list;
     SharedPreferences preferences;
+    BabyInfoVO cntBaby;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,12 +64,15 @@ public class MyFragment extends Fragment{
         my_diary_title_edit = rootView.findViewById(R.id.my_diary_title_edit);
         my_gender_man = rootView.findViewById(R.id.my_gender_man);
         my_gender_woman = rootView.findViewById(R.id.my_gender_woman);
+        baby_body = rootView.findViewById(R.id.baby_body);
 
         AskTask task = new AskTask("http://192.168.0.26", "list.bif");
         //로그인 정보로 수정 필요
         task.addParam("id", "a");
         InputStream in = CommonMethod.excuteGet(task);
         list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
+
+
 
         //육아일기 수정
         my_diary_title_edit.setOnClickListener(new View.OnClickListener() {
@@ -102,12 +109,18 @@ public class MyFragment extends Fragment{
                     Toast.makeText(getContext(), "아기추가로 이동", Toast.LENGTH_SHORT).show();
                 } else {
                     saveCntBaby(position);
-                    Log.d("asd", "onItemSelected: " + list.get(position).getBaby_gender());
+
+                    AskTask body_task = new AskTask("http://192.168.0.26", "cntbody.stor");
+                    body_task.addParam("baby_id", list.get(position).getBaby_id());
+                    InputStream in = CommonMethod.excuteGet(body_task);
+                    String cntbody = gson.fromJson(new InputStreamReader(in), new TypeToken<String>(){}.getType());
+                    baby_body.setText(cntbody);
+
                     my_diary_title.setText(list.get(position).getTitle());
                     if(list.get(position).getBaby_photo() == null){
                         my_main_photo.setImageResource(R.drawable.bss_logo);
                     } else{
-                        my_main_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(position).getBaby_photo()));
+                        Glide.with(getContext()).load(list.get(position).getBaby_photo()).into(my_main_photo);
                     }
                     if(list.get(position).getBaby_gender().equals("남아")){
                         my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom_select));
@@ -133,9 +146,19 @@ public class MyFragment extends Fragment{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 saveCntBaby(0);
-                my_diary_title.setText(list.get(0).getTitle());
-                my_main_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(0).getBaby_photo()));
+                AskTask body_task = new AskTask("http://192.168.0.26", "cntbody.stor");
 
+                body_task.addParam("baby_id", list.get(0).getBaby_id());
+                InputStream in = CommonMethod.excuteGet(body_task);
+                String cntbody = gson.fromJson(new InputStreamReader(in), new TypeToken<String>(){}.getType());
+                baby_body.setText(cntbody);
+
+                my_diary_title.setText(list.get(0).getTitle());
+                if(list.get(0).getBaby_photo() == null){
+                    my_main_photo.setImageResource(R.drawable.bss_logo);
+                } else{
+                    Glide.with(getContext()).load(list.get(0).getBaby_photo()).into(my_main_photo);
+                }
                 my_birth_tv.setText(list.get(0).getBaby_birth().toString());
                 my_name_tv.setText(list.get(0).getBaby_name());
             }
@@ -167,7 +190,7 @@ public class MyFragment extends Fragment{
                 AskTask task = new AskTask("http://192.168.0.26", "coparent.bif");
                 task.addParam("baby_id", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getBaby_id());
                 InputStream in = CommonMethod.excuteGet(task);
-                List<CoParentVO> coparent = gson.fromJson(new InputStreamReader(in), new TypeToken<List<CoParentVO>>(){}.getType());
+                List<FamilyInfoVO> coparent = gson.fromJson(new InputStreamReader(in), new TypeToken<List<FamilyInfoVO>>(){}.getType());
                 ((MainActivity)getActivity()).backFrag(new CoParentFragment(coparent));
                 ((MainActivity)getActivity()).changeFrag(new CoParentFragment(coparent));
             }
@@ -182,6 +205,17 @@ public class MyFragment extends Fragment{
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //어딘가로 이동
+                                AskTask task_delete = new AskTask("http://192.168.0.26", "babydel.bif");
+                                task.addParam("baby_id", preferences.getString("cntBaby", ""));
+                                InputStream in = CommonMethod.excuteGet(task);
+                                if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())){
+                                    Toast.makeText(getContext(), "아기 정보가 성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                    if((list.size() - 1) == 0){
+                                        //육아일기 생성 페이지로 이동
+                                    } else{
+                                        
+                                    }
+                                }
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override

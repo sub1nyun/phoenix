@@ -10,19 +10,16 @@ import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -48,22 +45,18 @@ import com.example.test.common.CommonMethod;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 public class EditFragment extends Fragment implements OnBackPressedListenser {
     Button my_rels, btn_man, btn_woman;
-    LinearLayout edit_birth, cur_kg_btn, cur_cm_btn;
+    LinearLayout edit_birth;
     TextView edit_ok, tv_birth, baby_kg_edit, baby_cm_edit;
     ImageView edit_cancel, edit_photo;
     EditText edit_name;
@@ -78,7 +71,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     String imgFilePath = null;
     Gson gson = new Gson();
     BabyInfoVO vo;
-    String rels = "";
+    FamilyInfoVO family;
 
     public EditFragment(BabyInfoVO vo) {
         this.vo = vo;
@@ -92,40 +85,30 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         my_rels = rootView.findViewById(R.id.my_rels);
         edit_birth = rootView.findViewById(R.id.edit_birth);
         tv_birth = rootView.findViewById(R.id.tv_birth);
-        cur_kg_btn = rootView.findViewById(R.id.cur_kg_btn);
-        cur_cm_btn = rootView.findViewById(R.id.cur_cm_btn);
         edit_cancel = rootView.findViewById(R.id.edit_cancel);
         edit_ok = rootView.findViewById(R.id.edit_ok);
         edit_name = rootView.findViewById(R.id.edit_name);
         btn_man = rootView.findViewById(R.id.btn_man);
         btn_woman = rootView.findViewById(R.id.btn_woman);
         edit_photo = rootView.findViewById(R.id.edit_photo);
-        baby_kg_edit = rootView.findViewById(R.id.baby_kg_edit);
-        baby_cm_edit = rootView.findViewById(R.id.baby_cm_edit);
 
         //초기 세팅
         if(vo.getBaby_photo() == null){
             edit_photo.setImageResource(R.drawable.bss_logo);
         } else{
-            edit_photo.setImageBitmap(BitmapFactory.decodeFile(vo.getBaby_photo()));
+            Glide.with(getContext()).load(vo.getBaby_photo()).into(edit_photo);
         }
         edit_name.setText(vo.getBaby_name());
         changeBtn(vo.getBaby_gender());
         tv_birth.setText(vo.getBaby_birth().toString());
-        if(getArguments() != null){
-            baby_kg_edit.setText(Double.toString(getArguments().getDouble("kg")) + " kg");
-            baby_cm_edit.setText(Double.toString(getArguments().getDouble("cm")) + " cm");
-        } else {
-            baby_kg_edit.setText(Double.toString(vo.getBaby_kg()) + " kg");
-            baby_cm_edit.setText(Double.toString(vo.getBaby_cm()) + " cm");
-        }
 
         //아이와의 관계 불러오기
         AskTask task = new AskTask("http://192.168.0.26", "rels.bif");
-        task.addParam("baby", vo.getBaby_id());
+        task.addParam("id", vo.getId()); //로그인한 아이디로 변경 필요
+        task.addParam("baby_id", vo.getBaby_id());
         InputStream in = CommonMethod.excuteGet(task);
-        rels = gson.fromJson(new InputStreamReader(in), new TypeToken<String>(){}.getType());
-        my_rels.setText(rels);
+        family = gson.fromJson(new InputStreamReader(in), new TypeToken<FamilyInfoVO>(){}.getType());
+        my_rels.setText(family.getFamily_rels());
 
         //뒤로가기
         edit_cancel.setOnClickListener(new View.OnClickListener() {
@@ -156,9 +139,14 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                 //dto 수정
                 vo.setBaby_name(edit_name.getText().toString().trim());
                 vo.setBaby_birth(tv_birth.getText().toString());
-                vo.setBaby_kg(Double.parseDouble(baby_kg_edit.getText().toString().split(" ")[0]));
-                vo.setBaby_cm(Double.parseDouble(baby_cm_edit.getText().toString().split(" ")[0]));
+                family.setFamily_rels(my_rels.getText().toString().trim());
                 AskTask task_save = new AskTask("http://192.168.0.26", "updatebaby.bif");
+                task_save.addParam("vo", gson.toJson(vo));
+                if(imgFilePath != null){
+                    Toast.makeText(getContext(), imgFilePath, Toast.LENGTH_SHORT).show();
+                    task_save.addFileParam("file", imgFilePath);
+                }
+                task_save.addParam("family", gson.toJson(family));
                 InputStream in = CommonMethod.excuteGet(task_save);
                 ((MainActivity)getActivity()).changeFrag(new MyFragment());
             }
@@ -168,13 +156,12 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         my_rels.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RelsDialog dialog = new RelsDialog(getContext(), rels);
+                RelsDialog dialog = new RelsDialog(getContext(), family.getFamily_rels());
                 //현재 관계 넘기기
                 dialog.show();
                 dialog.setDialogListener(new RelsDialog.DialogListener() {
                     @Override
                     public void onPositiveClick(String name) {
-                        rels = name;
                         my_rels.setText(name);
                     }
                 });
@@ -213,26 +200,6 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callbackMethod, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
                 datePickerDialog.show();
-            }
-        });
-
-        //뭄무게
-        cur_kg_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = new BodyFragment(vo);
-                ((MainActivity)getActivity()).backFrag(fragment);
-                ((MainActivity)getActivity()).changeFrag(fragment);
-            }
-        });
-
-        //키
-        cur_cm_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = new BodyFragment(vo);
-                ((MainActivity)getActivity()).backFrag(fragment);
-                ((MainActivity)getActivity()).changeFrag(fragment);
             }
         });
 

@@ -11,14 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CoParentAdapter extends RecyclerView.Adapter<CoParentAdapter.ViewHolder> {
-    List<CoParentVO> list;
+    List<FamilyInfoVO> list;
     LayoutInflater inflater;
 
-    public CoParentAdapter(List<CoParentVO> list, LayoutInflater inflater) {
+    public CoParentAdapter(List<FamilyInfoVO> list, LayoutInflater inflater) {
         this.list = list;
         this.inflater = inflater;
     }

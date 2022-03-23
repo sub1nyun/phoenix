@@ -1,6 +1,7 @@
 package com.example.test.my;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,17 +9,19 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
+import com.example.test.diary.GraphActivity;
 
 public class BodyFragment extends Fragment {
     TextView tv_name, tv_gender, edit_ok;
     EditText edit_weight, edit_height;
-    ImageView edit_cancel;
+    ImageView edit_cancel, view_graph;
     BabyInfoVO vo;
 
     public BodyFragment(BabyInfoVO vo) {
@@ -34,6 +37,7 @@ public class BodyFragment extends Fragment {
         tv_gender = rootView.findViewById(R.id.tv_gender);
         edit_weight = rootView.findViewById(R.id.edit_weight);
         edit_height = rootView.findViewById(R.id.edit_height);
+        view_graph = rootView.findViewById(R.id.view_graph);
 
         //초기 세팅
         tv_name.setText(vo.getBaby_name());
@@ -44,8 +48,6 @@ public class BodyFragment extends Fragment {
         } else{
             tv_gender.setText("성별 모름");
         }
-        edit_weight.setText(vo.getBaby_kg()+"");
-        edit_height.setText(vo.getBaby_cm()+"");
 
         //뒤로가기
         edit_cancel.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +81,15 @@ public class BodyFragment extends Fragment {
                 Fragment fragment = new EditFragment(vo);
                 fragment.setArguments(bundle);
                 ((MainActivity)getActivity()).changeFrag(fragment);
+            }
+        });
+
+       //그래프 보기
+        view_graph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), GraphActivity.class);
+                startActivity(intent);
             }
         });
 
