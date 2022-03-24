@@ -37,20 +37,17 @@ public class DiaryFragment extends Fragment {
     ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger, imv_backday, imv_forwardday, imv_graph;
     TextView tv_today;
     Intent intent;
+    RecyclerView rcv_diary;
 
     final int CODE = 1000;
 
     DatePickerDialog.OnDateSetListener callbackMethod;
 
-    RecyclerView rcv_diary;
-
     List<DiaryVO> list = new ArrayList<>();
-
     Gson gson = new Gson();
+    Calendar today = Calendar.getInstance();//오늘날짜 받기
 
-    Calendar today = Calendar.getInstance();//오늘날짜 받아서
-
-    String pageDate;
+    String pageDate; //페이지 날짜 저장하기
 
     public DiaryFragment() {
 
@@ -85,12 +82,13 @@ public class DiaryFragment extends Fragment {
 
         imv_graph = rootview.findViewById(R.id.imv_graph);
 
+        //페이지 날짜를 넘겨받았을 때
         if(pageDate != null){
             String[] strDate = pageDate.split("-");
             today.set(Integer.parseInt(strDate[0]), Integer.parseInt(strDate[1]) - 1, Integer.parseInt(strDate[2]));
         }
 
-        Toast.makeText(getContext(), CommonVal.curbaby.getBaby_name(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), CommonVal.curbaby.getBaby_name(), Toast.LENGTH_SHORT).show();
 
 
         //그래프
@@ -102,9 +100,7 @@ public class DiaryFragment extends Fragment {
             }
         });
 
-
-
-        //세팅함
+        //날짜 세팅함
         tv_today.setText(today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH)+1) + "월 " + today.get(Calendar.DATE) + "일");
 
         //리스트 불러옴
@@ -120,19 +116,7 @@ public class DiaryFragment extends Fragment {
             }
         };
 
-
-
-        //넘겨받은 dto가 있을때
-        /*if(dto != null){
-            list.add(dto);
-
-            AskTask task = new AskTask("list.bif");
-            InputStream in = CommonMethod.excuteGet(task);
-            List<DiaryVO> list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
-
-            attachDetail(getContext());
-        }*/
-
+        //하루전
         imv_backday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +125,7 @@ public class DiaryFragment extends Fragment {
                 chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE), getContext());
             }
         });
-
+        //하루후
         imv_forwardday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,7 +145,6 @@ public class DiaryFragment extends Fragment {
             }
         });
 
-        //intent.putExtra("is_info",false);
 
         //아기상태 버튼 클릭 시
         imv_bath.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +156,6 @@ public class DiaryFragment extends Fragment {
                 //startActivity(intent);
             }
         });
-
         imv_temp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +164,6 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-
         imv_sleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,7 +172,6 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-
         imv_eat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,7 +180,6 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-
         imv_toilet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,7 +188,6 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-
         imv_phar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,7 +196,6 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-
         imv_mou.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,7 +204,6 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-
         imv_bunu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,7 +212,6 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-
         imv_water.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,11 +220,9 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-
         imv_danger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 intent = new Intent(getContext(), DetailActivity.class);
                 intent.putExtra("dto", setDTO("간식"));
                 getActivity().startActivityForResult(intent, CODE);
@@ -262,7 +235,7 @@ public class DiaryFragment extends Fragment {
     public DiaryVO setDTO(String category){
         DiaryVO vo = new DiaryVO();
         vo.setBaby_category(category);
-        String strM = (today.get(Calendar.MONTH)+1) < 10 ? "0"+(today.get(Calendar.MONTH)+1) : ""+(today.get(Calendar.MONTH)+1);
+        String strM = today.get(Calendar.MONTH) < 9 ? "0"+(today.get(Calendar.MONTH)+1) : ""+(today.get(Calendar.MONTH)+1);
         String strD = today.get(Calendar.DATE) < 10 ? "0"+today.get(Calendar.DATE) : ""+today.get(Calendar.DATE);
         vo.setDiary_date(today.get(Calendar.YEAR) + "-" + strM + "-" + strD);
         return vo;
@@ -279,15 +252,8 @@ public class DiaryFragment extends Fragment {
         }
     };
 
-//    public void attachDetail(Context context, List<DiaryVO> list1){
-//
-//        DiaryAdapter adapter = new DiaryAdapter(list1, context);
-//        rcv_diary.setAdapter(adapter);
-//        LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-//        rcv_diary.setLayoutManager(manager);
-//    }
     public void chgDateList(int y, int m, int d, Context context){
-        AskTask task = new AskTask("http://192.168.0.13","list.di");
+        AskTask task = new AskTask(CommonVal.httpip,"list.di");
 
         if(m<9){
             task.addParam("date", y + "-0" + (m+1) + "-" + d);
@@ -299,10 +265,9 @@ public class DiaryFragment extends Fragment {
             //NetworkOnMainThreadException 에러가 발생해서 추가
             new Thread(() -> {
                 list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
-                Message msg = handler.obtainMessage(1, getContext());
+                Message msg = handler.obtainMessage(1, context);
 
                 handler.sendMessage(msg);
-            //attachDetail(getContext(),list);
             }).start();
         }
     }

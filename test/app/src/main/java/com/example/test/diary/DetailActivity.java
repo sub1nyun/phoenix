@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 
 import java.io.InputStream;
@@ -234,13 +235,13 @@ public class DetailActivity extends AppCompatActivity {
                 dto.setMemo(edt_memo.getText()+"");
 
                 if(intent.getSerializableExtra("is_info") != null){
-                    AskTask task = new AskTask("http://192.168.0.13","update.di");
+                    AskTask task = new AskTask(CommonVal.httpip,"update.di");
                     String dtogson = gson.toJson(dto);
                     task.addParam("dto", dtogson);
                     InputStream in = CommonMethod.excuteGet(task);
                     Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
                 }else{
-                    AskTask task = new AskTask("http://192.168.0.13","insert.di");
+                    AskTask task = new AskTask(CommonVal.httpip,"insert.di");
                     String dtogson = gson.toJson(dto);
                     task.addParam("dto", dtogson);
                     InputStream in = CommonMethod.excuteGet(task);
@@ -259,7 +260,7 @@ public class DetailActivity extends AppCompatActivity {
         btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AskTask task = new AskTask("http://192.168.0.13","delete.di");
+                AskTask task = new AskTask(CommonVal.httpip,"delete.di");
                 String dtogson = gson.toJson(dto);
                 task.addParam("dto", dtogson);
                 InputStream in = CommonMethod.excuteGet(task);

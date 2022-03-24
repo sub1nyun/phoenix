@@ -23,33 +23,23 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.example.test.common.AskTask;
-import com.example.test.common.CommonMethod;
-import com.example.test.common.CommonVal;
 import com.example.test.diary.DiaryFragment;
-import com.example.test.diary.DiaryVO;
 import com.example.test.home.HomeActivity;
-import com.example.test.my.BabyInfoVO;
 import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
 import com.example.test.sns.SnsFragment;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Fragment fragment;
     FrameLayout container;
     TabLayout tab_main;
     TabItem tab_diary, tab_map, tab_iot, tab_sns, tab_my;
-    Gson gson = new Gson();
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
