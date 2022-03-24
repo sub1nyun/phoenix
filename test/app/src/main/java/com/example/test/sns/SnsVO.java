@@ -2,11 +2,12 @@ package com.example.test.sns;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 
 
 public class SnsVO implements Serializable {
 
-    private String sns_img;
+    private ArrayList<String> sns_img;
     private String sns_content;
     private int sns_no;
     private Date sns_date;
@@ -16,10 +17,13 @@ public class SnsVO implements Serializable {
 
     }
 
-    public SnsVO(String sns_img, String sns_content) {
+    public SnsVO(ArrayList<String> sns_img, String sns_content) {
         this.sns_img = sns_img;
         this.sns_content = sns_content;
     }
+
+
+
 
     public String getTitle() {
         return title;
@@ -29,11 +33,11 @@ public class SnsVO implements Serializable {
         this.title = title;
     }
 
-    public String getSns_img() {
+    public ArrayList<String> getSns_img() {
         return sns_img;
     }
 
-    public void setSns_img(String sns_img) {
+    public void setSns_img(ArrayList<String> sns_img) {
         this.sns_img = sns_img;
     }
 

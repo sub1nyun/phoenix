@@ -163,7 +163,7 @@
             android:id="@+id/btn_kakao"
             />
 
-        <ImageView
+        <com.navercorp.nid.oauth.view.NidOAuthLoginButton
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="60dp"

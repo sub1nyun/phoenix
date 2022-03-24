@@ -69,7 +69,6 @@ public class SnsFragment extends Fragment {
 
         sns_more.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setCancelable(false);
             builder.setTitle("수정이나 삭제할 게시물").setMessage("");
             builder.setPositiveButton("수정하기", (dialogInterface, i) -> {
                 Intent intent = new Intent(getContext(), SnsNewActivity.class);
@@ -102,7 +101,7 @@ public class SnsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         for(int i = 0 ; i<img_list.size() ; i++){
-            snslist.add(new SnsVO(img_list.get(i), "테스트1"));
+            snslist.add(new SnsVO(img_list, "테스트1"));
         }
         //쿼리 작성할 부분
         img_list = new ArrayList<>();

@@ -55,7 +55,8 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return list.size();
+        //return list.size();
+        return  0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

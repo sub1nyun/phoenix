@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -27,8 +28,13 @@ import com.google.gson.reflect.TypeToken;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
 import com.kakao.sdk.user.UserApiClient;
+import com.navercorp.nid.NaverIdLoginSDK;
+import com.navercorp.nid.oauth.NidOAuthLogin;
+import com.navercorp.nid.oauth.OAuthLoginCallback;
+import com.navercorp.nid.oauth.view.NidOAuthLoginButton;
+import com.navercorp.nid.profile.NidProfileCallback;
+import com.navercorp.nid.profile.data.NidProfileResponse;
 import com.nhn.android.naverlogin.OAuthLogin;
-import com.nhn.android.naverlogin.OAuthLoginHandler;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,8 +50,9 @@ public class LoginActivity extends AppCompatActivity {
     ImageView btn_kakao, btn_naver;
     Button btn_invite, btn_logout;
 
-    Gson gson = new Gson();
 
+    NidOAuthLoginButton naverlogin;
+    Gson gson = new Gson();
     public static OAuthLogin mOAuthLoginModule;
     Context mContext;
 
@@ -55,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         KakaoSdk.init(this,"884cf31c300f60971b6a3d015d8c005e");
+        NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
+
 
         mContext = getApplicationContext();
 
@@ -66,8 +75,9 @@ public class LoginActivity extends AppCompatActivity {
         edt_pw = findViewById(R.id.edt_pw);
         chk_auto = findViewById(R.id.chk_auto);
         btn_kakao = findViewById(R.id.btn_kakao);
-       btn_naver = findViewById(R.id.btn_naver);
+        naverlogin = findViewById(R.id.btn_naver);
         btn_logout = findViewById(R.id.btn_logout);
+
 
 
         ////초대 버튼 임시 생성
@@ -113,11 +123,11 @@ public class LoginActivity extends AppCompatActivity {
                     CommonVal.curbaby = CommonVal.baby_list.get(0);
 
                     //가족정보 불러오기
-                    task = new AskTask(CommonVal.httpip, "titlelist.us");
-                    task.addParam("id", CommonVal.curuser.getId());
-                    in = CommonMethod.excuteGet(task);
-                    CommonVal.family_title = gson.fromJson(new InputStreamReader(in), new TypeToken<List<String>>(){}.getType());
-                    CommonVal.curFamily =  CommonVal.family_title.get(0);
+//                    task = new AskTask(CommonVal.httpip, "titlelist.us");
+//                    task.addParam("id", CommonVal.curuser.getId());
+//                    in = CommonMethod.excuteGet(task);
+//                    CommonVal.family_title = gson.fromJson(new InputStreamReader(in), new TypeToken<List<String>>(){}.getType());
+//                    CommonVal.curFamily =  CommonVal.family_title.get(0);
 
                    finish();
                 }
@@ -148,43 +158,62 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btn_naver.setOnClickListener(new View.OnClickListener() {
+
+
+        //naverLogin(); 주석풀면 됨
+
+
+        btn_logout.setOnClickListener(v -> {
+            NaverIdLoginSDK.INSTANCE.logout();
+            Toast.makeText(LoginActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    public void naverLogin(){
+        NidOAuthLogin authLogin = new NidOAuthLogin();
+        naverlogin.setOAuthLoginCallback(new OAuthLoginCallback() {
             @Override
-            public void onClick(View v) {
-                mOAuthLoginModule = OAuthLogin.getInstance();
-                mOAuthLoginModule.init(mContext,
-                        getString(R.string.client_id),
-                        getString(R.string.client_secret),
-                        getString(R.string.client_name));
-
-                OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
+            public void onSuccess() {
+                Log.d("naver" ,"onSuccess:성공");
+                Log.d("naver", NaverIdLoginSDK.INSTANCE.getAccessToken());
+                authLogin.callProfileApi(new NidProfileCallback<NidProfileResponse>() {
                     @Override
-                    public void run(boolean success) {
-                        if(success) {
-                            String accessToken = mOAuthLoginModule.getAccessToken(mContext);
-                            String refreshToken = mOAuthLoginModule.getRefreshToken(mContext);
-                            long expiresAt = mOAuthLoginModule.getExpiresAt(mContext);
-                            String tokenType = mOAuthLoginModule.getTokenType(mContext);
-                            Log.i("LoginData","accessToken : "+ accessToken);
-                            Log.i("LoginData","refreshToken : "+ refreshToken);
-                            Log.i("LoginData","expiresAt : "+ expiresAt);
-                            Log.i("LoginData","tokenType : "+ tokenType);
-
-                        } else {
-                            String errorCode = mOAuthLoginModule.getLastErrorCode(mContext).getCode();
-                            String errorDesc = mOAuthLoginModule.getLastErrorDesc(mContext);
-                            Toast.makeText(mContext, "errorCode:"+errorCode+", errorDesc:"+errorDesc, Toast.LENGTH_SHORT).show();
-                        }
+                    public void onSuccess(NidProfileResponse nidProfileResponse) {
+                        Log.d("naver","onSuccess:성공" + nidProfileResponse.getProfile().getEmail());
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
+                        intent.putExtra("name", nidProfileResponse.getProfile().getName());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
                     }
-                };
-                mOAuthLoginModule.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);
+
+                    @Override
+                    public void onFailure(int i, @NonNull String s) {
+                        Log.d("naver", "OnSuccess:실패" +s);
+                        Log.d("naver", NaverIdLoginSDK.INSTANCE.getLastErrorCode().getCode());
+                        Log.d("naver", NaverIdLoginSDK.INSTANCE.getLastErrorDescription());
+                    }
+
+                    @Override
+                    public void onError(int i, @NonNull String s) {
+                        Log.d("naver","OnSuccess:오류" + s);
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(int i, @NonNull String s) {
+                Log.d("naver", "OnSuccess:실패" +s);
+            }
+
+            @Override
+            public void onError(int i, @NonNull String s) {
+                Log.d("naver", "OnSuccess:에러" +s);
             }
         });
 
-        btn_logout.setOnClickListener(view -> {
-            mOAuthLoginModule.logout(mContext);
-            Toast.makeText(LoginActivity.this, "로그아웃 테스트", Toast.LENGTH_SHORT).show();
-        });
     }
 
     public void changeFrag(Fragment fragment){
