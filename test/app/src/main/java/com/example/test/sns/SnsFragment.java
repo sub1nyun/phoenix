@@ -36,6 +36,7 @@ public class SnsFragment extends Fragment {
 
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,6 +54,8 @@ public class SnsFragment extends Fragment {
        snsadapter = new SnsViewPagerAdapter(inflater,snslist , getContext());
        snspager.setAdapter(snsadapter);
        dotsIndicator.setViewPager2(snspager);
+
+
 
        sns_plus.setOnClickListener(v -> {
            intent = new Intent(getContext(), SnsNewActivity.class);

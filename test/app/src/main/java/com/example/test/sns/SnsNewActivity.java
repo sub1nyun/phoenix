@@ -1,19 +1,13 @@
 package com.example.test.sns;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,17 +17,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +45,8 @@ public class SnsNewActivity extends AppCompatActivity {
     String[] sns_item = {"카메라", "갤러리"};
     Intent intent;
     public static ArrayList<Uri> uriList = new ArrayList<>();
+    EditText sns_new_text;
+    SnsVO vo = new SnsVO();
 
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;
@@ -71,6 +70,7 @@ public class SnsNewActivity extends AppCompatActivity {
         //sns_camera = findViewById(R.id.sns_camera);
         //recyclerView = findViewById(R.id.recyclerView);
         sns_new_img = findViewById(R.id.sns_new_img);
+        sns_new_text = findViewById(R.id.sns_new_text);
 
 
         sns_new_img.setOnClickListener(v -> {
@@ -85,7 +85,25 @@ public class SnsNewActivity extends AppCompatActivity {
 
         sns_new_share.setOnClickListener(v -> {
             if(imgFilePath != null) {
-                SnsFragment.img_list.add(imgFilePath);
+              //SnsFragment.img_list.add(imgFilePath);
+                vo.setSns_img(imgFilePath);
+                vo.setSns_content(sns_new_text.getText()+"");
+              //저장 로직
+                AskTask addSns = new AskTask("http://192.168.0.11", "share.sn");
+                Gson gson = new Gson();
+                //테스트용 아아디
+                vo.setTitle("test");
+                vo.setId("a");
+//                addSns.addParam("id","a");
+//                addSns.addParam("title", "test");
+                String testvo = gson.toJson(vo);
+               addSns.addParam("vo",testvo);
+               InputStream in = CommonMethod.excuteGet(addSns);
+
+
+
+
+
                 finish();
             }else {
                 Toast.makeText(SnsNewActivity.this, "사진 선택하라고", Toast.LENGTH_SHORT).show();
