@@ -24,19 +24,13 @@ public class BabyFragment extends Fragment {
         edt_name = rootView.findViewById(R.id.edt_name);
         edt_name.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                JoinMainActivity.babyInfoVO.setBaby_name( edt_name.getText().toString() );
             }
-
             @Override
-            public void afterTextChanged(Editable s) {
-                JoinMainActivity.vo.setName( edt_name.getText().toString() );
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
 

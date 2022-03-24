@@ -7,17 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.test.R;
 
+import java.util.ArrayList;
+
 
 public class GenderFragment extends Fragment {
     LinearLayout linear_woman, linear_man, linear_random;
+    ArrayList<LinearLayout> linear_list;
+    ArrayList<TextView> tv_list = new ArrayList<>();
     TextView tv_woman, tv_man, tv_random;
     String btn;
+    int choose;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,6 +36,23 @@ public class GenderFragment extends Fragment {
         tv_woman = rootView.findViewById(R.id.tv_woman);
         tv_random = rootView.findViewById(R.id.tv_random);
 
+        linear_list= new ArrayList<>();
+
+        linear_list.add(rootView.findViewById(R.id.linear_man));
+        linear_list.add(rootView.findViewById(R.id.linear_woman));
+        linear_list.add(rootView.findViewById(R.id.linear_random));
+        tv_list.add(rootView.findViewById(R.id.tv_man));
+        tv_list.add(rootView.findViewById(R.id.tv_woman));
+        tv_list.add(rootView.findViewById(R.id.tv_random));
+
+
+        if( JoinMainActivity.vo.getRelation() == null ){
+            chg_linear(0);
+        }else {
+            chg_linear(choose);
+        }
+
+
         linear_man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,10 +63,7 @@ public class GenderFragment extends Fragment {
                 tv_woman.setTextColor(Color.parseColor("#707070"));
                 tv_random.setTextColor(Color.parseColor("#707070"));
                 btn = "남아";
-                Toast.makeText(getContext(), JoinMainActivity.vo.getGender(), Toast.LENGTH_SHORT).show();
-                if( JoinMainActivity.vo.getGender().equals("") ){
-                    JoinMainActivity.vo.setGender(btn);
-                }
+                choose = 0;
 
             }
         });
@@ -59,7 +77,7 @@ public class GenderFragment extends Fragment {
                 tv_woman.setTextColor(Color.parseColor("#ffffff"));
                 tv_random.setTextColor(Color.parseColor("#707070"));
                 btn = "여아";
-
+                choose = 1;
             }
         });
         linear_random.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +90,7 @@ public class GenderFragment extends Fragment {
                 tv_woman.setTextColor(Color.parseColor("#707070"));
                 tv_random.setTextColor(Color.parseColor("#ffffff"));
                 btn = "아직모름";
-
+                choose = 2;
 
             }
         });
@@ -83,7 +101,21 @@ public class GenderFragment extends Fragment {
     }//onCreateView()
 
 
-
+    public void chg_linear(int num){
+        String aa = "" ;
+        for(int i=0; i<2; i++){
+            if(i==num){
+                //int rtn_index = num;
+                JoinMainActivity.babyInfoVO.setBaby_gender(btn);
+                choose = num;
+                linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.select_btn));
+                tv_list.get(i).setTextColor(Color.parseColor("#ffffff"));
+            }else{
+                linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.border_round_gray));
+                tv_list.get(i).setTextColor(Color.parseColor("#707070"));
+            }
+        }
+    }
 
 
 

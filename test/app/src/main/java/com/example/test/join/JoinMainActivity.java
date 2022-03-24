@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
+import com.example.test.my.BabyInfoVO;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class JoinMainActivity extends AppCompatActivity {
     TextView tv_id_check;
     static int go = 0;
     static UserVO vo = new UserVO();
+    static BabyInfoVO babyInfoVO = new BabyInfoVO();
     static int id_chk = 0;
     static String id_chkchk = vo.getId();
     Gson gson = new Gson();
@@ -94,11 +96,26 @@ public class JoinMainActivity extends AppCompatActivity {
             changeFrag( genderFragment );
             go++;
         }else if( go==6 ){
-            changeFrag( pictureFragment );
             go++;
+            changeFrag( pictureFragment );
         }else if( go==7 ){
-            Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
-            startActivity(intent);
+            AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
+            builder.setTitle("회원가입을 완료 하시겠습니까?").setMessage("");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                { Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show(); }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
     }
 
@@ -132,9 +149,9 @@ public class JoinMainActivity extends AppCompatActivity {
     public void onBackPressed() {
         back();
     }
-    public void backFrag(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
-    }
+//    public void backFrag(Fragment fragment){
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
+//    }
 
 
 

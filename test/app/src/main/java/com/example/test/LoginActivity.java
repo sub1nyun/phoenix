@@ -27,7 +27,7 @@ import com.nhn.android.naverlogin.OAuthLoginHandler;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
-public class LoginActivity extends AppCompatActivity {
+public class  LoginActivity extends AppCompatActivity {
     Button btn_login, btn_join, btn_forget;
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
@@ -153,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         btn_logout.setOnClickListener(view -> {
+
             mOAuthLoginModule.logout(mContext);
             Toast.makeText(LoginActivity.this, "로그아웃 테스트", Toast.LENGTH_SHORT).show();
         });

@@ -1,25 +1,22 @@
 package com.example.test.join;
 
-import java.util.Date;
-
 public class UserVO {
-    private String title, relation, id, pw, pw_chk, name, gender;
-    private Date born;
+    private String title, relation, id, pw, pw_chk, name, naver_id, kakao_id, birth;
 
-    public String getGender() {
-        return gender;
+    public String getTitle() {
+        return title;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getName() {
-        return name;
+    public String getRelation() {
+        return relation;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRelation(String relation) {
+        this.relation = relation;
     }
 
     public String getId() {
@@ -46,27 +43,35 @@ public class UserVO {
         this.pw_chk = pw_chk;
     }
 
-    public Date getBorn() {
-        return born;
+    public String getName() {
+        return name;
     }
 
-    public void setBorn(Date born) {
-        this.born = born;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTitle() {
-        return title;
+    public String getNaver_id() {
+        return naver_id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setNaver_id(String naver_id) {
+        this.naver_id = naver_id;
     }
 
-    public String getRelation() {
-        return relation;
+    public String getKakao_id() {
+        return kakao_id;
     }
 
-    public void setRelation(String relation) {
-        this.relation = relation;
+    public void setKakao_id(String kakao_id) {
+        this.kakao_id = kakao_id;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 }
