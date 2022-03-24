@@ -57,6 +57,7 @@ public class BirthFragment extends Fragment {
             }
         };
 
+
         linear_bir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

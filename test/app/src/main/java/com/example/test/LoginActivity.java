@@ -15,14 +15,24 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.example.test.join.JoinMainActivity;
+import com.example.test.my.BabyInfoVO;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
 import com.kakao.sdk.user.UserApiClient;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
@@ -34,11 +44,10 @@ public class LoginActivity extends AppCompatActivity {
     ImageView btn_kakao, btn_naver;
     Button btn_invite, btn_logout;
 
-
+    Gson gson = new Gson();
 
     public static OAuthLogin mOAuthLoginModule;
     Context mContext;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +99,19 @@ public class LoginActivity extends AppCompatActivity {
                 if (edt_id.getText().toString().equals("a") && edt_pw.getText().toString().equals("a")) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+
+                    //로그인 정보 저장
+                    CommonVal.curuser.setId("a");
+                    CommonVal.curuser.setPw("a");
+
+                    //아기 리스트 불러오기
+                    AskTask task = new AskTask("http://192.168.0.26", "list.bif");
+                    //로그인 정보로 수정 필요
+                    task.addParam("id", CommonVal.curuser.getId());
+                    InputStream in = CommonMethod.excuteGet(task);
+                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                    CommonVal.curbaby = CommonVal.baby_list.get(0);
+
                     finish();
                 }
             }

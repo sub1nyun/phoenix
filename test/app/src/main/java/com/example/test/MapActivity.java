@@ -145,8 +145,6 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
         findViewById(R.id.exit_map).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MapActivity.this, MainActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
@@ -398,8 +396,6 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
             return;
         }
         if(System.currentTimeMillis() <= backTime + 2000){
-            Intent intent = new Intent(MapActivity.this, MainActivity.class);
-            startActivity(intent);
             finish();
         }
     }

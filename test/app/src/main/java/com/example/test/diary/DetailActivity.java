@@ -144,7 +144,6 @@ public class DetailActivity extends AppCompatActivity {
         }else{
             time_arr1 = (time).split(":");
             time_arr2 = (time).split(":");
-            dto.setDiary_date(getnowDate());
             dto.setStart_time(time);
             dto.setEnd_time(time);
             btn_del.setVisibility(View.GONE);
@@ -163,7 +162,19 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute)
             {
-                String strdate = hourOfDay + ":" + minute;
+                String strdate = "";
+
+                if(hourOfDay<10){
+                    strdate += "0" + hourOfDay;
+                }else{
+                    strdate += hourOfDay;
+                }
+
+                if(minute<10){
+                    strdate +=":0" + minute;
+                }else{
+                    strdate +=":" + minute;
+                }
 
                 dto.setStart_time(strdate);
                 tv_start.setText(strdate);
@@ -175,7 +186,19 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute)
             {
-                String strdate = hourOfDay + ":" + minute;
+                String strdate = "";
+
+                if(hourOfDay<10){
+                    strdate += "0" + hourOfDay;
+                }else{
+                    strdate += hourOfDay;
+                }
+
+                if(minute<10){
+                    strdate +=":0" + minute;
+                }else{
+                    strdate +=":" + minute;
+                }
 
                 dto.setEnd_time(strdate);
                 tv_end.setText(strdate);
@@ -210,15 +233,24 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dto.setMemo(edt_memo.getText()+"");
 
-                AskTask task = new AskTask("http://192.168.0.4","insert.di");
-                String dtogson = gson.toJson(dto);
-                task.addParam("dto", dtogson);
-                InputStream in = CommonMethod.excuteGet(task);
-                Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                if(intent.getSerializableExtra("is_info") != null){
+                    AskTask task = new AskTask("http://192.168.0.13","update.di");
+                    String dtogson = gson.toJson(dto);
+                    task.addParam("dto", dtogson);
+                    InputStream in = CommonMethod.excuteGet(task);
+                    Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                }else{
+                    AskTask task = new AskTask("http://192.168.0.13","insert.di");
+                    String dtogson = gson.toJson(dto);
+                    task.addParam("dto", dtogson);
+                    InputStream in = CommonMethod.excuteGet(task);
+                    Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                }
 
-                Log.d("isSucc : ", isSucc+"");
+
+                //Log.d("isSucc : ", isSucc+"");
                 Intent intent = new Intent();
-                //intent.putExtra("dto", dto);
+                intent.putExtra("pageDate",dto.getDiary_date());
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -227,13 +259,14 @@ public class DetailActivity extends AppCompatActivity {
         btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AskTask task = new AskTask("http://192.168.0.4","delete.di");
+                AskTask task = new AskTask("http://192.168.0.13","delete.di");
                 String dtogson = gson.toJson(dto);
                 task.addParam("dto", dtogson);
                 InputStream in = CommonMethod.excuteGet(task);
                 Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
-                Log.d("isSucc : ", isSucc+"");
+                //Log.d("isSucc : ", isSucc+"");
                 Intent intent = new Intent();
+                intent.putExtra("pageDate",dto.getDiary_date());
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -247,12 +280,12 @@ public class DetailActivity extends AppCompatActivity {
         String getTime = dateFormat.format(date);
         return  getTime;
     }
-    public java.sql.Date getnowDate(){
+    /*public String getnowDate(){
         //현재 시간
         Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String getTime = dateFormat.format(date);
-        java.sql.Date date1 = java.sql.Date.valueOf(getTime);
-        return  date1;
-    }
+        //java.sql.Date date1 = java.sql.Date.valueOf(getTime);
+        return  getTime;
+    }*/
 }

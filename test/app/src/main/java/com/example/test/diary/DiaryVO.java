@@ -1,12 +1,11 @@
 package com.example.test.diary;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 public class DiaryVO implements Serializable {
     int diary_id;
     String baby_id;
-    Date diary_date;
+    String diary_date;
     int amount;
     String start_time;
     double temperature;
@@ -15,18 +14,9 @@ public class DiaryVO implements Serializable {
     String baby_category;
     String diary_type;
 
-    int img;
-
-
 
     public DiaryVO() {
 
-    }
-
-    public DiaryVO(String baby_category, String start_time, int img) {
-        this.baby_category = baby_category;
-        this.start_time = start_time;
-        this.img = img;
     }
 
     public int getDiary_id() {
@@ -41,10 +31,10 @@ public class DiaryVO implements Serializable {
     public void setBaby_id(String baby_id) {
         this.baby_id = baby_id;
     }
-    public Date getDiary_date() {
+    public String getDiary_date() {
         return diary_date;
     }
-    public void setDiary_date(Date diary_date) {
+    public void setDiary_date(String diary_date) {
         this.diary_date = diary_date;
     }
     public int getAmount() {
@@ -88,13 +78,5 @@ public class DiaryVO implements Serializable {
     }
     public void setDiary_type(String diary_type) {
         this.diary_type = diary_type;
-    }
-
-    public int getImg() {
-        return img;
-    }
-
-    public void setImg(int img) {
-        this.img = img;
     }
 }

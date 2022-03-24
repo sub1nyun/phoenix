@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.example.test"
         minSdk 21
-        targetSdk 25
+        targetSdk 30
         versionCode 1
         versionName "1.0"
 
@@ -72,7 +72,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:2.1.0-alpha05"
 
     //카카오맵 장소 검색 통신 위해 추가 ysm 2022-03-14
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.3.1'
     implementation 'com.squareup.okhttp3:okhttp:3.14.1'
@@ -98,6 +98,9 @@ dependencies {
     implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'
     //카카오 로그인
     implementation "com.kakao.sdk:v2-user:2.8.5"
+
+    //circle imageview ysm 2022-03-22
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }
 //초대링크 사용하려고 추가 LSJ 2022-03-08

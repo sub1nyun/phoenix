@@ -9,9 +9,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.test.R;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BabySelectAdapter extends BaseAdapter {
     List<BabyInfoVO> list;
@@ -26,7 +29,7 @@ public class BabySelectAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return list.size()+1;
     }
 
     @Override
@@ -42,11 +45,11 @@ public class BabySelectAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = inflater.inflate(R.layout.my_spinner_item, parent, false);
-        ImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
+        CircleImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
         TextView baby_info_name = convertView.findViewById(R.id.baby_info_name);
         TextView baby_info_title = convertView.findViewById(R.id.baby_info_title);
 
-        if(position == list.size()-1){
+        if(position == list.size()){
             baby_info_photo.setImageResource(R.drawable.plus_baby);
             baby_info_name.setText("아이 추가");
             baby_info_title.setText("");
@@ -54,7 +57,7 @@ public class BabySelectAdapter extends BaseAdapter {
             if(list.get(position).getBaby_photo() == null){
                 baby_info_photo.setImageResource(R.drawable.bss_logo);
             } else{
-                baby_info_photo.setImageBitmap(BitmapFactory.decodeFile(list.get(position).getBaby_photo()));
+                Glide.with(context).load(list.get(position).getBaby_photo()).into(baby_info_photo);
             }
             if(list.get(position).getTitle().length() < 8){
                 baby_info_title.setText(list.get(position).getTitle());
