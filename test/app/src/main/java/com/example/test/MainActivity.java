@@ -25,12 +25,12 @@ import android.widget.Toast;
 
 import com.example.test.diary.DiaryFragment;
 import com.example.test.home.HomeActivity;
+import com.example.test.diary.BodyFragment;
 import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
 import com.example.test.sns.SnsFragment;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -169,6 +169,8 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         if(fragment.getClass() == EditFragment.class){
+            ((OnBackPressedListenser)fragment).onBackPressed();
+        }else if(fragment.getClass() == BodyFragment.class){
             ((OnBackPressedListenser)fragment).onBackPressed();
         }else{
             if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)

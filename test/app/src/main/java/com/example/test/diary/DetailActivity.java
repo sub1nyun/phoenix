@@ -1,10 +1,14 @@
 package com.example.test.diary;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +23,7 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.join.JoinMainActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,17 +31,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DetailActivity extends AppCompatActivity {
-    Button btn_cancel, btn_save, btn_del, btn1, btn2, btn3, btn4;
-    TextView tv_start,tv_end, tv_date, tv_state, tv_amount, tv_temp;
-    EditText edt_memo;
+    Button btn_cancel, btn_save, btn_del;
+    TextView tv_start,tv_end, tv_date, tv_state;
+    EditText edt_memo,edt_amount, edt_temp;
     TimePickerDialog.OnTimeSetListener callbackMethod1, callbackMethod2;
     LinearLayout linear_start, linear_end, linear_amount, linear_temp, linear_many;
-
+    ArrayList<Button> btns = new ArrayList<>();
     Gson gson = new Gson();
-
+    String[] time_arr1;
+    String[] time_arr2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,17 +54,17 @@ public class DetailActivity extends AppCompatActivity {
         btn_del = findViewById(R.id.btn_del);
         tv_start = findViewById(R.id.tv_start);
         tv_end = findViewById(R.id.tv_end);
-        edt_memo = findViewById(R.id.edt_memo);
+        tv_state = findViewById(R.id.tv_state);
 
-        btn1 = findViewById(R.id.btn1);
-        btn2 = findViewById(R.id.btn2);
-        btn3 = findViewById(R.id.btn3);
-        btn4 = findViewById(R.id.btn4);
+        btns.add(findViewById(R.id.btn1));
+        btns.add(findViewById(R.id.btn2));
+        btns.add(findViewById(R.id.btn3));
+        btns.add(findViewById(R.id.btn4));
 
         tv_date = findViewById(R.id.tv_date);
-        tv_state = findViewById(R.id.tv_state);
-        tv_amount = findViewById(R.id.tv_amount);
-        tv_temp = findViewById(R.id.tv_temp);
+        edt_amount = findViewById(R.id.edt_amount);
+        edt_temp = findViewById(R.id.edt_temp);
+        edt_memo = findViewById(R.id.edt_memo);
 
         linear_start = findViewById(R.id.linear_start);
         linear_end = findViewById(R.id.linear_end);
@@ -69,8 +76,7 @@ public class DetailActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(edt_memo.getWindowToken(), 0);
 
 
-
-        //플래그먼트에서 dto 받기
+        //어댑터에서 dto 받기
         Intent intent = getIntent();
         DiaryVO dto = (DiaryVO) intent.getSerializableExtra("dto");
         boolean is_info=false;
@@ -78,38 +84,37 @@ public class DetailActivity extends AppCompatActivity {
             is_info = (Boolean) intent.getSerializableExtra("is_info");
         }
 
+
+        String[] amtCategoty = {"분유", "이유식", "물", "투약", "간식"};
+
         if((dto.getBaby_category()).equals("모유")){
             linear_amount.setVisibility(View.GONE);
             linear_temp.setVisibility(View.GONE);
-            btn1.setText("왼쪽");
-            btn2.setText("오른쪽");
-            btn3.setText("둘다");
-            btn4.setText("모름");
+            btns.get(0).setText("왼쪽");
+            btns.get(1).setText("오른쪽");
+            btns.get(2).setText("둘다");
+            btns.get(3).setText("모름");
         }else if((dto.getBaby_category()).equals("분유")){
             linear_temp.setVisibility(View.GONE);
             linear_many.setVisibility(View.GONE);
-
-            dto.setAmount(0);
         }else if((dto.getBaby_category()).equals("이유식")){
             linear_temp.setVisibility(View.GONE);
             linear_many.setVisibility(View.GONE);
-
-            dto.setAmount(0);
         }else if((dto.getBaby_category()).equals("기저귀")){
             linear_amount.setVisibility(View.GONE);
             linear_end.setVisibility(View.GONE);
             linear_temp.setVisibility(View.GONE);
-            btn1.setText("대변");
-            btn2.setText("소변");
-            btn3.setText("둘다");
-            btn4.setVisibility(View.GONE);
+            btns.get(0).setText("대변");
+            btns.get(1).setText("소변");
+            btns.get(2).setText("둘다");
+            btns.get(3).setVisibility(View.GONE);
         }else if((dto.getBaby_category()).equals("수면")){
             linear_amount.setVisibility(View.GONE);
             linear_temp.setVisibility(View.GONE);
-            btn1.setText("낮잠");
-            btn2.setText("밤잠");
-            btn3.setVisibility(View.GONE);
-            btn4.setVisibility(View.GONE);
+            btns.get(0).setText("낮잠");
+            btns.get(1).setText("밤잠");
+            btns.get(2).setVisibility(View.GONE);
+            btns.get(3).setVisibility(View.GONE);
         }else if((dto.getBaby_category()).equals("목욕")){
             linear_amount.setVisibility(View.GONE);
             linear_temp.setVisibility(View.GONE);
@@ -118,31 +123,32 @@ public class DetailActivity extends AppCompatActivity {
             linear_end.setVisibility(View.GONE);
             linear_amount.setVisibility(View.GONE);
             linear_many.setVisibility(View.GONE);
-            dto.setTemperature(36.5);
         }else if((dto.getBaby_category()).equals("물")){
             linear_temp.setVisibility(View.GONE);
             linear_many.setVisibility(View.GONE);
-            dto.setAmount(0);
         }else if((dto.getBaby_category()).equals("투약")){
             linear_temp.setVisibility(View.GONE);
             linear_many.setVisibility(View.GONE);
-            dto.setAmount(0);
         }else if((dto.getBaby_category()).equals("간식")){
             linear_temp.setVisibility(View.GONE);
             linear_many.setVisibility(View.GONE);
-            dto.setAmount(0);
         }
 
+        //초기 세팅
         tv_state.setText(dto.getBaby_category());
         String time = getNowtime();
-        String[] time_arr1;
-        String[] time_arr2;
+
+
 
         if(is_info){
             time_arr1 = (dto.getStart_time()).split(":");
-            time_arr2 = (dto.getEnd_time()).split(":");
-            tv_temp.setText(dto.getTemperature()+"");
-            tv_amount.setText(dto.getAmount()+"");
+            if(dto.getEnd_time() == null){
+                time_arr2 = (time).split(":");
+            }else {
+                time_arr2 = (dto.getEnd_time()).split(":");
+            }
+            edt_temp.setText(dto.getTemperature()+"");
+            edt_amount.setText(dto.getAmount()+"");
             edt_memo.setText(dto.getMemo());
         }else{
             time_arr1 = (time).split(":");
@@ -150,13 +156,17 @@ public class DetailActivity extends AppCompatActivity {
             dto.setStart_time(time);
             dto.setEnd_time(time);
             btn_del.setVisibility(View.GONE);
-
         }
 
         tv_date.setText(dto.getDiary_date()+"");
         tv_start.setText(dto.getStart_time()+"");
         tv_end.setText(dto.getEnd_time()+"");
 
+        for(int i=0 ; i<btns.size(); i++){
+            if(btns.get(i).getText().equals(dto.getDiary_type())){
+                changeBtn(i);
+            }
+        }
 
 
 
@@ -172,7 +182,6 @@ public class DetailActivity extends AppCompatActivity {
                 }else{
                     strdate += hourOfDay;
                 }
-
                 if(minute<10){
                     strdate +=":0" + minute;
                 }else{
@@ -196,7 +205,6 @@ public class DetailActivity extends AppCompatActivity {
                 }else{
                     strdate += hourOfDay;
                 }
-
                 if(minute<10){
                     strdate +=":0" + minute;
                 }else{
@@ -230,12 +238,19 @@ public class DetailActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        //저장버튼
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dto.setMemo(edt_memo.getText()+"");
-
+                for(int i=0; i<amtCategoty.length; i++){
+                    if(dto.getBaby_category().equals(amtCategoty[i])){
+                        dto.setAmount(Double.parseDouble(edt_amount.getText()+""));
+                    }
+                }
+                if(dto.getBaby_category().equals("체온")){
+                    dto.setTemperature(Double.parseDouble(edt_temp.getText()+""));
+                }
                 if(intent.getSerializableExtra("is_info") != null){
                     AskTask task = new AskTask(CommonVal.httpip,"update.di");
                     String dtogson = gson.toJson(dto);
@@ -262,16 +277,59 @@ public class DetailActivity extends AppCompatActivity {
         btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AskTask task = new AskTask(CommonVal.httpip,"delete.di");
-                String dtogson = gson.toJson(dto);
-                task.addParam("dto", dtogson);
-                InputStream in = CommonMethod.excuteGet(task);
-                Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
-                //Log.d("isSucc : ", isSucc+"");
-                Intent intent = new Intent();
-                intent.putExtra("pageDate",dto.getDiary_date());
-                setResult(RESULT_OK, intent);
-                finish();
+                AlertDialog.Builder builder_cancel = new AlertDialog.Builder(DetailActivity.this).setTitle("취소").setMessage("정말 삭제하시겠습니까?")
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AskTask task = new AskTask(CommonVal.httpip,"delete.di");
+                                String dtogson = gson.toJson(dto);
+                                task.addParam("dto", dtogson);
+                                InputStream in = CommonMethod.excuteGet(task);
+                                Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                                //Log.d("isSucc : ", isSucc+"");
+                                Intent intent = new Intent();
+                                intent.putExtra("pageDate",dto.getDiary_date());
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                AlertDialog alertDialog = builder_cancel.create();
+                alertDialog.show();
+
+            }
+        });
+
+        btns.get(0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeBtn(0);
+                dto.setDiary_type(btns.get(0).getText()+"");
+            }
+        });
+        btns.get(1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeBtn(1);
+                dto.setDiary_type(btns.get(1).getText()+"");
+            }
+        });
+        btns.get(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeBtn(2);
+                dto.setDiary_type(btns.get(2).getText()+"");
+            }
+        });
+        btns.get(3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeBtn(3);
+                dto.setDiary_type(btns.get(3).getText()+"");
             }
         });
     }
@@ -283,12 +341,16 @@ public class DetailActivity extends AppCompatActivity {
         String getTime = dateFormat.format(date);
         return  getTime;
     }
-    /*public String getnowDate(){
-        //현재 시간
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String getTime = dateFormat.format(date);
-        //java.sql.Date date1 = java.sql.Date.valueOf(getTime);
-        return  getTime;
-    }*/
+
+    public void changeBtn(int num){
+        for(int i=0; i<btns.size(); i++){
+            if(i==num){
+                btns.get(i).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
+                btns.get(i).setTextColor(Color.parseColor("#ffffff"));
+            }else{
+                btns.get(i).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));
+                btns.get(i).setTextColor(Color.parseColor("#000000"));
+            }
+        }
+    }
 }

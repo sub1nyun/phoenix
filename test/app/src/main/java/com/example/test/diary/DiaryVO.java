@@ -6,7 +6,7 @@ public class DiaryVO implements Serializable {
     int diary_id;
     String baby_id;
     String diary_date;
-    int amount;
+    double amount;
     String start_time;
     double temperature;
     String memo;
@@ -37,10 +37,10 @@ public class DiaryVO implements Serializable {
     public void setDiary_date(String diary_date) {
         this.diary_date = diary_date;
     }
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
     public String getStart_time() {

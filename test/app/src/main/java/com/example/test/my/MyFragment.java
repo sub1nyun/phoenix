@@ -88,7 +88,7 @@ public class MyFragment extends Fragment{
                 dialog.setDialogListener(new DiaryTitleDialog.DialogListener() {
                     @Override
                     public void onPositiveClick(String name) {
-                        AskTask task = new AskTask("http://192.168.0.26", "chTitle.bif");
+                        AskTask task = new AskTask(CommonVal.httpip, "chTitle.bif");
                         task.addParam("title", name);
                         task.addParam("baby_id", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getBaby_id());
                         InputStream in = CommonMethod.excuteGet(task);
@@ -112,7 +112,7 @@ public class MyFragment extends Fragment{
 
                     CommonVal.curbaby = list.get(position);
 
-                    AskTask body_task = new AskTask("http://192.168.0.26", "cntbody.stor");
+                    AskTask body_task = new AskTask(CommonVal.httpip, "cntbody.stor");
                     body_task.addParam("baby_id", list.get(position).getBaby_id());
                     InputStream in = CommonMethod.excuteGet(body_task);
                     String cntbody = gson.fromJson(new InputStreamReader(in), new TypeToken<String>(){}.getType());
@@ -151,7 +151,7 @@ public class MyFragment extends Fragment{
 
                 CommonVal.curbaby = list.get(0);
 
-                AskTask body_task = new AskTask("http://192.168.0.26", "cntbody.stor");
+                AskTask body_task = new AskTask(CommonVal.httpip, "cntbody.stor");
 
                 body_task.addParam("baby_id", list.get(0).getBaby_id());
                 InputStream in = CommonMethod.excuteGet(body_task);
@@ -192,7 +192,7 @@ public class MyFragment extends Fragment{
         btn_co_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AskTask task = new AskTask("http://192.168.0.26", "coparent.bif");
+                AskTask task = new AskTask(CommonVal.httpip, "coparent.bif");
                 task.addParam("baby_id", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getBaby_id());
                 InputStream in = CommonMethod.excuteGet(task);
                 List<FamilyInfoVO> coparent = gson.fromJson(new InputStreamReader(in), new TypeToken<List<FamilyInfoVO>>(){}.getType());
@@ -210,7 +210,7 @@ public class MyFragment extends Fragment{
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //어딘가로 이동
-                                AskTask task_delete = new AskTask("http://192.168.0.26", "babydel.bif");
+                                AskTask task_delete = new AskTask(CommonVal.httpip, "babydel.bif");
                                 task_delete.addParam("baby_id", preferences.getString("cntBaby", ""));
                                 InputStream in = CommonMethod.excuteGet(task_delete);
                                 if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())){

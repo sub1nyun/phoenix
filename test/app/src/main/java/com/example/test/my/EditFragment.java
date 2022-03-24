@@ -42,6 +42,7 @@ import com.example.test.OnBackPressedListenser;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -103,7 +104,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         tv_birth.setText(vo.getBaby_birth().toString());
 
         //아이와의 관계 불러오기
-        AskTask task = new AskTask("http://192.168.0.26", "rels.bif");
+        AskTask task = new AskTask(CommonVal.httpip, "rels.bif");
         task.addParam("id", vo.getId()); //로그인한 아이디로 변경 필요
         task.addParam("baby_id", vo.getBaby_id());
         InputStream in = CommonMethod.excuteGet(task);
@@ -140,7 +141,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                 vo.setBaby_name(edit_name.getText().toString().trim());
                 vo.setBaby_birth(tv_birth.getText().toString());
                 family.setFamily_rels(my_rels.getText().toString().trim());
-                AskTask task_save = new AskTask("http://192.168.0.26", "updatebaby.bif");
+                AskTask task_save = new AskTask(CommonVal.httpip, "updatebaby.bif");
                 task_save.addParam("vo", gson.toJson(vo));
                 if(imgFilePath != null){
                     Toast.makeText(getContext(), imgFilePath, Toast.LENGTH_SHORT).show();
@@ -358,22 +359,10 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     }
 
 
+    //플래그먼트 백버튼 처리
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder_cancel = new AlertDialog.Builder(getContext()).setTitle("취소").setMessage("현재 수정하신 내용이 저장되지 않습니다.\n정말 취소하시겠습니까?")
-                .setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)getActivity()).changeFrag(new MyFragment());
-                    }
-                }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-        AlertDialog alertDialog = builder_cancel.create();
-        alertDialog.show();
+        edit_cancel.callOnClick();
     }
 
     //버튼 색 변경
