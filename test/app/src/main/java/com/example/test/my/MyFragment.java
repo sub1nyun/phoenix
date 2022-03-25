@@ -17,9 +17,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +49,8 @@ public class MyFragment extends Fragment{
     TextView my_birth_tv, my_name_tv, my_diary_title, my_gender_man, my_gender_woman, baby_body;
     Gson gson = new Gson();
     List<BabyInfoVO> list;
-    SharedPreferences preferences;
+    String[] titlelist = new String[CommonVal.family_title.size()];
+    String title = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,19 +69,16 @@ public class MyFragment extends Fragment{
         my_gender_woman = rootView.findViewById(R.id.my_gender_woman);
         baby_body = rootView.findViewById(R.id.baby_body);
 
-        //AskTask task = new AskTask("http://192.168.0.26", "list.bif");
-        //로그인 정보로 수정 필요
-        //task.addParam("id", "a");
-        //InputStream in = CommonMethod.excuteGet(task);
-        //list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
         list = CommonVal.baby_list;
-
+        for(int i=0; i<titlelist.length; i++){
+            titlelist[i] = CommonVal.family_title.get(i);
+        }
 
         //육아일기 수정
         my_diary_title_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DiaryTitleDialog dialog = new DiaryTitleDialog(getContext(), gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getTitle());
+                DiaryTitleDialog dialog = new DiaryTitleDialog(getContext(), CommonVal.curbaby.getTitle());
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -90,7 +90,7 @@ public class MyFragment extends Fragment{
                     public void onPositiveClick(String name) {
                         AskTask task = new AskTask(CommonVal.httpip, "chTitle.bif");
                         task.addParam("title", name);
-                        task.addParam("baby_id", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getBaby_id());
+                        task.addParam("baby_id", CommonVal.curbaby.getBaby_id());
                         InputStream in = CommonMethod.excuteGet(task);
                         ((MainActivity)getActivity()).changeFrag(new MyFragment());
                     }
@@ -99,17 +99,15 @@ public class MyFragment extends Fragment{
         });
 
         //아기 선택
-        //list.add(new BabyInfoVO());
         BabySelectAdapter babySelectAdapter = new BabySelectAdapter(list, inflater, getContext());
         my_spinner.setAdapter(babySelectAdapter);
         my_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == list.size()){
-                    Toast.makeText(getContext(), "아기추가로 이동", Toast.LENGTH_SHORT).show();
+                    //아기 추가
+                    InsertDialog(view);
                 } else {
-                    saveCntBaby(position);
-
                     CommonVal.curbaby = list.get(position);
 
                     AskTask body_task = new AskTask(CommonVal.httpip, "cntbody.stor");
@@ -147,12 +145,9 @@ public class MyFragment extends Fragment{
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                saveCntBaby(0);
-
                 CommonVal.curbaby = list.get(0);
 
                 AskTask body_task = new AskTask(CommonVal.httpip, "cntbody.stor");
-
                 body_task.addParam("baby_id", list.get(0).getBaby_id());
                 InputStream in = CommonMethod.excuteGet(body_task);
                 String cntbody = gson.fromJson(new InputStreamReader(in), new TypeToken<String>(){}.getType());
@@ -182,8 +177,8 @@ public class MyFragment extends Fragment{
         my_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new EditFragment(gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class));
-                ((MainActivity)getActivity()).backFrag(new EditFragment(gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class)));
+                Fragment fragment = new EditFragment(CommonVal.curbaby);
+                ((MainActivity)getActivity()).backFrag(new EditFragment(CommonVal.curbaby));
                 ((MainActivity)getActivity()).changeFrag(fragment);
             }
         });
@@ -193,7 +188,7 @@ public class MyFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 AskTask task = new AskTask(CommonVal.httpip, "coparent.bif");
-                task.addParam("baby_id", gson.fromJson(preferences.getString("cntBaby", ""), BabyInfoVO.class).getBaby_id());
+                task.addParam("baby_id", CommonVal.curbaby.getBaby_id());
                 InputStream in = CommonMethod.excuteGet(task);
                 List<FamilyInfoVO> coparent = gson.fromJson(new InputStreamReader(in), new TypeToken<List<FamilyInfoVO>>(){}.getType());
                 ((MainActivity)getActivity()).backFrag(new CoParentFragment(coparent));
@@ -209,16 +204,36 @@ public class MyFragment extends Fragment{
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //어딘가로 이동
-                                AskTask task_delete = new AskTask(CommonVal.httpip, "babydel.bif");
-                                task_delete.addParam("baby_id", preferences.getString("cntBaby", ""));
+                                AskTask task_delete = new AskTask("http://192.168.0.26", "babydel.bif");
+                                task_delete.addParam("baby_id", CommonVal.curbaby.getBaby_id());
                                 InputStream in = CommonMethod.excuteGet(task_delete);
                                 if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())){
                                     Toast.makeText(getContext(), "아기 정보가 성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                                    if((list.size() - 1) == 0){
-                                        //육아일기 생성 페이지로 이동
-                                    } else{
-                                        
+                                    //아기 목록 다시 불러오기
+                                    AskTask task_re = new AskTask(CommonVal.httpip, "list.bif");
+                                    task_re.addParam("id", CommonVal.curuser.getId());
+                                    InputStream in_re = CommonMethod.excuteGet(task_re);
+                                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                                    CommonVal.curbaby = CommonVal.baby_list.get(0);
+
+                                    AskTask task = new AskTask("http://192.168.0.26", "countbaby.bif");
+                                    task.addParam("title", title);
+                                    InputStream in_select = CommonMethod.excuteGet(task);
+                                    if(gson.fromJson(new InputStreamReader(in_select), new TypeToken<Boolean>(){}.getType())){ //육아일기에 아기가 남아있을 때
+                                        ((MainActivity)getActivity()).changeFrag(new MyFragment());
+                                    } else{ //육아일기에 아기가 없을 때
+                                        //육아일기 지우기
+                                        AskTask del_task = new AskTask("http://192.168.0.26", "deltitle.bif");
+                                        del_task.addParam("title", title);
+                                        InputStream del_in = CommonMethod.excuteGet(del_task);
+                                        if(CommonVal.baby_list == null){ //사용자가 다른 육아일기가 없을 때
+                                            //육아일기 생성으로 이동
+                                            CommonVal.curuser.setId(CommonVal.curuser.getId());
+                                            CommonVal.curuser.setPw(CommonVal.curuser.getPw());
+                                            Toast.makeText(getContext(), "육아일기 생성으로 이동해야됨", Toast.LENGTH_SHORT).show();
+                                        } else{ //사용자가 다른 육아일기가 있을 때
+                                            ((MainActivity)getActivity()).changeFrag(new MyFragment());
+                                        }
                                     }
                                 }
                             }
@@ -236,16 +251,24 @@ public class MyFragment extends Fragment{
         return rootView;
     }
 
-    //현재 애기 누구인지 저장
-    public void saveCntBaby(int positiion){
-        try{
-            preferences = getActivity().getPreferences(getActivity().MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("baby_id", list.get(positiion).getBaby_id());
-            editor.putString("cntBaby", gson.toJson(list.get(positiion)));
-            editor.commit();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    //아기 추가 시 육아 일기 선택 다이얼로그
+    public void InsertDialog(View view){
+        new AlertDialog.Builder(getContext()).setTitle("육아 일기 선택").setSingleChoiceItems(titlelist, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(), titlelist[which], Toast.LENGTH_SHORT).show();
+            }
+        }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                CommonVal.curuser.setTitle(titlelist[which]);
+                //아기 정보 입력으로 이동
+            }
+        }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).show();
     }
 }

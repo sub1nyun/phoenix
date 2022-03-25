@@ -22,6 +22,7 @@ import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -59,9 +60,7 @@ public class DiaryTitleDialog extends Dialog {
         diary_title_ok = findViewById(R.id.diary_title_ok);
         check_title = findViewById(R.id.check_title);
 
-        AskTask task = new AskTask("http://192.168.0.26", "titlelist.bif");
-        InputStream in = CommonMethod.excuteGet(task);
-        List<String> list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<String>>(){}.getType());
+        List<String> list = CommonVal.family_title;
 
         //넘어온 값으로 edittext 변경
         diary_title_edit.setText(title);
