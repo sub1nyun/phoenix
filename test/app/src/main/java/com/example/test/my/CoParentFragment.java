@@ -15,10 +15,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.test.R;
-import com.example.test.common.AskTask;
-import com.example.test.common.CommonMethod;
-
-import java.io.InputStream;
 import java.util.List;
 
 public class CoParentFragment extends Fragment {
@@ -38,13 +34,6 @@ public class CoParentFragment extends Fragment {
         exit_family = rootView.findViewById(R.id.exit_family);
         family_back = rootView.findViewById(R.id.family_back);
 
-        //ArrayList<CoParentVO> list = new ArrayList<>(); //데이터 받아오는걸로 변경
-        /*list.add(new CoParentDTO("엄마다", "엄마")); //테스트용
-        list.add(new CoParentDTO("아빠다", "아빠"));
-        list.add(new CoParentDTO("시터다", "시터"));
-        list.add(new CoParentDTO("다른사람이다", "기타"));
-        list.add(new CoParentDTO("할머니다", "할머니"));
-        list.add(new CoParentDTO("할아버지다", "할아버지"));*/
         CoParentAdapter adapter = new CoParentAdapter(list, inflater);
         rcv_co_parent.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);

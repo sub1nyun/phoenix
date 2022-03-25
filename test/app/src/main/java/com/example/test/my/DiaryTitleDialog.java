@@ -6,11 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,16 +14,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.example.test.MainActivity;
 import com.example.test.R;
-import com.example.test.common.AskTask;
-import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 public class DiaryTitleDialog extends Dialog {

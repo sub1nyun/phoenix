@@ -17,11 +17,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,14 +29,12 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.diary.DiaryFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 public class MyFragment extends Fragment{
@@ -204,7 +199,7 @@ public class MyFragment extends Fragment{
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                AskTask task_delete = new AskTask("http://192.168.0.26", "babydel.bif");
+                                AskTask task_delete = new AskTask(CommonVal.httpip, "babydel.bif");
                                 task_delete.addParam("baby_id", CommonVal.curbaby.getBaby_id());
                                 InputStream in = CommonMethod.excuteGet(task_delete);
                                 if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())){
@@ -214,16 +209,16 @@ public class MyFragment extends Fragment{
                                     task_re.addParam("id", CommonVal.curuser.getId());
                                     InputStream in_re = CommonMethod.excuteGet(task_re);
                                     CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                                    CommonVal.curbaby = CommonVal.baby_list.get(0);
 
-                                    AskTask task = new AskTask("http://192.168.0.26", "countbaby.bif");
+                                    AskTask task = new AskTask(CommonVal.httpip, "countbaby.bif");
                                     task.addParam("title", title);
                                     InputStream in_select = CommonMethod.excuteGet(task);
                                     if(gson.fromJson(new InputStreamReader(in_select), new TypeToken<Boolean>(){}.getType())){ //육아일기에 아기가 남아있을 때
+                                        CommonVal.curbaby = CommonVal.baby_list.get(0);
                                         ((MainActivity)getActivity()).changeFrag(new MyFragment());
                                     } else{ //육아일기에 아기가 없을 때
                                         //육아일기 지우기
-                                        AskTask del_task = new AskTask("http://192.168.0.26", "deltitle.bif");
+                                        AskTask del_task = new AskTask(CommonVal.httpip, "deltitle.bif");
                                         del_task.addParam("title", title);
                                         InputStream del_in = CommonMethod.excuteGet(del_task);
                                         if(CommonVal.baby_list == null){ //사용자가 다른 육아일기가 없을 때
@@ -231,7 +226,9 @@ public class MyFragment extends Fragment{
                                             CommonVal.curuser.setId(CommonVal.curuser.getId());
                                             CommonVal.curuser.setPw(CommonVal.curuser.getPw());
                                             Toast.makeText(getContext(), "육아일기 생성으로 이동해야됨", Toast.LENGTH_SHORT).show();
+                                            ((MainActivity)getActivity()).changeFrag(new DiaryFragment());
                                         } else{ //사용자가 다른 육아일기가 있을 때
+                                            CommonVal.curbaby = CommonVal.baby_list.get(0);
                                             ((MainActivity)getActivity()).changeFrag(new MyFragment());
                                         }
                                     }
