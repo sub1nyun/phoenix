@@ -1,11 +1,13 @@
 package com.example.test.diary;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,18 +18,23 @@ import androidx.fragment.app.Fragment;
 import com.example.test.MainActivity;
 import com.example.test.OnBackPressedListenser;
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.EditFragment;
+import com.google.gson.Gson;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class BodyFragment extends Fragment  implements OnBackPressedListenser {
     TextView tv_name, tv_gender, edit_ok;
     EditText edit_weight, edit_height;
-    ImageView edit_cancel, view_graph;
-    BabyInfoVO vo;
+    ImageView edit_cancel, view_graph, view_calender;
+    Gson gson = new Gson();
 
-    public BodyFragment(BabyInfoVO vo) {
-        this.vo = vo;
-    }
+    DatePickerDialog.OnDateSetListener callbackMethod;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,16 +46,24 @@ public class BodyFragment extends Fragment  implements OnBackPressedListenser {
         edit_weight = rootView.findViewById(R.id.edit_weight);
         edit_height = rootView.findViewById(R.id.edit_height);
         view_graph = rootView.findViewById(R.id.view_graph);
+        view_calender = rootView.findViewById(R.id.view_calender);
 
         //초기 세팅
-        tv_name.setText(vo.getBaby_name());
-        if(vo.getBaby_gender().equals("남아")){
+        tv_name.setText(CommonVal.curbaby.getBaby_name());
+        if(CommonVal.curbaby.getBaby_gender().equals("남아")){
             tv_gender.setText("남자");
-        } else if(vo.getBaby_gender().equals("여아")){
+        } else if(CommonVal.curbaby.getBaby_gender().equals("여아")){
             tv_gender.setText("여자");
         } else{
             tv_gender.setText("성별 모름");
         }
+
+        callbackMethod = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+            }
+        };
 
         //뒤로가기
         edit_cancel.setOnClickListener(new View.OnClickListener() {
@@ -76,15 +91,25 @@ public class BodyFragment extends Fragment  implements OnBackPressedListenser {
        edit_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putDouble("kg", Double.parseDouble(edit_weight.getText().toString() != "" ? edit_weight.getText().toString() : "0.0"));
-                bundle.putDouble("cm", Double.parseDouble(edit_height.getText().toString() != "" ? edit_height.getText().toString() : "0.0"));
-                Fragment fragment = new EditFragment(vo);
-                fragment.setArguments(bundle);
-                ((MainActivity)getActivity()).changeFrag(fragment);
+                /*BabyStorVO vo = new BabyStorVO();
+                vo.setBaby_id(CommonVal.curbaby.getBaby_id());
+                vo.setStor_date();
+                String weight = edit_weight.getText().toString() != "" ? edit_weight.getText().toString() : "0.0";
+                String height = edit_height.getText().toString() != "" ? edit_height.getText().toString() : "0.0";
+                AskTask task = new AskTask(CommonVal.httpip,"insert.stor");
+                String dtogson = gson.toJson(dto);
+                task.addParam("dto", dtogson);
+                InputStream in = CommonMethod.excuteGet(task);
+                Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);*/
             }
         });
 
+        view_calender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
        //그래프 보기
         view_graph.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +121,7 @@ public class BodyFragment extends Fragment  implements OnBackPressedListenser {
 
         return rootView;
     }
+
     //플래그먼트 백버튼 처리
     @Override
     public void onBackPressed() {

@@ -3,8 +3,10 @@ package com.example.test.diary;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -58,6 +61,7 @@ public class DiaryFragment extends Fragment {
         this.pageDate = pageDate;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,12 +93,14 @@ public class DiaryFragment extends Fragment {
         imv_store = rootview.findViewById(R.id.imv_store);
 
         //개월수 구하기
-        /*String[] age_arr = CommonVal.
-        LocalDate age = LocalDate.of()*/
+        String baby_age_str = CommonVal.curbaby.getBaby_birth();
+        String[] baby_age_arr = baby_age_str.substring(0,baby_age_str.indexOf(" ")).split("-");
+        LocalDate theDate = LocalDate.of(Integer.parseInt(baby_age_arr[0]),Integer.parseInt(baby_age_arr[1]),Integer.parseInt(baby_age_arr[2]));
+        Period age = theDate.until(LocalDate.now());
 
         tv_baby_name.setText(CommonVal.curbaby.getBaby_name());
         tv_baby_gender.setText(CommonVal.curbaby.getBaby_gender());
-        tv_baby_age.setText(CommonVal.curbaby.getBaby_birth());
+        tv_baby_age.setText(age.getYears()*12 + age.getMonths() + "개월 " + age.getDays() + "일");
 
         //페이지 날짜를 넘겨받았을 때
         if(pageDate != null){
@@ -117,8 +123,8 @@ public class DiaryFragment extends Fragment {
         imv_store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new BodyFragment(CommonVal.curbaby);
-                ((MainActivity)getActivity()).backFrag(new BodyFragment(CommonVal.curbaby));
+                Fragment fragment = new BodyFragment();
+                ((MainActivity)getActivity()).backFrag(new BodyFragment());
                 ((MainActivity)getActivity()).changeFrag(fragment);
             }
         });
