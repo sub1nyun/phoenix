@@ -21,7 +21,6 @@ import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.my.BabyInfoVO;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -260,14 +259,12 @@ public class JoinMainActivity extends AppCompatActivity {
 
     }
 
-    public UserVO user() {
+    public boolean user() {
         AskTask task = new AskTask("http://192.168.0.50", "user.join");
-        task.addParam("UserVO", gson.toJson( vo ) );
+        task.addParam("vo", gson.toJson( vo ) );
         String aa = "";
         InputStream in = CommonMethod.excuteGet(task);
-        UserVO data = gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>() {
-        }.getType());
-
+        boolean data = gson.fromJson(new InputStreamReader(in), Boolean.class);
         return data;
     }
 
