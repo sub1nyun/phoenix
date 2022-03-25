@@ -1,7 +1,16 @@
 package com.example.test.join;
 
 public class UserVO {
-    private String title, relation, id, pw, pw_chk, name, naver_id, kakao_id, birth;
+    private String title, family_rels, id, pw,pw_chk, naver_id, kakao_id;
+
+
+    public String getPw_chk() {
+        return pw_chk;
+    }
+
+    public void setPw_chk(String pw_chk) {
+        this.pw_chk = pw_chk;
+    }
 
     public String getTitle() {
         return title;
@@ -11,12 +20,12 @@ public class UserVO {
         this.title = title;
     }
 
-    public String getRelation() {
-        return relation;
+    public String getFamily_rels() {
+        return family_rels;
     }
 
-    public void setRelation(String relation) {
-        this.relation = relation;
+    public void setFamily_rels(String family_rels) {
+        this.family_rels = family_rels;
     }
 
     public String getId() {
@@ -35,22 +44,6 @@ public class UserVO {
         this.pw = pw;
     }
 
-    public String getPw_chk() {
-        return pw_chk;
-    }
-
-    public void setPw_chk(String pw_chk) {
-        this.pw_chk = pw_chk;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getNaver_id() {
         return naver_id;
     }
@@ -67,11 +60,5 @@ public class UserVO {
         this.kakao_id = kakao_id;
     }
 
-    public String getBirth() {
-        return birth;
-    }
 
-    public void setBirth(String birth) {
-        this.birth = birth;
-    }
 }

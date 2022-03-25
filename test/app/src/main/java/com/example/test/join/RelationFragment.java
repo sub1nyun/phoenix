@@ -54,7 +54,7 @@ public class RelationFragment extends Fragment {
         tv_list.add(rootView.findViewById(R.id.tv_gmother));
         tv_list.add(rootView.findViewById(R.id.tv_gfather));
         tv_list.add(rootView.findViewById(R.id.tv_others));
-        if( JoinMainActivity.vo.getRelation() == null ){
+        if( JoinMainActivity.vo.getFamily_rels() == null ){
             chg_linear(0);
         }else {
             chg_linear(choose);
@@ -122,7 +122,7 @@ public class RelationFragment extends Fragment {
         String aa = "" ;
         for(int i=0; i<6; i++){
             if(i==num){
-                JoinMainActivity.vo.setRelation(btn);
+                JoinMainActivity.vo.setFamily_rels(btn);
                 choose = num;
                 linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.select_btn));
                 tv_list.get(i).setTextColor(Color.parseColor("#ffffff"));

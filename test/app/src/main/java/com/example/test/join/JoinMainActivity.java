@@ -17,9 +17,14 @@ import androidx.fragment.app.Fragment;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
 import com.example.test.my.BabyInfoVO;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class JoinMainActivity extends AppCompatActivity {
@@ -105,6 +110,8 @@ public class JoinMainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id)
                 {
+                    //      회원가입 들어가는 부분
+                    user();
                     Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                     startActivity(intent);
                 }
@@ -253,5 +260,15 @@ public class JoinMainActivity extends AppCompatActivity {
 
     }
 
+    public UserVO user() {
+        AskTask task = new AskTask("http://192.168.0.50", "user.join");
+        task.addParam("UserVO", gson.toJson( vo ) );
+        String aa = "";
+        InputStream in = CommonMethod.excuteGet(task);
+        UserVO data = gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>() {
+        }.getType());
+
+        return data;
+    }
 
 }

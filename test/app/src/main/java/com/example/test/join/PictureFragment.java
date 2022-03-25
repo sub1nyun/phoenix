@@ -49,6 +49,14 @@ public class PictureFragment extends Fragment {
         checkDangerousPermissions();
         imv_photo = rootview.findViewById(R.id.imv_photo);
 
+        if(JoinMainActivity.babyInfoVO.getBaby_photo() != null){
+            Glide.with(getContext()).load(imgFilePath).into(imv_photo);
+            //JoinMainActivity.vo.setKakao_id("sdf");      값 test
+            //Toast.makeText(getContext(), JoinMainActivity.babyInfoVO.getBaby_photo()+"", Toast.LENGTH_SHORT).show();
+        }
+
+
+
         imv_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +122,7 @@ public class PictureFragment extends Fragment {
             rtnPath = cursor.getString(columns_index);
         }
         cursor.close();
+        JoinMainActivity.babyInfoVO.setBaby_photo( rtnPath );
         return rtnPath;
     }
 

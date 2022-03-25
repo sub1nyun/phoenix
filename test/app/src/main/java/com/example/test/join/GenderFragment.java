@@ -46,7 +46,7 @@ public class GenderFragment extends Fragment {
         tv_list.add(rootView.findViewById(R.id.tv_random));
 
 
-        if( JoinMainActivity.vo.getRelation() == null ){
+        if( JoinMainActivity.vo.getFamily_rels() == null ){
             chg_linear(0);
         }else {
             chg_linear(choose);
@@ -64,7 +64,6 @@ public class GenderFragment extends Fragment {
                 tv_random.setTextColor(Color.parseColor("#707070"));
                 btn = "남아";
                 choose = 0;
-
             }
         });
         linear_woman.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +90,6 @@ public class GenderFragment extends Fragment {
                 tv_random.setTextColor(Color.parseColor("#ffffff"));
                 btn = "아직모름";
                 choose = 2;
-
             }
         });
 
