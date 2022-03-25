@@ -114,13 +114,13 @@ public class LoginActivity extends AppCompatActivity {
                     CommonVal.curuser.setId("a");
                     CommonVal.curuser.setPw("a");
 
-                    //아기 리스트 불러오기
-                    AskTask task = new AskTask(CommonVal.httpip, "list.bif");
-                    //로그인 정보로 수정 필요
-                    task.addParam("id", CommonVal.curuser.getId());
-                    InputStream in = CommonMethod.excuteGet(task);
-                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                    CommonVal.curbaby = CommonVal.baby_list.get(0);
+//                    //아기 리스트 불러오기
+//                    AskTask task = new AskTask(CommonVal.httpip, "list.bif");
+//                    //로그인 정보로 수정 필요
+//                    task.addParam("id", CommonVal.curuser.getId());
+//                    InputStream in = CommonMethod.excuteGet(task);
+//                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
+//                    CommonVal.curbaby = CommonVal.baby_list.get(0);
 
                     //가족정보 불러오기
 //                    task = new AskTask(CommonVal.httpip, "titlelist.us");

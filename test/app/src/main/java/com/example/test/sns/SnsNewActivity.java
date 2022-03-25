@@ -54,6 +54,7 @@ public class SnsNewActivity extends AppCompatActivity {
     public static ArrayList<Uri> uriList = new ArrayList<>();
     EditText sns_new_text;
     SnsVO vo = new SnsVO();
+    SnsImgVO imgvo = new SnsImgVO();
     ArrayList<SnsVO> snslist = new ArrayList<>();
 
     public final int CAMERA_CODE = 1004;
@@ -93,7 +94,6 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_share.setOnClickListener(v -> {
             if(imgFilePath != null) {
               //SnsFragment.img_list.add(imgFilePath);
-                vo.setSns_img(imgFilePath);
                 vo.setSns_content(sns_new_text.getText()+"");
               //저장 로직
                 AskTask addSns = new AskTask("http://192.168.0.11", "share.sn");
@@ -103,10 +103,19 @@ public class SnsNewActivity extends AppCompatActivity {
                 CommonVal.curuser.setPw("a");
                 vo.setTitle("test");
                 vo.setId(CommonVal.curuser.getId());
+                imgvo.setTitle("test");
+                imgvo.setId(CommonVal.curuser.getId());
+                imgvo.setSns_img(imgFilePath);
+
+                //imgvo.setSns_img(gson.toJson(imgFilePath));
 //                addSns.addParam("id","a");
 //                addSns.addParam("title", "test");
                 String testvo = gson.toJson(vo);
+                //String imgsvo = gson.toJson(imgvo);
+                String testimgvo = gson.toJson(imgvo);
                addSns.addParam("vo",testvo);
+                addSns.addParam("imgvo",testimgvo);
+
                InputStream in = CommonMethod.excuteGet(addSns);
 
 
@@ -192,12 +201,19 @@ public class SnsNewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
        if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
-            //Glide.with(SnsNewActivity.this).load(imgFilePath).into();
+           if(data.getClipData() != null) {
+           ClipData clipData = data.getClipData();
+           imgFilePath.add(getGalleryRealPath(clipData.getItemAt(0).getUri()));
+           }
+         //  go_gallery();
+           // Glide.with(SnsNewActivity.this).load(imgFilePath.add()).into();
+
         } else if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
            if(data.getClipData() == null) {
                Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
+           }else if(data.getClipData().getItemCount() > 10) {
+               Toast.makeText(SnsNewActivity.this, "사진은 열장까지 선택 가능합니다", Toast.LENGTH_SHORT).show();
            }
            else if(data.getClipData() != null) {
                ClipData clipData = data.getClipData();
@@ -205,26 +221,11 @@ public class SnsNewActivity extends AppCompatActivity {
                for(int i =0; i < clipData.getItemCount(); i++) {
                    imgFilePath.add(getGalleryRealPath(clipData.getItemAt(i).getUri()));
 
-
-                   LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                   snsImgRecAdapter = new SnsImgRecAdapter(imgFilePath, inflater,this, imgFilePath.size());
+                   snsImgRecAdapter = new SnsImgRecAdapter(imgFilePath,this,imgFilePath.size());
                    sns_new_img_rec.setAdapter(snsImgRecAdapter);
                   sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,true));
-
-
-
                }
-           }else if(data.getClipData().getItemCount() >= 11) {
-               Toast.makeText(SnsNewActivity.this, "사진은 열장까지 선택 가능합니다", Toast.LENGTH_SHORT).show();
            }
-
-
-
-//            Toast.makeText(SnsNewActivity.this, "갤러리 사진 가져옴", Toast.LENGTH_SHORT).show();
-//            //getContentResolver.query <= 경로를 받아오는 처리. 실제 저장경로 Uri를 알아옴.
-//            Uri selectImageUri = data.getData();
-//            imgFilePath = getGalleryRealPath(selectImageUri);
-//            Glide.with(SnsNewActivity.this).load(imgFilePath).into(sns_new_img);
         }
     }
 

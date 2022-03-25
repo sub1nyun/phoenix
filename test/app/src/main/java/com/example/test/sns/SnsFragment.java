@@ -101,7 +101,7 @@ public class SnsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         for(int i = 0 ; i<img_list.size() ; i++){
-            snslist.add(new SnsVO(img_list, "테스트1"));
+            snslist.add(new SnsVO( "테스트1"));
         }
         //쿼리 작성할 부분
         img_list = new ArrayList<>();

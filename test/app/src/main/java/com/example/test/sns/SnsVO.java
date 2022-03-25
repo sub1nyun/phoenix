@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class SnsVO implements Serializable {
 
-    private ArrayList<String> sns_img;
+    //private ArrayList<String> sns_img;
     private String sns_content;
     private int sns_no;
     private Date sns_date;
@@ -17,8 +17,7 @@ public class SnsVO implements Serializable {
 
     }
 
-    public SnsVO(ArrayList<String> sns_img, String sns_content) {
-        this.sns_img = sns_img;
+    public SnsVO(String sns_content) {
         this.sns_content = sns_content;
     }
 
@@ -33,13 +32,6 @@ public class SnsVO implements Serializable {
         this.title = title;
     }
 
-    public ArrayList<String> getSns_img() {
-        return sns_img;
-    }
-
-    public void setSns_img(ArrayList<String> sns_img) {
-        this.sns_img = sns_img;
-    }
 
     public String getSns_content() {
         return sns_content;

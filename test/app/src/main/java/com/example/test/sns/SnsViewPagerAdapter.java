@@ -38,9 +38,9 @@ public class SnsViewPagerAdapter extends RecyclerView.Adapter<SnsViewPagerAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Glide.with(context).load(snslist.get(position).getSns_img()+"").into(  holder.sns_item_imgv);
+        //Glide.with(context).load(snslist.get(position).getSns_img()+"").into(  holder.sns_item_imgv);
         //holder.sns_item_imgv.setImageResource(snslist.get(position).getSnsImg()); test
-        holder.sns_item_text.setText(snslist.get(position).getSns_content()); //test
+       // holder.sns_item_text.setText(snslist.get(position).getSns_content()); //test
 
     }
 
