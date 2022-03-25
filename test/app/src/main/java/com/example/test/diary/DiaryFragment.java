@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
@@ -34,7 +34,7 @@ import java.util.List;
 
 
 public class DiaryFragment extends Fragment {
-    ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger, imv_backday, imv_forwardday, imv_graph;
+    ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger, imv_backday, imv_forwardday, imv_graph, imv_store;
     TextView tv_today;
     Intent intent;
     RecyclerView rcv_diary;
@@ -81,6 +81,8 @@ public class DiaryFragment extends Fragment {
         imv_forwardday = rootview.findViewById(R.id.imv_forwardday);
 
         imv_graph = rootview.findViewById(R.id.imv_graph);
+        imv_store = rootview.findViewById(R.id.imv_store);
+
 
         //페이지 날짜를 넘겨받았을 때
         if(pageDate != null){
@@ -97,6 +99,15 @@ public class DiaryFragment extends Fragment {
             public void onClick(View v) {
                 intent = new Intent(getContext(), GraphActivity.class);
                 startActivity(intent);
+            }
+        });
+        //키 / 체중 입력
+        imv_store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new BodyFragment(CommonVal.curbaby);
+                ((MainActivity)getActivity()).backFrag(new BodyFragment(CommonVal.curbaby));
+                ((MainActivity)getActivity()).changeFrag(fragment);
             }
         });
 
@@ -234,6 +245,7 @@ public class DiaryFragment extends Fragment {
 
     public DiaryVO setDTO(String category){
         DiaryVO vo = new DiaryVO();
+        vo.setBaby_id(CommonVal.curbaby.getBaby_id());
         vo.setBaby_category(category);
         String strM = today.get(Calendar.MONTH) < 9 ? "0"+(today.get(Calendar.MONTH)+1) : ""+(today.get(Calendar.MONTH)+1);
         String strD = today.get(Calendar.DATE) < 10 ? "0"+today.get(Calendar.DATE) : ""+today.get(Calendar.DATE);
@@ -260,6 +272,7 @@ public class DiaryFragment extends Fragment {
         }else{
             task.addParam("date", y + "-" + (m+1) + "-" + d);
         }
+        task.addParam("id", CommonVal.curbaby.getBaby_id());
         InputStream in = CommonMethod.excuteGet(task);
         if(in != null){
             //NetworkOnMainThreadException 에러가 발생해서 추가

@@ -77,7 +77,7 @@
                         android:id="@+id/imv_graph"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/graph"
+                        android:src="@drawable/graph2"
                         />
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -118,6 +118,64 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:text="선"
+                            android:textColor="#fff"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="11dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginLeft="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+                    <ImageView
+                        android:id="@+id/imv_store"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/grow"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="키"
+                            android:textColor="#fff"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="11dp"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="/"
+                            android:textColor="#fff"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="11dp"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="체"
+                            android:textColor="#fff"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="11dp"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="중"
                             android:textColor="#fff"
                             android:textAlignment="center"
                             android:textStyle="bold"

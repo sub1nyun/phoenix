@@ -97,14 +97,37 @@
                     android:text="먹인 양"
                     android:textSize="20dp"
                     />
-                <TextView
-                    android:id="@+id/tv_amount"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100ml"
-                    android:textAlignment="center"
-                    android:textSize="30dp"
-                    />
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                    <LinearLayout
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_round_gray"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp">
+                        <EditText
+                            android:id="@+id/edt_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="0"
+                            android:textSize="30dp"
+                            android:inputType="numberDecimal"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:background="#fff"
+                            android:textAlignment="center"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ml"
+                        android:textSize="30dp"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/linear_temp"
@@ -118,14 +141,37 @@
                     android:text="체온"
                     android:textSize="20dp"
                     />
-                <TextView
-                    android:id="@+id/tv_temp"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="36.5"
-                    android:textAlignment="center"
-                    android:textSize="30dp"
-                    />
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                    <LinearLayout
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_round_gray"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp">
+                        <EditText
+                            android:id="@+id/edt_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="0"
+                            android:textSize="30dp"
+                            android:inputType="numberDecimal"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:background="#fff"
+                            android:textAlignment="center"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="C"
+                        android:textSize="30dp"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/linear_many"

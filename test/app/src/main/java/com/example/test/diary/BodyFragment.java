@@ -1,4 +1,4 @@
-package com.example.test.my;
+package com.example.test.diary;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,16 +9,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.test.MainActivity;
+import com.example.test.OnBackPressedListenser;
 import com.example.test.R;
-import com.example.test.diary.GraphActivity;
+import com.example.test.my.BabyInfoVO;
+import com.example.test.my.EditFragment;
 
-public class BodyFragment extends Fragment {
+public class BodyFragment extends Fragment  implements OnBackPressedListenser {
     TextView tv_name, tv_gender, edit_ok;
     EditText edit_weight, edit_height;
     ImageView edit_cancel, view_graph;
@@ -94,5 +95,10 @@ public class BodyFragment extends Fragment {
         });
 
         return rootView;
+    }
+    //플래그먼트 백버튼 처리
+    @Override
+    public void onBackPressed() {
+        edit_cancel.callOnClick();
     }
 }
