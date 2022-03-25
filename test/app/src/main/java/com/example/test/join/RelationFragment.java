@@ -22,19 +22,24 @@ public class RelationFragment extends Fragment {
     LinearLayout tv_mother, tv_father, tv_sitter, tv_gmother, tv_gfather, tv_others;
     Button btn_next;
     String btn = "엄마";
-
-    ArrayList<LinearLayout> linear_list = new ArrayList<>();
+    int choose = 10000;
+    ArrayList<LinearLayout> linear_list ;
     ArrayList<TextView> tv_list = new ArrayList<>();
+
+
+
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_relation, container, false);
-        JoinMainActivity.go = 3;
 
         btn_back = rootView.findViewById(R.id.btn_back);
         btn_next = rootView.findViewById(R.id.btn_next);
+
+        linear_list= new ArrayList<>();
 
         linear_list.add(rootView.findViewById(R.id.btn_mother));
         linear_list.add(rootView.findViewById(R.id.btn_father));
@@ -49,49 +54,60 @@ public class RelationFragment extends Fragment {
         tv_list.add(rootView.findViewById(R.id.tv_gmother));
         tv_list.add(rootView.findViewById(R.id.tv_gfather));
         tv_list.add(rootView.findViewById(R.id.tv_others));
+        if( JoinMainActivity.vo.getFamily_rels() == null ){
+            chg_linear(0);
+        }else {
+            chg_linear(choose);
+        }
 
-        chg_linear(0);
+        ((JoinMainActivity)getActivity()).btn_back.setVisibility(View.VISIBLE);//뒤로가기버튼 생성
+
 
         linear_list.get(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chg_linear(0);
-                btn = "엄마";
-
+                choose = 0;
+                    chg_linear(choose);
+                    btn = "엄마";
             }
         });
         linear_list.get(1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chg_linear(1);
+                choose = 1;
+                chg_linear(choose);
                 btn = "아빠";
             }
         });
         linear_list.get(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chg_linear(2);
+                choose = 2;
+                chg_linear(choose);
                 btn = "시터";
             }
         });
         linear_list.get(3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chg_linear(3);
+                choose = 3;
+                chg_linear(choose);
                 btn = "할머니";
             }
         });
         linear_list.get(4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chg_linear(4);
+                choose = 4;
+                chg_linear(choose);
                 btn = "할아버지";
             }
         });
         linear_list.get(5).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chg_linear(5);
+                choose = 5;
+                chg_linear(choose);
                 btn = "가족";
             }
         });
@@ -100,10 +116,14 @@ public class RelationFragment extends Fragment {
         return rootView;
     }
 
+
+
     public void chg_linear(int num){
+        String aa = "" ;
         for(int i=0; i<6; i++){
             if(i==num){
-                JoinMainActivity.vo.setRelation(btn);
+                JoinMainActivity.vo.setFamily_rels(btn);
+                choose = num;
                 linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.select_btn));
                 tv_list.get(i).setTextColor(Color.parseColor("#ffffff"));
             }else{
@@ -112,4 +132,7 @@ public class RelationFragment extends Fragment {
             }
         }
     }
+
+
+
 }

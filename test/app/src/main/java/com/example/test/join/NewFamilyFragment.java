@@ -20,7 +20,8 @@ public class NewFamilyFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_new_family, container, false) ;
 
-        JoinMainActivity.go = 2;
+
+        //((JoinMainActivity)getActivity()).btn_back.setVisibility(View.INVISIBLE);//뒤로가기버튼 숨김
 
         edt_title = rootView.findViewById(R.id.edt_title);
         edt_title.addTextChangedListener(new TextWatcher() {
@@ -43,5 +44,11 @@ public class NewFamilyFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        JoinMainActivity.id_chk = 0;
     }
 }

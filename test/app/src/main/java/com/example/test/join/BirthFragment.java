@@ -13,23 +13,19 @@ import androidx.fragment.app.Fragment;
 
 import com.example.test.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class BirthFragment extends Fragment {
 
     TextView tv_bir;
     LinearLayout linear_bir;
     DatePickerDialog.OnDateSetListener callbackMethod;
-    Date born;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_birth, container, false);
-        JoinMainActivity.go = 4;
+
 
 
         tv_bir = rootView.findViewById(R.id.tv_bir);
@@ -39,7 +35,15 @@ public class BirthFragment extends Fragment {
         //오늘날짜 받아서
         Calendar today = Calendar.getInstance();
         //세팅함
+        //today.set(Integer.parseInt("2022") , Integer.parseInt("03") , Integer.parseInt("22"));
+        if(JoinMainActivity.babyInfoVO.getBaby_birth() != null ){
+//            tv_bir.setText( ""+     new Date().getYear() + new Date().getMonth() + new Date().getDay());
+            String[] strDate = JoinMainActivity.babyInfoVO.getBaby_birth().split("-");
+            today.set(Integer.parseInt(strDate[0]), Integer.parseInt(strDate[1]), Integer.parseInt(strDate[2]));
+        }
+
         tv_bir.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일");
+
 
         //얘가 날짜값을 받아서 세팅해주는 역할
         callbackMethod = new DatePickerDialog.OnDateSetListener() {
@@ -47,13 +51,9 @@ public class BirthFragment extends Fragment {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 today.set(year, month, dayOfMonth);
                 tv_bir.setText(year + "년" + (month + 1) + "월" + dayOfMonth + "일");
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                    born = format.parse(tv_bir.getText().toString());
-                    JoinMainActivity.vo.setBorn(born);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                //JoinMainActivity.vo.setBirth();
+                JoinMainActivity.babyInfoVO.setBaby_birth( year +"-" +String.format("%02d", month )+"-" + String.format("%02d", dayOfMonth) );
+
             }
         };
 
