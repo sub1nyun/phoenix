@@ -28,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -35,7 +36,7 @@ import java.util.List;
 
 public class DiaryFragment extends Fragment {
     ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger, imv_backday, imv_forwardday, imv_graph, imv_store;
-    TextView tv_today;
+    TextView tv_today, tv_baby_gender, tv_baby_name, tv_baby_age;
     Intent intent;
     RecyclerView rcv_diary;
 
@@ -66,6 +67,10 @@ public class DiaryFragment extends Fragment {
         tv_today = rootview.findViewById(R.id.tv_today);
         rcv_diary = rootview.findViewById(R.id.rcv_diary);
 
+        tv_baby_gender = rootview.findViewById(R.id.tv_baby_gender);
+        tv_baby_name = rootview.findViewById(R.id.tv_baby_name);
+        tv_baby_age = rootview.findViewById(R.id.tv_baby_age);
+
         imv_bath = rootview.findViewById(R.id.imv_bath);
         imv_temp = rootview.findViewById(R.id.imv_temp);
         imv_sleep = rootview.findViewById(R.id.imv_sleep);
@@ -83,6 +88,13 @@ public class DiaryFragment extends Fragment {
         imv_graph = rootview.findViewById(R.id.imv_graph);
         imv_store = rootview.findViewById(R.id.imv_store);
 
+        //개월수 구하기
+        /*String[] age_arr = CommonVal.
+        LocalDate age = LocalDate.of()*/
+
+        tv_baby_name.setText(CommonVal.curbaby.getBaby_name());
+        tv_baby_gender.setText(CommonVal.curbaby.getBaby_gender());
+        tv_baby_age.setText(CommonVal.curbaby.getBaby_birth());
 
         //페이지 날짜를 넘겨받았을 때
         if(pageDate != null){

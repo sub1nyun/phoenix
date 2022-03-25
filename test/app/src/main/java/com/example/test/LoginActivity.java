@@ -66,7 +66,7 @@ public class  LoginActivity extends AppCompatActivity {
         edt_pw = findViewById(R.id.edt_pw);
         chk_auto = findViewById(R.id.chk_auto);
         btn_kakao = findViewById(R.id.btn_kakao);
-       btn_naver = findViewById(R.id.btn_naver);
+        btn_naver = findViewById(R.id.btn_naver);
         btn_logout = findViewById(R.id.btn_logout);
 
 
