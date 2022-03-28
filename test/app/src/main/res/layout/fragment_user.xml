@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".join.UserFragment"
     android:orientation="vertical"
     android:padding="30dp">
@@ -63,17 +64,24 @@
         android:layout_height="50dp"
         android:background="@drawable/border_round_gray"
         android:layout_marginTop="10dp">
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:hint="비밀번호를 입력해주세요"
-            android:id="@+id/edt_pw"
-            android:background="#ffffff"
-            />
+            app:passwordToggleEnabled="true">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="비밀번호를 입력해주세요"
+                android:id="@+id/edt_pw"
+                android:background="#ffffff"
+                android:inputType="textPassword"
+                android:tag="0"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -81,17 +89,23 @@
         android:layout_height="50dp"
         android:background="@drawable/border_round_gray"
         android:layout_marginTop="10dp">
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:hint="비밀번호를 다시 입력해주세요"
-            android:id="@+id/edt_pwchk"
-            android:background="#ffffff"
-            />
+            app:passwordToggleEnabled="true">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="비밀번호를 다시 입력해주세요"
+                android:id="@+id/edt_pwchk"
+                android:background="#ffffff"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout

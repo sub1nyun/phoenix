@@ -86,10 +86,12 @@ public class JoinMainActivity extends AppCompatActivity {
 
     public void gogo(){//앞으로
         if( go==1 ){
-            emptychk();
+           emptychk();
         }else if( go==2 ){
-            changeFrag( relationFragment );
-            go++;
+            if( isept( JoinMainActivity.vo.getTitle() , "제목을 입력해주세요.") ){
+                changeFrag( relationFragment );
+                go++;
+            }
         }else if( go==3 ){
             changeFrag( birthFragment );
             go++;
@@ -97,8 +99,10 @@ public class JoinMainActivity extends AppCompatActivity {
             changeFrag( babyFragment );
             go++;
         }else if( go==5 ){
-            changeFrag( genderFragment );
-            go++;
+            if( isept( JoinMainActivity.babyInfoVO.getBaby_name() , "아이의 이름을 입력해주세요.")) {
+                changeFrag(genderFragment);
+                go++;
+            }
         }else if( go==6 ){
             go++;
             changeFrag( pictureFragment );
@@ -267,5 +271,29 @@ public class JoinMainActivity extends AppCompatActivity {
         boolean data = gson.fromJson(new InputStreamReader(in), Boolean.class);
         return data;
     }
+
+    public boolean isept(String checkData , String msg){
+        if( checkData == null || checkData.equals("") ){
+            altdialog(msg);
+            return false;
+        }
+        return true;
+    }
+
+
+    public void altdialog(String settitle){
+        AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
+        builder.setTitle( settitle ).setMessage("");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
 }

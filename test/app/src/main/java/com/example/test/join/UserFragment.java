@@ -31,6 +31,7 @@ public class UserFragment extends Fragment {
     String family_id;
     Gson gson = new Gson();
 
+
     public UserFragment() {
 
     }
@@ -44,8 +45,17 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootVIew = (ViewGroup)  inflater.inflate(R.layout.fragment_user, container, false);
         JoinMainActivity.go = 1;
+
+        /*new Handler().postDelayed(new Runnable() {        딜레이 주는거
+            @Override
+            public void run() {
+                codechk();
+            }
+        }, 500);*/
+
         if(family_id != null){
             JoinMainActivity.go = 7;
+
         }
 
         edt_id = rootVIew.findViewById(R.id.edt_id);
@@ -162,8 +172,6 @@ public class UserFragment extends Fragment {
 
         return data ;
     }
-
-
 
 
 
