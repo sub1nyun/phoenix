@@ -94,7 +94,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".diary.GraphActivity"
+            android:name=".SplashActivity"
             android:exported="false" />
         <activity
             android:name=".join.JoinMainActivity"
@@ -119,7 +119,7 @@
             android:name=".sns.SnsNewActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".diary.GraphActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
