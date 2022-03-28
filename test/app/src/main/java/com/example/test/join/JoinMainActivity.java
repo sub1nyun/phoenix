@@ -21,7 +21,6 @@ import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.my.BabyInfoVO;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -87,10 +86,12 @@ public class JoinMainActivity extends AppCompatActivity {
 
     public void gogo(){//앞으로
         if( go==1 ){
-            emptychk();
+           emptychk();
         }else if( go==2 ){
-            changeFrag( relationFragment );
-            go++;
+            if( isept( JoinMainActivity.vo.getTitle() , "제목을 입력해주세요.") ){
+                changeFrag( relationFragment );
+                go++;
+            }
         }else if( go==3 ){
             changeFrag( birthFragment );
             go++;
@@ -98,8 +99,10 @@ public class JoinMainActivity extends AppCompatActivity {
             changeFrag( babyFragment );
             go++;
         }else if( go==5 ){
-            changeFrag( genderFragment );
-            go++;
+            if( isept( JoinMainActivity.babyInfoVO.getBaby_name() , "아이의 이름을 입력해주세요.")) {
+                changeFrag(genderFragment);
+                go++;
+            }
         }else if( go==6 ){
             go++;
             changeFrag( pictureFragment );
@@ -260,15 +263,37 @@ public class JoinMainActivity extends AppCompatActivity {
 
     }
 
-    public UserVO user() {
+    public boolean user() {
         AskTask task = new AskTask("http://192.168.0.50", "user.join");
-        task.addParam("UserVO", gson.toJson( vo ) );
+        task.addParam("vo", gson.toJson( vo ) );
         String aa = "";
         InputStream in = CommonMethod.excuteGet(task);
-        UserVO data = gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>() {
-        }.getType());
-
+        boolean data = gson.fromJson(new InputStreamReader(in), Boolean.class);
         return data;
     }
+
+    public boolean isept(String checkData , String msg){
+        if( checkData == null || checkData.equals("") ){
+            altdialog(msg);
+            return false;
+        }
+        return true;
+    }
+
+
+    public void altdialog(String settitle){
+        AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
+        builder.setTitle( settitle ).setMessage("");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
 }
