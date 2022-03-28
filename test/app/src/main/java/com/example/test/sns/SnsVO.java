@@ -11,7 +11,33 @@ public class SnsVO implements Serializable {
     private String sns_content;
     private int sns_no;
     private Date sns_date;
-    private String id, title;
+    private String id, title, filename, filepath;
+    ArrayList<String> imgList;
+
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
+    }
+
+    public ArrayList<String> getImgList() {
+        return imgList;
+    }
+
+    public void setImgList(ArrayList<String> imgList) {
+        this.imgList = imgList;
+    }
 
     public SnsVO() {
 

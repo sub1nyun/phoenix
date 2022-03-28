@@ -8,7 +8,6 @@
     android:orientation="vertical"
     android:fillViewport="true">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,108 +39,26 @@
         </LinearLayout>
 
         <LinearLayout
-           android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#FFFFFF">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/sns_profile"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_launcher_background"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="7.5"
-                    android:layout_height="wrap_content"
-                    android:text="엄마"
-                    android:textSize="25dp"
-                    android:layout_gravity="center"
-                    android:id="@+id/sns_user_id"/>
-
-            <ImageView
-                android:id="@+id/sns_more"
-                android:layout_width="0dp"
-                android:layout_weight="1.5"
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/view_more"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="#123456"
-                android:id="@+id/sns_view_pager"/>
-
-            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/sns_indicator"
-                app:progressMode="true"
-                app:dotsSize="16dp"
-                app:dotsColor="#ffffff"
-                app:dotsCornerRadius="8dp"
-                app:dotsWidthFactor="2.5"
-                app:selectedDotColor="#1572cf"
-                android:layout_gravity="center"/>
+                android:orientation="vertical"
+                android:id="@+id/sns_view_rec"/>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="여기에 작성한 내용을 적을 겁니다."
-                android:textSize="20dp"
-                android:id="@+id/sns_user_content"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/testImg"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="#123456" />
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="여기에 작성한 내용을 적을 겁니다." />
-        </LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     </LinearLayout>
 
 
 
-    
+
+
+
+
 
 </ScrollView>

@@ -61,7 +61,7 @@ public class SnsNewActivity extends AppCompatActivity {
     public final int GALLERY_CODE = 1005;
 
     File imgFile = null;
-    ArrayList<String> imgFilePath = new ArrayList<>();
+    ArrayList<String> imgFilePathList = new ArrayList<>();
     SnsImgRecAdapter snsImgRecAdapter;
 
 
@@ -92,7 +92,7 @@ public class SnsNewActivity extends AppCompatActivity {
 
 
         sns_new_share.setOnClickListener(v -> {
-            if(imgFilePath != null) {
+            if(imgFilePathList != null) {
               //SnsFragment.img_list.add(imgFilePath);
                 vo.setSns_content(sns_new_text.getText()+"");
               //저장 로직
@@ -103,26 +103,18 @@ public class SnsNewActivity extends AppCompatActivity {
                 CommonVal.curuser.setPw("a");
                 vo.setTitle("test");
                 vo.setId(CommonVal.curuser.getId());
-                imgvo.setTitle("test");
-                imgvo.setId(CommonVal.curuser.getId());
-                imgvo.setSns_img(imgFilePath);
-
-                //imgvo.setSns_img(gson.toJson(imgFilePath));
-//                addSns.addParam("id","a");
-//                addSns.addParam("title", "test");
+                vo.setImgList(imgFilePathList);
+                vo.setFilename("test");
+                vo.setFilepath("");
                 String testvo = gson.toJson(vo);
-                //String imgsvo = gson.toJson(imgvo);
-                String testimgvo = gson.toJson(imgvo);
                addSns.addParam("vo",testvo);
-                addSns.addParam("imgvo",testimgvo);
-
-               InputStream in = CommonMethod.excuteGet(addSns);
 
 
-
-
-
-                finish();
+               for(int i=0; i<imgFilePathList.size(); i++) {
+                   addSns.addFileParam("file"+i, imgFilePathList.get(i));
+               }
+               CommonMethod.excuteGet(addSns);
+                //finish();
             }else {
                 Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
             }
@@ -204,7 +196,7 @@ public class SnsNewActivity extends AppCompatActivity {
        if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
            if(data.getClipData() != null) {
            ClipData clipData = data.getClipData();
-           imgFilePath.add(getGalleryRealPath(clipData.getItemAt(0).getUri()));
+               imgFilePathList.add(getGalleryRealPath(clipData.getItemAt(0).getUri()));
            }
          //  go_gallery();
            // Glide.with(SnsNewActivity.this).load(imgFilePath.add()).into();
@@ -219,9 +211,9 @@ public class SnsNewActivity extends AppCompatActivity {
                ClipData clipData = data.getClipData();
                Log.e("clipData", String.valueOf(clipData.getItemCount()));
                for(int i =0; i < clipData.getItemCount(); i++) {
-                   imgFilePath.add(getGalleryRealPath(clipData.getItemAt(i).getUri()));
+                   imgFilePathList.add(getGalleryRealPath(clipData.getItemAt(i).getUri()));
 
-                   snsImgRecAdapter = new SnsImgRecAdapter(imgFilePath,this,imgFilePath.size());
+                   snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList,this);
                    sns_new_img_rec.setAdapter(snsImgRecAdapter);
                   sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,true));
                }
@@ -244,7 +236,7 @@ public class SnsNewActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        imgFilePath.add(rtnFile.getAbsolutePath());
+        imgFilePathList.add(rtnFile.getAbsolutePath());
         return rtnFile;
 
 

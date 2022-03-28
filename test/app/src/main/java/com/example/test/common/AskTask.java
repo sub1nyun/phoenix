@@ -60,7 +60,10 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
         for(int i=0 ; i<params.size() ; i++){
             builder.addTextBody( params.get(i).getKey()  ,  params.get(i).getValue()
                     , ContentType.create("Multipart/related" , "UTF-8") );
+
         }
+        builder.addTextBody( "file_size"  ,  fileParams.size()+""
+                , ContentType.create("Multipart/related" , "UTF-8") );
 
         for(int i=0 ; i<fileParams.size() ; i++){                   //파일 경로
             builder.addPart( fileParams.get(i).getKey()  ,  new FileBody( new File(fileParams.get(i).getValue()) ) );

@@ -17,17 +17,17 @@ import com.example.test.R;
 import java.util.ArrayList;
 
 public class SnsImgRecAdapter extends RecyclerView.Adapter<SnsImgRecAdapter.Viewholder>{
-    ArrayList<String> imgFilePath;
+    ArrayList<String> imgFilePathList;
     LayoutInflater inflater;
     Activity activity;
-    int size;
 
-    public SnsImgRecAdapter(ArrayList<String> imgFilePath, Activity activity, int size) {
-        this.imgFilePath = imgFilePath;
+    public SnsImgRecAdapter(ArrayList<String> imgFilePathList, Activity activity) {
+        this.imgFilePathList = imgFilePathList;
         this.activity = activity;
         this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.size = size;
     }
+
+
 
     @NonNull
     @Override
@@ -38,14 +38,20 @@ public class SnsImgRecAdapter extends RecyclerView.Adapter<SnsImgRecAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        Glide.with(activity).load(imgFilePath.get(position)).into(holder.sns_new_img_rec_imv);
+        if(imgFilePathList.size() !=0) {
+            Glide.with(activity).load(imgFilePathList.get(position)).into(holder.sns_new_img_rec_imv);
+        }
+
 
     }
 
     @Override
     public int getItemCount() {
-        return size;
-    }
+        if(imgFilePathList.size() ==0) {
+           return 1;
+        }
+        return imgFilePathList.size();
+     }
 
     public class Viewholder extends RecyclerView.ViewHolder{
         ImageView sns_new_img_rec_imv;

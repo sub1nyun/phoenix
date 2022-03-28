@@ -17,7 +17,6 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         moveMain();
-        //스플래쉬 디자인 필요
 
     }
 
@@ -27,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
                 finish();
-            }, 3500);
+            }, 100);
         });
     }
 
