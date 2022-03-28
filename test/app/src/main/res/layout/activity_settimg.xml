@@ -55,7 +55,9 @@
             android:id="@+id/set_bell_volume"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5"
+            android:min="0"
+            android:max="100"/>
 
         <Switch
             android:id="@+id/set_vibration"
@@ -75,7 +77,9 @@
             android:id="@+id/set_vibration_volume"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5"
+            android:min="0"
+            android:max="100"/>
 
         <FrameLayout
             android:layout_width="match_parent"

@@ -83,6 +83,11 @@ public class MyFragment extends Fragment{
                 dialog.setDialogListener(new DiaryTitleDialog.DialogListener() {
                     @Override
                     public void onPositiveClick(String name) {
+                        for(int i=0; i<list.size(); i++){
+                            if(list.get(i).getTitle().equals(CommonVal.curbaby.getTitle())){
+                                list.get(i).setTitle(name);
+                            }
+                        }
                         AskTask task = new AskTask(CommonVal.httpip, "chTitle.bif");
                         task.addParam("title", name);
                         task.addParam("baby_id", CommonVal.curbaby.getBaby_id());

@@ -44,21 +44,23 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:padding="30dp">
+
         <TextView
             android:id="@+id/my_diary_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="~~의 육아일기"
-            android:textStyle="bold"
             android:textSize="30dp"
-            android:layout_centerInParent="true"/>
+            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/my_diary_title_edit"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_centerInParent="true"
             android:layout_alignParentEnd="true"
-            android:src="@android:drawable/ic_menu_edit"/>
+            android:layout_centerInParent="true"
+            android:src="@android:drawable/ic_menu_edit" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
