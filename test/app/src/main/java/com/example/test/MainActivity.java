@@ -50,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        HomeActivity.activity_home.finish();
+        if(HomeActivity.activity_home != null){
+            HomeActivity.activity_home.finish();
+        }
 
 
 

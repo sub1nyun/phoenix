@@ -1,8 +1,8 @@
 package com.example.test.diary;
 
-import java.sql.Date;
+import java.io.Serializable;
 
-public class BabyStorVO {
+public class BabyStorVO implements Serializable {
 	String baby_id;
 	int stor_id;
 	double stor_kg, stor_cm;

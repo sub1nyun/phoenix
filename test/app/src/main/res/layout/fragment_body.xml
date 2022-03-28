@@ -119,13 +119,15 @@
                 android:textColor="#673AB7"
                 android:textSize="18dp"
                 android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/tv_bodydate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/tv_bodyinfo"
-                android:text="(2222년 22월 22일)"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="10dp"/>
+                android:text="(2222년 22월 22일)" />
 
             <ImageView
                 android:id="@+id/view_calender"
