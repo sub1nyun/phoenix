@@ -2,15 +2,12 @@ package com.example.test.my;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +26,6 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
-import com.example.test.diary.DiaryFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -84,8 +80,8 @@ public class MyFragment extends Fragment{
                     @Override
                     public void onPositiveClick(String name) {
                         for(int i=0; i<list.size(); i++){
-                            if(list.get(i).getTitle().equals(CommonVal.curbaby.getTitle())){
-                                list.get(i).setTitle(name);
+                            if(CommonVal.curbaby.getTitle().equals(CommonVal.curbaby.getTitle())){
+                                CommonVal.curbaby.setTitle(name);
                             }
                         }
                         AskTask task = new AskTask(CommonVal.httpip, "chTitle.bif");
@@ -101,33 +97,41 @@ public class MyFragment extends Fragment{
         //아기 선택
         BabySelectAdapter babySelectAdapter = new BabySelectAdapter(list, inflater, getContext());
         my_spinner.setAdapter(babySelectAdapter);
+        int index = 0;
+        for(int i=0; i<list.size(); i++){
+            if(list.get(i).getBaby_id().equals(CommonVal.curbaby.getBaby_id())){
+                index = i;
+                break;
+            }
+        }
+        my_spinner.setSelection(index);
         my_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == list.size()){
-                    //아기 추가
+                if(position == list.size()){ //아기 추가
                     InsertDialog(view);
                 } else {
                     CommonVal.curbaby = list.get(position);
 
                     AskTask body_task = new AskTask(CommonVal.httpip, "cntbody.stor");
-                    body_task.addParam("baby_id", list.get(position).getBaby_id());
+                    body_task.addParam("baby_id", CommonVal.curbaby.getBaby_id());
                     InputStream in = CommonMethod.excuteGet(body_task);
                     String cntbody = gson.fromJson(new InputStreamReader(in), new TypeToken<String>(){}.getType());
                     baby_body.setText(cntbody);
 
-                    my_diary_title.setText(list.get(position).getTitle());
-                    if(list.get(position).getBaby_photo() == null){
+                    my_diary_title.setText(CommonVal.curbaby.getTitle());
+                    title = CommonVal.curbaby.getTitle();
+                    if(CommonVal.curbaby.getBaby_photo() == null){
                         my_main_photo.setImageResource(R.drawable.bss_logo);
                     } else{
-                        Glide.with(getContext()).load(list.get(position).getBaby_photo()).into(my_main_photo);
+                        Glide.with(getContext()).load(CommonVal.curbaby.getBaby_photo()).into(my_main_photo);
                     }
-                    if(list.get(position).getBaby_gender().equals("남아")){
+                    if(CommonVal.curbaby.getBaby_gender().equals("남아")){
                         my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom_select));
                         my_gender_man.setTextColor(Color.parseColor("#ffffff"));
                         my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom));
                         my_gender_woman.setTextColor(Color.parseColor("#000000"));
-                    } else if(list.get(position).getBaby_gender().equals("여아")){
+                    } else if(CommonVal.curbaby.getBaby_gender().equals("여아")){
                         my_gender_woman.setBackground(getContext().getDrawable(R.drawable.tv_custom_select));
                         my_gender_woman.setTextColor(Color.parseColor("#ffffff"));
                         my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom));
@@ -138,29 +142,28 @@ public class MyFragment extends Fragment{
                         my_gender_man.setBackground(getContext().getDrawable(R.drawable.tv_custom));
                         my_gender_man.setTextColor(Color.parseColor("#000000"));
                     }
-                    my_birth_tv.setText(list.get(position).getBaby_birth().toString());
-                    my_name_tv.setText(list.get(position).getBaby_name());
+                    my_birth_tv.setText(CommonVal.curbaby.getBaby_birth().toString());
+                    my_name_tv.setText(CommonVal.curbaby.getBaby_name());
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                CommonVal.curbaby = list.get(0);
-
                 AskTask body_task = new AskTask(CommonVal.httpip, "cntbody.stor");
-                body_task.addParam("baby_id", list.get(0).getBaby_id());
+                body_task.addParam("baby_id", CommonVal.curbaby.getBaby_id());
                 InputStream in = CommonMethod.excuteGet(body_task);
                 String cntbody = gson.fromJson(new InputStreamReader(in), new TypeToken<String>(){}.getType());
                 baby_body.setText(cntbody);
 
-                my_diary_title.setText(list.get(0).getTitle());
-                if(list.get(0).getBaby_photo() == null){
+                my_diary_title.setText(CommonVal.curbaby.getTitle());
+                title = CommonVal.curbaby.getTitle();
+                if(CommonVal.curbaby.getBaby_photo() == null){
                     my_main_photo.setImageResource(R.drawable.bss_logo);
                 } else{
-                    Glide.with(getContext()).load(list.get(0).getBaby_photo()).into(my_main_photo);
+                    Glide.with(getContext()).load(CommonVal.curbaby.getBaby_photo()).into(my_main_photo);
                 }
-                my_birth_tv.setText(list.get(0).getBaby_birth().toString());
-                my_name_tv.setText(list.get(0).getBaby_name());
+                my_birth_tv.setText(CommonVal.curbaby.getBaby_birth().toString());
+                my_name_tv.setText(CommonVal.curbaby.getBaby_name());
             }
         });
 
@@ -207,35 +210,37 @@ public class MyFragment extends Fragment{
                                 AskTask task_delete = new AskTask(CommonVal.httpip, "babydel.bif");
                                 task_delete.addParam("baby_id", CommonVal.curbaby.getBaby_id());
                                 InputStream in = CommonMethod.excuteGet(task_delete);
-                                if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())){
+                                if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())) {
                                     Toast.makeText(getContext(), "아기 정보가 성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                     //아기 목록 다시 불러오기
                                     AskTask task_re = new AskTask(CommonVal.httpip, "list.bif");
                                     task_re.addParam("id", CommonVal.curuser.getId());
                                     InputStream in_re = CommonMethod.excuteGet(task_re);
-                                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>() {
+                                    }.getType());
 
-                                    AskTask task = new AskTask(CommonVal.httpip, "countbaby.bif");
-                                    task.addParam("title", title);
-                                    InputStream in_select = CommonMethod.excuteGet(task);
-                                    if(gson.fromJson(new InputStreamReader(in_select), new TypeToken<Boolean>(){}.getType())){ //육아일기에 아기가 남아있을 때
-                                        CommonVal.curbaby = CommonVal.baby_list.get(0);
-                                        ((MainActivity)getActivity()).changeFrag(new MyFragment());
-                                    } else{ //육아일기에 아기가 없을 때
-                                        //육아일기 지우기
-                                        AskTask del_task = new AskTask(CommonVal.httpip, "deltitle.bif");
-                                        del_task.addParam("title", title);
-                                        InputStream del_in = CommonMethod.excuteGet(del_task);
-                                        if(CommonVal.baby_list == null){ //사용자가 다른 육아일기가 없을 때
-                                            //육아일기 생성으로 이동
-                                            CommonVal.curuser.setId(CommonVal.curuser.getId());
-                                            CommonVal.curuser.setPw(CommonVal.curuser.getPw());
-                                            Toast.makeText(getContext(), "육아일기 생성으로 이동해야됨", Toast.LENGTH_SHORT).show();
-                                            ((MainActivity)getActivity()).changeFrag(new DiaryFragment());
-                                        } else{ //사용자가 다른 육아일기가 있을 때
-                                            CommonVal.curbaby = CommonVal.baby_list.get(0);
-                                            ((MainActivity)getActivity()).changeFrag(new MyFragment());
+                                    int count = 0;
+                                    for (int i = 0; i < CommonVal.baby_list.size(); i++) {
+                                        if (CommonVal.baby_list.get(i).getTitle().equals(title)) { //육아일기에 아기가 더 있음
+                                            count += 1;
+                                        } else { //육아일기에 아기 더 없음
+
                                         }
+                                    }
+
+                                    if (count == 0) {
+                                        AskTask task = new AskTask(CommonVal.httpip, "deltitle.bif");
+                                        task.addParam("title", title);
+                                        task.addParam("id", CommonVal.curuser.getId());
+                                        InputStream del_in = CommonMethod.excuteGet(task);
+                                        //사용자가 다른 육아일기 있을 때
+                                        CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                        ((MainActivity) getActivity()).changeFrag(new MyFragment());
+                                        //사용자가 다른 육아일기 없을 때
+                                        //어딘가로 이동
+                                    } else {
+                                        CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                        ((MainActivity) getActivity()).changeFrag(new MyFragment());
                                     }
                                 }
                             }
