@@ -2,24 +2,53 @@ package com.example.test.sns;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 
 
 public class SnsVO implements Serializable {
 
-    private String sns_img;
+
     private String sns_content;
     private int sns_no;
     private Date sns_date;
-    private String id, title;
+    private String id, title, filename, filepath;
+    ArrayList<String> imgList;
+
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
+    }
+
+    public ArrayList<String> getImgList() {
+        return imgList;
+    }
+
+    public void setImgList(ArrayList<String> imgList) {
+        this.imgList = imgList;
+    }
 
     public SnsVO() {
 
     }
 
-    public SnsVO(String sns_img, String sns_content) {
-        this.sns_img = sns_img;
+    public SnsVO(String sns_content) {
         this.sns_content = sns_content;
     }
+
+
+
 
     public String getTitle() {
         return title;
@@ -29,13 +58,6 @@ public class SnsVO implements Serializable {
         this.title = title;
     }
 
-    public String getSns_img() {
-        return sns_img;
-    }
-
-    public void setSns_img(String sns_img) {
-        this.sns_img = sns_img;
-    }
 
     public String getSns_content() {
         return sns_content;
