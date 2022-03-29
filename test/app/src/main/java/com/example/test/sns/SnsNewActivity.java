@@ -55,7 +55,6 @@ public class SnsNewActivity extends AppCompatActivity {
     EditText sns_new_text;
     SnsVO vo = new SnsVO();
     SnsImgVO imgvo = new SnsImgVO();
-    ArrayList<SnsVO> snslist = new ArrayList<>();
 
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;

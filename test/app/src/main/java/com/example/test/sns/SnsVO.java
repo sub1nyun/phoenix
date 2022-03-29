@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class SnsVO implements Serializable {
 
-    //private ArrayList<String> sns_img;
+
     private String sns_content;
     private int sns_no;
     private Date sns_date;

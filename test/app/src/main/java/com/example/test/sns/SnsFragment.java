@@ -33,17 +33,12 @@ import java.util.ArrayList;
 public class SnsFragment extends Fragment {
 
 
-    RecyclerView sns_view_rec;
     ArrayList<SnsVO> snslist = new ArrayList<>();
-    ArrayList<SnsReplyVO> relist = new ArrayList<>();
     ImageView sns_plus;
     Intent intent;
-    SafeParcelable.Indicator indicator;
+    ArrayList<GrowthVO> grolist = new ArrayList<>();
 
     public static ArrayList<String> img_list = new ArrayList<>();
-
-
-
 
 
     @Override
@@ -51,21 +46,18 @@ public class SnsFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_sns, container, false);
 
-        sns_view_rec = rootView.findViewById(R.id.sns_view_rec);
+        RecyclerView sns_view_rec = rootView.findViewById(R.id.sns_view_rec);
         sns_plus = rootView.findViewById(R.id.sns_plus);
+
+        SnsViewAdapter adapter = new SnsViewAdapter(inflater,getContext(),grolist);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        sns_view_rec.setAdapter(adapter);
+        sns_view_rec.setLayoutManager(manager);
 
        sns_plus.setOnClickListener(v -> {
            intent = new Intent(getContext(), SnsNewActivity.class);
            startActivity(intent);
        });
-
-       SnsViewAdapter adapter = new SnsViewAdapter(inflater,getContext(),snslist, relist);
-       sns_view_rec.setAdapter(adapter);
-       sns_view_rec.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
-
-
-
-
 
         return rootView;
     }
@@ -81,7 +73,6 @@ public class SnsFragment extends Fragment {
         for(int i = 0 ; i<img_list.size() ; i++){
             snslist.add(new SnsVO( "테스트1"));
         }
-
 //        AskTask task = new AskTask("http://192.168.0.11", "list.sn");
 //        Gson gson = new Gson();
 //        CommonVal.curuser.setId("a");

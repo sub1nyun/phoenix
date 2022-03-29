@@ -18,14 +18,16 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
-            android:background="#03A9F4">
+            android:background="#F2000000">
 
             <TextView
-                android:layout_weight="9"
+                android:layout_weight="8.5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Baby Smile Support"
+                android:text="성장일기"
                 android:textSize="20dp"
+                android:textColor="#a09bde"
+                android:textStyle="bold"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"/>
 
@@ -34,8 +36,8 @@
                 android:layout_gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/more" />
+                android:layout_weight="1.5"
+                android:src="@drawable/sns_more_white"/>
         </LinearLayout>
 
         <LinearLayout
