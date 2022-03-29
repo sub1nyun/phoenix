@@ -322,7 +322,6 @@ public class DiaryFragment extends Fragment {
 //
 //                handler.sendMessage(msg);
 //            }).start();
-
             list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
             Message msg = handler.obtainMessage(1, context);
 
