@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        //naverLogin(); 주석풀면 됨
+        naverLogin();
 
 
         btn_logout.setOnClickListener(v -> {
@@ -238,42 +238,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+}//Class
 
-
-
-
-
-
-
-
-
-    }//Class
-
-
-
-
-
-
-
-    /////
-    /*private fun sendInviteLink(inviteLink: Uri) {
-        val teacherName = "최기택" // 임의의 선생님 이름
-        val inviteIntent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain" // 고정 text
-            setPackage("com.kakao.talk") // 카카오톡 패키지 지정
-            // 초대 코드 텍스트 지정
-            putExtra(
-                    Intent.EXTRA_TEXT,
-                    "$teacherName 선생님이 수업에 초대하였습니다!\n[수업 링크] : $inviteLink"
-            )
-        }
-
-        try {
-            startActivity(inviteIntent) // 수업 초대를 위해 카카오톡 실행
-        } catch (e: ActivityNotFoundException) {
-            // 카카오톡이 설치되어 있지 않은 경우 예외 발생
-            showToast("카카오톡이 설치되어 있지 않습니다.")
-        }
-    }*/
 
 
