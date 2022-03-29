@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +77,9 @@ public class DiaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_dairy, container, false);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         imv_calender = rootview.findViewById(R.id.imv_calender);
         tv_today = rootview.findViewById(R.id.tv_today);
@@ -312,12 +316,16 @@ public class DiaryFragment extends Fragment {
         InputStream in = CommonMethod.excuteGet(task);
         if(in != null){
             //NetworkOnMainThreadException 에러가 발생해서 추가
-            new Thread(() -> {
-                list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
-                Message msg = handler.obtainMessage(1, context);
+//            new Thread(() -> {
+//                list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
+//                Message msg = handler.obtainMessage(1, context);
+//
+//                handler.sendMessage(msg);
+//            }).start();
+            list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
+            Message msg = handler.obtainMessage(1, context);
 
-                handler.sendMessage(msg);
-            }).start();
+            handler.sendMessage(msg);
         }
     }
     private void createDynamicLink() {
