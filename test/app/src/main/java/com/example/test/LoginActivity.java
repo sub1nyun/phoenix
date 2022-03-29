@@ -75,7 +75,11 @@ public class LoginActivity extends AppCompatActivity {
         edt_pw = findViewById(R.id.edt_pw);
         chk_auto = findViewById(R.id.chk_auto);
         btn_kakao = findViewById(R.id.btn_kakao);
+<<<<<<< HEAD
         naverlogin = findViewById(R.id.btn_naver);
+=======
+        btn_naver = findViewById(R.id.btn_naver);
+>>>>>>> lsj_app
         btn_logout = findViewById(R.id.btn_logout);
 
 

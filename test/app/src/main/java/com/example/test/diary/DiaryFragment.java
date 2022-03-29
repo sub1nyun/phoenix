@@ -3,14 +3,19 @@ package com.example.test.diary;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,19 +28,28 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 
 public class DiaryFragment extends Fragment {
-    ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger, imv_backday, imv_forwardday, imv_graph, imv_store;
-    TextView tv_today;
+    ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger
+            , imv_backday, imv_forwardday, imv_graph, imv_store, imv_invite;
+    TextView tv_today, tv_baby_gender, tv_baby_name, tv_baby_age;
     Intent intent;
     RecyclerView rcv_diary;
 
@@ -57,6 +71,7 @@ public class DiaryFragment extends Fragment {
         this.pageDate = pageDate;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,6 +80,10 @@ public class DiaryFragment extends Fragment {
         imv_calender = rootview.findViewById(R.id.imv_calender);
         tv_today = rootview.findViewById(R.id.tv_today);
         rcv_diary = rootview.findViewById(R.id.rcv_diary);
+
+        tv_baby_gender = rootview.findViewById(R.id.tv_baby_gender);
+        tv_baby_name = rootview.findViewById(R.id.tv_baby_name);
+        tv_baby_age = rootview.findViewById(R.id.tv_baby_age);
 
         imv_bath = rootview.findViewById(R.id.imv_bath);
         imv_temp = rootview.findViewById(R.id.imv_temp);
@@ -82,7 +101,17 @@ public class DiaryFragment extends Fragment {
 
         imv_graph = rootview.findViewById(R.id.imv_graph);
         imv_store = rootview.findViewById(R.id.imv_store);
+        imv_invite = rootview.findViewById(R.id.imv_invite);
 
+        //개월수 구하기
+        String baby_age_str = CommonVal.curbaby.getBaby_birth();
+        String[] baby_age_arr = baby_age_str.substring(0,baby_age_str.indexOf(" ")).split("-");
+        LocalDate theDate = LocalDate.of(Integer.parseInt(baby_age_arr[0]),Integer.parseInt(baby_age_arr[1]),Integer.parseInt(baby_age_arr[2]));
+        Period age = theDate.until(LocalDate.now());
+
+        tv_baby_name.setText(CommonVal.curbaby.getBaby_name());
+        tv_baby_gender.setText(CommonVal.curbaby.getBaby_gender());
+        tv_baby_age.setText(age.getYears()*12 + age.getMonths() + "개월 " + age.getDays() + "일");
 
         //페이지 날짜를 넘겨받았을 때
         if(pageDate != null){
@@ -105,9 +134,16 @@ public class DiaryFragment extends Fragment {
         imv_store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new BodyFragment(CommonVal.curbaby);
-                ((MainActivity)getActivity()).backFrag(new BodyFragment(CommonVal.curbaby));
+                Fragment fragment = new BodyFragment();
+                ((MainActivity)getActivity()).backFrag(new BodyFragment());
                 ((MainActivity)getActivity()).changeFrag(fragment);
+            }
+        });
+        //초대하기
+        imv_invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDynamicLink();
             }
         });
 
@@ -284,5 +320,27 @@ public class DiaryFragment extends Fragment {
             }).start();
         }
     }
+    private void createDynamicLink() {
+        String familyId = CommonVal.curbaby.getBaby_id();
+        String invitationLink = "https://babysmilesupport.page.link/invite?familyId="+familyId; //생성할 다이나믹 링크
 
+        Task<ShortDynamicLink> dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse(invitationLink))    //정보를 담는 json 사이트를 넣자!!
+                .setDomainUriPrefix("https://babysmilesupport.page.link")
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
+                .buildShortDynamicLink().addOnSuccessListener(new OnSuccessListener<ShortDynamicLink>() {
+                    @Override
+                    public void onSuccess(ShortDynamicLink shortDynamicLink) {
+                        send(shortDynamicLink.getShortLink());
+                    }
+                });
+    }
+    public void send(Uri shortDynamicLink){
+        Intent Sharing_intent = new Intent(Intent.ACTION_SEND);
+        Sharing_intent.setType("text/plain");
+        String Test_Message = shortDynamicLink.toString();
+        Sharing_intent.putExtra(Intent.EXTRA_TEXT, Test_Message);
+        Sharing_intent.putExtra(Intent.EXTRA_SUBJECT, "BSS의 공동양육자로 초대되셨습니다. 함께 육아일기를 작성해보세요!");
+        Intent Sharing = Intent.createChooser(Sharing_intent, "공유하기"); startActivity(Sharing);
+    }
 }

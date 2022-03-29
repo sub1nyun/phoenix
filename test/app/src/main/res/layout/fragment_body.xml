@@ -99,25 +99,52 @@
                 android:text="성별"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
-        <FrameLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="1dp"
+            android:background="#ACACAC"
+            android:layout_marginTop="30dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
             <TextView
+                android:id="@+id/tv_bodyinfo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_height="match_parent"
                 android:text="신체 정보"
+                android:gravity="center_vertical"
                 android:textColor="#673AB7"
-                android:textStyle="bold"
-                android:textSize="18dp"/>
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_bodydate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tv_bodyinfo"
+                android:gravity="center_vertical"
+                android:text="(2222년 22월 22일)" />
+
+            <ImageView
+                android:id="@+id/view_calender"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/view_graph"
+                android:src="@drawable/edit_month" />
+
             <ImageView
                 android:id="@+id/view_graph"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/graph_black"
-                android:layout_gravity="right|bottom"/>
-        </FrameLayout>
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/graph_black" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
