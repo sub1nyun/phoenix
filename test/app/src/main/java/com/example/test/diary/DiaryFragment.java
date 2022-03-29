@@ -24,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
@@ -46,6 +47,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class DiaryFragment extends Fragment {
     ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger
@@ -53,6 +56,7 @@ public class DiaryFragment extends Fragment {
     TextView tv_today, tv_baby_gender, tv_baby_name, tv_baby_age;
     Intent intent;
     RecyclerView rcv_diary;
+    CircleImageView imv_baby;
 
     final int CODE = 1000;
 
@@ -85,6 +89,8 @@ public class DiaryFragment extends Fragment {
         tv_today = rootview.findViewById(R.id.tv_today);
         rcv_diary = rootview.findViewById(R.id.rcv_diary);
 
+        imv_baby = rootview.findViewById(R.id.imv_baby);
+
         tv_baby_gender = rootview.findViewById(R.id.tv_baby_gender);
         tv_baby_name = rootview.findViewById(R.id.tv_baby_name);
         tv_baby_age = rootview.findViewById(R.id.tv_baby_age);
@@ -116,6 +122,12 @@ public class DiaryFragment extends Fragment {
         tv_baby_name.setText(CommonVal.curbaby.getBaby_name());
         tv_baby_gender.setText(CommonVal.curbaby.getBaby_gender());
         tv_baby_age.setText(age.getYears()*12 + age.getMonths() + "개월 " + age.getDays() + "일");
+
+        if(CommonVal.curbaby.getBaby_photo() == null){
+            imv_baby.setImageResource(R.drawable.bss_logo);
+        } else{
+            Glide.with(getContext()).load(CommonVal.curbaby.getBaby_photo()).into(imv_baby);
+        }
 
         //페이지 날짜를 넘겨받았을 때
         if(pageDate != null){
