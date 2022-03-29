@@ -1,13 +1,11 @@
 package com.example.test.sns;
 
-import java.sql.Array;
-import java.sql.Date;
 import java.util.ArrayList;
 
 public class GrowthVO {
 
     int gro_no;
-    Date gro_date;
+    String gro_date;
     String gro_content, baby_name, baby_gender, filename, filepath, baby_id;
     ArrayList<String> imgList;
 
@@ -19,11 +17,11 @@ public class GrowthVO {
         this.gro_no = gro_no;
     }
 
-    public Date getGro_date() {
+    public String getGro_date() {
         return gro_date;
     }
 
-    public void setGro_date(Date gro_date) {
+    public void setGro_date(String gro_date) {
         this.gro_date = gro_date;
     }
 

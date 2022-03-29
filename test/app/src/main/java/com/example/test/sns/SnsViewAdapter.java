@@ -52,12 +52,10 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
         holder.bind(holder, position);
         AskTask task = new AskTask("http://192.168.0.11", "select.sn");
         Gson gson = new Gson();
-        GrowthVO growthVO = new GrowthVO();
-        growthVO.setBaby_id(CommonVal.curbaby.getBaby_id());
-        String testvo = gson.toJson(growthVO);
-        task.addParam("vo",testvo);
+        task.addParam("id",CommonVal.curbaby.getBaby_id());
         InputStream in = CommonMethod.excuteGet(task);
-        GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
+        List<GrowthVO> voList = gson.fromJson(new InputStreamReader(in), new TypeToken<List<GrowthVO>>(){}.getType());
+
 
 
 
