@@ -102,8 +102,6 @@ public class SnsNewActivity extends AppCompatActivity {
                 gvo.setBaby_id(CommonVal.curbaby.getBaby_id());
                 gvo.setBaby_gender(CommonVal.curbaby.getBaby_gender());
                 gvo.setBaby_name(CommonVal.curbaby.getBaby_name());
-                gvo.setFilename("test");
-                gvo.setFilepath("");
                 gvo.setGro_content(sns_new_text.getText()+"");
 
                 String testvo = gson.toJson(gvo);
@@ -114,7 +112,7 @@ public class SnsNewActivity extends AppCompatActivity {
                    addSns.addFileParam("file"+i, imgFilePathList.get(i));
                }
                CommonMethod.excuteGet(addSns);
-                //finish();
+                finish();
             }else {
                 Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
             }
@@ -195,6 +193,7 @@ public class SnsNewActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
        if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
            if(data.getClipData() != null) {
+
            ClipData clipData = data.getClipData();
                imgFilePathList.add(getGalleryRealPath(clipData.getItemAt(0).getUri()));
            }

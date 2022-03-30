@@ -25,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHolder> {
@@ -52,9 +53,18 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
         holder.bind(holder, position);
         AskTask task = new AskTask("http://192.168.0.11", "select.sn");
         Gson gson = new Gson();
-        task.addParam("id",CommonVal.curbaby.getBaby_id());
+        task.addParam("baby_id",CommonVal.curbaby.getBaby_id());
         InputStream in = CommonMethod.excuteGet(task);
-        List<GrowthVO> voList = gson.fromJson(new InputStreamReader(in), new TypeToken<List<GrowthVO>>(){}.getType());
+        List<GrowthVO> growthVOS = gson.fromJson(new InputStreamReader(in), new TypeToken<List<GrowthVO>>(){}.getType());
+
+        String imgList =  growthVOS.get(position).getImgList().get(0);
+        String[] test =  imgList.split(",");
+//        growthVOS.get(position).setImgList(Arrays.asList(test));
+//        ArrayList<GrowthVO>
+
+//         String test = growthVOS.get(position).getBaby_name();
+//         String a = "";
+
 
 
 
@@ -145,6 +155,9 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
             holder.rec_view.setAdapter(imgAdapter);
             holder.rec_view.setLayoutManager(imgmanger);
+
+            baby_name.setText(CommonVal.curbaby.getBaby_name());
+
 
 
         }
