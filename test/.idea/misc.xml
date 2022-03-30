@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/arrow_forward.xml" value="0.2365" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/circle_btn_select.xml" value="0.2365" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/grap_marker.xml" value="0.2625" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/grap_marker_tail.xml" value="0.25" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/top_round.xml" value="0.2365" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/tv_custom.xml" value="0.2365" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/tv_custom_select.xml" value="0.2365" />
@@ -19,6 +21,7 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_place_detail.xml" value="0.27760416666666665" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_sns_new.xml" value="0.2046875" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_splash.xml" value="0.21693840579710144" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/custom_marker.xml" value="0.75" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/dialog_diary_title.xml" value="0.21693840579710144" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/dialog_rels.xml" value="0.21693840579710144" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_body.xml" value="0.33" />

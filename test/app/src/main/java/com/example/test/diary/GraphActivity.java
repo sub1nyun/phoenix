@@ -11,14 +11,24 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.renderer.LineChartRenderer;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -35,6 +45,8 @@ public class GraphActivity extends AppCompatActivity{
     Gson gson = new Gson();
 
     private LineChart lineChart;
+    ArrayList<Entry> values = new ArrayList<>();
+    ArrayList<String> date = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,26 +67,42 @@ public class GraphActivity extends AppCompatActivity{
         InputStream in_body = CommonMethod.excuteGet(task_body);
         List<BabyStorVO> list_body = gson.fromJson(new InputStreamReader(in_body), new TypeToken<List<BabyStorVO>>(){}.getType());
 
-        ArrayList<Entry> values = new ArrayList<>();
+        lineChart.clear();
+        date.clear();
+        values.clear();
+        for (int i = 0; i < list_heat.size(); i++) {
+            date.add(list_heat.get(i).getStart_time());
+            values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
+        }
+        makeChart(values, date);
 
         tab_graph.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition() == 0){ //체온
+                    date.clear();
                     values.clear();
-                    for (int i = 0; i < list_heat.size(); i++)
-                        values.add(new Entry(i, (float)list_heat.get(i).getTemperature()));
-                    makeChart(values);
+                    for (int i = 0; i < list_heat.size(); i++) {
+                        date.add(list_heat.get(i).getStart_time());
+                        values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
+                    }
+                    makeChart(values, date);
                 } else if(tab.getPosition() == 1){ //키
+                    date.clear();
                     values.clear();
-                    for (int i = 0; i < list_body.size(); i++)
-                        values.add(new Entry(i, (float)list_body.get(i).getStor_cm()));
-                    makeChart(values);
+                    for (int i = 0; i < list_body.size(); i++) {
+                        date.add(list_body.get(i).getStor_date());
+                        values.add(new Entry(i, (float) list_body.get(i).getStor_cm()));
+                    }
+                    makeChart(values, date);
                 } else if(tab.getPosition() == 2){ //몸무게
+                    date.clear();
                     values.clear();
-                    for (int i = 0; i < list_body.size(); i++)
+                    for (int i = 0; i < list_body.size(); i++){
+                        date.add(list_body.get(i).getStor_date());
                         values.add(new Entry(i, (float)list_body.get(i).getStor_kg()));
-                    makeChart(values);
+                    }
+                    makeChart(values, date);
                 }
             }
 
@@ -98,8 +126,8 @@ public class GraphActivity extends AppCompatActivity{
         });
     }
 
-    public void makeChart(ArrayList<Entry> values){
-        LineDataSet lineDataSet = new LineDataSet(values, "속성명1");
+    public void makeChart(ArrayList<Entry> values, ArrayList<String> date){
+        LineDataSet lineDataSet = new LineDataSet(values, "라벨 줘야돼?");
         lineDataSet.setLineWidth(2);
         lineDataSet.setCircleRadius(6);
         lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
@@ -110,27 +138,48 @@ public class GraphActivity extends AppCompatActivity{
         lineDataSet.setDrawHorizontalHighlightIndicator(false);
         lineDataSet.setDrawHighlightIndicators(false);
         lineDataSet.setDrawValues(false);
+
+
         LineData lineData = new LineData(lineDataSet);
         lineChart.setData(lineData);
         XAxis xAxis = lineChart.getXAxis(); //x축 설정
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); //x축 위치 설정
         xAxis.setTextColor(Color.BLACK);
         xAxis.mAxisMinimum = 0f;
-        xAxis.setLabelCount(5, true);
+        xAxis.setLabelCount(values.size(), false);
         xAxis.enableGridDashedLine(8, 24, 0); //수직 격자선
+        xAxis.mEntryCount = values.size();
+        xAxis.setAvoidFirstLastClipping(true);
+
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(date));
+
+        /*xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                String a="";
+                return date.get((int)value);
+            }
+        });*/
+
         YAxis yLAxis = lineChart.getAxisLeft(); //y축 설정
         yLAxis.setTextColor(Color.BLACK);
         YAxis yRAxis = lineChart.getAxisRight();
         yRAxis.setDrawLabels(false);
         yRAxis.setDrawAxisLine(false);
         yRAxis.setDrawGridLines(false);
-        Description description = new Description();
-        description.setText("");
+        /*Description description = new Description();
+        description.setText("");*/
+
+        MyMarker mm = new MyMarker(this, R.layout.custom_marker);
+        mm.setChartView(lineChart);
+        lineChart.setMarker(mm);
+
         lineChart.setDoubleTapToZoomEnabled(false);
         lineChart.setDrawGridBackground(false);
-        lineChart.setDescription(description);
+        lineChart.setDescription(null);
         lineChart.setVisibleXRangeMaximum(2); //드래그
         lineChart.animateY(2000, Easing.EaseInCubic);
+        lineChart.getLegend().setEnabled(false);
         lineChart.invalidate();
     }
 }

@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
             HomeActivity.activity_home.finish();
         }
 
-
-
         getHashKey();
 
         container = findViewById(R.id.container);
@@ -119,10 +117,8 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1000 && resultCode == Activity.RESULT_OK){// 한 화면에서 액티비티 또는 인텐트로 여러 기능을 사용했을때
-            //DiaryVO dto = (DiaryVO) data.getSerializableExtra("dto");
             String pageDate = data.getStringExtra("pageDate");
             changeFrag(new DiaryFragment(pageDate));
-            //Log.d("asd", "onActivityResult: "+dto.getStart_time());
         }else if(requestCode == 1001){
 
         }
@@ -157,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     //백버튼 처리
     private final long FINISH_INTERVAL_TIME = 2000;
