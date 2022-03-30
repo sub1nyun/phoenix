@@ -24,10 +24,13 @@ import com.example.test.common.CommonVal;
 import com.example.test.my.MyFragment;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SnsFragment extends Fragment {
@@ -48,6 +51,14 @@ public class SnsFragment extends Fragment {
 
         RecyclerView sns_view_rec = rootView.findViewById(R.id.sns_view_rec);
         sns_plus = rootView.findViewById(R.id.sns_plus);
+
+        AskTask task = new AskTask("http://192.168.0.11", "select.sn");
+        Gson gson = new Gson();
+        task.addParam("baby_id",CommonVal.curbaby.getBaby_id());
+        InputStream in = CommonMethod.excuteGet(task);
+        List<GrowthVO> growthVOS = gson.fromJson(new InputStreamReader(in), new TypeToken<List<GrowthVO>>(){}.getType());
+
+
 
         SnsViewAdapter adapter = new SnsViewAdapter(inflater,getContext(),grolist);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);

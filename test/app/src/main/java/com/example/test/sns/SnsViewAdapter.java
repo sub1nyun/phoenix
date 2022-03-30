@@ -51,14 +51,10 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.bind(holder, position);
-        AskTask task = new AskTask("http://192.168.0.11", "select.sn");
-        Gson gson = new Gson();
-        task.addParam("baby_id",CommonVal.curbaby.getBaby_id());
-        InputStream in = CommonMethod.excuteGet(task);
-        List<GrowthVO> growthVOS = gson.fromJson(new InputStreamReader(in), new TypeToken<List<GrowthVO>>(){}.getType());
 
-        String imgList =  growthVOS.get(position).getImgList().get(0);
-        String[] test =  imgList.split(",");
+
+//        String imgList =  growthVOS.get(position).getImgList().get(0);
+//        String[] test =  imgList.split(",");
 //        growthVOS.get(position).setImgList(Arrays.asList(test));
 //        ArrayList<GrowthVO>
 
