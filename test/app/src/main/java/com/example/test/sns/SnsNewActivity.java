@@ -95,7 +95,7 @@ public class SnsNewActivity extends AppCompatActivity {
             if(imgFilePathList != null) {
               //SnsFragment.img_list.add(imgFilePath);
               //저장 로직
-                AskTask addSns = new AskTask("http://192.168.0.11", "share.sn");
+                AskTask addSns = new AskTask("http://121.148.239.238:5524", "share.sn");
                 Gson gson = new Gson();
                 //테스트용 아아디
 
@@ -104,15 +104,16 @@ public class SnsNewActivity extends AppCompatActivity {
                 gvo.setBaby_name(CommonVal.curbaby.getBaby_name());
                 gvo.setGro_content(sns_new_text.getText()+"");
 
+
                 String testvo = gson.toJson(gvo);
-               addSns.addParam("vo",testvo);
+                addSns.addParam("vo",testvo);
 
 
                for(int i=0; i<imgFilePathList.size(); i++) {
                    addSns.addFileParam("file"+i, imgFilePathList.get(i));
                }
                CommonMethod.excuteGet(addSns);
-                finish();
+               finish();
             }else {
                 Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
             }
