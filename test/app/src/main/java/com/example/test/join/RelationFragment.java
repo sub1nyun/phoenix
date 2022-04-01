@@ -54,11 +54,14 @@ public class RelationFragment extends Fragment {
         tv_list.add(rootView.findViewById(R.id.tv_gmother));
         tv_list.add(rootView.findViewById(R.id.tv_gfather));
         tv_list.add(rootView.findViewById(R.id.tv_others));
+
+
         if( JoinMainActivity.vo.getFamily_rels() == null ){
             chg_linear(0);
         }else {
             chg_linear(choose);
         }
+        JoinMainActivity.vo.setFamily_rels("엄마");
 
         ((JoinMainActivity)getActivity()).btn_back.setVisibility(View.VISIBLE);//뒤로가기버튼 생성
 
@@ -68,6 +71,7 @@ public class RelationFragment extends Fragment {
             public void onClick(View v) {
                 choose = 0;
                     chg_linear(choose);
+                    JoinMainActivity.vo.setFamily_rels("엄마");
                     btn = "엄마";
             }
         });
@@ -76,6 +80,7 @@ public class RelationFragment extends Fragment {
             public void onClick(View v) {
                 choose = 1;
                 chg_linear(choose);
+                JoinMainActivity.vo.setFamily_rels("아빠");
                 btn = "아빠";
             }
         });
@@ -84,6 +89,7 @@ public class RelationFragment extends Fragment {
             public void onClick(View v) {
                 choose = 2;
                 chg_linear(choose);
+                JoinMainActivity.vo.setFamily_rels("시터");
                 btn = "시터";
             }
         });
@@ -92,6 +98,7 @@ public class RelationFragment extends Fragment {
             public void onClick(View v) {
                 choose = 3;
                 chg_linear(choose);
+                JoinMainActivity.vo.setFamily_rels("할머니");
                 btn = "할머니";
             }
         });
@@ -100,6 +107,7 @@ public class RelationFragment extends Fragment {
             public void onClick(View v) {
                 choose = 4;
                 chg_linear(choose);
+                JoinMainActivity.vo.setFamily_rels("할아버지");
                 btn = "할아버지";
             }
         });
@@ -108,6 +116,7 @@ public class RelationFragment extends Fragment {
             public void onClick(View v) {
                 choose = 5;
                 chg_linear(choose);
+                JoinMainActivity.vo.setFamily_rels("가족");
                 btn = "가족";
             }
         });
@@ -119,13 +128,12 @@ public class RelationFragment extends Fragment {
 
 
     public void chg_linear(int num){
-        String aa = "" ;
         for(int i=0; i<6; i++){
             if(i==num){
-                JoinMainActivity.vo.setFamily_rels(btn);
-                choose = num;
                 linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.select_btn));
                 tv_list.get(i).setTextColor(Color.parseColor("#ffffff"));
+                //JoinMainActivity.vo.setFamily_rels(btn);
+                String aa = "";
             }else{
                 linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.border_round_gray));
                 tv_list.get(i).setTextColor(Color.parseColor("#707070"));

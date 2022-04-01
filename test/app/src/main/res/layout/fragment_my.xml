@@ -56,8 +56,8 @@
 
         <ImageView
             android:id="@+id/my_diary_title_edit"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
             android:src="@android:drawable/ic_menu_edit" />

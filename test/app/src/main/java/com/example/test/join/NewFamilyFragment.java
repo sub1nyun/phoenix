@@ -1,5 +1,6 @@
 package com.example.test.join;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,12 @@ import com.example.test.R;
 
 public class NewFamilyFragment extends Fragment {
     EditText edt_title;
+    Activity activity;
+
+    public NewFamilyFragment(Activity activity) {
+        this.activity = activity;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -22,6 +29,7 @@ public class NewFamilyFragment extends Fragment {
 
 
         //((JoinMainActivity)getActivity()).btn_back.setVisibility(View.INVISIBLE);//뒤로가기버튼 숨김
+
 
         edt_title = rootView.findViewById(R.id.edt_title);
         edt_title.addTextChangedListener(new TextWatcher() {
@@ -31,12 +39,15 @@ public class NewFamilyFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 JoinMainActivity.vo.setTitle( edt_title.getText().toString() );
+                JoinMainActivity.babyInfoVO.setTitle( edt_title.getText().toString() );
             }
             @Override
             public void afterTextChanged(Editable s) {
 
             }
         });
+        edt_title.requestFocus();
+
 
 
 
