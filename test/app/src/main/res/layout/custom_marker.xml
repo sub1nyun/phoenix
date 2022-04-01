@@ -5,30 +5,33 @@
     android:id="@+id/marker"
     android:layout_gravity="center"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_marker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/grap_marker"
+            android:gravity="center"
             android:paddingHorizontal="4dp"
             android:text="여기 마커 들어감"
+            android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/white"
             android:textSize="13dp"
-            android:textStyle="bold"
-            android:background="@drawable/grap_marker"/>
+            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/imv_marker"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/grap_marker_tail"/>
+            android:background="@drawable/grap_marker_tail" />
     </LinearLayout>
 </RelativeLayout>

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.test.AddFragment;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
@@ -209,39 +210,45 @@ public class MyFragment extends Fragment{
                             public void onClick(DialogInterface dialog, int which) {
                                 AskTask task_delete = new AskTask(CommonVal.httpip, "babydel.bif");
                                 task_delete.addParam("baby_id", CommonVal.curbaby.getBaby_id());
+                                task_delete.addParam("title", CommonVal.curbaby.getTitle());
                                 InputStream in = CommonMethod.excuteGet(task_delete);
-                                if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())) {
+                                if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())) { //아기 삭제 성공
                                     Toast.makeText(getContext(), "아기 정보가 성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                     //아기 목록 다시 불러오기
-                                    AskTask task_re = new AskTask(CommonVal.httpip, "list.bif");
-                                    task_re.addParam("id", CommonVal.curuser.getId());
-                                    InputStream in_re = CommonMethod.excuteGet(task_re);
-                                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>() {
-                                    }.getType());
-
-                                    int count = 0;
-                                    for (int i = 0; i < CommonVal.baby_list.size(); i++) {
-                                        if (CommonVal.baby_list.get(i).getTitle().equals(title)) { //육아일기에 아기가 더 있음
-                                            count += 1;
-                                        } else { //육아일기에 아기 더 없음
-
-                                        }
-                                    }
-
-                                    if (count == 0) {
+                                    if(CommonVal.baby_list.size() == 1){ //아기 1명을 삭제해서 더이상 아기 없음
                                         AskTask task = new AskTask(CommonVal.httpip, "deltitle.bif");
                                         task.addParam("title", title);
                                         task.addParam("id", CommonVal.curuser.getId());
-                                        InputStream del_in = CommonMethod.excuteGet(task);
-                                        //사용자가 다른 육아일기 있을 때
-                                        CommonVal.curbaby = CommonVal.baby_list.get(0);
-                                        ((MainActivity) getActivity()).changeFrag(new MyFragment());
-                                        //사용자가 다른 육아일기 없을 때
-                                        //어딘가로 이동
-                                    } else {
+                                        InputStream del_in = CommonMethod.excuteGet(task); //육아일기 삭제
+
+                                        CommonVal.baby_list = null;
+                                        CommonVal.curbaby = null;
+                                        //add 프래그먼트 띄우기
+                                        ((MainActivity)getActivity()).changeFrag(new AddFragment());
+                                    } else{ //아기 더 있으므로 다시 리스트 불러옴
+                                        AskTask task_re = new AskTask(CommonVal.httpip, "list.bif");
+                                        task_re.addParam("id", CommonVal.curuser.getId());
+                                        InputStream in_re = CommonMethod.excuteGet(task_re);
+                                        CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>(){}.getType());
+
+                                        int count = 0;
+                                        for (int i = 0; i < CommonVal.baby_list.size(); i++) { //현재 삭제한 아기가 있던 육아일기에 아기가 더 있는지 확인
+                                            if (CommonVal.baby_list.get(i).getTitle().equals(title)) { //육아일기에 아기가 더 있음
+                                                count += 1;
+                                            }
+                                        }
+
+                                        if (count == 0) {
+                                            AskTask task = new AskTask(CommonVal.httpip, "deltitle.bif");
+                                            task.addParam("title", title);
+                                            task.addParam("id", CommonVal.curuser.getId());
+                                            InputStream del_in = CommonMethod.excuteGet(task);
+                                        }
                                         CommonVal.curbaby = CommonVal.baby_list.get(0);
                                         ((MainActivity) getActivity()).changeFrag(new MyFragment());
                                     }
+                                } else{ //아기 삭제 실패
+                                    Toast.makeText(getContext(), "아기 정보 삭제를 실패했습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {

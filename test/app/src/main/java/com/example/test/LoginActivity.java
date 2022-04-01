@@ -111,8 +111,8 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
 
                     //로그인 정보 저장
-                    CommonVal.curuser.setId("a");
-                    CommonVal.curuser.setPw("a");
+                    CommonVal.curuser.setId("deltest");
+                    CommonVal.curuser.setPw("deltest");
 
                     //아기 리스트 불러오기
                     AskTask task = new AskTask(CommonVal.httpip, "list.bif");

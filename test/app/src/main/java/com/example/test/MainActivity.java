@@ -23,6 +23,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.test.common.CommonVal;
 import com.example.test.diary.DiaryFragment;
 import com.example.test.home.HomeActivity;
 import com.example.test.diary.BodyFragment;
@@ -64,15 +65,23 @@ public class MainActivity extends AppCompatActivity {
         tab_sns = findViewById(R.id.tab_sns);
         tab_my = findViewById(R.id.tab_my);
 
+        if(CommonVal.baby_list == null){
+            changeFrag(new AddFragment());
+        }
+
         changeFrag(new DiaryFragment());
 
         tab_main.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition()==0){
-                    fragment = new DiaryFragment();
-                    changeFrag(fragment);
-                    position = 0;
+                    if(CommonVal.baby_list == null){
+                        changeFrag(new AddFragment());
+                    } else{
+                        fragment = new DiaryFragment();
+                        changeFrag(fragment);
+                        position = 0;
+                    }
                 } else if(tab.getPosition()==1){
                     if(!checkLocationServicesStatus()){
                         showDialogForLocationServiceSetting();
@@ -84,13 +93,21 @@ public class MainActivity extends AppCompatActivity {
                     changeFrag(fragment);
                     position = 2;
                 } else if(tab.getPosition()==3){
-                    fragment = new SnsFragment();
-                    changeFrag(fragment);
-                    position = 3;
+                    if(CommonVal.baby_list == null){
+                        changeFrag(new AddFragment());
+                    } else{
+                        fragment = new SnsFragment();
+                        changeFrag(fragment);
+                        position = 3;
+                    }
                 } else if(tab.getPosition()==4){
-                    fragment = new MyFragment();
-                    changeFrag(fragment);
-                    position = 4;
+                    if(CommonVal.baby_list == null){
+                        changeFrag(new AddFragment());
+                    } else{
+                        fragment = new MyFragment();
+                        changeFrag(fragment);
+                        position = 4;
+                    }
                 }
             }
 

@@ -39,13 +39,13 @@ public class MyMarker extends MarkerView {
 
                 CandleEntry ce = (CandleEntry) e;
                 Log.d("asd", "refreshContent: " + ce.getX());
-                tv_marker.setText(diary_date[(int)ce.getX()] + " " + time_date[(int)ce.getX()] + "\n" + ce.getHigh());
+                tv_marker.setText(diary_date[(int)ce.getX()] + " " + time_date[(int)ce.getX()] + "\n" + ce.getHigh() + "°C");
             } else if(category.equals("cm")){
                 CandleEntry ce = (CandleEntry) e;
-                tv_marker.setText("" + ce.getHigh());
+                tv_marker.setText("" + ce.getHigh() + "cm");
             } else if(category.equals("kg")){
                 CandleEntry ce = (CandleEntry) e;
-                tv_marker.setText("" + ce.getHigh());
+                tv_marker.setText("" + ce.getHigh() + "kg");
             }
             /*CandleEntry ce = (CandleEntry) e;
             tv_marker.setText("" + ce.getHigh());*/
@@ -58,7 +58,11 @@ public class MyMarker extends MarkerView {
                     diary_date[i] = date.get(i).split(",")[1];
                     time_date[i] = date.get(i).split(",")[0];
                 }
-                tv_marker.setText(diary_date[(int)e.getX()] + " " + time_date[(int)e.getX()] + "\n" + e.getY());
+                tv_marker.setText(diary_date[(int)e.getX()] + " " + time_date[(int)e.getX()] + "\n" + e.getY() + "°C");
+            } else if(category.equals("cm")){
+                tv_marker.setText("" + e.getY() + "cm");
+            } else if(category.equals("kg")){
+                tv_marker.setText("" + e.getY() + "kg");
             }
             //tv_marker.setText("" + e.getY());
         }
