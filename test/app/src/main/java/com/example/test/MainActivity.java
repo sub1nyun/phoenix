@@ -50,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        HomeActivity.activity_home.finish();
+        if(HomeActivity.activity_home != null){
+            HomeActivity.activity_home.finish();
+        }
 
 
 
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     changeFrag(fragment);
                     position = 2;
                 } else if(tab.getPosition()==3){
-                    fragment = new SnsFragment();
+                    fragment = new SnsFragment(MainActivity.this);
                     changeFrag(fragment);
                     position = 3;
                 } else if(tab.getPosition()==4){

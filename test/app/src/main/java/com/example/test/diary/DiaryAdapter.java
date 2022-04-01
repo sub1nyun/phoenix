@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,6 +57,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
     @Override
     public int getItemCount() {
         return list.size();
+        //return  0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -110,7 +112,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DetailActivity.class);
 
-                    AskTask task = new AskTask("http://192.168.0.13","detail.di");
+                    AskTask task = new AskTask(CommonVal.httpip,"detail.di");
                     //수정
                     task.addParam("no",list.get(i).getDiary_id()+"");
                     InputStream in = CommonMethod.excuteGet(task);
