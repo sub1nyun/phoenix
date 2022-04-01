@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,7 +57,6 @@ public class UserFragment extends Fragment {
 
         if (family_id != null) {
             JoinMainActivity.go = 7;
-
         }
 
         edt_id = rootVIew.findViewById(R.id.edt_id);
@@ -185,7 +185,7 @@ public class UserFragment extends Fragment {
 
     //중복확인
     public boolean id_check() {
-        AskTask task = new AskTask("http://192.168.0.50", "id_check.join");
+        AskTask task = new AskTask(CommonVal.httpip, "id_check.join");
         task.addParam("id", JoinMainActivity.vo.getId());
         String aa = "";
         InputStream in = CommonMethod.excuteGet(task);

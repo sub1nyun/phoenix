@@ -54,13 +54,14 @@ public class JoinMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_main);
-        changeFrag( userFragment);
 
-        //초대코드로 왔을 때
+        //초대코드로 왔을 때 구분
         Intent intent = getIntent();
         family_id = intent.getStringExtra("family_id");
         if(family_id != null){
             changeFrag( new UserFragment(family_id) );
+        }else{
+            changeFrag( userFragment);
         }
 
         btn_next = findViewById(R.id.btn_next);
@@ -154,8 +155,12 @@ public class JoinMainActivity extends AppCompatActivity {
             changeFrag( babyFragment );
             go--;
         }else if( go==7 ){
-            changeFrag( genderFragment );
-            go--;
+            if(family_id != null){
+                altDialog();
+            }else{
+                changeFrag( genderFragment );
+                go--;
+            }
         }
     }
 
