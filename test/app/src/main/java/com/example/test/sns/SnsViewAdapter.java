@@ -44,14 +44,24 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = inflater.inflate(R.layout.sns_growth_item, parent, false);
-        return new ViewHolder(itemView);
+        if(growthVOS.size() == 0) {
+            View itemView = inflater.inflate(R.layout.gro_item_null, parent, false);
+            return new ViewHolder(itemView);
+
+        }else {
+            View itemView = inflater.inflate(R.layout.sns_growth_item, parent, false);
+            return new ViewHolder(itemView);
+        }
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.bind(holder, position);
 
+        if(growthVOS.size()> 0) {
+            holder.bind(holder, position);
+
+        }
 
 //        String imgList =  growthVOS.get(position).getImgList().get(0);
 //        String[] test =  imgList.split(",");
@@ -62,18 +72,7 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 //         String a = "";
 
 
-        holder.sns_more.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setTitle("수정이나 삭제하기").setMessage("");
-            builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    AskTask editTask = new AskTask(CommonVal.httpip, "edit.sn");
-                    editTask.addParam("no", growthVOS.get(position).getGro_no()+"");
-                    CommonMethod.excuteGet(editTask);
-                }
-            });
-        });
+
 
 
 //        holder.sns_more.setOnClickListener(v -> {
@@ -140,7 +139,11 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return growthVOS.size();
+        if(growthVOS.size() ==0) {
+            return 1;
+        }else {
+            return growthVOS.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -164,16 +167,32 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
             holder.rec_view.setAdapter(imgAdapter);
             holder.rec_view.setLayoutManager(imgmanger);
 
-            baby_name.setText(CommonVal.curbaby.getBaby_name());
-            user_comment.setText(growthVOS.get(position).getGro_content());
-            growthVOS.get(position).getImgList();
-            if(growthVOS.get(position).getBaby_gender().equals("남아")) {
-                baby_icon.setImageResource(R.drawable.sns_baby_boy);
-            }else {
-                baby_icon.setImageResource(R.drawable.sns_baby_girl);
-            }
-            gro_date.setText(growthVOS.get(position).getGro_date());
+                baby_name.setText(CommonVal.curbaby.getBaby_name());
+                user_comment.setText(growthVOS.get(position).getGro_content());
+                growthVOS.get(position).getImgList();
+                if(growthVOS.get(position).getBaby_gender().equals("남아")) {
+                    baby_icon.setImageResource(R.drawable.sns_baby_boy);
+                }else {
+                    baby_icon.setImageResource(R.drawable.sns_baby_girl);
+                }
+                gro_date.setText(growthVOS.get(position).getGro_date());
 
+            if(growthVOS.get(position).getImgList().get(0) == null){
+                holder.rec_view.setVisibility(View.GONE);
+            }
+
+            sns_more.setOnClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle("수정이나 삭제하기").setMessage("");
+                builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AskTask editTask = new AskTask(CommonVal.httpip, "edit.sn");
+                        editTask.addParam("no", growthVOS.get(position).getGro_no()+"");
+                        CommonMethod.excuteGet(editTask);
+                    }
+                });
+            });
 
 
 

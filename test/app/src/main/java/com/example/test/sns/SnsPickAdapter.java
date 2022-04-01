@@ -34,14 +34,39 @@ public class SnsPickAdapter extends RecyclerView.Adapter<SnsPickAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(activity).load(growthVOS.get(position).getImgList().get(0)).into(holder.gro_rec);
-
+//        if(growthVOS.get(position).getImgList().size() >2) {
+//            Glide.with(activity).load(R.drawable.bss_logo).into(holder.gro_rec);
+//        }else if(growthVOS.get(position).getImgList().size() > 2){
+//            for(int i=0; i < growthVOS.size(); i++) {
+//                Glide.with(activity).load(growthVOS.get(position).getImgList().get(i)).into(holder.gro_rec);
+//        }
+        if(growthVOS.size() != 0) {
+            for(int i =0; i<growthVOS.get(position).getImgList().size(); i++) {
+                Glide.with(activity).load(growthVOS.get(position).getImgList().get(i)).into(holder.gro_rec);
+            }
+        }else if(growthVOS.size() == 0) {
+            holder.gro_rec.setVisibility(View.GONE);
+        }
+//        if(growthVOS.get(position).getImgList().size() == 1) {
+//            Glide.with(activity).load(R.drawable.bss_logo).into(holder.gro_rec);
+//        }
+//        else if (growthVOS.get(position).getImgList().size() > 2) {
+//            for (int i = 0; i < growthVOS.size(); i++) {
+//                Glide.with(activity).load(growthVOS.get(position).getImgList().get(i)).into(holder.gro_rec);
+//
+//            }
+//
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return growthVOS.size();
-    }
+
+            return growthVOS.size();
+        }
+
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView gro_rec;

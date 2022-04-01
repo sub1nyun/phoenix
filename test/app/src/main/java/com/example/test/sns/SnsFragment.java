@@ -64,8 +64,6 @@ public class SnsFragment extends Fragment {
         task.addParam("baby_id",CommonVal.curbaby.getBaby_id());
         InputStream in = CommonMethod.excuteGet(task);
         List<GrowthVO> growthVOS = gson.fromJson(new InputStreamReader(in), new TypeToken<List<GrowthVO>>(){}.getType());
-        growthVOS.get(0).getImgList();
-        String a = "";
 
 
 

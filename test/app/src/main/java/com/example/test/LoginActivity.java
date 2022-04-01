@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                     task.addParam("id", CommonVal.curuser.getId());
                     InputStream in = CommonMethod.excuteGet(task);
                     CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                    CommonVal.curbaby = CommonVal.baby_list.get(0);
+                    CommonVal.curbaby = CommonVal.baby_list.get(1);
 
                    // 가족정보 불러오기
                     task = new AskTask(CommonVal.httpip, "titlelist.us");
