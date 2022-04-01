@@ -41,7 +41,6 @@ public class InviteActivity extends AppCompatActivity {
         btn_join = findViewById(R.id.btn_join);
         tv_invite = findViewById(R.id.tv_invite);
 
-        String family_id;
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
                 .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
@@ -65,12 +64,13 @@ public class InviteActivity extends AppCompatActivity {
                         else {
                             deepLink = pendingDynamicLinkData.getLink();
                             String family_id = deepLink.getQueryParameter("familyId");
+                            String rels = deepLink.getQueryParameter("rels");
                             AskTask task = new AskTask(CommonVal.httpip, "gettitle.bif");
                             task.addParam("id", family_id);
                             InputStream in = CommonMethod.excuteGet(task);
                             String title = gson.fromJson(new InputStreamReader(in), String.class);
                             Log.d("asd : ", "family_id: " + title);
-                            tv_invite.setText(title);
+                            tv_invite.setText(title + "에 " + rels + "로 초대 받으셨습니다.");
                             //tv.setText(family_id);
                             /*deepLink = pendingDynamicLinkData.getLink();
                             Log.d("asd: ", "deepLink: " + deepLink);
@@ -88,6 +88,7 @@ public class InviteActivity extends AppCompatActivity {
                                 public void onClick(View v) {
                                     Intent intent = new Intent(InviteActivity.this, LoginActivity.class);
                                     intent.putExtra("family_id",family_id);
+                                    intent.putExtra("rels",rels);
                                     startActivity(intent);
                                 }
                             });
@@ -96,6 +97,7 @@ public class InviteActivity extends AppCompatActivity {
                                 public void onClick(View v) {
                                     Intent intent = new Intent(InviteActivity.this, JoinMainActivity.class);
                                     intent.putExtra("family_id",family_id);
+                                    intent.putExtra("rels",rels);
                                     startActivity(intent);
                                 }
                             });

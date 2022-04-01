@@ -30,6 +30,7 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.my.RelsDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -159,7 +160,15 @@ public class DiaryFragment extends Fragment {
         imv_invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createDynamicLink();
+                RelsDialog dialog = new RelsDialog(getContext(),"엄마");
+                dialog.show();
+                dialog.setDialogListener(new RelsDialog.DialogListener() {
+                    @Override
+                    public void onPositiveClick(String name) {
+                        createDynamicLink(name);
+                    }
+                });
+
             }
         });
 
@@ -329,9 +338,9 @@ public class DiaryFragment extends Fragment {
             handler.sendMessage(msg);
         }
     }
-    private void createDynamicLink() {
+    private void createDynamicLink(String rels) {
         String familyId = CommonVal.curbaby.getBaby_id();
-        String invitationLink = "https://babysmilesupport.page.link/invite?familyId="+familyId; //생성할 다이나믹 링크
+        String invitationLink = "https://babysmilesupport.page.link/invite?"+"rels="+rels+"&familyId="+familyId; //생성할 다이나믹 링크
 
         FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLink(Uri.parse(invitationLink))    //정보를 담는 json 사이트를 넣자!!
