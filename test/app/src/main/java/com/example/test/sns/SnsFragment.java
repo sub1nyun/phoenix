@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class SnsFragment extends Fragment {
@@ -42,6 +43,7 @@ public class SnsFragment extends Fragment {
     Intent intent;
     ArrayList<GrowthVO> grolist = new ArrayList<>();
     Activity activity;
+
 
 
     public SnsFragment(Activity activity) {
@@ -56,6 +58,8 @@ public class SnsFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_sns, container, false);
 
+        View sns_none = rootView.findViewById(R.id.sns_none);
+
         RecyclerView sns_view_rec = rootView.findViewById(R.id.sns_view_rec);
         sns_plus = rootView.findViewById(R.id.sns_plus);
 
@@ -65,13 +69,15 @@ public class SnsFragment extends Fragment {
         InputStream in = CommonMethod.excuteGet(task);
         List<GrowthVO> growthVOS = gson.fromJson(new InputStreamReader(in), new TypeToken<List<GrowthVO>>(){}.getType());
 
-
-
-        SnsViewAdapter adapter = new SnsViewAdapter(inflater,growthVOS, activity);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        sns_view_rec.setAdapter(adapter);
-        sns_view_rec.setLayoutManager(manager);
-
+        if(isEmpty(growthVOS)) {
+            sns_none.setVisibility(View.VISIBLE);
+            sns_view_rec.setVisibility(View.GONE);
+        } else {
+            SnsViewAdapter adapter = new SnsViewAdapter(inflater,growthVOS, activity);
+            RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+            sns_view_rec.setAdapter(adapter);
+            sns_view_rec.setLayoutManager(manager);
+        }
        sns_plus.setOnClickListener(v -> {
            intent = new Intent(getContext(), SnsNewActivity.class);
            startActivity(intent);
@@ -91,26 +97,17 @@ public class SnsFragment extends Fragment {
         for(int i = 0 ; i<img_list.size() ; i++){
             snslist.add(new SnsVO( "테스트1"));
         }
-
-//        AskTask task = new AskTask("http://192.168.0.11", "list.sn");
-//        Gson gson = new Gson();
-//        CommonVal.curuser.setId("a");
-//        CommonVal.curuser.setPw("a");
-//        vo.setId(CommonVal.curuser.getId());
-//        sns_user_id.setText(vo.getId()+"");
-//        SnsImgRecAdapter = new SnsImgRecAdapter(img_list, (Activity) getContext());
-//        sns_view_rec.setAdapter((RecyclerView.Adapter) SnsImgRecAdapter);
-//        sns_view_rec.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,true));
-//        vo.setTitle("test");
-//        vo.setSns_content("testText");
-//        sns_user_content.setText(vo.getSns_content()+"");
-
-//        String testvo = gson.toJson(vo);
-//        task.addParam("vo", testvo);
-//        InputStream in = CommonMethod.excuteGet(task);
-//        //SnsVO andVO = gson.fromJson(new InputStreamReader(in), new TypeToken<SnsVO>(){}.getType());
-//        //쿼리 작성할 부분
-//        img_list = new ArrayList<>();
-//        snsadapter.notifyDataSetChanged();
     }
+
+    // null값이라면 true를 반환
+    public boolean isEmpty(Object obj) {
+        if(obj == null) return true;
+        if ((obj instanceof String) && (((String)obj).trim().length() == 0)) { return true; }
+        if (obj instanceof Map) { return ((Map<?, ?>) obj).isEmpty(); }
+        if (obj instanceof Map) { return ((Map<?, ?>)obj).isEmpty(); }
+        if (obj instanceof List) { return ((List<?>)obj).isEmpty(); }
+        if (obj instanceof Object[]) { return (((Object[])obj).length == 0); }
+        return false;
+    }
+    //출처: https://freehoon.tistory.com/124 [훈잇 블로그]
 }

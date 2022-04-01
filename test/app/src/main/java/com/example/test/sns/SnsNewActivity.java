@@ -94,7 +94,7 @@ public class SnsNewActivity extends AppCompatActivity {
             if(imgFilePathList != null && imgFilePathList.size() > 0) {
               //SnsFragment.img_list.add(imgFilePath);
               //저장 로직
-                AskTask addSns = new AskTask("http://121.148.239.238:5524", "share.sn");
+                AskTask addSns = new AskTask(CommonVal.httpip, "share.sn");
                 Gson gson = new Gson();
 
                 gvo.setBaby_id(CommonVal.curbaby.getBaby_id());
