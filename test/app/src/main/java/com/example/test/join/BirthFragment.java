@@ -40,10 +40,12 @@ public class BirthFragment extends Fragment {
 //            tv_bir.setText( ""+     new Date().getYear() + new Date().getMonth() + new Date().getDay());
             String[] strDate = JoinMainActivity.babyInfoVO.getBaby_birth().split("-");
             today.set(Integer.parseInt(strDate[0]), Integer.parseInt(strDate[1]), Integer.parseInt(strDate[2]));
+        }else {
+
         }
-
         tv_bir.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일");
-
+        //JoinMainActivity.babyInfoVO.setBaby_birth(tv_bir.getText().toString());
+        JoinMainActivity.babyInfoVO.setBaby_birth( today.get(Calendar.YEAR) + "-" + String.format("%02d",(today.get(Calendar.MONTH)+1)) + "-" + today.get(Calendar.DATE) );
 
         //얘가 날짜값을 받아서 세팅해주는 역할
         callbackMethod = new DatePickerDialog.OnDateSetListener() {
@@ -52,7 +54,7 @@ public class BirthFragment extends Fragment {
                 today.set(year, month, dayOfMonth);
                 tv_bir.setText(year + "년" + (month + 1) + "월" + dayOfMonth + "일");
                 //JoinMainActivity.vo.setBirth();
-                JoinMainActivity.babyInfoVO.setBaby_birth( year +"-" +String.format("%02d", month )+"-" + String.format("%02d", dayOfMonth) );
+                JoinMainActivity.babyInfoVO.setBaby_birth( year +"-" +String.format("%02d", month +1 )+"-" + String.format("%02d", dayOfMonth) );
 
             }
         };

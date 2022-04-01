@@ -1,6 +1,7 @@
 package com.example.test.sns;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,20 +26,20 @@ import com.google.gson.reflect.TypeToken;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHolder> {
 
     LayoutInflater inflater;
-    Context context;
-    List<GrowthVO> GroVoList;
+    List<GrowthVO> growthVOS;
+    Activity activity;
 
-    public SnsViewAdapter(LayoutInflater inflater, Context context, List<GrowthVO> GroVoList) {
+    public SnsViewAdapter(LayoutInflater inflater, List<GrowthVO> growthVOS, Activity activity) {
         this.inflater = inflater;
-        this.context = context;
-        this.GroVoList = GroVoList;
+        this.growthVOS = growthVOS;
+        this.activity = activity;
     }
-
 
     @NonNull
     @Override
@@ -50,54 +51,68 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.bind(holder, position);
-        AskTask task = new AskTask("http://192.168.0.11", "select.sn");
-        Gson gson = new Gson();
-        GrowthVO growthVO = new GrowthVO();
-        growthVO.setBaby_id(CommonVal.curbaby.getBaby_id());
-        String testvo = gson.toJson(growthVO);
-        task.addParam("vo",testvo);
-        InputStream in = CommonMethod.excuteGet(task);
-        GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
 
+
+//        String imgList =  growthVOS.get(position).getImgList().get(0);
+//        String[] test =  imgList.split(",");
+//        growthVOS.get(position).setImgList(Arrays.asList(test));
+//        ArrayList<GrowthVO>
+
+//         String test = growthVOS.get(position).getBaby_name();
+//         String a = "";
 
 
         holder.sns_more.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("수정이나 삭제").setMessage("");
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setTitle("수정이나 삭제하기").setMessage("");
             builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(context, SnsNewActivity.class);
-                    AskTask editTask = new AskTask("http://192.168.0.11", "edit.sn");
-
+                    AskTask editTask = new AskTask(CommonVal.httpip, "edit.sn");
+                    editTask.addParam("no", growthVOS.get(position).getGro_no()+"");
+                    CommonMethod.excuteGet(editTask);
                 }
             });
-            builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-                    builder1.setTitle("정말 삭제하실건가요?").setMessage("");
-                    builder1.setPositiveButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder1.setNegativeButton("삭제", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            AlertDialog alertDialog = builder1.create();
-                            alertDialog.show();
-                            AskTask delete = new AskTask("http://192.168.0.11", "del.sn");
-                            delete.addParam("no", GroVoList.get(position).getGro_no() + "");
-                            CommonMethod.excuteGet(delete);
-                        }
-                    });
-                }
-            });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
         });
+
+
+//        holder.sns_more.setOnClickListener(v -> {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//            builder.setTitle("수정이나 삭제").setMessage("");
+//            builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    Intent intent = new Intent(context, SnsNewActivity.class);
+//                    AskTask editTask = new AskTask("http://192.168.0.11", "edit.sn");
+//
+//                }
+//            });
+//            builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+//                    builder1.setTitle("정말 삭제하실건가요?").setMessage("");
+//                    builder1.setPositiveButton("취소", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//
+//                        }
+//                    });
+//                    builder1.setNegativeButton("삭제", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            AlertDialog alertDialog = builder1.create();
+//                            alertDialog.show();
+//                            AskTask delete = new AskTask("http://192.168.0.11", "del.sn");
+//                            delete.addParam("no", GroVoList.get(position).getGro_no() + "");
+//                            CommonMethod.excuteGet(delete);
+//                        }
+//                    });
+//                }
+//            });
+//            AlertDialog alertDialog = builder.create();
+//            alertDialog.show();
+//        });
 
 //        sns_more.setOnClickListener(view -> {
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -125,11 +140,11 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return 10;
+        return growthVOS.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView baby_name, user_comment;
+        TextView baby_name, user_comment, gro_date;
         ImageView sns_more, baby_icon;
         RecyclerView rec_view;
 
@@ -140,13 +155,26 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
             sns_more = itemView.findViewById(R.id.sns_more);
             rec_view = itemView.findViewById(R.id.rec_view);
             baby_icon = itemView.findViewById(R.id.baby_icon);
+            gro_date = itemView.findViewById(R.id.gro_date);
         }
         public void bind(@NonNull ViewHolder holder, int position){
-            SnsPickAdapter imgAdapter = new SnsPickAdapter(inflater);
-            RecyclerView.LayoutManager imgmanger = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
+            SnsPickAdapter imgAdapter = new SnsPickAdapter(inflater, growthVOS, activity );
+            RecyclerView.LayoutManager imgmanger = new LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false);
 
             holder.rec_view.setAdapter(imgAdapter);
             holder.rec_view.setLayoutManager(imgmanger);
+
+            baby_name.setText(CommonVal.curbaby.getBaby_name());
+            user_comment.setText(growthVOS.get(position).getGro_content());
+            growthVOS.get(position).getImgList();
+            if(growthVOS.get(position).getBaby_gender().equals("남아")) {
+                baby_icon.setImageResource(R.drawable.sns_baby_boy);
+            }else {
+                baby_icon.setImageResource(R.drawable.sns_baby_girl);
+            }
+            gro_date.setText(growthVOS.get(position).getGro_date());
+
+
 
 
         }

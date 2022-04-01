@@ -1,5 +1,6 @@
 package com.example.test.my;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -9,12 +10,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -26,14 +31,15 @@ import android.widget.Toast;
 
 import com.example.test.R;
 
+import java.io.IOException;
+
 public class SettingActivity extends AppCompatActivity {
     ImageView setting_back;
     TextView set_secession, set_logout;
     Switch set_bell, set_vibration;
     SeekBar set_bell_volume, set_vibration_volume;
-    AudioManager audioManager;
-    int bell_volume = 0;
-    int vib_volume = 0;
+    int bell_volume;
+    int vib_volume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,43 +54,129 @@ public class SettingActivity extends AppCompatActivity {
         set_bell_volume = findViewById(R.id.set_bell_volume);
         set_vibration_volume = findViewById(R.id.set_vibration_volume);
 
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        set_bell_volume.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        //저장된 상태정보 받아오기
+        SharedPreferences preferences = getPreferences(SettingActivity.MODE_PRIVATE);
+        boolean save_bell_check = preferences.getBoolean("bell_check", false);
+        boolean save_vib_check = preferences.getBoolean("vib_check", false);
 
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        //알림 on으로 저장된 경우
+        if(save_bell_check){
+            set_bell.setChecked(true);
+            bell_volume = preferences.getInt("bell_size", 0);
+            set_bell_volume.setProgress(bell_volume);
+            set_bell_volume.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return false;
+                }
+            });
+        } else{ //알림 off로 저장된 경우
+            set_bell.setChecked(false);
+            set_bell_volume.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+        }
+
+        //진동이 on으로 저장된 경우
+        if(save_vib_check){
+            set_vibration.setChecked(true);
+            vib_volume = preferences.getInt("vib_size", 0);
+            set_vibration_volume.setProgress(vib_volume);
+            set_vibration_volume.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return false;
+                }
+            });
+        } else{ //진동이 off로 저장된 경우
+            set_vibration.setChecked(false);
+            set_vibration_volume.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+        }
+
+        //뒤로가기
         setting_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveState();
                 finish();
             }
         });
 
+        //알림 ON/OFF
         set_bell.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    saveState();
+                    set_bell_volume.setProgress(50);
+                    set_bell_volume.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return false;
+                        }
+                    });
                 } else{
-                    saveState();
+                    set_bell_volume.setProgress(0);
+                    set_bell_volume.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return true;
+                        }
+                    });
                 }
             }
         });
 
+        //진동 ON/OFF
         set_vibration.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-
+                    set_vibration_volume.setProgress(50);
+                    set_vibration_volume.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return false;
+                        }
+                    });
                 } else{
-
+                    set_vibration_volume.setProgress(0);
+                    set_vibration_volume.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return true;
+                        }
+                    });
                 }
             }
         });
 
+        //알림 볼륨 조절
         set_bell_volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { //조작 중
-                audioManager.setStreamVolume(AudioManager.STREAM_ALARM, progress, 0);
                 bell_volume = progress;
+                audioManager.setStreamVolume(AudioManager.STREAM_ALARM, progress, AudioManager.FLAG_PLAY_SOUND);
+                MediaPlayer mp = new MediaPlayer();
+                Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                try {
+                    mp.setDataSource(uri.toString());
+                    mp.setAudioStreamType(AudioManager.STREAM_ALARM);
+                    mp.setLooping(true);
+                    mp.prepare();
+                    mp.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -98,23 +190,28 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+        //진동 세기 조절
         set_vibration_volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { //조작 중
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                vib_volume = progress;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(VibrationEffect.createOneShot(1000, progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { //처음 터치
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { //터치 끝
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
         });
 
+        //회원 탈퇴
         set_secession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +232,7 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+        //로그아웃
         set_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,14 +254,35 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        saveState();
+        finish();
+    }
+
+    //상태 정보 저장
     void saveState(){
-        SharedPreferences preferences = getSharedPreferences("pref", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        if(set_bell.isChecked()){
-            editor.putBoolean("bell_check", true);
-            editor.putInt("bell_size", bell_volume);
-        } else{
-            editor.remove("bell_size");
+        try{
+            SharedPreferences preferences = getPreferences(SettingActivity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            if(set_bell.isChecked()){
+                editor.putBoolean("bell_check", true);
+                editor.putInt("bell_size", bell_volume);
+            } else{
+                editor.remove("bell_size");
+                editor.putBoolean("bell_check", false);
+            }
+            if(set_vibration.isChecked()){
+                editor.putBoolean("vib_check", true);
+                editor.putInt("vib_size", vib_volume);
+            } else{
+                editor.remove("vib_size");
+                editor.putBoolean("vib_check", false);
+            }
+            editor.apply();
+        } catch(Exception e){
+            Toast.makeText(this, "세팅 정보 저장 실패", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -47,14 +47,14 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_login, btn_join, btn_forget;
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
-    ImageView btn_kakao, btn_naver;
+    ImageView btn_kakao;
     Button btn_invite, btn_logout;
 
 
     NidOAuthLoginButton naverlogin;
     Gson gson = new Gson();
     public static OAuthLogin mOAuthLoginModule;
-    Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
 
-        mContext = getApplicationContext();
+
 
 
         btn_login = findViewById(R.id.btn_login);

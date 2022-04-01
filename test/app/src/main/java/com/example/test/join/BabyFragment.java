@@ -32,7 +32,7 @@ public class BabyFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) { }
         });
-
+        edt_name.requestFocus();
 
 
 

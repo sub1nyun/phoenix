@@ -1,6 +1,7 @@
 package com.example.test.my;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -13,8 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.test.MainActivity;
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
+import com.example.test.home.HomeActivity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class CoParentFragment extends Fragment {
@@ -22,6 +34,7 @@ public class CoParentFragment extends Fragment {
     Button exit_family;
     ImageView family_back;
     List<FamilyInfoVO> list;
+    Gson gson = new Gson();
 
     public CoParentFragment(List<FamilyInfoVO> list) {
         this.list = list;
@@ -47,7 +60,29 @@ public class CoParentFragment extends Fragment {
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                AskTask task = new AskTask(CommonVal.httpip, "exit.family");
+                                task.addParam("title", CommonVal.curbaby.getTitle());
+                                task.addParam("id", CommonVal.curuser.getId());
+                                task.addParam("baby_id", CommonVal.curbaby.getBaby_id());
+                                InputStream in = CommonMethod.excuteGet(task);
+                                if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())){
+                                    Toast.makeText(getContext(), "성공적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
+                                } else{
+                                    Toast.makeText(getContext(), "탈퇴를 하지 못했습니다.", Toast.LENGTH_SHORT).show();
+                                }
                                 //어디론가 이동
+                                for(int i=0; i<CommonVal.baby_list.size(); i++){
+                                    if(CommonVal.baby_list.get(i).getTitle().equals(CommonVal.curbaby.getTitle())){
+                                        CommonVal.baby_list.remove(i);
+                                    }
+                                }
+                                if(CommonVal.baby_list.size() == 0){
+                                    Intent intent = new Intent(getContext(), HomeActivity.class);
+                                    startActivity(intent);
+                                } else{
+                                    CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                    ((MainActivity)getActivity()).changeFrag(new MyFragment());
+                                }
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override

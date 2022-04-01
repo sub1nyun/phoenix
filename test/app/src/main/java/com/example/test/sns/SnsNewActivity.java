@@ -55,6 +55,7 @@ public class SnsNewActivity extends AppCompatActivity {
     EditText sns_new_text;
     SnsVO vo = new SnsVO();
     SnsImgVO imgvo = new SnsImgVO();
+    GrowthVO gvo = new GrowthVO();
 
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;
@@ -93,27 +94,26 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_share.setOnClickListener(v -> {
             if(imgFilePathList != null) {
               //SnsFragment.img_list.add(imgFilePath);
-                vo.setSns_content(sns_new_text.getText()+"");
               //저장 로직
-                AskTask addSns = new AskTask("http://192.168.0.11", "share.sn");
+                AskTask addSns = new AskTask("http://121.148.239.238:5524", "share.sn");
                 Gson gson = new Gson();
                 //테스트용 아아디
-                CommonVal.curuser.setId("a");
-                CommonVal.curuser.setPw("a");
-                vo.setTitle("test");
-                vo.setId(CommonVal.curuser.getId());
-                vo.setImgList(imgFilePathList);
-                vo.setFilename("test");
-                vo.setFilepath("");
-                String testvo = gson.toJson(vo);
-               addSns.addParam("vo",testvo);
+
+                gvo.setBaby_id(CommonVal.curbaby.getBaby_id());
+                gvo.setBaby_gender(CommonVal.curbaby.getBaby_gender());
+                gvo.setBaby_name(CommonVal.curbaby.getBaby_name());
+                gvo.setGro_content(sns_new_text.getText()+"");
+
+
+                String testvo = gson.toJson(gvo);
+                addSns.addParam("vo",testvo);
 
 
                for(int i=0; i<imgFilePathList.size(); i++) {
                    addSns.addFileParam("file"+i, imgFilePathList.get(i));
                }
                CommonMethod.excuteGet(addSns);
-                //finish();
+               finish();
             }else {
                 Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
             }
@@ -194,6 +194,7 @@ public class SnsNewActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
        if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
            if(data.getClipData() != null) {
+
            ClipData clipData = data.getClipData();
                imgFilePathList.add(getGalleryRealPath(clipData.getItemAt(0).getUri()));
            }

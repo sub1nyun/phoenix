@@ -35,17 +35,17 @@ public class JoinMainActivity extends AppCompatActivity {
     static UserVO vo = new UserVO();
     static BabyInfoVO babyInfoVO = new BabyInfoVO();
     static int id_chk = 0;
-    static String id_chkchk = vo.getId();
+ //   static String id_chkchk = vo.getId();
     Gson gson = new Gson();
     List<UserVO> list;
     UserFragment userFragment = new UserFragment();
-    NewFamilyFragment newFamilyFragment = new NewFamilyFragment();
+    NewFamilyFragment newFamilyFragment = new NewFamilyFragment(JoinMainActivity.this);
     RelationFragment relationFragment = new RelationFragment();
     BirthFragment birthFragment = new BirthFragment();
     BabyFragment babyFragment = new BabyFragment();
     GenderFragment genderFragment = new GenderFragment();
     PictureFragment pictureFragment = new PictureFragment();
-
+    static int result = 0;
 
 
     String family_id ;
@@ -54,19 +54,20 @@ public class JoinMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_main);
-        changeFrag( userFragment);
 
-        //초대코드로 왔을 때
+        //초대코드로 왔을 때 구분
         Intent intent = getIntent();
         family_id = intent.getStringExtra("family_id");
         if(family_id != null){
             changeFrag( new UserFragment(family_id) );
+        }else{
+            changeFrag( userFragment);
         }
 
         btn_next = findViewById(R.id.btn_next);
         btn_back = findViewById(R.id.btn_back);
         container = findViewById(R.id.constraint);
-        tv_id_check = findViewById(R.id.tv_id_check);
+        //tv_id_check = findViewById(R.id.tv_id_check);
 
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,13 +87,19 @@ public class JoinMainActivity extends AppCompatActivity {
 
     public void gogo(){//앞으로
         if( go==1 ){
-           emptychk();
+            emptychk();
+           if(result == 1){
+               allok();
+           }
+
         }else if( go==2 ){
             if( isept( JoinMainActivity.vo.getTitle() , "제목을 입력해주세요.") ){
                 changeFrag( relationFragment );
                 go++;
             }
         }else if( go==3 ){
+            JoinMainActivity.babyInfoVO.setId(JoinMainActivity.vo.getId());//     babyinfoVO에 id,title담기
+            JoinMainActivity.babyInfoVO.setTitle(JoinMainActivity.vo.getTitle());
             changeFrag( birthFragment );
             go++;
         }else if( go==4 ){
@@ -148,8 +155,12 @@ public class JoinMainActivity extends AppCompatActivity {
             changeFrag( babyFragment );
             go--;
         }else if( go==7 ){
-            changeFrag( genderFragment );
-            go--;
+            if(family_id != null){
+                altDialog();
+            }else{
+                changeFrag( genderFragment );
+                go--;
+            }
         }
     }
 
@@ -181,6 +192,7 @@ public class JoinMainActivity extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
     void changeFrag(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
@@ -201,7 +213,7 @@ public class JoinMainActivity extends AppCompatActivity {
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-        }else if ( id_chk == 0 ){
+        }else if ( !userFragment.id_check() ){
             String aaa = "";
             builder.setTitle("아이디 중복확인을 해주세요").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
@@ -246,7 +258,7 @@ public class JoinMainActivity extends AppCompatActivity {
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }else {
-            builder.setTitle("입력을 완료하시겠습니까?").setMessage("");
+           /* builder.setTitle("입력을 완료하시겠습니까?").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id)
@@ -258,18 +270,25 @@ public class JoinMainActivity extends AppCompatActivity {
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            Log.d("testt", "onClick: " + vo.getId() + "");
+            Log.d("testt", "onClick: " + vo.getId() + "");*/
         }
 
     }
 
     public boolean user() {
+
         AskTask task = new AskTask("http://192.168.0.50", "user.join");
         task.addParam("vo", gson.toJson( vo ) );
+        task.addParam("vo2", gson.toJson( babyInfoVO ) );
+        if( pictureFragment.imgFilePath != null){
+            Toast.makeText(JoinMainActivity.this, pictureFragment.imgFilePath, Toast.LENGTH_SHORT).show();
+            task.addFileParam("file", pictureFragment.imgFilePath);
+        }
         String aa = "";
         InputStream in = CommonMethod.excuteGet(task);
         boolean data = gson.fromJson(new InputStreamReader(in), Boolean.class);
         return data;
+        //return false;
     }
 
     public boolean isept(String checkData , String msg){
@@ -296,4 +315,19 @@ public class JoinMainActivity extends AppCompatActivity {
     }
 
 
+    public void allok(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
+        builder.setTitle("입력을 완료하시겠습니까?").setMessage("");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                changeFrag(newFamilyFragment);
+                go++;
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        Log.d("testt", "onClick: " + vo.getId() + "");
+    }
 }

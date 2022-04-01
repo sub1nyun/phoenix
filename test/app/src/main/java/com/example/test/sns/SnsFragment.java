@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,10 +25,13 @@ import com.example.test.common.CommonVal;
 import com.example.test.my.MyFragment;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SnsFragment extends Fragment {
@@ -37,6 +41,12 @@ public class SnsFragment extends Fragment {
     ImageView sns_plus;
     Intent intent;
     ArrayList<GrowthVO> grolist = new ArrayList<>();
+    Activity activity;
+
+
+    public SnsFragment(Activity activity) {
+        this.activity = activity;
+    }
 
     public static ArrayList<String> img_list = new ArrayList<>();
 
@@ -49,7 +59,17 @@ public class SnsFragment extends Fragment {
         RecyclerView sns_view_rec = rootView.findViewById(R.id.sns_view_rec);
         sns_plus = rootView.findViewById(R.id.sns_plus);
 
-        SnsViewAdapter adapter = new SnsViewAdapter(inflater,getContext(),grolist);
+        AskTask task = new AskTask(CommonVal.httpip, "select.sn");
+        Gson gson = new Gson();
+        task.addParam("baby_id",CommonVal.curbaby.getBaby_id());
+        InputStream in = CommonMethod.excuteGet(task);
+        List<GrowthVO> growthVOS = gson.fromJson(new InputStreamReader(in), new TypeToken<List<GrowthVO>>(){}.getType());
+        growthVOS.get(0).getImgList();
+        String a = "";
+
+
+
+        SnsViewAdapter adapter = new SnsViewAdapter(inflater,growthVOS, activity);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         sns_view_rec.setAdapter(adapter);
         sns_view_rec.setLayoutManager(manager);
@@ -73,6 +93,7 @@ public class SnsFragment extends Fragment {
         for(int i = 0 ; i<img_list.size() ; i++){
             snslist.add(new SnsVO( "테스트1"));
         }
+
 //        AskTask task = new AskTask("http://192.168.0.11", "list.sn");
 //        Gson gson = new Gson();
 //        CommonVal.curuser.setId("a");

@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     changeFrag(fragment);
                     position = 2;
                 } else if(tab.getPosition()==3){
-                    fragment = new SnsFragment();
+                    fragment = new SnsFragment(MainActivity.this);
                     changeFrag(fragment);
                     position = 3;
                 } else if(tab.getPosition()==4){
