@@ -318,22 +318,11 @@ public class DiaryFragment extends Fragment {
 
     public void chgDateList(int y, int m, int d, Context context){
         AskTask task = new AskTask(CommonVal.httpip,"list.di");
+        task.addParam("date", y + "-" + (m+1) + "-" + d);
 
-        if(m<9){
-            task.addParam("date", y + "-0" + (m+1) + "-" + d);
-        }else{
-            task.addParam("date", y + "-" + (m+1) + "-" + d);
-        }
         task.addParam("id", CommonVal.curbaby.getBaby_id());
         InputStream in = CommonMethod.excuteGet(task);
         if(in != null){
-            //NetworkOnMainThreadException 에러가 발생해서 추가
-//            new Thread(() -> {
-//                list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
-//                Message msg = handler.obtainMessage(1, context);
-//
-//                handler.sendMessage(msg);
-//            }).start();
             list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
             Message msg = handler.obtainMessage(1, context);
 
@@ -344,7 +333,7 @@ public class DiaryFragment extends Fragment {
         String familyId = CommonVal.curbaby.getBaby_id();
         String invitationLink = "https://babysmilesupport.page.link/invite?familyId="+familyId; //생성할 다이나믹 링크
 
-        Task<ShortDynamicLink> dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLink(Uri.parse(invitationLink))    //정보를 담는 json 사이트를 넣자!!
                 .setDomainUriPrefix("https://babysmilesupport.page.link")
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())

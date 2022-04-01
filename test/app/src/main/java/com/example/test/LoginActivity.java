@@ -102,6 +102,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
+        Intent invite_intent = getIntent();
+        String invite_title = invite_intent.getStringExtra("family_id");
+        //Log.d("", "invite: "+invite_title);
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
