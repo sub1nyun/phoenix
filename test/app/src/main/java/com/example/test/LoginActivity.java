@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.diary.DiaryVO;
 import com.example.test.join.JoinMainActivity;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
@@ -125,8 +126,10 @@ public class LoginActivity extends AppCompatActivity {
                         familyInfoVO.setTitle(invite_title);
                         familyInfoVO.setFamily_rels(invite_rels);
                         familyInfoVO.setId(CommonVal.curuser.getId());
-                        //invite_task.addParam("vo", );
+                        Gson gson = new Gson();
+                        invite_task.addParam("vo", gson.toJson(familyInfoVO));
                         InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                        boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
                     }
 
 
@@ -136,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                     task.addParam("id", CommonVal.curuser.getId());
                     InputStream in = CommonMethod.excuteGet(task);
                     CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                    CommonVal.curbaby = CommonVal.baby_list.get(1);
+                    CommonVal.curbaby = CommonVal.baby_list.get(0);
 
                    // 가족정보 불러오기
                     task = new AskTask(CommonVal.httpip, "titlelist.us");

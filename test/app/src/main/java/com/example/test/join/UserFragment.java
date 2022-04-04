@@ -72,6 +72,8 @@ public class UserFragment extends Fragment {
 
         join_kakao.setOnClickListener(v -> {
             Toast.makeText(getContext(), "카카오 눌림", Toast.LENGTH_SHORT).show();
+
+
         });
 
         join_naver.setOnClickListener(v -> {

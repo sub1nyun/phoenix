@@ -87,7 +87,7 @@ public class InviteActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(InviteActivity.this, LoginActivity.class);
-                                    intent.putExtra("family_id",family_id);
+                                    intent.putExtra("family_id",title);
                                     intent.putExtra("rels",rels);
                                     startActivity(intent);
                                 }
@@ -96,7 +96,7 @@ public class InviteActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(InviteActivity.this, JoinMainActivity.class);
-                                    intent.putExtra("family_id",family_id);
+                                    intent.putExtra("family_id",title);
                                     intent.putExtra("rels",rels);
                                     startActivity(intent);
                                 }
