@@ -19,12 +19,14 @@ import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.example.test.my.BabyInfoVO;
 import com.google.gson.Gson;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.UUID;
 
 public class JoinMainActivity extends AppCompatActivity {
     Button btn_next;
@@ -120,9 +122,17 @@ public class JoinMainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id)
                 {
                     //      회원가입 들어가는 부분
-                    user();
-                    Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
-                    startActivity(intent);
+                    if(user()){
+                        CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
+                        CommonVal.curuser = JoinMainActivity.vo ;
+                        CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
+                        Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                        startActivity(intent);
+                    }
+
+
+
+                    String aa = "";
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
@@ -272,6 +282,8 @@ public class JoinMainActivity extends AppCompatActivity {
 
     public boolean user() {
         AskTask task = new AskTask("http://192.168.0.50", "user.join");
+        String uuid = UUID.randomUUID().toString();
+        babyInfoVO.setBaby_id(uuid);
         task.addParam("vo", gson.toJson( vo ) );
         task.addParam("vo2", gson.toJson( babyInfoVO ) );
         if( pictureFragment.imgFilePath != null){
