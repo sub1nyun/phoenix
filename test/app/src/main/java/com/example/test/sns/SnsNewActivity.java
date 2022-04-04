@@ -92,27 +92,40 @@ public class SnsNewActivity extends AppCompatActivity {
 
         sns_new_share.setOnClickListener(v -> {
             if(imgFilePathList != null && imgFilePathList.size() > 0) {
-              //SnsFragment.img_list.add(imgFilePath);
-              //저장 로직
+                //SnsFragment.img_list.add(imgFilePath);
+                //저장 로직
                 AskTask addSns = new AskTask(CommonVal.httpip, "share.sn");
                 Gson gson = new Gson();
 
                 gvo.setBaby_id(CommonVal.curbaby.getBaby_id());
                 gvo.setBaby_gender(CommonVal.curbaby.getBaby_gender());
                 gvo.setBaby_name(CommonVal.curbaby.getBaby_name());
-                gvo.setGro_content(sns_new_text.getText()+"");
+                gvo.setGro_content(sns_new_text.getText() + "");
 
                 String testvo = gson.toJson(gvo);
-                addSns.addParam("vo",testvo);
+                addSns.addParam("vo", testvo);
 
-               for(int i=0; i<imgFilePathList.size(); i++) {
-                   addSns.addFileParam("file"+i, imgFilePathList.get(i));
-               }
-               CommonMethod.excuteGet(addSns);
-               finish();
-            }else {
-                Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < imgFilePathList.size(); i++) {
+                    addSns.addFileParam("file" + i, imgFilePathList.get(i));
+                }
+                CommonMethod.excuteGet(addSns);
+
+                finish();
             }
+//            }else{
+//                AskTask textSns = new AskTask(CommonVal.httpip, "text.sn");
+//                Gson gson = new Gson();
+//                gvo.setBaby_id(CommonVal.curbaby.getBaby_id());
+//                gvo.setBaby_gender(CommonVal.curbaby.getBaby_gender());
+//                gvo.setBaby_name(CommonVal.curbaby.getBaby_name());
+//                gvo.setGro_content(sns_new_text.getText()+"");
+//
+//                String textvo = gson.toJson(gvo);
+//                textSns.addParam("textvo", textvo);
+//                CommonMethod.excuteGet(textSns);
+//                finish();
+            //사진 선택 하셈
+//            }
         });
 
 

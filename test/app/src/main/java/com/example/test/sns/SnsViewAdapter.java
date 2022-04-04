@@ -126,7 +126,7 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
                                 AskTask delTask = new AskTask(CommonVal.httpip, "delete.sn");
                                 delTask.addParam("no", growthVOS.get(position).getGro_no()+"");
                                 InputStream in = CommonMethod.excuteGet(delTask);
-                                //GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
+                                GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
                             }
                         }).show();
                     }
