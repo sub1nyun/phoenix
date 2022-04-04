@@ -41,7 +41,7 @@ public class MyFragment extends Fragment{
     TextView my_birth_tv, my_name_tv, my_diary_title, my_gender_man, my_gender_woman, baby_body;
     Gson gson = new Gson();
     List<BabyInfoVO> list;
-    String[] titlelist = new String[CommonVal.family_title.size()];
+    String[] titlelist = new String[CommonVal.family_title.size() + 1];
     String title = "";
 
     @Override
@@ -63,7 +63,8 @@ public class MyFragment extends Fragment{
 
         list = CommonVal.baby_list;
         for(int i=0; i<titlelist.length; i++){
-            titlelist[i] = CommonVal.family_title.get(i);
+            if(i == titlelist.length-1) titlelist[i] = "새로운 육아일기";
+            else titlelist[i] = CommonVal.family_title.get(i);
         }
 
         //육아일기 수정
@@ -281,7 +282,7 @@ public class MyFragment extends Fragment{
         }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                my_spinner.setSelection(0);
             }
         }).show();
     }

@@ -78,8 +78,7 @@ public class GraphActivity extends AppCompatActivity{
         date.clear();
         values.clear();
         for (int i = 0; i < list_heat.size(); i++) {
-            date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date());
-            //date.add(list_heat.get(i).getStart_time());
+            date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date().split("-")[1] + "-" + list_heat.get(i).getDiary_date().split("-")[2]);
             values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
         }
         makeChart(values, date, "heat");
@@ -88,27 +87,30 @@ public class GraphActivity extends AppCompatActivity{
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition() == 0){ //체온
+                    lineChart.clear();
                     date.clear();
                     values.clear();
                     for (int i = 0; i < list_heat.size(); i++) {
-                        date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date());
+                        date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date().split("-")[1] + "-" + list_heat.get(i).getDiary_date().split("-")[2]);
                         //date.add(list_heat.get(i).getStart_time());
                         values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
                     }
                     makeChart(values, date, "heat");
                 } else if(tab.getPosition() == 1){ //키
+                    lineChart.clear();
                     date.clear();
                     values.clear();
                     for (int i = 0; i < list_body.size(); i++) {
-                        date.add(list_body.get(i).getStor_date());
+                        date.add(list_body.get(i).getStor_date().split("-")[1] + "-" + list_body.get(i).getStor_date().split("-")[2]);
                         values.add(new Entry(i, (float) list_body.get(i).getStor_cm()));
                     }
                     makeChart(values, date, "cm");
                 } else if(tab.getPosition() == 2){ //몸무게
+                    lineChart.clear();
                     date.clear();
                     values.clear();
                     for (int i = 0; i < list_body.size(); i++){
-                        date.add(list_body.get(i).getStor_date());
+                        date.add(list_body.get(i).getStor_date().split("-")[1] + "-" + list_body.get(i).getStor_date().split("-")[2]);
                         values.add(new Entry(i, (float)list_body.get(i).getStor_kg()));
                     }
                     makeChart(values, date, "kg");
@@ -207,7 +209,7 @@ public class GraphActivity extends AppCompatActivity{
         lineChart.setMarker(mm);
 
         lineChart.setExtraLeftOffset(5);
-        lineChart.setExtraRightOffset(20);
+        lineChart.setExtraRightOffset(25);
         lineChart.setExtraBottomOffset(20);
         lineChart.setExtraTopOffset(20);
 
@@ -215,6 +217,7 @@ public class GraphActivity extends AppCompatActivity{
         lineChart.setDrawGridBackground(false);
         lineChart.setDescription(null);
         lineChart.setVisibleXRangeMaximum(2); //드래그
+        lineChart.setVisibleXRangeMinimum(2);
         lineChart.animateY(2000, Easing.EaseInBounce);
         lineChart.getLegend().setEnabled(false); //속성표시
         lineChart.invalidate(); //그래프 그리기
