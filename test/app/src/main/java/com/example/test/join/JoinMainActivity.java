@@ -19,6 +19,7 @@ import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.example.test.my.BabyInfoVO;
 import com.google.gson.Gson;
 
@@ -277,7 +278,7 @@ public class JoinMainActivity extends AppCompatActivity {
 
     public boolean user() {
 
-        AskTask task = new AskTask("http://192.168.0.50", "user.join");
+        AskTask task = new AskTask(CommonVal.httpip, "user.join");
         task.addParam("vo", gson.toJson( vo ) );
         task.addParam("vo2", gson.toJson( babyInfoVO ) );
         if( pictureFragment.imgFilePath != null){

@@ -11,32 +11,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#44526C"
+            android:background="#FFB547"
             android:layout_marginBottom="10dp"
+            android:padding="5dp"
             >
+
             <TextView
                 android:id="@+id/tv_date"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
                 android:text="00월 00일"
-                android:textAlignment="center"
-                android:textSize="25dp"
-                android:padding="5dp"
-                android:textColor="#fff"/>
+                android:textColor="#fff"
+                android:textSize="20dp" />
+
             <TextView
                 android:id="@+id/tv_state"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_below="@+id/tv_date"
+                android:layout_centerInParent="true"
                 android:text="모유"
-                android:textAlignment="center"
+                android:textColor="#fff"
                 android:textSize="30dp"
-                android:textColor="#fff"/>
-        </LinearLayout>
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/btn_del"
+                android:layout_width="30dp"
+                android:layout_height="66dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/delete" />
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -246,7 +258,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#44526C"
+                    android:backgroundTint="#FFB547"
                     android:text="취소"
                     android:textColor="#fff"
                     android:textSize="20dp"
@@ -256,21 +268,20 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#44526C"
+                    android:backgroundTint="#FFB547"
                     android:text="저장"
                     android:textColor="#fff"
                     android:textSize="20dp"
                     android:padding="15dp"/>
             </LinearLayout>
-            <Button
-                android:id="@+id/btn_del"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="삭제"
-                android:textColor="#fff"
-                android:backgroundTint="#44526C"
-                android:textSize="20dp"
-                android:padding="15dp"/>
+<!--            <Button-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="삭제"-->
+<!--                android:textColor="#fff"-->
+<!--                android:backgroundTint="#FFB547"-->
+<!--                android:textSize="20dp"-->
+<!--                android:padding="15dp"/>-->
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

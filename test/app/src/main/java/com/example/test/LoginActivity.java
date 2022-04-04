@@ -21,6 +21,7 @@ import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.example.test.join.JoinMainActivity;
 import com.example.test.my.BabyInfoVO;
+import com.example.test.my.FamilyInfoVO;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.gson.Gson;
@@ -79,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
         btn_logout = findViewById(R.id.btn_logout);
 
 
-
         ////초대 버튼 임시 생성
         btn_invite = findViewById(R.id.btn_invite);
         btn_invite.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +102,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
+        Intent invite_intent = getIntent();
+        String invite_title = invite_intent.getStringExtra("family_id");
+        String invite_rels = invite_intent.getStringExtra("rels");
+        //Log.d("", "invite: "+invite_title);
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +117,18 @@ public class LoginActivity extends AppCompatActivity {
                     //로그인 정보 저장
                     CommonVal.curuser.setId("a");
                     CommonVal.curuser.setPw("a");
+
+                    //초대로 왔을 때
+                    if(invite_title != null){
+                        AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
+                        FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+                        familyInfoVO.setTitle(invite_title);
+                        familyInfoVO.setFamily_rels(invite_rels);
+                        familyInfoVO.setId(CommonVal.curuser.getId());
+                        //invite_task.addParam("vo", );
+                        InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                    }
+
 
                     //아기 리스트 불러오기
                     AskTask task = new AskTask(CommonVal.httpip, "list.bif");
