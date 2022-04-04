@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -35,7 +36,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DetailActivity extends AppCompatActivity {
-    Button btn_cancel, btn_save, btn_del;
+    Button btn_cancel, btn_save;
+    ImageView btn_del;
     TextView tv_start,tv_end, tv_date, tv_state;
     EditText edt_memo,edt_amount, edt_temp;
     TimePickerDialog.OnTimeSetListener callbackMethod1, callbackMethod2;
@@ -345,7 +347,7 @@ public class DetailActivity extends AppCompatActivity {
     public void changeBtn(int num){
         for(int i=0; i<btns.size(); i++){
             if(i==num){
-                btns.get(i).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
+                btns.get(i).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFB547")));
                 btns.get(i).setTextColor(Color.parseColor("#ffffff"));
             }else{
                 btns.get(i).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));

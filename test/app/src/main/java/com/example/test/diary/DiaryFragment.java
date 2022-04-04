@@ -24,11 +24,13 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.my.RelsDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -46,6 +48,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class DiaryFragment extends Fragment {
     ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger
@@ -53,6 +57,7 @@ public class DiaryFragment extends Fragment {
     TextView tv_today, tv_baby_gender, tv_baby_name, tv_baby_age;
     Intent intent;
     RecyclerView rcv_diary;
+    CircleImageView imv_baby;
 
     final int CODE = 1000;
 
@@ -84,6 +89,8 @@ public class DiaryFragment extends Fragment {
         imv_calender = rootview.findViewById(R.id.imv_calender);
         tv_today = rootview.findViewById(R.id.tv_today);
         rcv_diary = rootview.findViewById(R.id.rcv_diary);
+
+        imv_baby = rootview.findViewById(R.id.imv_baby);
 
         tv_baby_gender = rootview.findViewById(R.id.tv_baby_gender);
         tv_baby_name = rootview.findViewById(R.id.tv_baby_name);
@@ -117,6 +124,12 @@ public class DiaryFragment extends Fragment {
         tv_baby_gender.setText(CommonVal.curbaby.getBaby_gender());
         tv_baby_age.setText(age.getYears()*12 + age.getMonths() + "개월 " + age.getDays() + "일");
 
+        if(CommonVal.curbaby.getBaby_photo() == null){
+            imv_baby.setImageResource(R.drawable.bss_logo);
+        } else{
+            Glide.with(getContext()).load(CommonVal.curbaby.getBaby_photo()).into(imv_baby);
+        }
+
         //페이지 날짜를 넘겨받았을 때
         if(pageDate != null){
             String[] strDate = pageDate.split("-");
@@ -147,7 +160,15 @@ public class DiaryFragment extends Fragment {
         imv_invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createDynamicLink();
+                RelsDialog dialog = new RelsDialog(getContext(),"엄마");
+                dialog.show();
+                dialog.setDialogListener(new RelsDialog.DialogListener() {
+                    @Override
+                    public void onPositiveClick(String name) {
+                        createDynamicLink(name);
+                    }
+                });
+
             }
         });
 
@@ -306,33 +327,22 @@ public class DiaryFragment extends Fragment {
 
     public void chgDateList(int y, int m, int d, Context context){
         AskTask task = new AskTask(CommonVal.httpip,"list.di");
+        task.addParam("date", y + "-" + (m+1) + "-" + d);
 
-        if(m<9){
-            task.addParam("date", y + "-0" + (m+1) + "-" + d);
-        }else{
-            task.addParam("date", y + "-" + (m+1) + "-" + d);
-        }
         task.addParam("id", CommonVal.curbaby.getBaby_id());
         InputStream in = CommonMethod.excuteGet(task);
         if(in != null){
-            //NetworkOnMainThreadException 에러가 발생해서 추가
-//            new Thread(() -> {
-//                list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
-//                Message msg = handler.obtainMessage(1, context);
-//
-//                handler.sendMessage(msg);
-//            }).start();
             list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
             Message msg = handler.obtainMessage(1, context);
 
             handler.sendMessage(msg);
         }
     }
-    private void createDynamicLink() {
+    private void createDynamicLink(String rels) {
         String familyId = CommonVal.curbaby.getBaby_id();
-        String invitationLink = "https://babysmilesupport.page.link/invite?familyId="+familyId; //생성할 다이나믹 링크
+        String invitationLink = "https://babysmilesupport.page.link/invite?"+"rels="+rels+"&familyId="+familyId; //생성할 다이나믹 링크
 
-        Task<ShortDynamicLink> dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLink(Uri.parse(invitationLink))    //정보를 담는 json 사이트를 넣자!!
                 .setDomainUriPrefix("https://babysmilesupport.page.link")
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())

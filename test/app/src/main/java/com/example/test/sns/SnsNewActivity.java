@@ -90,24 +90,20 @@ public class SnsNewActivity extends AppCompatActivity {
             finish();
         });
 
-
         sns_new_share.setOnClickListener(v -> {
-            if(imgFilePathList != null) {
+            if(imgFilePathList != null && imgFilePathList.size() > 0) {
               //SnsFragment.img_list.add(imgFilePath);
               //저장 로직
-                AskTask addSns = new AskTask("http://121.148.239.238:5524", "share.sn");
+                AskTask addSns = new AskTask(CommonVal.httpip, "share.sn");
                 Gson gson = new Gson();
-                //테스트용 아아디
 
                 gvo.setBaby_id(CommonVal.curbaby.getBaby_id());
                 gvo.setBaby_gender(CommonVal.curbaby.getBaby_gender());
                 gvo.setBaby_name(CommonVal.curbaby.getBaby_name());
                 gvo.setGro_content(sns_new_text.getText()+"");
 
-
                 String testvo = gson.toJson(gvo);
                 addSns.addParam("vo",testvo);
-
 
                for(int i=0; i<imgFilePathList.size(); i++) {
                    addSns.addFileParam("file"+i, imgFilePathList.get(i));
@@ -161,7 +157,6 @@ public class SnsNewActivity extends AppCompatActivity {
             //이미지 파일을 만들고 저장하는 처리가 필요함.
             imgFile = null;
             imgFile = createFile();
-
             if (imgFile != null) {
                 // API 24이상 부터는 FileProvider를 제공해야함
                 // Context <=
@@ -170,9 +165,6 @@ public class SnsNewActivity extends AppCompatActivity {
                         getApplicationContext().getPackageName() + ".fileprovider",
                         imgFile
                 );
-
-
-
                 //버전 분기를 위한 처리.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri); // imgUri를 통해서 카메라로 찍은사진을 받음.
@@ -193,14 +185,8 @@ public class SnsNewActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
        if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
-           if(data.getClipData() != null) {
-
-           ClipData clipData = data.getClipData();
-               imgFilePathList.add(getGalleryRealPath(clipData.getItemAt(0).getUri()));
-           }
-         //  go_gallery();
-           // Glide.with(SnsNewActivity.this).load(imgFilePath.add()).into();
-
+           Toast.makeText(SnsNewActivity.this, "찰칵", Toast.LENGTH_SHORT).show();
+           //Glide.with(SnsNewActivity.this).load(imgFilePathList).into(sns_new_img_rec);
         } else if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
            if(data.getClipData() == null) {
                Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
