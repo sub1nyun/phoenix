@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -96,20 +97,47 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
             holder.sns_more.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle("수정이나 삭제하기").setMessage("");
+                builder.setTitle("육아일지 관리").setMessage("");
                 builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        AskTask editTask = new AskTask(CommonVal.httpip, "edit.sn");
-                        editTask.addParam("no", growthVOS.get(position).getGro_no() + "");
+                        AskTask editTask = new AskTask(CommonVal.httpip, "update.sn");
+                        Gson gson = new Gson();
+                        String testvo =  gson.toJson(growthVOS);
+                        editTask.addParam("vo", testvo);
                         CommonMethod.excuteGet(editTask);
                     }
+                });
+                builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
+                        builder1.setTitle("정말 삭제하실건가요?").setMessage("");
+                        builder1.setPositiveButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        builder1.setNegativeButton("삭제", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Gson gson = new Gson();
+                                AskTask delTask = new AskTask(CommonVal.httpip, "delete.sn");
+                                delTask.addParam("no", growthVOS.get(position).getGro_no()+"");
+                                InputStream in = CommonMethod.excuteGet(delTask);
+                                //GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
+                            }
+                        }).show();
+                    }
                 }).show();
+
             });
 
 
+
         }
-
-
     }
 }
+
+
