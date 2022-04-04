@@ -1,6 +1,7 @@
 package com.example.test.join;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,18 +9,28 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.test.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class BirthFragment extends Fragment {
 
     TextView tv_bir;
     LinearLayout linear_bir;
     DatePickerDialog.OnDateSetListener callbackMethod;
+    private TimePickerDialog.OnTimeSetListener callbackTime;
+
+    int y;
+    int m;
+    int d;
+    int h;
+    int mi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,19 +54,39 @@ public class BirthFragment extends Fragment {
         }else {
 
         }
-        tv_bir.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일");
+        tv_bir.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일" + today.get(Calendar.HOUR) + "시" + today.get(Calendar.MINUTE) + "분");
         //JoinMainActivity.babyInfoVO.setBaby_birth(tv_bir.getText().toString());
-        JoinMainActivity.babyInfoVO.setBaby_birth( today.get(Calendar.YEAR) + "-" + String.format("%02d",(today.get(Calendar.MONTH)+1)) + "-" + String.format("%02d",today.get(Calendar.DATE)) );
+        JoinMainActivity.babyInfoVO.setBaby_birth( today.get(Calendar.YEAR) + "-" + String.format("%02d",(today.get(Calendar.MONTH)+1)) + "-" + String.format("%02d",today.get(Calendar.DATE)) + " "
+                                                                        + String.format("%02d",today.get(Calendar.HOUR)) + ":" + String.format("%02d",today.get(Calendar.MINUTE))   );
+
+
 
         //얘가 날짜값을 받아서 세팅해주는 역할
         callbackMethod = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                today.set(year, month, dayOfMonth);
-                tv_bir.setText(year + "년" + (month + 1) + "월" + dayOfMonth + "일");
-                //JoinMainActivity.vo.setBirth();
-                JoinMainActivity.babyInfoVO.setBaby_birth( year +"-" +String.format("%02d", month +1 )+"-" + String.format("%02d", dayOfMonth) );
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                y = year;
+                m = monthOfYear + 1;
+                d = dayOfMonth;
 
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+                String time = sdf.format(new Date(System.currentTimeMillis()));
+                String times[] = new String[2];
+                times = time.split(":");
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), callbackTime, Integer.parseInt(times[0]), Integer.parseInt(times[1]), true);
+                timePickerDialog.show();
+            }
+        };
+
+        callbackTime = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                h = hourOfDay;
+                mi = minute;
+                today.set(y, m, d);
+                tv_bir.setText(y + "년" + (m + 1) + "월" + d + "일" + h + "시" + mi + "분");
+                //JoinMainActivity.vo.setBirth();
+                JoinMainActivity.babyInfoVO.setBaby_birth( y +"-" +String.format("%02d", m )+"-" + String.format("%02d", d) + " " + String.format("%02d", h) + ":" + String.format("%02d", mi));
             }
         };
 
