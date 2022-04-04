@@ -3,15 +3,12 @@ package com.example.test.sns;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,8 +23,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHolder> {
@@ -97,10 +92,10 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
             holder.sns_more.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle("육아일지 관리").setMessage("");
+                builder.setTitle("성장일지 관리하기").setMessage("");
                 builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                   public void onClick(DialogInterface dialog, int which) {
                         AskTask editTask = new AskTask(CommonVal.httpip, "update.sn");
                         Gson gson = new Gson();
                         String testvo =  gson.toJson(growthVOS);
@@ -127,6 +122,9 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
                                 delTask.addParam("no", growthVOS.get(position).getGro_no()+"");
                                 InputStream in = CommonMethod.excuteGet(delTask);
                                 GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
+                                String test = "";
+                                vo.getBaby_id();
+
                             }
                         }).show();
                     }

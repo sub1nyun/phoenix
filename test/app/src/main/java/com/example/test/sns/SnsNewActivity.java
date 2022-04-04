@@ -1,15 +1,5 @@
 package com.example.test.sns;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.Manifest;
 import android.content.ClipData;
 import android.content.DialogInterface;
@@ -22,13 +12,21 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
@@ -37,7 +35,6 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,23 +106,19 @@ public class SnsNewActivity extends AppCompatActivity {
                     addSns.addFileParam("file" + i, imgFilePathList.get(i));
                 }
                 CommonMethod.excuteGet(addSns);
+                //changeFrag(new SnsFragment(SnsNewActivity.this));
+                changeFrag(new SnsFragment(this));
+
+
 
                 finish();
+
+                Bundle bundle = new Bundle();
+            }else {
+                Toast.makeText(SnsNewActivity.this, "기록될 사진을 등록해 주세요", Toast.LENGTH_SHORT).show();
             }
-//            }else{
-//                AskTask textSns = new AskTask(CommonVal.httpip, "text.sn");
-//                Gson gson = new Gson();
-//                gvo.setBaby_id(CommonVal.curbaby.getBaby_id());
-//                gvo.setBaby_gender(CommonVal.curbaby.getBaby_gender());
-//                gvo.setBaby_name(CommonVal.curbaby.getBaby_name());
-//                gvo.setGro_content(sns_new_text.getText()+"");
-//
-//                String textvo = gson.toJson(gvo);
-//                textSns.addParam("textvo", textvo);
-//                CommonMethod.excuteGet(textSns);
-//                finish();
-            //사진 선택 하셈
-//            }
+           
+            
         });
 
 
@@ -133,6 +126,11 @@ public class SnsNewActivity extends AppCompatActivity {
 
 
     }//onCreate
+
+    public void changeFrag(Fragment fragment){
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+    }
+
 
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
