@@ -195,8 +195,12 @@ public class JoinMainActivity extends AppCompatActivity {
             changeFrag( babyFragment );
             go--;
         }else if( go==7 ){
-            changeFrag( genderFragment );
-            go--;
+            if(family_id != null){
+                altDialog();
+            }else{
+                changeFrag( genderFragment );
+                go--;
+            }
         }
     }
 
