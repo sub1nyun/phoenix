@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +28,16 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.join.JoinMainActivity;
+import com.example.test.join.NewFamilyFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+
+import retrofit2.http.GET;
 
 public class MyFragment extends Fragment{
     Button btn_co_parent, delete_baby;
@@ -43,6 +48,7 @@ public class MyFragment extends Fragment{
     List<BabyInfoVO> list;
     String[] titlelist = new String[CommonVal.family_title.size() + 1];
     String title = "";
+    int select = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -272,12 +278,24 @@ public class MyFragment extends Fragment{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getContext(), titlelist[which], Toast.LENGTH_SHORT).show();
+                select = which;
             }
         }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                CommonVal.curuser.setTitle(titlelist[which]);
                 //아기 정보 입력으로 이동
+                JoinMainActivity.familyVO.setId(CommonVal.curuser.getId());
+                Intent intent = new Intent(getContext(), JoinMainActivity.class);
+                if(select == titlelist.length-1){ //새로운 육아일기
+                    intent.putExtra("category", "new");
+                    //((JoinMainActivity)getActivity()).gogo();
+                } else { //기존 육아일기
+                    //CommonVal.curuser.setTitle(titlelist[select]);
+                    JoinMainActivity.familyVO.setTitle(titlelist[select]);
+                    JoinMainActivity.familyVO.setFamily_rels(CommonVal.curuser.getFamily_rels());
+                    intent.putExtra("category", "old");
+                }
+                startActivity(intent);
             }
         }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override

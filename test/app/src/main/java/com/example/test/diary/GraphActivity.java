@@ -77,11 +77,13 @@ public class GraphActivity extends AppCompatActivity{
         lineChart.clear();
         date.clear();
         values.clear();
-        for (int i = 0; i < list_heat.size(); i++) {
-            date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date().split("-")[1] + "-" + list_heat.get(i).getDiary_date().split("-")[2]);
-            values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
+        if(list_heat.size() != 0){
+            for (int i = 0; i < list_heat.size(); i++) {
+                date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date().split("-")[1] + "-" + list_heat.get(i).getDiary_date().split("-")[2]);
+                values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
+            }
+            makeChart(values, date, "heat");
         }
-        makeChart(values, date, "heat");
 
         tab_graph.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -90,30 +92,36 @@ public class GraphActivity extends AppCompatActivity{
                     lineChart.clear();
                     date.clear();
                     values.clear();
-                    for (int i = 0; i < list_heat.size(); i++) {
-                        date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date().split("-")[1] + "-" + list_heat.get(i).getDiary_date().split("-")[2]);
-                        //date.add(list_heat.get(i).getStart_time());
-                        values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
+                    if(list_heat.size() != 0){
+                        for (int i = 0; i < list_heat.size(); i++) {
+                            date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date().split("-")[1] + "-" + list_heat.get(i).getDiary_date().split("-")[2]);
+                            //date.add(list_heat.get(i).getStart_time());
+                            values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
+                        }
+                        makeChart(values, date, "heat");
                     }
-                    makeChart(values, date, "heat");
                 } else if(tab.getPosition() == 1){ //키
                     lineChart.clear();
                     date.clear();
                     values.clear();
-                    for (int i = 0; i < list_body.size(); i++) {
-                        date.add(list_body.get(i).getStor_date().split("-")[1] + "-" + list_body.get(i).getStor_date().split("-")[2]);
-                        values.add(new Entry(i, (float) list_body.get(i).getStor_cm()));
+                    if(list_body.size() != 0){
+                        for (int i = 0; i < list_body.size(); i++) {
+                            date.add(list_body.get(i).getStor_date().split("-")[1] + "-" + list_body.get(i).getStor_date().split("-")[2]);
+                            values.add(new Entry(i, (float) list_body.get(i).getStor_cm()));
+                        }
+                        makeChart(values, date, "cm");
                     }
-                    makeChart(values, date, "cm");
                 } else if(tab.getPosition() == 2){ //몸무게
                     lineChart.clear();
                     date.clear();
                     values.clear();
-                    for (int i = 0; i < list_body.size(); i++){
-                        date.add(list_body.get(i).getStor_date().split("-")[1] + "-" + list_body.get(i).getStor_date().split("-")[2]);
-                        values.add(new Entry(i, (float)list_body.get(i).getStor_kg()));
+                    if(list_body.size() != 0){
+                        for (int i = 0; i < list_body.size(); i++){
+                            date.add(list_body.get(i).getStor_date().split("-")[1] + "-" + list_body.get(i).getStor_date().split("-")[2]);
+                            values.add(new Entry(i, (float)list_body.get(i).getStor_kg()));
+                        }
+                        makeChart(values, date, "kg");
                     }
-                    makeChart(values, date, "kg");
                 }
             }
 
@@ -156,6 +164,10 @@ public class GraphActivity extends AppCompatActivity{
         XAxis xAxis = lineChart.getXAxis(); //x축 설정
 
         if(category.equals("heat")){
+            lineDataSet.setCircleColor(Color.parseColor("#4de62210"));
+            lineDataSet.setCircleHoleColor(Color.parseColor("#940000"));
+            lineDataSet.setColor(Color.parseColor("#e62210"));
+
             String[] diary_date = new String[date.size()];
             String[] time_date = new String[date.size()];
 
@@ -183,6 +195,16 @@ public class GraphActivity extends AppCompatActivity{
             //bottom x axis 설정
             xAxis.setValueFormatter(new IndexAxisValueFormatter(time_date));
         }else{
+            if(category.equals("cm")){
+                lineDataSet.setCircleColor(Color.parseColor("#4d00ba09"));
+                lineDataSet.setCircleHoleColor(Color.parseColor("#00610b"));
+                lineDataSet.setColor(Color.parseColor("#00ba09"));
+            }
+            else if(category.equals("kg")){
+                lineDataSet.setCircleColor(Color.parseColor("#4d1126f5"));
+                lineDataSet.setCircleHoleColor(Color.parseColor("#000640"));
+                lineDataSet.setColor(Color.parseColor("#1126f5"));
+            }
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis.setValueFormatter(new IndexAxisValueFormatter(date)); //x축 표현을 string으로 포맷
         }
@@ -194,6 +216,7 @@ public class GraphActivity extends AppCompatActivity{
         xAxis.enableGridDashedLine(8, 24, 0); //수직 격자선
         xAxis.mEntryCount = values.size();
         xAxis.setAvoidFirstLastClipping(true);
+        xAxis.setTextSize(13);
 
         YAxis yLAxis = lineChart.getAxisLeft(); //y축 설정
         yLAxis.setTextColor(Color.BLACK);
@@ -201,6 +224,7 @@ public class GraphActivity extends AppCompatActivity{
         yRAxis.setDrawLabels(false);
         yRAxis.setDrawAxisLine(false);
         yRAxis.setDrawGridLines(false);
+        yLAxis.setTextSize(13);
         /*Description description = new Description();
         description.setText("");*/
 

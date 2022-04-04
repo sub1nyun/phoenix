@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     if(CommonVal.baby_list == null){
                         changeFrag(new AddFragment());
                     } else{
-                        fragment = new SnsFragment();
+                        fragment = new SnsFragment(MainActivity.this);
                         changeFrag(fragment);
                         position = 3;
                     }
