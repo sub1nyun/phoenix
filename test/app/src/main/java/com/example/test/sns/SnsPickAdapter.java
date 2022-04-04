@@ -14,12 +14,12 @@ import com.example.test.R;
 
 import java.util.List;
 
-public class SnsPickAdapter extends RecyclerView.Adapter<SnsPickAdapter.ViewHolder>{
+public class SnsPickAdapter extends RecyclerView.Adapter<SnsPickAdapter.ViewHolder> {
     LayoutInflater inflater;
-    List<GrowthVO> growthVOS;
+    List<String> growthVOS;
     Activity activity;
 
-    public SnsPickAdapter(LayoutInflater inflater, List<GrowthVO> growthVOS, Activity activity) {
+    public SnsPickAdapter(LayoutInflater inflater, List<String> growthVOS, Activity activity) {
         this.inflater = inflater;
         this.growthVOS = growthVOS;
         this.activity = activity;
@@ -34,8 +34,13 @@ public class SnsPickAdapter extends RecyclerView.Adapter<SnsPickAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(activity).load(growthVOS.get(position).getImgList().get(0)).into(holder.gro_rec);
-
+        if (growthVOS.size() > 0) {
+            for (int i = 0; i < growthVOS.size(); i++) {
+                Glide.with(activity).load(growthVOS.get(i)).into(holder.gro_rec);
+            }
+        } else {
+            holder.gro_rec.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -43,13 +48,13 @@ public class SnsPickAdapter extends RecyclerView.Adapter<SnsPickAdapter.ViewHold
         return growthVOS.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView gro_rec;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             gro_rec = itemView.findViewById(R.id.gro_rec);
-
         }
 
     }

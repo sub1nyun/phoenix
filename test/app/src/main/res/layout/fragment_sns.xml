@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".sns.SnsFragment"
+    android:fillViewport="true"
     android:orientation="vertical"
-    android:fillViewport="true">
+    tools:context=".sns.SnsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,27 +17,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:background="#F2000000">
+            android:background="#F2000000"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_weight="8.5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="성장일기"
-                android:textSize="20dp"
-                android:textColor="#a09bde"
-                android:textStyle="bold"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:layout_weight="8.5"
+                android:text="성장일기"
+                android:textColor="#a09bde"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/sns_plus"
-                android:layout_gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
+                android:layout_gravity="center"
                 android:layout_weight="1.5"
-                android:src="@drawable/sns_more_white"/>
+                android:src="@drawable/sns_more_white" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,21 +46,23 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sns_view_rec"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:id="@+id/sns_view_rec"/>
+                android:orientation="vertical" />
+
+            <include
+                android:id="@+id/sns_none"
+                layout="@layout/gro_item_null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
 
         </LinearLayout>
 
 
     </LinearLayout>
-
-
-
-
-
-
 
 
 </ScrollView>

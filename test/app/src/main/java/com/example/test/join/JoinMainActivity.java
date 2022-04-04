@@ -21,12 +21,12 @@ import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.example.test.my.BabyInfoVO;
-import com.example.test.my.FamilyInfoVO;
 import com.google.gson.Gson;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.UUID;
 
 public class JoinMainActivity extends AppCompatActivity {
     Button btn_next;
@@ -51,21 +51,18 @@ public class JoinMainActivity extends AppCompatActivity {
 
 
     String family_id ;
-    String rels ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_main);
+        changeFrag( userFragment);
 
-        //초대코드로 왔을 때 구분
+        //초대코드로 왔을 때
         Intent intent = getIntent();
         family_id = intent.getStringExtra("family_id");
-        rels = intent.getStringExtra("rels");
         if(family_id != null){
             changeFrag( new UserFragment(family_id) );
-        }else{
-            changeFrag( userFragment);
         }
 
         btn_next = findViewById(R.id.btn_next);
@@ -125,21 +122,17 @@ public class JoinMainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id)
                 {
                     //      회원가입 들어가는 부분
-                    if(family_id != null){
-                        AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
-                        FamilyInfoVO familyInfoVO = new FamilyInfoVO();
-                        familyInfoVO.setTitle(family_id);
-                        familyInfoVO.setFamily_rels(family_id);
-                        familyInfoVO.setId(CommonVal.curuser.getId());
-                        Gson gson = new Gson();
-                        invite_task.addParam("vo", gson.toJson(familyInfoVO));
-                        InputStream invite_in = CommonMethod.excuteGet(invite_task);
-                        boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
-                    }else{
-                        user();
+                    if(user()){
+                        CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
+                        CommonVal.curuser = JoinMainActivity.vo ;
+                        CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
+                        Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                        startActivity(intent);
                     }
-                    Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
-                    startActivity(intent);
+
+
+
+                    String aa = "";
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
@@ -171,12 +164,8 @@ public class JoinMainActivity extends AppCompatActivity {
             changeFrag( babyFragment );
             go--;
         }else if( go==7 ){
-            if(family_id != null){
-                altDialog();
-            }else{
-                changeFrag( genderFragment );
-                go--;
-            }
+            changeFrag( genderFragment );
+            go--;
         }
     }
 
@@ -292,8 +281,9 @@ public class JoinMainActivity extends AppCompatActivity {
     }
 
     public boolean user() {
-
-        AskTask task = new AskTask(CommonVal.httpip, "user.join");
+        AskTask task = new AskTask("http://192.168.0.50", "user.join");
+        String uuid = UUID.randomUUID().toString();
+        babyInfoVO.setBaby_id(uuid);
         task.addParam("vo", gson.toJson( vo ) );
         task.addParam("vo2", gson.toJson( babyInfoVO ) );
         if( pictureFragment.imgFilePath != null){

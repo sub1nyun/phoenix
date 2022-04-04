@@ -131,21 +131,16 @@ public class UserFragment extends Fragment {
         edt_pwchk.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 JoinMainActivity.vo.setPw_chk(edt_pwchk.getText().toString());
                 pwchk_valid();
                 pwchk_nospace();
                 valid_result();
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
         /*tv_id_check.setOnClickListener(new View.OnClickListener() {
@@ -249,9 +244,10 @@ public class UserFragment extends Fragment {
             pwchk_check.setText("비밀번호가 일치합니다.");
             pwchk_check.setTextColor(Color.parseColor("#46FF3E"));
             return true;
-        }else if( !edt_pwchk.getText().toString().equals(edt_pw.getText().toString())){
+        }else if( !edt_pw.getText().toString().equals(edt_pwchk.getText().toString())){
             pwchk_check.setText("비밀번호가 다릅니다.");
             pwchk_check.setTextColor(Color.parseColor("#FF4A4A"));
+            return false;
         }
         return false;
     }
@@ -259,8 +255,11 @@ public class UserFragment extends Fragment {
     public boolean valid_result(){
         if(  pw_valid() && pwchk_valid() ){
             JoinMainActivity.result = 1;
+            return true;
+        }else {
+            JoinMainActivity.result = 0;
         }
-        return true;
+        return false;
     }
 
 
@@ -270,7 +269,7 @@ public class UserFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == event.KEYCODE_SPACE || keyCode == event.KEYCODE_ENTER){
                     String aa= "";
-                    Toast.makeText(getContext(), "id", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "공백은 입력할수 없습니다.", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;
@@ -283,7 +282,7 @@ public class UserFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == event.KEYCODE_SPACE || keyCode == event.KEYCODE_ENTER){
                     String aa= "";
-                    Toast.makeText(getContext(), "pw", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "공백은 입력할수 없습니다.", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;
@@ -296,7 +295,7 @@ public class UserFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == event.KEYCODE_SPACE || keyCode == event.KEYCODE_ENTER){
                     String aa= "";
-                    Toast.makeText(getContext(), "pwchk", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "공백은 입력할수 없습니다.", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;
