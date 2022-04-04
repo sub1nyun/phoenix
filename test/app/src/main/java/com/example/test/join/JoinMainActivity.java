@@ -271,7 +271,6 @@ public class JoinMainActivity extends AppCompatActivity {
     }
 
     public boolean user() {
-
         AskTask task = new AskTask("http://192.168.0.50", "user.join");
         task.addParam("vo", gson.toJson( vo ) );
         task.addParam("vo2", gson.toJson( babyInfoVO ) );
