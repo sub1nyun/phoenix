@@ -21,7 +21,9 @@ import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.example.test.my.BabyInfoVO;
+import com.example.test.my.FamilyInfoVO;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,6 +50,8 @@ public class JoinMainActivity extends AppCompatActivity {
     GenderFragment genderFragment = new GenderFragment();
     PictureFragment pictureFragment = new PictureFragment();
     static int result = 0;
+    String str;
+    public static FamilyInfoVO familyVO = new FamilyInfoVO();
 
 
     String family_id ;
@@ -56,7 +60,24 @@ public class JoinMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_main);
-        changeFrag( userFragment);
+
+        //아기 추가 시
+        Intent intent_my = getIntent();
+        str = intent_my.getStringExtra("category");
+        Log.d("asd", "onCreate: " + intent_my);
+        if(str != null){
+            if(str.equals("new")){
+                go = 2;
+                changeFrag(new NewFamilyFragment(JoinMainActivity.this));
+            }
+            else if(str.equals("old")){
+                go = 3;
+                changeFrag(new BirthFragment());
+            }
+        }
+        else{
+            changeFrag( userFragment);
+        }
 
         //초대코드로 왔을 때
         Intent intent = getIntent();
@@ -121,6 +142,24 @@ public class JoinMainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id)
                 {
+                    if(str != null){
+                        AskTask task = new AskTask(CommonVal.httpip, "insert_new.join");
+                        task.addParam("familyvo", gson.toJson(familyVO));
+                        task.addParam("babyvo", gson.toJson(babyInfoVO));
+                        InputStream in = CommonMethod.excuteGet(task);
+                        if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())){
+                            CommonVal.curuser.setId(familyVO.getId());
+                            AskTask task_baby = new AskTask(CommonVal.httpip, "list.bif");
+                            task.addParam("id", CommonVal.curuser.getId());
+                            InputStream in_baby = CommonMethod.excuteGet(task_baby);
+                            CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_baby), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                            CommonVal.curbaby = CommonVal.baby_list.get(0);
+                            Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                            startActivity(intent);
+                        } else{
+                            Toast.makeText(JoinMainActivity.this, "아기 추가에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                     //      회원가입 들어가는 부분
                     if(user()){
                         CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
@@ -129,9 +168,6 @@ public class JoinMainActivity extends AppCompatActivity {
                         Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                         startActivity(intent);
                     }
-
-
-
                     String aa = "";
                 }
             });

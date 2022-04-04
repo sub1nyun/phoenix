@@ -40,6 +40,7 @@ public class NewFamilyFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 JoinMainActivity.vo.setTitle( edt_title.getText().toString() );
                 JoinMainActivity.babyInfoVO.setTitle( edt_title.getText().toString() );
+                JoinMainActivity.familyVO.setTitle(edt_title.getText().toString());
             }
             @Override
             public void afterTextChanged(Editable s) {
