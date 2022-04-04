@@ -21,6 +21,7 @@ import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.example.test.my.BabyInfoVO;
+import com.example.test.my.FamilyInfoVO;
 import com.google.gson.Gson;
 
 import java.io.InputStream;
@@ -50,6 +51,7 @@ public class JoinMainActivity extends AppCompatActivity {
 
 
     String family_id ;
+    String rels ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class JoinMainActivity extends AppCompatActivity {
         //초대코드로 왔을 때 구분
         Intent intent = getIntent();
         family_id = intent.getStringExtra("family_id");
+        rels = intent.getStringExtra("rels");
         if(family_id != null){
             changeFrag( new UserFragment(family_id) );
         }else{
@@ -122,7 +125,19 @@ public class JoinMainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id)
                 {
                     //      회원가입 들어가는 부분
-                    user();
+                    if(family_id != null){
+                        AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
+                        FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+                        familyInfoVO.setTitle(family_id);
+                        familyInfoVO.setFamily_rels(family_id);
+                        familyInfoVO.setId(CommonVal.curuser.getId());
+                        Gson gson = new Gson();
+                        invite_task.addParam("vo", gson.toJson(familyInfoVO));
+                        InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                        boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                    }else{
+                        user();
+                    }
                     Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                     startActivity(intent);
                 }

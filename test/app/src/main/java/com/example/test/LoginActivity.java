@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.diary.DiaryVO;
 import com.example.test.join.JoinMainActivity;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
@@ -125,8 +126,10 @@ public class LoginActivity extends AppCompatActivity {
                         familyInfoVO.setTitle(invite_title);
                         familyInfoVO.setFamily_rels(invite_rels);
                         familyInfoVO.setId(CommonVal.curuser.getId());
-                        //invite_task.addParam("vo", );
+                        Gson gson = new Gson();
+                        invite_task.addParam("vo", gson.toJson(familyInfoVO));
                         InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                        boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
                     }
 
 
