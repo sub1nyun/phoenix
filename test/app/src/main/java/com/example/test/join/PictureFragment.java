@@ -123,6 +123,7 @@ public class PictureFragment extends Fragment {
         }
         cursor.close();
         JoinMainActivity.babyInfoVO.setBaby_photo( rtnPath );
+
         return rtnPath;
     }
 
@@ -135,6 +136,7 @@ public class PictureFragment extends Fragment {
             Uri selectImageUri = data.getData();
             imgFilePath = getGalleryRealPath(selectImageUri);
             Glide.with(getContext()).load(imgFilePath).into(imv_photo);
+
         }
     }
 

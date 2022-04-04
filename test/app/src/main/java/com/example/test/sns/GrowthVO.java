@@ -6,8 +6,48 @@ public class GrowthVO {
 
     int gro_no;
     String gro_date;
-    String gro_content, baby_name, baby_gender, filename, filepath, baby_id;
-    ArrayList<String> imgList;
+    String gro_content, baby_name, baby_gender, filename, baby_id, b_id ;
+    ArrayList<String> imgList = new ArrayList<String>();
+    String gro_img ;
+
+
+
+
+
+
+
+
+    public String getB_id() {
+        return b_id;
+    }
+
+    public void setB_id(String b_id) {
+        this.b_id = this.baby_id;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getGro_img() {
+        return gro_img;
+    }
+
+    public void setGro_img(String gro_img) {
+        this.gro_img = gro_img;
+    }
+
+    public ArrayList<String> getImgList() {
+        return imgList;
+    }
+
+    public void setImgList(String imgList) {
+        this.imgList.add(imgList);
+    }
 
     public int getGro_no() {
         return gro_no;
@@ -49,21 +89,9 @@ public class GrowthVO {
         this.baby_gender = baby_gender;
     }
 
-    public String getFilename() {
-        return filename;
-    }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
 
-    public String getFilepath() {
-        return filepath;
-    }
 
-    public void setFilepath(String filepath) {
-        this.filepath = filepath;
-    }
 
     public String getBaby_id() {
         return baby_id;
@@ -73,11 +101,4 @@ public class GrowthVO {
         this.baby_id = baby_id;
     }
 
-    public ArrayList<String> getImgList() {
-        return imgList;
-    }
-
-    public void setImgList(ArrayList<String> imgList) {
-        this.imgList = imgList;
-    }
 }

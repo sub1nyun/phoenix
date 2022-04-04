@@ -11,25 +11,36 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.example.test.join.JoinMainActivity;
+import com.example.test.my.BabyInfoVO;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
 
 public class InviteActivity extends AppCompatActivity {
     Button btn_login, btn_join;
+    TextView tv_invite;
 
+    Gson gson = new Gson();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
 
-
         btn_login = findViewById(R.id.btn_login);
         btn_join = findViewById(R.id.btn_join);
+        tv_invite = findViewById(R.id.tv_invite);
 
-        String family_id;
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
                 .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
@@ -53,7 +64,13 @@ public class InviteActivity extends AppCompatActivity {
                         else {
                             deepLink = pendingDynamicLinkData.getLink();
                             String family_id = deepLink.getQueryParameter("familyId");
-                            Log.d("asd : ", "family_id: " + family_id);
+                            String rels = deepLink.getQueryParameter("rels");
+                            AskTask task = new AskTask(CommonVal.httpip, "gettitle.bif");
+                            task.addParam("id", family_id);
+                            InputStream in = CommonMethod.excuteGet(task);
+                            String title = gson.fromJson(new InputStreamReader(in), String.class);
+                            Log.d("asd : ", "family_id: " + title);
+                            tv_invite.setText(title + "에 " + rels + "로 초대 받으셨습니다.");
                             //tv.setText(family_id);
                             /*deepLink = pendingDynamicLinkData.getLink();
                             Log.d("asd: ", "deepLink: " + deepLink);
@@ -71,6 +88,7 @@ public class InviteActivity extends AppCompatActivity {
                                 public void onClick(View v) {
                                     Intent intent = new Intent(InviteActivity.this, LoginActivity.class);
                                     intent.putExtra("family_id",family_id);
+                                    intent.putExtra("rels",rels);
                                     startActivity(intent);
                                 }
                             });
@@ -79,6 +97,7 @@ public class InviteActivity extends AppCompatActivity {
                                 public void onClick(View v) {
                                     Intent intent = new Intent(InviteActivity.this, JoinMainActivity.class);
                                     intent.putExtra("family_id",family_id);
+                                    intent.putExtra("rels",rels);
                                     startActivity(intent);
                                 }
                             });

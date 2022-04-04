@@ -25,7 +25,7 @@ public class RelsDialog extends Dialog implements View.OnClickListener {
         this.rels = rels;
     }
 
-    interface DialogListener{
+    public interface DialogListener{
         void onPositiveClick(String name);
     }
 

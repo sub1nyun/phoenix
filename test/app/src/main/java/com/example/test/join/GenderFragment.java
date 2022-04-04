@@ -20,7 +20,7 @@ public class GenderFragment extends Fragment {
     ArrayList<LinearLayout> linear_list;
     ArrayList<TextView> tv_list = new ArrayList<>();
     TextView tv_woman, tv_man, tv_random;
-    String btn;
+    String btn = "남자";
     int choose;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +52,7 @@ public class GenderFragment extends Fragment {
             chg_linear(choose);
         }
 
-
+        JoinMainActivity.babyInfoVO.setBaby_gender("남아");
         linear_man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +64,8 @@ public class GenderFragment extends Fragment {
                 tv_random.setTextColor(Color.parseColor("#707070"));
                 btn = "남아";
                 choose = 0;
+                chg_linear(choose);
+                JoinMainActivity.babyInfoVO.setBaby_gender("남아");
             }
         });
         linear_woman.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +79,8 @@ public class GenderFragment extends Fragment {
                 tv_random.setTextColor(Color.parseColor("#707070"));
                 btn = "여아";
                 choose = 1;
+                chg_linear(choose);
+                JoinMainActivity.babyInfoVO.setBaby_gender("여아");
             }
         });
         linear_random.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +94,9 @@ public class GenderFragment extends Fragment {
                 tv_random.setTextColor(Color.parseColor("#ffffff"));
                 btn = "아직모름";
                 choose = 2;
+                chg_linear(choose);
+                JoinMainActivity.babyInfoVO.setBaby_gender("아직모름");
+
             }
         });
 
@@ -104,7 +111,6 @@ public class GenderFragment extends Fragment {
         for(int i=0; i<2; i++){
             if(i==num){
                 //int rtn_index = num;
-                JoinMainActivity.babyInfoVO.setBaby_gender(btn);
                 choose = num;
                 linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.select_btn));
                 tv_list.get(i).setTextColor(Color.parseColor("#ffffff"));
