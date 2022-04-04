@@ -21,7 +21,9 @@ import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.example.test.my.BabyInfoVO;
+import com.example.test.my.FamilyInfoVO;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -51,6 +53,7 @@ public class JoinMainActivity extends AppCompatActivity {
 
 
     String family_id ;
+    String rels ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,9 @@ public class JoinMainActivity extends AppCompatActivity {
         //초대코드로 왔을 때
         Intent intent = getIntent();
         family_id = intent.getStringExtra("family_id");
+        rels = intent.getStringExtra("rels");
         if(family_id != null){
-            changeFrag( new UserFragment(family_id) );
+            changeFrag( new UserFragment(family_id));
         }
 
         btn_next = findViewById(R.id.btn_next);
@@ -121,18 +125,45 @@ public class JoinMainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id)
                 {
+                    CommonVal.curuser = JoinMainActivity.vo ;
                     //      회원가입 들어가는 부분
-                    if(user()){
-                        CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
-                        CommonVal.curuser = JoinMainActivity.vo ;
-                        CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
-                        Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
-                        startActivity(intent);
+                    if(family_id != null){
+                        AskTask invite_task1 = new AskTask(CommonVal.httpip, "user_join.us");
+                        Gson gson = new Gson();
+                        invite_task1.addParam("vo", gson.toJson(CommonVal.curuser));
+                        InputStream invite_in1 = CommonMethod.excuteGet(invite_task1);
+                        boolean isSucc1 = gson.fromJson(new InputStreamReader(invite_in1), Boolean.class);
+                        if(isSucc1){
+                            AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
+                            FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+                            familyInfoVO.setTitle(family_id);
+                            familyInfoVO.setFamily_rels(rels);
+                            familyInfoVO.setId(CommonVal.curuser.getId());
+                            invite_task.addParam("vo", gson.toJson(familyInfoVO));
+                            InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                            boolean isSucc2 = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                            if(isSucc2){
+                                CommonVal.curuser = JoinMainActivity.vo ;
+                                //아기 리스트 불러오기
+                                AskTask task = new AskTask(CommonVal.httpip, "list.bif");
+                                //로그인 정보로 수정 필요
+                                task.addParam("id", CommonVal.curuser.getId());
+                                InputStream in = CommonMethod.excuteGet(task);
+                                CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                                CommonVal.curbaby = CommonVal.baby_list.get(0);
+
+                                Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                                startActivity(intent);
+                            }
+                        }
+                    }else{
+                        if(user()){
+                            CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
+                            CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
+                            Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                            startActivity(intent);
+                        }
                     }
-
-
-
-                    String aa = "";
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
@@ -281,7 +312,7 @@ public class JoinMainActivity extends AppCompatActivity {
     }
 
     public boolean user() {
-        AskTask task = new AskTask("http://192.168.0.50", "user.join");
+        AskTask task = new AskTask("http://192.168.0.13", "user.join");
         String uuid = UUID.randomUUID().toString();
         babyInfoVO.setBaby_id(uuid);
         task.addParam("vo", gson.toJson( vo ) );
