@@ -177,6 +177,7 @@ public class JoinMainActivity extends AppCompatActivity {
 
                                         Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                         startActivity(intent);
+                                        finish();
                                     }
                                 }
                             }else{
@@ -185,6 +186,7 @@ public class JoinMainActivity extends AppCompatActivity {
                                     CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
                                     Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                     startActivity(intent);
+                                    finish();
                                 }
                             }
                         }
@@ -204,31 +206,39 @@ public class JoinMainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id)
                     {
-                        CommonVal.curuser = JoinMainActivity.vo ;
                         if(str != null){
-                            boolean result = false;
+                            boolean result2 = false;
                             babyInfoVO.setId(CommonVal.curuser.getId());
                             if(str.equals("new")){
                                 AskTask task = new AskTask(CommonVal.httpip, "insert_new.join");
                                 task.addParam("familyvo", gson.toJson(familyVO));
                                 task.addParam("babyvo", gson.toJson(babyInfoVO));
                                 InputStream in = CommonMethod.excuteGet(task);
-                                result = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                                result2 = gson.fromJson(new InputStreamReader(in), Boolean.class);
                             } else if(str.equals("old")){
                                 AskTask task = new AskTask(CommonVal.httpip, "insert_baby.join");
                                 task.addParam("vo", gson.toJson(babyInfoVO));
                                 InputStream in = CommonMethod.excuteGet(task);
-                                result = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                                result2 = gson.fromJson(new InputStreamReader(in), Boolean.class);
                             }
-                            if(result){
+                            if(result2){
                                 CommonVal.curuser.setId(familyVO.getId());
                                 AskTask task_baby = new AskTask(CommonVal.httpip, "list.bif");
                                 task_baby.addParam("id", CommonVal.curuser.getId());
                                 InputStream in_baby = CommonMethod.excuteGet(task_baby);
                                 CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_baby), new TypeToken<List<BabyInfoVO>>(){}.getType());
                                 CommonVal.curbaby = CommonVal.baby_list.get(0);
+
+                                AskTask task_title = new AskTask(CommonVal.httpip, "titlelist.us");
+                                task_title.addParam("id", CommonVal.curuser.getId());
+                                InputStream in_title = CommonMethod.excuteGet(task_title);
+                                CommonVal.family_title = gson.fromJson(new InputStreamReader(in_title), new TypeToken<List<String>>(){}.getType());
+                                CommonVal.curFamily =  CommonVal.family_title.get(0);
+
                                 Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                 startActivity(intent);
+                                finish();
+                                //JoinMainActivity.babyInfoVO = null;
                             } else{
                                 Toast.makeText(JoinMainActivity.this, "아기 추가에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             }
@@ -261,6 +271,7 @@ public class JoinMainActivity extends AppCompatActivity {
 
                                     Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                     startActivity(intent);
+                                    finish();
                                 }
                             }
                         }else{
@@ -282,6 +293,7 @@ public class JoinMainActivity extends AppCompatActivity {
                                 CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
                                 Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                 startActivity(intent);
+                                finish();
                             }
                         }
                     }
@@ -303,7 +315,9 @@ public class JoinMainActivity extends AppCompatActivity {
         }else if( go==2 ){//
             if(str.equals("new")){
                 finish();
+                //JoinMainActivity.babyInfoVO = null;
                 MyFragment.my_spinner.setSelection(0);
+                //JoinMainActivity.babyInfoVO = null;
             } else{
                 changeFrag( userFragment );
                 go--;
@@ -315,13 +329,17 @@ public class JoinMainActivity extends AppCompatActivity {
         }else if( go==4 ){
             if(str.equals("old")){
                 finish();
+                //JoinMainActivity.babyInfoVO = null;
                 MyFragment.my_spinner.setSelection(0);
+                //JoinMainActivity.babyInfoVO = null;
             } else{
                 changeFrag( relationFragment );
                 go--;
             }
         }else if( go==5 ){
+            //babyInfoVO.setBaby_birth(null);
             changeFrag( birthFragment );
+            //changeFrag( new BirthFragment() );
             go--;
         }else if( go==6 ){
             changeFrag( babyFragment );

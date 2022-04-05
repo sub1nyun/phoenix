@@ -49,15 +49,15 @@ public class BirthFragment extends Fragment {
         //today.set(Integer.parseInt("2022") , Integer.parseInt("03") , Integer.parseInt("22"));
         if(JoinMainActivity.babyInfoVO.getBaby_birth() != null ){
 //            tv_bir.setText( ""+     new Date().getYear() + new Date().getMonth() + new Date().getDay());
-            String[] strDate = JoinMainActivity.babyInfoVO.getBaby_birth().split("-");
+            String[] strDate = JoinMainActivity.babyInfoVO.getBaby_birth().substring(0,JoinMainActivity.babyInfoVO.getBaby_birth().indexOf(" ")).split("-");
             today.set(Integer.parseInt(strDate[0]), Integer.parseInt(strDate[1]), Integer.parseInt(strDate[2]));
+            tv_bir.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)) + "월" + today.get(Calendar.DATE) + "일" + today.get(Calendar.HOUR) + "시" + today.get(Calendar.MINUTE) + "분");
         }else {
-
+            JoinMainActivity.babyInfoVO.setBaby_birth( today.get(Calendar.YEAR) + "-" + String.format("%02d",(today.get(Calendar.MONTH)+1)) + "-" + String.format("%02d",today.get(Calendar.DATE)) + " "
+                    + String.format("%02d",today.get(Calendar.HOUR)) + ":" + String.format("%02d",today.get(Calendar.MINUTE))   );
+            tv_bir.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일" + today.get(Calendar.HOUR) + "시" + today.get(Calendar.MINUTE) + "분");
         }
-        tv_bir.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일" + today.get(Calendar.HOUR) + "시" + today.get(Calendar.MINUTE) + "분");
         //JoinMainActivity.babyInfoVO.setBaby_birth(tv_bir.getText().toString());
-        JoinMainActivity.babyInfoVO.setBaby_birth( today.get(Calendar.YEAR) + "-" + String.format("%02d",(today.get(Calendar.MONTH)+1)) + "-" + String.format("%02d",today.get(Calendar.DATE)) + " "
-                                                                        + String.format("%02d",today.get(Calendar.HOUR)) + ":" + String.format("%02d",today.get(Calendar.MINUTE))   );
 
 
 
@@ -66,7 +66,7 @@ public class BirthFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 y = year;
-                m = monthOfYear + 1;
+                m = monthOfYear;
                 d = dayOfMonth;
 
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");

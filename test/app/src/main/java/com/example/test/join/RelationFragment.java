@@ -61,6 +61,7 @@ public class RelationFragment extends Fragment {
         }else {
             chg_linear(choose);
         }
+
         JoinMainActivity.vo.setFamily_rels("엄마");
         JoinMainActivity.familyVO.setFamily_rels("엄마");
 
