@@ -105,7 +105,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
 
         //아이와의 관계 불러오기
         AskTask task = new AskTask(CommonVal.httpip, "rels.bif");
-        task.addParam("id", vo.getId()); //로그인한 아이디로 변경 필요
+        task.addParam("id", CommonVal.curuser.getId()); //로그인한 아이디로 변경 필요
         task.addParam("baby_id", vo.getBaby_id());
         InputStream in = CommonMethod.excuteGet(task);
         family = gson.fromJson(new InputStreamReader(in), new TypeToken<FamilyInfoVO>(){}.getType());

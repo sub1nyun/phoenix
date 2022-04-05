@@ -12,13 +12,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:background="#44526C"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="초대하기"
-            android:backgroundTint="#EECDCD"
-            android:id="@+id/btn_invite"/>
 
         <Button
             android:background="#44526C"

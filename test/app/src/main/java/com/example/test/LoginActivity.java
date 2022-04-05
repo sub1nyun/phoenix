@@ -68,8 +68,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
-
         btn_login = findViewById(R.id.btn_login);
         btn_join = findViewById(R.id.btn_join);
         btn_forget = findViewById(R.id.btn_forget);
@@ -81,14 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         btn_logout = findViewById(R.id.btn_logout);
 
 
-        ////초대 버튼 임시 생성
-        btn_invite = findViewById(R.id.btn_invite);
-        btn_invite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createDynamicLink();
-            }
-        });
 
         Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
             @Override
@@ -116,8 +106,8 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
 
                     //로그인 정보 저장
-                    CommonVal.curuser.setId("a");
-                    CommonVal.curuser.setPw("a");
+                    CommonVal.curuser.setId("subin0708");
+                    CommonVal.curuser.setPw("subin0");
 
                     //초대로 왔을 때
                     if(invite_title != null){
@@ -234,28 +224,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
-    public void changeFrag(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-    }
-
-
-    private void createDynamicLink() {
-        String familyId = "tmdwn12345";
-        String invitationLink = "https://babysmilesupport.page.link/invite?familyId="+familyId; //생성할 다이나믹 링크
-
-        DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse(invitationLink))    //정보를 담는 json 사이트를 넣자!!
-                .setDomainUriPrefix("https://babysmilesupport.page.link")
-                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
-                .buildDynamicLink();
-
-        Uri dynamicLinkUri = dynamicLink.getUri();   //긴 URI
-        Log.d("asd: ", "long uri : " + dynamicLinkUri);
-
-    }
-
-
 
 }//Class
 

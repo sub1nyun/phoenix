@@ -119,60 +119,121 @@ public class JoinMainActivity extends AppCompatActivity {
             go++;
             changeFrag( pictureFragment );
         }else if( go==7 ){
-            AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
-            builder.setTitle("회원가입을 완료 하시겠습니까?").setMessage("");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int id)
-                {
-                    CommonVal.curuser = JoinMainActivity.vo ;
-                    //      회원가입 들어가는 부분
-                    if(family_id != null){
-                        AskTask invite_task1 = new AskTask(CommonVal.httpip, "user_join.us");
-                        Gson gson = new Gson();
-                        invite_task1.addParam("vo", gson.toJson(CommonVal.curuser));
-                        InputStream invite_in1 = CommonMethod.excuteGet(invite_task1);
-                        boolean isSucc1 = gson.fromJson(new InputStreamReader(invite_in1), Boolean.class);
-                        if(isSucc1){
-                            AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
-                            FamilyInfoVO familyInfoVO = new FamilyInfoVO();
-                            familyInfoVO.setTitle(family_id);
-                            familyInfoVO.setFamily_rels(rels);
-                            familyInfoVO.setId(CommonVal.curuser.getId());
-                            invite_task.addParam("vo", gson.toJson(familyInfoVO));
-                            InputStream invite_in = CommonMethod.excuteGet(invite_task);
-                            boolean isSucc2 = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
-                            if(isSucc2){
-                                CommonVal.curuser = JoinMainActivity.vo ;
-                                //아기 리스트 불러오기
-                                AskTask task = new AskTask(CommonVal.httpip, "list.bif");
-                                //로그인 정보로 수정 필요
-                                task.addParam("id", CommonVal.curuser.getId());
-                                InputStream in = CommonMethod.excuteGet(task);
-                                CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                                CommonVal.curbaby = CommonVal.baby_list.get(0);
+            if(family_id != null){
+                emptychk();
+                if(result == 1){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
+                    builder.setTitle("회원가입을 완료 하시겠습니까?").setMessage("");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            CommonVal.curuser = JoinMainActivity.vo ;
+                            //      회원가입 들어가는 부분
+                            if(family_id != null){
+                                AskTask invite_task1 = new AskTask(CommonVal.httpip, "user_join.us");
+                                Gson gson = new Gson();
+                                invite_task1.addParam("vo", gson.toJson(CommonVal.curuser));
+                                InputStream invite_in1 = CommonMethod.excuteGet(invite_task1);
+                                boolean isSucc1 = gson.fromJson(new InputStreamReader(invite_in1), Boolean.class);
+                                if(isSucc1){
+                                    AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
+                                    FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+                                    familyInfoVO.setTitle(family_id);
+                                    familyInfoVO.setFamily_rels(rels);
+                                    familyInfoVO.setId(CommonVal.curuser.getId());
+                                    invite_task.addParam("vo", gson.toJson(familyInfoVO));
+                                    InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                                    boolean isSucc2 = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                                    if(isSucc2){
+                                        CommonVal.curuser = JoinMainActivity.vo ;
+                                        //아기 리스트 불러오기
+                                        AskTask task = new AskTask(CommonVal.httpip, "list.bif");
+                                        //로그인 정보로 수정 필요
+                                        task.addParam("id", CommonVal.curuser.getId());
+                                        InputStream in = CommonMethod.excuteGet(task);
+                                        CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                                        CommonVal.curbaby = CommonVal.baby_list.get(0);
 
+                                        Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                                        startActivity(intent);
+                                    }
+                                }
+                            }else{
+                                if(user()){
+                                    CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
+                                    CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
+                                    Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                                    startActivity(intent);
+                                }
+                            }
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int id)
+                        { Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show(); }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            }else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
+                builder.setTitle("회원가입을 완료 하시겠습니까?").setMessage("");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        CommonVal.curuser = JoinMainActivity.vo ;
+                        //      회원가입 들어가는 부분
+                        if(family_id != null){
+                            AskTask invite_task1 = new AskTask(CommonVal.httpip, "user_join.us");
+                            Gson gson = new Gson();
+                            invite_task1.addParam("vo", gson.toJson(CommonVal.curuser));
+                            InputStream invite_in1 = CommonMethod.excuteGet(invite_task1);
+                            boolean isSucc1 = gson.fromJson(new InputStreamReader(invite_in1), Boolean.class);
+                            if(isSucc1){
+                                AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
+                                FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+                                familyInfoVO.setTitle(family_id);
+                                familyInfoVO.setFamily_rels(rels);
+                                familyInfoVO.setId(CommonVal.curuser.getId());
+                                invite_task.addParam("vo", gson.toJson(familyInfoVO));
+                                InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                                boolean isSucc2 = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                                if(isSucc2){
+                                    CommonVal.curuser = JoinMainActivity.vo ;
+                                    //아기 리스트 불러오기
+                                    AskTask task = new AskTask(CommonVal.httpip, "list.bif");
+                                    //로그인 정보로 수정 필요
+                                    task.addParam("id", CommonVal.curuser.getId());
+                                    InputStream in = CommonMethod.excuteGet(task);
+                                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                                    CommonVal.curbaby = CommonVal.baby_list.get(0);
+
+                                    Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                                    startActivity(intent);
+                                }
+                            }
+                        }else{
+                            if(user()){
+                                CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
+                                CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
                                 Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                 startActivity(intent);
                             }
                         }
-                    }else{
-                        if(user()){
-                            CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
-                            CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
-                            Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
-                            startActivity(intent);
-                        }
                     }
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int id)
-                { Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show(); }
-            });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    { Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show(); }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+
         }
     }
 
@@ -195,8 +256,12 @@ public class JoinMainActivity extends AppCompatActivity {
             changeFrag( babyFragment );
             go--;
         }else if( go==7 ){
-            changeFrag( genderFragment );
-            go--;
+            if(family_id != null){
+                altDialog();
+            }else{
+                changeFrag( genderFragment );
+                go--;
+            }
         }
     }
 
