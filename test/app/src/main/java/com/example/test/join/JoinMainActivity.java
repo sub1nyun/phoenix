@@ -49,6 +49,7 @@ public class JoinMainActivity extends AppCompatActivity {
     BabyFragment babyFragment = new BabyFragment();
     GenderFragment genderFragment = new GenderFragment();
     PictureFragment pictureFragment = new PictureFragment();
+    static int title_result = 0;
     static int result = 0;
 
 
@@ -93,14 +94,18 @@ public class JoinMainActivity extends AppCompatActivity {
     public void gogo(){//앞으로
         if( go==1 ){
             emptychk();
+
            if(result == 1){
                allok();
            }
 
         }else if( go==2 ){
-            if( isept( JoinMainActivity.vo.getTitle() , "제목을 입력해주세요.") ){
+            if( isept( JoinMainActivity.vo.getTitle() , "제목을 입력해주세요.") && title_result==1  )  {
                 changeFrag( relationFragment );
                 go++;
+            }
+            if( newFamilyFragment.result==0 ){
+                altdialog("입력한 제목을 확인해주세요");
             }
         }else if( go==3 ){
             JoinMainActivity.babyInfoVO.setId(JoinMainActivity.vo.getId());//     babyinfoVO에 id,title담기
@@ -316,7 +321,7 @@ public class JoinMainActivity extends AppCompatActivity {
     }
 
     public boolean user() {
-        AskTask task = new AskTask("http://192.168.0.13", "user.join");
+        AskTask task = new AskTask("http://192.168.0.50", "user.join");
         String uuid = UUID.randomUUID().toString();
         babyInfoVO.setBaby_id(uuid);
         task.addParam("vo", gson.toJson( vo ) );
@@ -365,6 +370,8 @@ public class JoinMainActivity extends AppCompatActivity {
             {
                 changeFrag(newFamilyFragment);
                 go++;
+
+
             }
         });
         AlertDialog alertDialog = builder.create();

@@ -1,6 +1,5 @@
 package com.example.test;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import androidx.fragment.app.Fragment;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
-import com.example.test.diary.DiaryVO;
 import com.example.test.join.JoinMainActivity;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
@@ -234,6 +232,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     public void changeFrag(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();

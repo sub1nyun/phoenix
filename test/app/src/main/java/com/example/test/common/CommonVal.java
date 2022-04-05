@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommonVal {
-    public static String httpip = "http://192.168.0.13";
+    public static String httpip = "http://192.168.0.50";
 
     public static List<BabyInfoVO> baby_list = new ArrayList<>();
     public static UserVO curuser = new UserVO();
@@ -17,3 +17,4 @@ public class CommonVal {
     public static String curFamily;
     public static String user;
 }
+
