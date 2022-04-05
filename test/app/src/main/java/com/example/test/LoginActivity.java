@@ -1,8 +1,8 @@
 package com.example.test;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
@@ -20,11 +21,11 @@ import com.example.test.common.CommonVal;
 import com.example.test.join.JoinMainActivity;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
-import com.kakao.sdk.user.UserApiClient;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.NidOAuthLogin;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
@@ -37,15 +38,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function2;
-
 public class LoginActivity extends AppCompatActivity {
     Button btn_login, btn_join, btn_forget;
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
     ImageView btn_kakao;
-    Button btn_logout;
+    Button btn_invite, btn_logout;
 
 
     NidOAuthLoginButton naverlogin;
@@ -61,8 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         KakaoSdk.init(this,"884cf31c300f60971b6a3d015d8c005e");
         NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+
+
+
 
         btn_login = findViewById(R.id.btn_login);
         btn_join = findViewById(R.id.btn_join);
@@ -75,19 +74,27 @@ public class LoginActivity extends AppCompatActivity {
         btn_logout = findViewById(R.id.btn_logout);
 
 
-
-        Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
-            @Override
-            public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
-
-                if(throwable != null) {
-                    Toast.makeText(LoginActivity.this, "오류"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                }if(oAuthToken != null){
-                    Toast.makeText(LoginActivity.this, "받아옴", Toast.LENGTH_SHORT).show();
-                }
-                return null;
-            }
-        };
+        ////초대 버튼 임시 생성
+//        btn_invite = findViewById(R.id.btn_invite);
+//        btn_invite.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                createDynamicLink();
+//            }
+//        });
+//
+//        Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
+//            @Override
+//            public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+//
+//                if(throwable != null) {
+//                    Toast.makeText(LoginActivity.this, "오류"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
+//                }if(oAuthToken != null){
+//                    Toast.makeText(LoginActivity.this, "받아옴", Toast.LENGTH_SHORT).show();
+//                }
+//                return null;
+//            }
+//        };
 
         Intent invite_intent = getIntent();
         String invite_title = invite_intent.getStringExtra("family_id");
@@ -102,8 +109,8 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
 
                     //로그인 정보 저장
-                    CommonVal.curuser.setId("subin0708");
-                    CommonVal.curuser.setPw("subin0");
+                    CommonVal.curuser.setId("a");
+                    CommonVal.curuser.setPw("a");
 
                     //초대로 왔을 때
                     if(invite_title != null){
@@ -152,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        btn_kakao.setOnClickListener(new View.OnClickListener() {
+ /*       btn_kakao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){
@@ -161,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
                     UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callBack);
                 }
             }
-        });
+        });*/
 
 
 
@@ -220,6 +227,30 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+
+
+    public void changeFrag(Fragment fragment){
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+    }
+
+
+    private void createDynamicLink() {
+        String familyId = "tmdwn12345";
+        String invitationLink = "https://babysmilesupport.page.link/invite?familyId="+familyId; //생성할 다이나믹 링크
+
+        DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse(invitationLink))    //정보를 담는 json 사이트를 넣자!!
+                .setDomainUriPrefix("https://babysmilesupport.page.link")
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
+                .buildDynamicLink();
+
+        Uri dynamicLinkUri = dynamicLink.getUri();   //긴 URI
+        Log.d("asd: ", "long uri : " + dynamicLinkUri);
+
+    }
+
+
 
 }//Class
 

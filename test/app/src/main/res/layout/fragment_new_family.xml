@@ -12,11 +12,19 @@
         android:textColor="#44526C"
         android:text="앞으로 써내려갈 육아일기의\n제목을 정해주세요."
         android:textSize="30dp"/>
+    <TextView
+        android:id="@+id/title_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="50dp"
+        android:text="" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/border_round_gray"
-        android:layout_marginTop="50dp">
+        >
 
         <EditText
             android:id="@+id/edt_title"
