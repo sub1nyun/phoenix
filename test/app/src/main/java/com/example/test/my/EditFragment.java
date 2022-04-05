@@ -58,7 +58,7 @@ import java.util.TimeZone;
 public class EditFragment extends Fragment implements OnBackPressedListenser {
     Button my_rels, btn_man, btn_woman;
     LinearLayout edit_birth;
-    TextView edit_ok, tv_birth, baby_kg_edit, baby_cm_edit;
+    TextView edit_ok, tv_birth;
     ImageView edit_cancel, edit_photo;
     EditText edit_name;
     Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("JST"));

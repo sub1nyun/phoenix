@@ -1,9 +1,8 @@
 package com.example.test;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,17 +13,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
-import com.example.test.diary.DiaryVO;
 import com.example.test.join.JoinMainActivity;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
-import com.google.firebase.dynamiclinks.DynamicLink;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kakao.sdk.auth.model.OAuthToken;
@@ -50,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
     ImageView btn_kakao;
-    Button btn_invite, btn_logout;
+    Button btn_logout;
 
 
     NidOAuthLoginButton naverlogin;
@@ -66,7 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         KakaoSdk.init(this,"884cf31c300f60971b6a3d015d8c005e");
         NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         btn_login = findViewById(R.id.btn_login);
         btn_join = findViewById(R.id.btn_join);

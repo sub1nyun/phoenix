@@ -22,6 +22,7 @@ import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
+import com.example.test.my.MyFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -50,6 +51,8 @@ public class JoinMainActivity extends AppCompatActivity {
     GenderFragment genderFragment = new GenderFragment();
     PictureFragment pictureFragment = new PictureFragment();
     static int result = 0;
+    String str;
+    public static FamilyInfoVO familyVO = new FamilyInfoVO();
 
 
     String family_id ;
@@ -59,7 +62,24 @@ public class JoinMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_main);
-        changeFrag( userFragment);
+
+        //아기 추가 시
+        Intent intent_my = getIntent();
+        str = intent_my.getStringExtra("category");
+        if(str != null){
+            if(str.equals("new")){
+                go = 2;
+                changeFrag(new NewFamilyFragment(JoinMainActivity.this));
+            }
+            else if(str.equals("old")){
+                go = 4;
+                babyInfoVO.setTitle(familyVO.getTitle());
+                changeFrag(new BirthFragment());
+            }
+        }
+        else{
+            changeFrag( userFragment);
+        }
 
         //초대코드로 왔을 때
         Intent intent = getIntent();
@@ -185,8 +205,36 @@ public class JoinMainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id)
                     {
                         CommonVal.curuser = JoinMainActivity.vo ;
+                        if(str != null){
+                            boolean result = false;
+                            babyInfoVO.setId(CommonVal.curuser.getId());
+                            if(str.equals("new")){
+                                AskTask task = new AskTask(CommonVal.httpip, "insert_new.join");
+                                task.addParam("familyvo", gson.toJson(familyVO));
+                                task.addParam("babyvo", gson.toJson(babyInfoVO));
+                                InputStream in = CommonMethod.excuteGet(task);
+                                result = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                            } else if(str.equals("old")){
+                                AskTask task = new AskTask(CommonVal.httpip, "insert_baby.join");
+                                task.addParam("vo", gson.toJson(babyInfoVO));
+                                InputStream in = CommonMethod.excuteGet(task);
+                                result = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                            }
+                            if(result){
+                                CommonVal.curuser.setId(familyVO.getId());
+                                AskTask task_baby = new AskTask(CommonVal.httpip, "list.bif");
+                                task_baby.addParam("id", CommonVal.curuser.getId());
+                                InputStream in_baby = CommonMethod.excuteGet(task_baby);
+                                CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_baby), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                                CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                                startActivity(intent);
+                            } else{
+                                Toast.makeText(JoinMainActivity.this, "아기 추가에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
                         //      회원가입 들어가는 부분
-                        if(family_id != null){
+                        else if(family_id != null){
                             AskTask invite_task1 = new AskTask(CommonVal.httpip, "user_join.us");
                             Gson gson = new Gson();
                             invite_task1.addParam("vo", gson.toJson(CommonVal.curuser));
@@ -217,7 +265,20 @@ public class JoinMainActivity extends AppCompatActivity {
                             }
                         }else{
                             if(user()){
-                                CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
+                                /*CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
+                                CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
+                                Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                                startActivity(intent);*/
+                                CommonVal.curuser = JoinMainActivity.vo ;
+
+                                AskTask task_baby = new AskTask(CommonVal.httpip, "list.bif");
+                                task_baby.addParam("id", CommonVal.curuser.getId());
+                                InputStream in_baby = CommonMethod.excuteGet(task_baby);
+                                CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_baby), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                                CommonVal.curbaby = CommonVal.baby_list.get(0);
+
+                                //CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
+
                                 CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
                                 Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                 startActivity(intent);
@@ -233,7 +294,6 @@ public class JoinMainActivity extends AppCompatActivity {
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
             }
-
         }
     }
 
@@ -241,14 +301,25 @@ public class JoinMainActivity extends AppCompatActivity {
         if( go==1 ){
             altDialog();
         }else if( go==2 ){//
-            changeFrag( userFragment );
-            go--;
+            if(str.equals("new")){
+                finish();
+                MyFragment.my_spinner.setSelection(0);
+            } else{
+                changeFrag( userFragment );
+                go--;
+            }
+
         }else if( go==3 ){
             changeFrag( newFamilyFragment );
             go--;
         }else if( go==4 ){
-            changeFrag( relationFragment );
-            go--;
+            if(str.equals("old")){
+                finish();
+                MyFragment.my_spinner.setSelection(0);
+            } else{
+                changeFrag( relationFragment );
+                go--;
+            }
         }else if( go==5 ){
             changeFrag( birthFragment );
             go--;
