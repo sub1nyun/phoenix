@@ -22,6 +22,7 @@ import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
+import com.example.test.my.MyFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -64,14 +65,14 @@ public class JoinMainActivity extends AppCompatActivity {
         //아기 추가 시
         Intent intent_my = getIntent();
         str = intent_my.getStringExtra("category");
-        Log.d("asd", "onCreate: " + intent_my);
         if(str != null){
             if(str.equals("new")){
                 go = 2;
                 changeFrag(new NewFamilyFragment(JoinMainActivity.this));
             }
             else if(str.equals("old")){
-                go = 3;
+                go = 4;
+                babyInfoVO.setTitle(familyVO.getTitle());
                 changeFrag(new BirthFragment());
             }
         }
@@ -143,14 +144,24 @@ public class JoinMainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id)
                 {
                     if(str != null){
-                        AskTask task = new AskTask(CommonVal.httpip, "insert_new.join");
-                        task.addParam("familyvo", gson.toJson(familyVO));
-                        task.addParam("babyvo", gson.toJson(babyInfoVO));
-                        InputStream in = CommonMethod.excuteGet(task);
-                        if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())){
+                        boolean result = false;
+                        babyInfoVO.setId(CommonVal.curuser.getId());
+                        if(str.equals("new")){
+                            AskTask task = new AskTask(CommonVal.httpip, "insert_new.join");
+                            task.addParam("familyvo", gson.toJson(familyVO));
+                            task.addParam("babyvo", gson.toJson(babyInfoVO));
+                            InputStream in = CommonMethod.excuteGet(task);
+                            result = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                        } else if(str.equals("old")){
+                            AskTask task = new AskTask(CommonVal.httpip, "insert_baby.join");
+                            task.addParam("vo", gson.toJson(babyInfoVO));
+                            InputStream in = CommonMethod.excuteGet(task);
+                            result = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                        }
+                        if(result){
                             CommonVal.curuser.setId(familyVO.getId());
                             AskTask task_baby = new AskTask(CommonVal.httpip, "list.bif");
-                            task.addParam("id", CommonVal.curuser.getId());
+                            task_baby.addParam("id", CommonVal.curuser.getId());
                             InputStream in_baby = CommonMethod.excuteGet(task_baby);
                             CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_baby), new TypeToken<List<BabyInfoVO>>(){}.getType());
                             CommonVal.curbaby = CommonVal.baby_list.get(0);
@@ -161,12 +172,22 @@ public class JoinMainActivity extends AppCompatActivity {
                         }
                     }
                     //      회원가입 들어가는 부분
-                    if(user()){
-                        CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
-                        CommonVal.curuser = JoinMainActivity.vo ;
-                        CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
-                        Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
-                        startActivity(intent);
+                    else{
+                        if(user()){
+                            CommonVal.curuser = JoinMainActivity.vo ;
+
+                            AskTask task_baby = new AskTask(CommonVal.httpip, "list.bif");
+                            task_baby.addParam("id", CommonVal.curuser.getId());
+                            InputStream in_baby = CommonMethod.excuteGet(task_baby);
+                            CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_baby), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                            CommonVal.curbaby = CommonVal.baby_list.get(0);
+
+                            //CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
+
+                            CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
+                            Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
+                            startActivity(intent);
+                        }
                     }
                     String aa = "";
                 }
@@ -185,14 +206,25 @@ public class JoinMainActivity extends AppCompatActivity {
         if( go==1 ){
             altDialog();
         }else if( go==2 ){//
-            changeFrag( userFragment );
-            go--;
+            if(str.equals("new")){
+                finish();
+                MyFragment.my_spinner.setSelection(0);
+            } else{
+                changeFrag( userFragment );
+                go--;
+            }
+
         }else if( go==3 ){
             changeFrag( newFamilyFragment );
             go--;
         }else if( go==4 ){
-            changeFrag( relationFragment );
-            go--;
+            if(str.equals("old")){
+                finish();
+                MyFragment.my_spinner.setSelection(0);
+            } else{
+                changeFrag( relationFragment );
+                go--;
+            }
         }else if( go==5 ){
             changeFrag( birthFragment );
             go--;

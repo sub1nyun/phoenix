@@ -28,6 +28,7 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.diary.GraphActivity;
 import com.example.test.join.JoinMainActivity;
 import com.example.test.join.NewFamilyFragment;
 import com.google.gson.Gson;
@@ -41,8 +42,8 @@ import retrofit2.http.GET;
 
 public class MyFragment extends Fragment{
     Button btn_co_parent, delete_baby;
-    Spinner my_spinner;
-    ImageView my_setting, my_detail, my_main_photo, my_diary_title_edit;
+    public static Spinner my_spinner;
+    ImageView my_setting, my_detail, my_main_photo, my_diary_title_edit, my_grow;
     TextView my_birth_tv, my_name_tv, my_diary_title, my_gender_man, my_gender_woman, baby_body;
     Gson gson = new Gson();
     List<BabyInfoVO> list;
@@ -66,6 +67,7 @@ public class MyFragment extends Fragment{
         my_gender_man = rootView.findViewById(R.id.my_gender_man);
         my_gender_woman = rootView.findViewById(R.id.my_gender_woman);
         baby_body = rootView.findViewById(R.id.baby_body);
+        my_grow = rootView.findViewById(R.id.my_grow);
 
         list = CommonVal.baby_list;
         for(int i=0; i<titlelist.length; i++){
@@ -172,6 +174,15 @@ public class MyFragment extends Fragment{
                 }
                 my_birth_tv.setText(CommonVal.curbaby.getBaby_birth().toString());
                 my_name_tv.setText(CommonVal.curbaby.getBaby_name());
+            }
+        });
+
+        //성장그래프 이동
+        my_grow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), GraphActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -288,11 +299,9 @@ public class MyFragment extends Fragment{
                 Intent intent = new Intent(getContext(), JoinMainActivity.class);
                 if(select == titlelist.length-1){ //새로운 육아일기
                     intent.putExtra("category", "new");
-                    //((JoinMainActivity)getActivity()).gogo();
                 } else { //기존 육아일기
                     //CommonVal.curuser.setTitle(titlelist[select]);
                     JoinMainActivity.familyVO.setTitle(titlelist[select]);
-                    JoinMainActivity.familyVO.setFamily_rels(CommonVal.curuser.getFamily_rels());
                     intent.putExtra("category", "old");
                 }
                 startActivity(intent);
