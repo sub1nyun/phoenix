@@ -25,9 +25,7 @@ import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
-import com.kakao.sdk.user.UserApiClient;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.NidOAuthLogin;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
@@ -39,9 +37,6 @@ import com.nhn.android.naverlogin.OAuthLogin;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
-
-import kotlin.Unit;
-import kotlin.jvm.functions.Function2;
 
 public class LoginActivity extends AppCompatActivity {
     Button btn_login, btn_join, btn_forget;
@@ -80,26 +75,26 @@ public class LoginActivity extends AppCompatActivity {
 
 
         ////초대 버튼 임시 생성
-        btn_invite = findViewById(R.id.btn_invite);
-        btn_invite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createDynamicLink();
-            }
-        });
-
-        Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
-            @Override
-            public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
-
-                if(throwable != null) {
-                    Toast.makeText(LoginActivity.this, "오류"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                }if(oAuthToken != null){
-                    Toast.makeText(LoginActivity.this, "받아옴", Toast.LENGTH_SHORT).show();
-                }
-                return null;
-            }
-        };
+//        btn_invite = findViewById(R.id.btn_invite);
+//        btn_invite.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                createDynamicLink();
+//            }
+//        });
+//
+//        Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
+//            @Override
+//            public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+//
+//                if(throwable != null) {
+//                    Toast.makeText(LoginActivity.this, "오류"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
+//                }if(oAuthToken != null){
+//                    Toast.makeText(LoginActivity.this, "받아옴", Toast.LENGTH_SHORT).show();
+//                }
+//                return null;
+//            }
+//        };
 
         Intent invite_intent = getIntent();
         String invite_title = invite_intent.getStringExtra("family_id");
@@ -164,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        btn_kakao.setOnClickListener(new View.OnClickListener() {
+ /*       btn_kakao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){
@@ -173,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
                     UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callBack);
                 }
             }
-        });
+        });*/
 
 
 
