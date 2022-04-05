@@ -28,9 +28,11 @@ import com.example.test.home.HomeActivity;
 import com.example.test.diary.BodyFragment;
 import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
+import com.example.test.sns.GrowthVO;
 import com.example.test.sns.SnsFragment;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
+    private static final int GRO_CODE = 7;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION};
     int position = 0;
 
@@ -53,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         if(HomeActivity.activity_home != null){
             HomeActivity.activity_home.finish();
         }
+
+
+
 
 
 
@@ -67,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         tab_my = findViewById(R.id.tab_my);
 
         changeFrag(new DiaryFragment());
+
+
 
         tab_main.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -125,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("asd", "onActivityResult: "+dto.getStart_time());
         }else if(requestCode == 1001){
 
+        }else if (requestCode == GRO_CODE){
+            changeFrag(new SnsFragment(MainActivity.this));
+            //탭을 강제 처리
         }
         switch (requestCode){
             case GPS_ENABLE_REQUEST_CODE:

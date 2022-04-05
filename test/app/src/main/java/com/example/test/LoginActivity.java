@@ -66,23 +66,9 @@ public class LoginActivity extends AppCompatActivity {
         KakaoSdk.init(this,"884cf31c300f60971b6a3d015d8c005e");
         NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
-
-
-
-
-        btn_login = findViewById(R.id.btn_login);
-        btn_join = findViewById(R.id.btn_join);
-        btn_forget = findViewById(R.id.btn_forget);
-        edt_id = findViewById(R.id.edt_id);
-        edt_pw = findViewById(R.id.edt_pw);
-        chk_auto = findViewById(R.id.chk_auto);
-        btn_kakao = findViewById(R.id.btn_kakao);
-        naverlogin = findViewById(R.id.btn_naver);
-        btn_logout = findViewById(R.id.btn_logout);
-
+        binding();
 
         ////초대 버튼 임시 생성
-        btn_invite = findViewById(R.id.btn_invite);
         btn_invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,6 +172,19 @@ public class LoginActivity extends AppCompatActivity {
             NaverIdLoginSDK.INSTANCE.logout();
             Toast.makeText(LoginActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
         });
+    }//onCreate
+
+    private void binding() {
+        btn_login = findViewById(R.id.btn_login);
+        btn_join = findViewById(R.id.btn_join);
+        btn_forget = findViewById(R.id.btn_forget);
+        edt_id = findViewById(R.id.edt_id);
+        edt_pw = findViewById(R.id.edt_pw);
+        chk_auto = findViewById(R.id.chk_auto);
+        btn_kakao = findViewById(R.id.btn_kakao);
+        naverlogin = findViewById(R.id.btn_naver);
+        btn_logout = findViewById(R.id.btn_logout);
+        btn_invite = findViewById(R.id.btn_invite);
     }
 
     public void naverLogin(){

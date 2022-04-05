@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
@@ -29,13 +30,15 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
     LayoutInflater inflater;
     List<GrowthVO> growthVOS;
-    Activity activity;
+    MainActivity activity;
 
-    public SnsViewAdapter(LayoutInflater inflater, List<GrowthVO> growthVOS, Activity activity) {
+    public SnsViewAdapter(LayoutInflater inflater, List<GrowthVO> growthVOS, MainActivity activity) {
         this.inflater = inflater;
         this.growthVOS = growthVOS;
         this.activity = activity;
     }
+
+
 
     @NonNull
     @Override
@@ -101,6 +104,8 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
                         String testvo =  gson.toJson(growthVOS);
                         editTask.addParam("vo", testvo);
                         CommonMethod.excuteGet(editTask);
+                        //수정하고 이동
+                        activity.changeFrag(new SnsFragment(activity));
                     }
                 });
                 builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {
@@ -117,14 +122,12 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
                         builder1.setNegativeButton("삭제", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Gson gson = new Gson();
                                 AskTask delTask = new AskTask(CommonVal.httpip, "delete.sn");
                                 delTask.addParam("no", growthVOS.get(position).getGro_no()+"");
-                                InputStream in = CommonMethod.excuteGet(delTask);
-                                GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
-                                String test = "";
-                                vo.getBaby_id();
+                                CommonMethod.excuteGet(delTask);
 
+                                //삭제시키고 이동
+                                activity.changeFrag(new SnsFragment(activity));
                             }
                         }).show();
                     }
