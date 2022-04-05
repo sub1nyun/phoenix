@@ -11,18 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#44526C">
+        android:background="#FFB547">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <Button
+            <ImageView
                 android:id="@+id/my_grow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="성장곡선"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="#fff"
-                android:layout_marginLeft="20dp"/>
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/graph2"/>
             <Spinner
                 android:id="@+id/my_spinner"
                 android:layout_width="wrap_content"
@@ -164,7 +164,7 @@
                 android:layout_height="50dp"
                 android:text="공동 양육자"
                 android:textSize="16dp"
-                android:backgroundTint="#44526C"
+                android:backgroundTint="#3F7E9D"
                 android:textColor="#fff"
                 android:background="@drawable/tv_custom"
                 android:layout_marginRight="10dp" />
@@ -176,7 +176,7 @@
                 android:textSize="16dp"
                 android:text="아이 정보 삭제"
                 android:textColor="#fff"
-                android:backgroundTint="#44526C"
+                android:backgroundTint="#64B243"
                 android:background="@drawable/tv_custom" />
         </LinearLayout>
     </LinearLayout>

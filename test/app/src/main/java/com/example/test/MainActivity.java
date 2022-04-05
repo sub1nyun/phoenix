@@ -23,6 +23,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.test.common.CommonVal;
 import com.example.test.diary.DiaryFragment;
 import com.example.test.home.HomeActivity;
 import com.example.test.diary.BodyFragment;
@@ -54,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
             HomeActivity.activity_home.finish();
         }
 
-
-
         getHashKey();
 
         container = findViewById(R.id.container);
@@ -66,15 +65,23 @@ public class MainActivity extends AppCompatActivity {
         tab_sns = findViewById(R.id.tab_sns);
         tab_my = findViewById(R.id.tab_my);
 
+        if(CommonVal.baby_list == null){
+            changeFrag(new AddFragment());
+        }
+
         changeFrag(new DiaryFragment());
 
         tab_main.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition()==0){
-                    fragment = new DiaryFragment();
-                    changeFrag(fragment);
-                    position = 0;
+                    if(CommonVal.baby_list == null){
+                        changeFrag(new AddFragment());
+                    } else{
+                        fragment = new DiaryFragment();
+                        changeFrag(fragment);
+                        position = 0;
+                    }
                 } else if(tab.getPosition()==1){
                     if(!checkLocationServicesStatus()){
                         showDialogForLocationServiceSetting();
@@ -86,13 +93,21 @@ public class MainActivity extends AppCompatActivity {
                     changeFrag(fragment);
                     position = 2;
                 } else if(tab.getPosition()==3){
-                    fragment = new SnsFragment(MainActivity.this);
-                    changeFrag(fragment);
-                    position = 3;
+                    if(CommonVal.baby_list == null){
+                        changeFrag(new AddFragment());
+                    } else{
+                        fragment = new SnsFragment(MainActivity.this);
+                        changeFrag(fragment);
+                        position = 3;
+                    }
                 } else if(tab.getPosition()==4){
-                    fragment = new MyFragment();
-                    changeFrag(fragment);
-                    position = 4;
+                    if(CommonVal.baby_list == null){
+                        changeFrag(new AddFragment());
+                    } else{
+                        fragment = new MyFragment();
+                        changeFrag(fragment);
+                        position = 4;
+                    }
                 }
             }
 
@@ -119,10 +134,8 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1000 && resultCode == Activity.RESULT_OK){// 한 화면에서 액티비티 또는 인텐트로 여러 기능을 사용했을때
-            //DiaryVO dto = (DiaryVO) data.getSerializableExtra("dto");
             String pageDate = data.getStringExtra("pageDate");
             changeFrag(new DiaryFragment(pageDate));
-            //Log.d("asd", "onActivityResult: "+dto.getStart_time());
         }else if(requestCode == 1001){
 
         }
@@ -157,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     //백버튼 처리
     private final long FINISH_INTERVAL_TIME = 2000;

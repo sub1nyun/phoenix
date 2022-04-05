@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.test.AddFragment;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
@@ -27,6 +28,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CoParentFragment extends Fragment {
@@ -65,23 +68,23 @@ public class CoParentFragment extends Fragment {
                                 task.addParam("id", CommonVal.curuser.getId());
                                 task.addParam("baby_id", CommonVal.curbaby.getBaby_id());
                                 InputStream in = CommonMethod.excuteGet(task);
-                                if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())){
+                                if (gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())) { //육아일기 탈퇴 성공
                                     Toast.makeText(getContext(), "성공적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
-                                } else{
-                                    Toast.makeText(getContext(), "탈퇴를 하지 못했습니다.", Toast.LENGTH_SHORT).show();
-                                }
-                                //어디론가 이동
-                                for(int i=0; i<CommonVal.baby_list.size(); i++){
-                                    if(CommonVal.baby_list.get(i).getTitle().equals(CommonVal.curbaby.getTitle())){
-                                        CommonVal.baby_list.remove(i);
+
+                                    if(CommonVal.baby_list.size() == 1){
+                                        CommonVal.baby_list = null;
+                                        CommonVal.curbaby = null;
+                                        ((MainActivity)getActivity()).changeFrag(new AddFragment());
+                                    } else{
+                                        AskTask task_re = new AskTask(CommonVal.httpip, "list.bif");
+                                        task_re.addParam("id", CommonVal.curuser.getId());
+                                        InputStream in_re = CommonMethod.excuteGet(task_re);
+                                        CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>(){}.getType());
+                                        CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                        ((MainActivity) getActivity()).changeFrag(new MyFragment());
                                     }
-                                }
-                                if(CommonVal.baby_list.size() == 0){
-                                    Intent intent = new Intent(getContext(), HomeActivity.class);
-                                    startActivity(intent);
-                                } else{
-                                    CommonVal.curbaby = CommonVal.baby_list.get(0);
-                                    ((MainActivity)getActivity()).changeFrag(new MyFragment());
+                                } else { //육아일기 탈퇴 실패
+                                    Toast.makeText(getContext(), "탈퇴를 하지 못했습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {

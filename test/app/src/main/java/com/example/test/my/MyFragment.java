@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.test.AddFragment;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.diary.GraphActivity;
+import com.example.test.join.JoinMainActivity;
+import com.example.test.join.NewFamilyFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,15 +38,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import retrofit2.http.GET;
+
 public class MyFragment extends Fragment{
     Button btn_co_parent, delete_baby;
-    Spinner my_spinner;
-    ImageView my_setting, my_detail, my_main_photo, my_diary_title_edit;
+    public static Spinner my_spinner;
+    ImageView my_setting, my_detail, my_main_photo, my_diary_title_edit, my_grow;
     TextView my_birth_tv, my_name_tv, my_diary_title, my_gender_man, my_gender_woman, baby_body;
     Gson gson = new Gson();
     List<BabyInfoVO> list;
-    String[] titlelist = new String[CommonVal.family_title.size()];
+    String[] titlelist = new String[CommonVal.family_title.size() + 1];
     String title = "";
+    int select = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,10 +67,12 @@ public class MyFragment extends Fragment{
         my_gender_man = rootView.findViewById(R.id.my_gender_man);
         my_gender_woman = rootView.findViewById(R.id.my_gender_woman);
         baby_body = rootView.findViewById(R.id.baby_body);
+        my_grow = rootView.findViewById(R.id.my_grow);
 
         list = CommonVal.baby_list;
         for(int i=0; i<titlelist.length; i++){
-            titlelist[i] = CommonVal.family_title.get(i);
+            if(i == titlelist.length-1) titlelist[i] = "새로운 육아일기";
+            else titlelist[i] = CommonVal.family_title.get(i);
         }
 
         //육아일기 수정
@@ -167,6 +177,15 @@ public class MyFragment extends Fragment{
             }
         });
 
+        //성장그래프 이동
+        my_grow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), GraphActivity.class);
+                startActivity(intent);
+            }
+        });
+
         //알림, 진동 설정
         my_setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,39 +228,45 @@ public class MyFragment extends Fragment{
                             public void onClick(DialogInterface dialog, int which) {
                                 AskTask task_delete = new AskTask(CommonVal.httpip, "babydel.bif");
                                 task_delete.addParam("baby_id", CommonVal.curbaby.getBaby_id());
+                                task_delete.addParam("title", CommonVal.curbaby.getTitle());
                                 InputStream in = CommonMethod.excuteGet(task_delete);
-                                if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())) {
+                                if(gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())) { //아기 삭제 성공
                                     Toast.makeText(getContext(), "아기 정보가 성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                     //아기 목록 다시 불러오기
-                                    AskTask task_re = new AskTask(CommonVal.httpip, "list.bif");
-                                    task_re.addParam("id", CommonVal.curuser.getId());
-                                    InputStream in_re = CommonMethod.excuteGet(task_re);
-                                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>() {
-                                    }.getType());
-
-                                    int count = 0;
-                                    for (int i = 0; i < CommonVal.baby_list.size(); i++) {
-                                        if (CommonVal.baby_list.get(i).getTitle().equals(title)) { //육아일기에 아기가 더 있음
-                                            count += 1;
-                                        } else { //육아일기에 아기 더 없음
-
-                                        }
-                                    }
-
-                                    if (count == 0) {
+                                    if(CommonVal.baby_list.size() == 1){ //아기 1명을 삭제해서 더이상 아기 없음
                                         AskTask task = new AskTask(CommonVal.httpip, "deltitle.bif");
                                         task.addParam("title", title);
                                         task.addParam("id", CommonVal.curuser.getId());
-                                        InputStream del_in = CommonMethod.excuteGet(task);
-                                        //사용자가 다른 육아일기 있을 때
-                                        CommonVal.curbaby = CommonVal.baby_list.get(0);
-                                        ((MainActivity) getActivity()).changeFrag(new MyFragment());
-                                        //사용자가 다른 육아일기 없을 때
-                                        //어딘가로 이동
-                                    } else {
+                                        InputStream del_in = CommonMethod.excuteGet(task); //육아일기 삭제
+
+                                        CommonVal.baby_list = null;
+                                        CommonVal.curbaby = null;
+                                        //add 프래그먼트 띄우기
+                                        ((MainActivity)getActivity()).changeFrag(new AddFragment());
+                                    } else{ //아기 더 있으므로 다시 리스트 불러옴
+                                        AskTask task_re = new AskTask(CommonVal.httpip, "list.bif");
+                                        task_re.addParam("id", CommonVal.curuser.getId());
+                                        InputStream in_re = CommonMethod.excuteGet(task_re);
+                                        CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>(){}.getType());
+
+                                        int count = 0;
+                                        for (int i = 0; i < CommonVal.baby_list.size(); i++) { //현재 삭제한 아기가 있던 육아일기에 아기가 더 있는지 확인
+                                            if (CommonVal.baby_list.get(i).getTitle().equals(title)) { //육아일기에 아기가 더 있음
+                                                count += 1;
+                                            }
+                                        }
+
+                                        if (count == 0) {
+                                            AskTask task = new AskTask(CommonVal.httpip, "deltitle.bif");
+                                            task.addParam("title", title);
+                                            task.addParam("id", CommonVal.curuser.getId());
+                                            InputStream del_in = CommonMethod.excuteGet(task);
+                                        }
                                         CommonVal.curbaby = CommonVal.baby_list.get(0);
                                         ((MainActivity) getActivity()).changeFrag(new MyFragment());
                                     }
+                                } else{ //아기 삭제 실패
+                                    Toast.makeText(getContext(), "아기 정보 삭제를 실패했습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
@@ -264,17 +289,27 @@ public class MyFragment extends Fragment{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getContext(), titlelist[which], Toast.LENGTH_SHORT).show();
+                select = which;
             }
         }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                CommonVal.curuser.setTitle(titlelist[which]);
                 //아기 정보 입력으로 이동
+                JoinMainActivity.familyVO.setId(CommonVal.curuser.getId());
+                Intent intent = new Intent(getContext(), JoinMainActivity.class);
+                if(select == titlelist.length-1){ //새로운 육아일기
+                    intent.putExtra("category", "new");
+                } else { //기존 육아일기
+                    //CommonVal.curuser.setTitle(titlelist[select]);
+                    JoinMainActivity.familyVO.setTitle(titlelist[select]);
+                    intent.putExtra("category", "old");
+                }
+                startActivity(intent);
             }
         }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                my_spinner.setSelection(0);
             }
         }).show();
     }

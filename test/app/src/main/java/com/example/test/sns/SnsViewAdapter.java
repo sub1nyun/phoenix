@@ -3,9 +3,7 @@ package com.example.test.sns;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +23,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHolder> {
@@ -96,20 +92,50 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
             holder.sns_more.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle("수정이나 삭제하기").setMessage("");
+                builder.setTitle("성장일지 관리하기").setMessage("");
                 builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        AskTask editTask = new AskTask(CommonVal.httpip, "edit.sn");
-                        editTask.addParam("no", growthVOS.get(position).getGro_no() + "");
+                   public void onClick(DialogInterface dialog, int which) {
+                        AskTask editTask = new AskTask(CommonVal.httpip, "update.sn");
+                        Gson gson = new Gson();
+                        String testvo =  gson.toJson(growthVOS);
+                        editTask.addParam("vo", testvo);
                         CommonMethod.excuteGet(editTask);
                     }
+                });
+                builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
+                        builder1.setTitle("정말 삭제하실건가요?").setMessage("");
+                        builder1.setPositiveButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        builder1.setNegativeButton("삭제", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Gson gson = new Gson();
+                                AskTask delTask = new AskTask(CommonVal.httpip, "delete.sn");
+                                delTask.addParam("no", growthVOS.get(position).getGro_no()+"");
+                                InputStream in = CommonMethod.excuteGet(delTask);
+                                GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
+                                String test = "";
+                                vo.getBaby_id();
+
+                            }
+                        }).show();
+                    }
                 }).show();
+
             });
 
 
+
         }
-
-
     }
 }
+
+

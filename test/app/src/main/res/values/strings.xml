@@ -1,5 +1,9 @@
 <resources>
+
+
     <string name="app_name">test</string>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="restapi_key">KakaoAK 4b12573ac9cb8199a62e031d7c2e1808</string>
     <string name="dash">-</string>

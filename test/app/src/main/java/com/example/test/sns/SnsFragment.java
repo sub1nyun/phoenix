@@ -1,32 +1,24 @@
 package com.example.test.sns;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
-import com.example.test.my.MyFragment;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -109,5 +101,5 @@ public class SnsFragment extends Fragment {
         if (obj instanceof Object[]) { return (((Object[])obj).length == 0); }
         return false;
     }
-    //출처: https://freehoon.tistory.com/124 [훈잇 블로그]
+
 }
