@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CommonVal {
     public static String httpip = "http://192.168.0.50";
-
+//http://121.148.239.238:5524
     public static List<BabyInfoVO> baby_list = new ArrayList<>();
     public static UserVO curuser = new UserVO();
     public static BabyInfoVO curbaby = new BabyInfoVO();

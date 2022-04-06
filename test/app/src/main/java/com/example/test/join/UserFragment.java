@@ -1,6 +1,6 @@
 package com.example.test.join;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,21 +16,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kakao.sdk.common.KakaoSdk;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.NidOAuthLogin;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
 import com.navercorp.nid.oauth.view.NidOAuthLoginButton;
 import com.navercorp.nid.profile.NidProfileCallback;
 import com.navercorp.nid.profile.data.NidProfileResponse;
+import com.nhn.android.naverlogin.OAuthLogin;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,11 +40,12 @@ import java.util.regex.Pattern;
 
 public class UserFragment extends Fragment {
     EditText edt_id, edt_pw, edt_pwchk;
-    ImageView join_kakao, join_naver;
+    ImageView join_kakao;
     TextView tv_id_check, auto_id_check, pw_check, pwchk_check;
     String family_id;
     Gson gson = new Gson();
-    NidOAuthLoginButton naverlogin;
+    NidOAuthLoginButton join_naver;
+    public static OAuthLogin mOAuthLoginModule;
 
     public UserFragment() {
 
@@ -65,6 +68,10 @@ public class UserFragment extends Fragment {
         }, 500);*/
 
 
+        KakaoSdk.init(getContext() ,"884cf31c300f60971b6a3d015d8c005e");
+        NaverIdLoginSDK.INSTANCE.initialize( getContext() ,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
+
+
         if (family_id != null) {
             JoinMainActivity.go = 7;
         }
@@ -80,18 +87,17 @@ public class UserFragment extends Fragment {
         join_kakao = rootVIew.findViewById(R.id.join_kakao);
         join_naver = rootVIew.findViewById(R.id.join_naver);
 
+
         edt_id.requestFocus();
 
         join_kakao.setOnClickListener(v -> {
             Toast.makeText(getContext(), "카카오 눌림", Toast.LENGTH_SHORT).show();
-
-
         });
 
-        join_naver.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "네이버도 눌림", Toast.LENGTH_SHORT).show();
-            naverLogin();
-        });
+
+
+        naverLogin();
+
 
         edt_id.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -163,6 +169,7 @@ public class UserFragment extends Fragment {
         return rootVIew;
     }//onCreateView
 
+
     //중복확인
     public boolean id_check() {
         AskTask task = new AskTask(CommonVal.httpip, "id_check.join");
@@ -171,8 +178,6 @@ public class UserFragment extends Fragment {
         InputStream in = CommonMethod.excuteGet(task);
         boolean data = gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>() {
         }.getType());
-
-
         return data;
     }
 
@@ -291,7 +296,7 @@ public class UserFragment extends Fragment {
 
     public void naverLogin(){
         NidOAuthLogin authLogin = new NidOAuthLogin();
-        naverlogin.setOAuthLoginCallback(new OAuthLoginCallback() {
+        join_naver.setOAuthLoginCallback(new OAuthLoginCallback() {
             @Override
             public void onSuccess() {
                 Log.d("naver" ,"onSuccess:성공");
@@ -300,21 +305,17 @@ public class UserFragment extends Fragment {
                     @Override
                     public void onSuccess(NidProfileResponse nidProfileResponse) {
                         Log.d("naver","onSuccess:성공" + nidProfileResponse.getProfile().getEmail());
-                        Intent intent = new Intent(getContext() , MainActivity.class);
-                        intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
-                        intent.putExtra("name", nidProfileResponse.getProfile().getName());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
+                        JoinMainActivity.vo.setId( nidProfileResponse.getProfile().getEmail() );
+                        JoinMainActivity.vo.setNaver_id( "Y" );
+                        //edt_id.setEnabled(false); edit 막기
+                        altdialog("네이버 아이디로 시작합니다.", "이름     : " + nidProfileResponse.getProfile().getName() +"\n" + "아이디 : " +JoinMainActivity.vo.getId() );
                     }
-
                     @Override
                     public void onFailure(int i, @NonNull String s) {
                         Log.d("naver", "OnSuccess:실패" +s);
                         Log.d("naver", NaverIdLoginSDK.INSTANCE.getLastErrorCode().getCode());
                         Log.d("naver", NaverIdLoginSDK.INSTANCE.getLastErrorDescription());
                     }
-
                     @Override
                     public void onError(int i, @NonNull String s) {
                         Log.d("naver","OnSuccess:오류" + s);
@@ -322,12 +323,10 @@ public class UserFragment extends Fragment {
                     }
                 });
             }
-
             @Override
             public void onFailure(int i, @NonNull String s) {
                 Log.d("naver", "OnSuccess:실패" +s);
             }
-
             @Override
             public void onError(int i, @NonNull String s) {
                 Log.d("naver", "OnSuccess:에러" +s);
@@ -336,14 +335,20 @@ public class UserFragment extends Fragment {
 
     }
 
-
-
-
-
-
-
-
-
+    public void altdialog(String settitle , String setmessage){
+        AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
+        builder.setTitle( settitle ).setMessage( setmessage );
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                JoinMainActivity act = (JoinMainActivity) getActivity();
+                act.socialNaver();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
 
 
