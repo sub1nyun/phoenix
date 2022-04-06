@@ -1,13 +1,5 @@
 package com.example.test;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -23,10 +15,18 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import com.example.test.common.CommonVal;
+import com.example.test.diary.BodyFragment;
 import com.example.test.diary.DiaryFragment;
 import com.example.test.home.HomeActivity;
-import com.example.test.diary.BodyFragment;
 import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
 import com.example.test.sns.GrowthVO;

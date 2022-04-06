@@ -110,7 +110,10 @@ public class JoinMainActivity extends AppCompatActivity {
 
     }//onCreate()
 
-
+    public void socialNaver(){
+        changeFrag(newFamilyFragment);
+        go++;
+    }
     public void gogo(){//앞으로
         if( go==1 ){
             emptychk();
@@ -125,7 +128,7 @@ public class JoinMainActivity extends AppCompatActivity {
                 go++;
             }
             if( newFamilyFragment.result==0 ){
-                altdialog("입력한 제목을 확인해주세요");
+                altdialog("입력한 제목을 확인해주세요" , "");
             }
         }else if( go==3 ){
             JoinMainActivity.babyInfoVO.setId(JoinMainActivity.vo.getId());//     babyinfoVO에 id,title담기
@@ -318,12 +321,13 @@ public class JoinMainActivity extends AppCompatActivity {
         if( go==1 ){
             altDialog();
         }else if( go==2 ){//
-            if(str.equals("new")){
-                finish();
-                //JoinMainActivity.babyInfoVO = null;
-                MyFragment.my_spinner.setSelection(0);
-                //JoinMainActivity.babyInfoVO = null;
-            } else{
+            if(str != null){
+                if(str.equals("new")){
+                    finish();
+                    MyFragment.my_spinner.setSelection(0);
+                }
+            }
+            else{
                 changeFrag( userFragment );
                 go--;
             }
@@ -332,12 +336,13 @@ public class JoinMainActivity extends AppCompatActivity {
             changeFrag( newFamilyFragment );
             go--;
         }else if( go==4 ){
-            if(str.equals("old")){
-                finish();
-                //JoinMainActivity.babyInfoVO = null;
-                MyFragment.my_spinner.setSelection(0);
-                //JoinMainActivity.babyInfoVO = null;
-            } else{
+            if(str != null){
+                if(str.equals("old")){
+                    finish();
+                    MyFragment.my_spinner.setSelection(0);
+                }
+            }
+            else{
                 changeFrag( relationFragment );
                 go--;
             }
@@ -489,16 +494,16 @@ public class JoinMainActivity extends AppCompatActivity {
 
     public boolean isept(String checkData , String msg){
         if( checkData == null || checkData.equals("") ){
-            altdialog(msg);
+            altdialog(msg , "");
             return false;
         }
         return true;
     }
 
 
-    public void altdialog(String settitle){
+    public void altdialog(String settitle , String setmessage){
         AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
-        builder.setTitle( settitle ).setMessage("");
+        builder.setTitle( settitle ).setMessage( setmessage );
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int id)

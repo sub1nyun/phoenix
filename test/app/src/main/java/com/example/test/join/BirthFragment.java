@@ -26,11 +26,7 @@ public class BirthFragment extends Fragment {
     DatePickerDialog.OnDateSetListener callbackMethod;
     private TimePickerDialog.OnTimeSetListener callbackTime;
 
-    int y;
-    int m;
-    int d;
-    int h;
-    int mi;
+    int y, m, d, h, mi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

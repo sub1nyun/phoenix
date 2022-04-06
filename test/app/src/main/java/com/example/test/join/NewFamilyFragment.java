@@ -119,9 +119,22 @@ public class NewFamilyFragment extends Fragment {
         InputStream in = CommonMethod.excuteGet(task);
         boolean data = gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>() {
         }.getType());
-
         return data;
     }
+ /*   //중복확인
+    public boolean id_check() {
+        AskTask task = new AskTask(CommonVal.httpip, "id_check.join");
+        task.addParam("id", JoinMainActivity.vo.getId());
+        String aa = "";
+        InputStream in = CommonMethod.excuteGet(task);
+        boolean data = gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>() {
+        }.getType());
+
+
+        return data;
+    }*/
+
+
 
     public void title_nospace(){
         edt_title.setOnKeyListener(new View.OnKeyListener() {
