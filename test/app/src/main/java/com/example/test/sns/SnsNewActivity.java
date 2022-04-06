@@ -1,7 +1,6 @@
 package com.example.test.sns;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,11 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
@@ -179,7 +176,7 @@ public class SnsNewActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
             Toast.makeText(SnsNewActivity.this, "찰칵", Toast.LENGTH_SHORT).show();
-           // Glide.with(SnsNewActivity.this).load(imgFilePathList.add()).into(imgFilePathList);
+
         } else if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
             if (data.getClipData() == null) {
                 Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
@@ -191,12 +188,13 @@ public class SnsNewActivity extends AppCompatActivity {
                 for (int i = 0; i < clipData.getItemCount(); i++) {
                     imgFilePathList.add(getGalleryRealPath(clipData.getItemAt(i).getUri()));
 
-                    snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList, this);
-                    sns_new_img_rec.setAdapter(snsImgRecAdapter);
-                    sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+
                 }
             }
         }
+        snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList, this);
+        sns_new_img_rec.setAdapter(snsImgRecAdapter);
+        sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
     }
 
     public File createFile() {
