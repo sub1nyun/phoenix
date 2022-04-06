@@ -31,51 +31,28 @@ import java.util.Map;
 public class SnsFragment extends Fragment {
 
 
-    ArrayList<SnsVO> snslist = new ArrayList<>();
     ImageView sns_plus;
     Intent intent;
-    ArrayList<GrowthVO> grolist = new ArrayList<>();
     Activity activity;
+    View sns_none;
+    RecyclerView sns_view_rec;
 
 
-
-
+    LayoutInflater inflater ;
     public SnsFragment(Activity activity) {
         this.activity = activity;
     }
-
-    public static ArrayList<String> img_list = new ArrayList<>();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_sns, container, false);
+        this.inflater = inflater;
+        sns_none = rootView.findViewById(R.id.sns_none);
 
-        View sns_none = rootView.findViewById(R.id.sns_none);
-
-        RecyclerView sns_view_rec = rootView.findViewById(R.id.sns_view_rec);
+        sns_view_rec = rootView.findViewById(R.id.sns_view_rec);
         sns_plus = rootView.findViewById(R.id.sns_plus);
 
-        AskTask task = new AskTask(CommonVal.httpip, "select.sn");
-        Gson gson = new Gson();
-        task.addParam("baby_id",CommonVal.curbaby.getBaby_id());
-        InputStream in = CommonMethod.excuteGet(task);
-        List<GrowthVO> growthVOS = gson.fromJson(new InputStreamReader(in), new TypeToken<List<GrowthVO>>(){}.getType());
-
-        if(isEmpty(growthVOS)) {
-            sns_none.setVisibility(View.VISIBLE);
-            sns_view_rec.setVisibility(View.GONE);
-        } else {
-            SnsViewAdapter adapter = new SnsViewAdapter(inflater,growthVOS, (MainActivity)getActivity());
-            RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-            sns_view_rec.setAdapter(adapter);
-            sns_view_rec.setLayoutManager(manager);
-        }
-       sns_plus.setOnClickListener(v -> {
-           intent = new Intent(getContext(), SnsNewActivity.class);
-           startActivity(intent);
-       });
         return rootView;
     }
 
@@ -87,10 +64,29 @@ public class SnsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        for(int i = 0 ; i<img_list.size() ; i++){
-//            snslist.add(new SnsVO( "테스트1"));
-        }
 
+        AskTask task = new AskTask(CommonVal.httpip, "select.sn");
+        Gson gson = new Gson();
+        task.addParam("baby_id",CommonVal.curbaby.getBaby_id());
+        InputStream in = CommonMethod.excuteGet(task);
+        List<GrowthVO> growthVOS = gson.fromJson(new InputStreamReader(in), new TypeToken<List<GrowthVO>>(){}.getType());
+
+        if(isEmpty(growthVOS)) {
+            sns_none.setVisibility(View.VISIBLE);
+            sns_view_rec.setVisibility(View.GONE);
+        } else {
+            sns_none.setVisibility(View.GONE);
+            SnsViewAdapter adapter = new SnsViewAdapter(inflater,growthVOS, (MainActivity)getActivity());
+            RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+            sns_view_rec.setAdapter(adapter);
+            sns_view_rec.setLayoutManager(manager);
+            sns_view_rec.setVisibility(View.VISIBLE);
+        }
+        sns_plus.setOnClickListener(v -> {
+            intent = new Intent(getContext(), SnsNewActivity.class);
+            startActivity(intent);
+        });
+    }
 
     // null값이라면 true를 반환
     public boolean isEmpty(Object obj) {

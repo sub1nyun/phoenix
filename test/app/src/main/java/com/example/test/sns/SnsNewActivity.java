@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
@@ -49,20 +50,17 @@ public class SnsNewActivity extends AppCompatActivity {
     ImageView sns_new_back, getImage;
     TextView sns_new_share;
     String[] sns_item = {"카메라", "갤러리"};
-    Intent intent;
     public static ArrayList<Uri> uriList = new ArrayList<>();
     EditText sns_new_text;
-    SnsVO vo = new SnsVO();
-    SnsImgVO imgvo = new SnsImgVO();
     GrowthVO gvo = new GrowthVO();
 
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;
-    final int GROCODE = 7;
 
     File imgFile = null;
     ArrayList<String> imgFilePathList = new ArrayList<>();
     SnsImgRecAdapter snsImgRecAdapter;
+    MainActivity activity;
 
 
     @Override
@@ -101,23 +99,12 @@ public class SnsNewActivity extends AppCompatActivity {
                     addSns.addFileParam("file" + i, imgFilePathList.get(i));
                 }
                 CommonMethod.excuteGet(addSns);
-
-                Intent intent = new Intent(SnsNewActivity.this, MainActivity.class);
-                startActivityForResult(intent, GROCODE);
                 finish();
-
 
             }else {
                 Toast.makeText(SnsNewActivity.this, "기록될 사진을 등록해 주세요", Toast.LENGTH_SHORT).show();
             }
-           
-            
         });
-
-
-
-
-
     }//onCreate
 
     private void binding() {
@@ -127,10 +114,6 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_text = findViewById(R.id.sns_new_text);
         getImage = findViewById(R.id.getImage);
     }
-
-
-
-
 
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -156,7 +139,6 @@ public class SnsNewActivity extends AppCompatActivity {
         intent.setAction(Intent.ACTION_PICK);
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
-
     }
 
 
@@ -195,26 +177,25 @@ public class SnsNewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-       if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
-           Toast.makeText(SnsNewActivity.this, "찰칵", Toast.LENGTH_SHORT).show();
-           //Glide.with(SnsNewActivity.this).load(imgFilePathList).into(sns_new_img_rec);
+        if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
+            Toast.makeText(SnsNewActivity.this, "찰칵", Toast.LENGTH_SHORT).show();
+           // Glide.with(SnsNewActivity.this).load(imgFilePathList.add()).into(imgFilePathList);
         } else if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
-           if(data.getClipData() == null) {
-               Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
-           }else if(data.getClipData().getItemCount() > 10) {
-               Toast.makeText(SnsNewActivity.this, "사진은 열장까지 선택 가능합니다", Toast.LENGTH_SHORT).show();
-           }
-           else if(data.getClipData() != null) {
-               ClipData clipData = data.getClipData();
-               Log.e("clipData", String.valueOf(clipData.getItemCount()));
-               for(int i =0; i < clipData.getItemCount(); i++) {
-                   imgFilePathList.add(getGalleryRealPath(clipData.getItemAt(i).getUri()));
+            if (data.getClipData() == null) {
+                Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
+            } else if (data.getClipData().getItemCount() > 10) {
+                Toast.makeText(SnsNewActivity.this, "사진은 열장까지 선택 가능합니다", Toast.LENGTH_SHORT).show();
+            } else if (data.getClipData() != null) {
+                ClipData clipData = data.getClipData();
+                Log.e("clipData", String.valueOf(clipData.getItemCount()));
+                for (int i = 0; i < clipData.getItemCount(); i++) {
+                    imgFilePathList.add(getGalleryRealPath(clipData.getItemAt(i).getUri()));
 
-                   snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList,this);
-                   sns_new_img_rec.setAdapter(snsImgRecAdapter);
-                  sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,true));
-               }
-           }
+                    snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList, this);
+                    sns_new_img_rec.setAdapter(snsImgRecAdapter);
+                    sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+                }
+            }
         }
     }
 
