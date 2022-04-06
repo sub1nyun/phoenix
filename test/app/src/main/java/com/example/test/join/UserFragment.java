@@ -1,9 +1,11 @@
 package com.example.test.join;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.navercorp.nid.NaverIdLoginSDK;
+import com.navercorp.nid.oauth.NidOAuthLogin;
+import com.navercorp.nid.oauth.OAuthLoginCallback;
+import com.navercorp.nid.oauth.view.NidOAuthLoginButton;
+import com.navercorp.nid.profile.NidProfileCallback;
+import com.navercorp.nid.profile.data.NidProfileResponse;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,7 +42,7 @@ public class UserFragment extends Fragment {
     TextView tv_id_check, auto_id_check, pw_check, pwchk_check;
     String family_id;
     Gson gson = new Gson();
-
+    NidOAuthLoginButton naverlogin;
 
     public UserFragment() {
 
@@ -70,6 +80,8 @@ public class UserFragment extends Fragment {
         join_kakao = rootVIew.findViewById(R.id.join_kakao);
         join_naver = rootVIew.findViewById(R.id.join_naver);
 
+        edt_id.requestFocus();
+
         join_kakao.setOnClickListener(v -> {
             Toast.makeText(getContext(), "카카오 눌림", Toast.LENGTH_SHORT).show();
 
@@ -78,6 +90,7 @@ public class UserFragment extends Fragment {
 
         join_naver.setOnClickListener(v -> {
             Toast.makeText(getContext(), "네이버도 눌림", Toast.LENGTH_SHORT).show();
+            naverLogin();
         });
 
         edt_id.setOnKeyListener(new View.OnKeyListener() {
@@ -145,37 +158,7 @@ public class UserFragment extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-        /*tv_id_check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if( !id_check() ){      //중복확인
-                    AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
-                    builder.setTitle("아이디를 사용할 수 없습니다").setMessage("");
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialog, int id)
-                        {
-                            edt_id.setText("");
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-                }else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
-                    builder.setTitle("사용가능한 아이디입니다.").setMessage("");
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialog, int id)
-                        {
 
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-                    JoinMainActivity.id_chk = 1;
-                }
-            }
-        });*/
 
         return rootVIew;
     }//onCreateView
@@ -193,7 +176,7 @@ public class UserFragment extends Fragment {
         return data;
     }
 
-    //id유효성 ^[a-z0-9]*$
+    //id유효성 ^[a-z0-9]*$r1
     public boolean id_valid() {
         if (edt_id.getText().toString().equals("")) {
             auto_id_check.setText("아이디를 입력해주세요.");
@@ -306,7 +289,52 @@ public class UserFragment extends Fragment {
     }
 
 
+    public void naverLogin(){
+        NidOAuthLogin authLogin = new NidOAuthLogin();
+        naverlogin.setOAuthLoginCallback(new OAuthLoginCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("naver" ,"onSuccess:성공");
+                Log.d("naver", NaverIdLoginSDK.INSTANCE.getAccessToken());
+                authLogin.callProfileApi(new NidProfileCallback<NidProfileResponse>() {
+                    @Override
+                    public void onSuccess(NidProfileResponse nidProfileResponse) {
+                        Log.d("naver","onSuccess:성공" + nidProfileResponse.getProfile().getEmail());
+                        Intent intent = new Intent(getContext() , MainActivity.class);
+                        intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
+                        intent.putExtra("name", nidProfileResponse.getProfile().getName());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                    }
 
+                    @Override
+                    public void onFailure(int i, @NonNull String s) {
+                        Log.d("naver", "OnSuccess:실패" +s);
+                        Log.d("naver", NaverIdLoginSDK.INSTANCE.getLastErrorCode().getCode());
+                        Log.d("naver", NaverIdLoginSDK.INSTANCE.getLastErrorDescription());
+                    }
+
+                    @Override
+                    public void onError(int i, @NonNull String s) {
+                        Log.d("naver","OnSuccess:오류" + s);
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(int i, @NonNull String s) {
+                Log.d("naver", "OnSuccess:실패" +s);
+            }
+
+            @Override
+            public void onError(int i, @NonNull String s) {
+                Log.d("naver", "OnSuccess:에러" +s);
+            }
+        });
+
+    }
 
 
 

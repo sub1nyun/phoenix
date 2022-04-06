@@ -73,6 +73,18 @@
             android:name=".InviteLinkActivity"
             android:exported="false" />
         -->
+
+        <!--<activity android:name=".InviteActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <data android:host="@string/kakaolink_host"
+                    android:scheme="@string/kakao_scheme" />
+            </intent-filter>
+
+        </activity>-->
         <activity
             android:name=".InviteActivity"
             android:exported="true">
@@ -93,6 +105,9 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
+
+
+
         <activity
             android:name=".diary.GraphActivity"
             android:exported="false" />

@@ -61,7 +61,9 @@ public class RelationFragment extends Fragment {
         }else {
             chg_linear(choose);
         }
+
         JoinMainActivity.vo.setFamily_rels("엄마");
+        JoinMainActivity.familyVO.setFamily_rels("엄마");
 
         ((JoinMainActivity)getActivity()).btn_back.setVisibility(View.VISIBLE);//뒤로가기버튼 생성
 
@@ -72,6 +74,7 @@ public class RelationFragment extends Fragment {
                 choose = 0;
                     chg_linear(choose);
                     JoinMainActivity.vo.setFamily_rels("엄마");
+                    JoinMainActivity.familyVO.setFamily_rels("엄마");
                     btn = "엄마";
             }
         });
@@ -81,6 +84,7 @@ public class RelationFragment extends Fragment {
                 choose = 1;
                 chg_linear(choose);
                 JoinMainActivity.vo.setFamily_rels("아빠");
+                JoinMainActivity.familyVO.setFamily_rels("아빠");
                 btn = "아빠";
             }
         });
@@ -90,6 +94,7 @@ public class RelationFragment extends Fragment {
                 choose = 2;
                 chg_linear(choose);
                 JoinMainActivity.vo.setFamily_rels("시터");
+                JoinMainActivity.familyVO.setFamily_rels("시터");
                 btn = "시터";
             }
         });
@@ -99,6 +104,7 @@ public class RelationFragment extends Fragment {
                 choose = 3;
                 chg_linear(choose);
                 JoinMainActivity.vo.setFamily_rels("할머니");
+                JoinMainActivity.familyVO.setFamily_rels("할머니");
                 btn = "할머니";
             }
         });
@@ -108,6 +114,7 @@ public class RelationFragment extends Fragment {
                 choose = 4;
                 chg_linear(choose);
                 JoinMainActivity.vo.setFamily_rels("할아버지");
+                JoinMainActivity.familyVO.setFamily_rels("할아버지");
                 btn = "할아버지";
             }
         });
@@ -117,6 +124,7 @@ public class RelationFragment extends Fragment {
                 choose = 5;
                 chg_linear(choose);
                 JoinMainActivity.vo.setFamily_rels("가족");
+                JoinMainActivity.familyVO.setFamily_rels("가족");
                 btn = "가족";
             }
         });

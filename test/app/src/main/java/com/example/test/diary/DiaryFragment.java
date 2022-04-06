@@ -1,8 +1,11 @@
 package com.example.test.diary;
 
 import android.app.DatePickerDialog;
+import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +42,7 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -342,7 +346,14 @@ public class DiaryFragment extends Fragment {
         String familyId = CommonVal.curbaby.getBaby_id();
         String invitationLink = "https://babysmilesupport.page.link/invite?"+"rels="+rels+"&familyId="+familyId; //생성할 다이나믹 링크
 
-        FirebaseDynamicLinks.getInstance().createDynamicLink()
+        Uri imageUri = (new Uri.Builder())
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(getResources().getResourcePackageName(R.drawable.ic_launcher_background))
+                .appendPath(getResources().getResourceTypeName(R.drawable.ic_launcher_background))
+                .appendPath(getResources().getResourceEntryName(R.drawable.ic_launcher_background))
+                .build();
+
+        FirebaseDynamicLinks.getInstance().createDynamicLink().setSocialMetaTagParameters(new DynamicLink.SocialMetaTagParameters.Builder().setTitle("BSS").setDescription("함께해보실래요?").setImageUrl(Uri.parse("https://postfiles.pstatic.net/MjAyMjA0MDVfMTQ5/MDAxNjQ5MTQxNTY5MzM1.5Sim2JXbhQeIT4XPAyJJ0D6sJUi1q9q1fRR8wc_S_GMg.Co0l9AYiBUe7xOietuGdwHEmM57KpXAQbzV4lQ66UTEg.PNG.tmdwn4645/BSS_logo.png?type=w580")).build())
                 .setLink(Uri.parse(invitationLink))    //정보를 담는 json 사이트를 넣자!!
                 .setDomainUriPrefix("https://babysmilesupport.page.link")
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
@@ -350,6 +361,7 @@ public class DiaryFragment extends Fragment {
                     @Override
                     public void onSuccess(ShortDynamicLink shortDynamicLink) {
                         send(shortDynamicLink.getShortLink());
+                        //kakaoShare(shortDynamicLink.getShortLink());
                     }
                 });
     }
@@ -357,8 +369,10 @@ public class DiaryFragment extends Fragment {
         Intent Sharing_intent = new Intent(Intent.ACTION_SEND);
         Sharing_intent.setType("text/plain");
         String Test_Message = shortDynamicLink.toString();
-        Sharing_intent.putExtra(Intent.EXTRA_TEXT, Test_Message);
-        Sharing_intent.putExtra(Intent.EXTRA_SUBJECT, "BSS의 공동양육자로 초대되셨습니다. 함께 육아일기를 작성해보세요!");
-        Intent Sharing = Intent.createChooser(Sharing_intent, "공유하기"); startActivity(Sharing);
+//        Sharing_intent.putExtra(Intent.EXTRA_SUBJECT, );
+        Sharing_intent.putExtra(Intent.EXTRA_TEXT, "BSS의 공동양육자로 초대되셨습니다. 함께 육아일기를 작성해보세요!\n" + Test_Message);
+        Intent Sharing = Intent.createChooser(Sharing_intent, "공동양육자를 초대해보세요!");
+        startActivity(Sharing);
     }
+
 }

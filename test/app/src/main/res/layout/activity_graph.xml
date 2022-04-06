@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.7"
         android:orientation="horizontal"
-        android:background="#44526C">
+        android:background="#FFB547">
         <ImageView
             android:id="@+id/back_graph"
             android:layout_width="0dp"
@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_weight="9"
             app:tabTextColor="#fff"
-            app:tabSelectedTextColor="#FDC2C2">
+            app:tabSelectedTextColor="#000">
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tab_heat"
                 android:layout_width="wrap_content"
