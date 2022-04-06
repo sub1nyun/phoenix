@@ -77,8 +77,9 @@ public class JoinMainActivity extends AppCompatActivity {
                 babyInfoVO.setTitle(familyVO.getTitle());
                 changeFrag(new BirthFragment());
             }
-        }else{
-            changeFrag( userFragment );
+        }
+        else{
+            changeFrag( userFragment);
         }
 
         //초대코드로 왔을 때
@@ -109,10 +110,7 @@ public class JoinMainActivity extends AppCompatActivity {
 
     }//onCreate()
 
-    public void socialNaver(){
-        changeFrag(newFamilyFragment);
-        go++;
-    }
+
     public void gogo(){//앞으로
         if( go==1 ){
             emptychk();
@@ -127,7 +125,7 @@ public class JoinMainActivity extends AppCompatActivity {
                 go++;
             }
             if( newFamilyFragment.result==0 ){
-                altdialog("입력한 제목을 확인해주세요", "");
+                altdialog("입력한 제목을 확인해주세요");
             }
         }else if( go==3 ){
             JoinMainActivity.babyInfoVO.setId(JoinMainActivity.vo.getId());//     babyinfoVO에 id,title담기
@@ -184,6 +182,7 @@ public class JoinMainActivity extends AppCompatActivity {
 
                                         Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                         startActivity(intent);
+                                        finish();
                                     }
                                 }
                             }else{
@@ -192,6 +191,7 @@ public class JoinMainActivity extends AppCompatActivity {
                                     CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
                                     Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                     startActivity(intent);
+                                    finish();
                                 }
                             }
                         }
@@ -211,31 +211,39 @@ public class JoinMainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id)
                     {
-                        CommonVal.curuser = JoinMainActivity.vo ;
                         if(str != null){
-                            boolean result = false;
+                            boolean result2 = false;
                             babyInfoVO.setId(CommonVal.curuser.getId());
                             if(str.equals("new")){
                                 AskTask task = new AskTask(CommonVal.httpip, "insert_new.join");
                                 task.addParam("familyvo", gson.toJson(familyVO));
                                 task.addParam("babyvo", gson.toJson(babyInfoVO));
                                 InputStream in = CommonMethod.excuteGet(task);
-                                result = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                                result2 = gson.fromJson(new InputStreamReader(in), Boolean.class);
                             } else if(str.equals("old")){
                                 AskTask task = new AskTask(CommonVal.httpip, "insert_baby.join");
                                 task.addParam("vo", gson.toJson(babyInfoVO));
                                 InputStream in = CommonMethod.excuteGet(task);
-                                result = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                                result2 = gson.fromJson(new InputStreamReader(in), Boolean.class);
                             }
-                            if(result){
+                            if(result2){
                                 CommonVal.curuser.setId(familyVO.getId());
                                 AskTask task_baby = new AskTask(CommonVal.httpip, "list.bif");
                                 task_baby.addParam("id", CommonVal.curuser.getId());
                                 InputStream in_baby = CommonMethod.excuteGet(task_baby);
                                 CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_baby), new TypeToken<List<BabyInfoVO>>(){}.getType());
                                 CommonVal.curbaby = CommonVal.baby_list.get(0);
+
+                                AskTask task_title = new AskTask(CommonVal.httpip, "titlelist.us");
+                                task_title.addParam("id", CommonVal.curuser.getId());
+                                InputStream in_title = CommonMethod.excuteGet(task_title);
+                                CommonVal.family_title = gson.fromJson(new InputStreamReader(in_title), new TypeToken<List<String>>(){}.getType());
+                                CommonVal.curFamily =  CommonVal.family_title.get(0);
+
                                 Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                 startActivity(intent);
+                                finish();
+                                //JoinMainActivity.babyInfoVO = null;
                             } else{
                                 Toast.makeText(JoinMainActivity.this, "아기 추가에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             }
@@ -268,6 +276,7 @@ public class JoinMainActivity extends AppCompatActivity {
 
                                     Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                     startActivity(intent);
+                                    finish();
                                 }
                             }
                         }else{
@@ -289,6 +298,7 @@ public class JoinMainActivity extends AppCompatActivity {
                                 CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
                                 Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                 startActivity(intent);
+                                finish();
                             }
                         }
                     }
@@ -308,13 +318,12 @@ public class JoinMainActivity extends AppCompatActivity {
         if( go==1 ){
             altDialog();
         }else if( go==2 ){//
-            if(str != null){
-                if(str.equals("new")){
-                    finish();
-                    MyFragment.my_spinner.setSelection(0);
-                }
-            }
-            else{
+            if(str.equals("new")){
+                finish();
+                //JoinMainActivity.babyInfoVO = null;
+                MyFragment.my_spinner.setSelection(0);
+                //JoinMainActivity.babyInfoVO = null;
+            } else{
                 changeFrag( userFragment );
                 go--;
             }
@@ -323,18 +332,19 @@ public class JoinMainActivity extends AppCompatActivity {
             changeFrag( newFamilyFragment );
             go--;
         }else if( go==4 ){
-            if(str != null){
-                if(str.equals("old")){
-                    finish();
-                    MyFragment.my_spinner.setSelection(0);
-                }
-            }
-            else{
+            if(str.equals("old")){
+                finish();
+                //JoinMainActivity.babyInfoVO = null;
+                MyFragment.my_spinner.setSelection(0);
+                //JoinMainActivity.babyInfoVO = null;
+            } else{
                 changeFrag( relationFragment );
                 go--;
             }
         }else if( go==5 ){
+            //babyInfoVO.setBaby_birth(null);
             changeFrag( birthFragment );
+            //changeFrag( new BirthFragment() );
             go--;
         }else if( go==6 ){
             changeFrag( babyFragment );
@@ -479,16 +489,16 @@ public class JoinMainActivity extends AppCompatActivity {
 
     public boolean isept(String checkData , String msg){
         if( checkData == null || checkData.equals("") ){
-            altdialog(msg , "");
+            altdialog(msg);
             return false;
         }
         return true;
     }
 
 
-    public void altdialog(String settitle , String setmessage){
+    public void altdialog(String settitle){
         AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
-        builder.setTitle( settitle ).setMessage( setmessage );
+        builder.setTitle( settitle ).setMessage("");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int id)

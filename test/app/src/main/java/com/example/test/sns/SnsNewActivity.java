@@ -1,6 +1,7 @@
 package com.example.test.sns;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
@@ -41,7 +43,7 @@ import java.util.Date;
 
 public class SnsNewActivity extends AppCompatActivity {
 
-    //private ActivityResultLauncher<Intent> resultLauncher;
+
 
    RecyclerView sns_new_img_rec;
     ImageView sns_new_back, getImage;
@@ -56,13 +58,11 @@ public class SnsNewActivity extends AppCompatActivity {
 
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;
+    final int GROCODE = 7;
 
     File imgFile = null;
     ArrayList<String> imgFilePathList = new ArrayList<>();
     SnsImgRecAdapter snsImgRecAdapter;
-
-
-
 
 
     @Override
@@ -71,11 +71,7 @@ public class SnsNewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sns_new);
         checkDangerousPermissions();
 
-        sns_new_back = findViewById(R.id.sns_new_back);
-        sns_new_share = findViewById(R.id.sns_new_share);
-        sns_new_img_rec = findViewById(R.id.sns_new_img_rec);
-        sns_new_text = findViewById(R.id.sns_new_text);
-        getImage = findViewById(R.id.getImage);
+        binding();
 
 
         getImage.setOnClickListener(v -> {
@@ -89,8 +85,7 @@ public class SnsNewActivity extends AppCompatActivity {
 
         sns_new_share.setOnClickListener(v -> {
             if(imgFilePathList != null && imgFilePathList.size() > 0) {
-                //SnsFragment.img_list.add(imgFilePath);
-                //저장 로직
+
                 AskTask addSns = new AskTask(CommonVal.httpip, "share.sn");
                 Gson gson = new Gson();
 
@@ -106,14 +101,12 @@ public class SnsNewActivity extends AppCompatActivity {
                     addSns.addFileParam("file" + i, imgFilePathList.get(i));
                 }
                 CommonMethod.excuteGet(addSns);
-                //changeFrag(new SnsFragment(SnsNewActivity.this));
-                changeFrag(new SnsFragment(this));
 
-
-
+                Intent intent = new Intent(SnsNewActivity.this, MainActivity.class);
+                startActivityForResult(intent, GROCODE);
                 finish();
 
-                Bundle bundle = new Bundle();
+
             }else {
                 Toast.makeText(SnsNewActivity.this, "기록될 사진을 등록해 주세요", Toast.LENGTH_SHORT).show();
             }
@@ -127,9 +120,16 @@ public class SnsNewActivity extends AppCompatActivity {
 
     }//onCreate
 
-    public void changeFrag(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+    private void binding() {
+        sns_new_back = findViewById(R.id.sns_new_back);
+        sns_new_share = findViewById(R.id.sns_new_share);
+        sns_new_img_rec = findViewById(R.id.sns_new_img_rec);
+        sns_new_text = findViewById(R.id.sns_new_text);
+        getImage = findViewById(R.id.getImage);
     }
+
+
+
 
 
     public void showDialog() {

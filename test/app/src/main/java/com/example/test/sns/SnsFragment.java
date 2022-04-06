@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
@@ -35,6 +36,7 @@ public class SnsFragment extends Fragment {
     Intent intent;
     ArrayList<GrowthVO> grolist = new ArrayList<>();
     Activity activity;
+
 
 
 
@@ -65,7 +67,7 @@ public class SnsFragment extends Fragment {
             sns_none.setVisibility(View.VISIBLE);
             sns_view_rec.setVisibility(View.GONE);
         } else {
-            SnsViewAdapter adapter = new SnsViewAdapter(inflater,growthVOS, activity);
+            SnsViewAdapter adapter = new SnsViewAdapter(inflater,growthVOS, (MainActivity)getActivity());
             RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
             sns_view_rec.setAdapter(adapter);
             sns_view_rec.setLayoutManager(manager);
@@ -74,7 +76,6 @@ public class SnsFragment extends Fragment {
            intent = new Intent(getContext(), SnsNewActivity.class);
            startActivity(intent);
        });
-
         return rootView;
     }
 
@@ -86,10 +87,10 @@ public class SnsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        for(int i = 0 ; i<img_list.size() ; i++){
-            snslist.add(new SnsVO( "테스트1"));
+//        for(int i = 0 ; i<img_list.size() ; i++){
+//            snslist.add(new SnsVO( "테스트1"));
         }
-    }
+
 
     // null값이라면 true를 반환
     public boolean isEmpty(Object obj) {

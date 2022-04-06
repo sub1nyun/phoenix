@@ -35,9 +35,7 @@ public class SnsPickAdapter extends RecyclerView.Adapter<SnsPickAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (growthVOS.size() > 0) {
-            for (int i = 0; i < growthVOS.size(); i++) {
-                Glide.with(activity).load(growthVOS.get(i)).into(holder.gro_rec);
-            }
+            Glide.with(activity).load(growthVOS.get(position)).into(holder.gro_rec);
         } else {
             holder.gro_rec.setVisibility(View.GONE);
         }

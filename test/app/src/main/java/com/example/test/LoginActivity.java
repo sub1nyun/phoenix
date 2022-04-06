@@ -1,5 +1,6 @@
 package com.example.test;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.diary.DiaryVO;
 import com.example.test.join.JoinMainActivity;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
@@ -25,7 +27,9 @@ import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
+import com.kakao.sdk.user.UserApiClient;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.NidOAuthLogin;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
@@ -37,6 +41,9 @@ import com.nhn.android.naverlogin.OAuthLogin;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
 
 public class LoginActivity extends AppCompatActivity {
     Button btn_login, btn_join, btn_forget;
@@ -59,42 +66,28 @@ public class LoginActivity extends AppCompatActivity {
         KakaoSdk.init(this,"884cf31c300f60971b6a3d015d8c005e");
         NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
-
-
-
-
-        btn_login = findViewById(R.id.btn_login);
-        btn_join = findViewById(R.id.btn_join);
-        btn_forget = findViewById(R.id.btn_forget);
-        edt_id = findViewById(R.id.edt_id);
-        edt_pw = findViewById(R.id.edt_pw);
-        chk_auto = findViewById(R.id.chk_auto);
-        btn_kakao = findViewById(R.id.btn_kakao);
-        naverlogin = findViewById(R.id.btn_naver);
-        btn_logout = findViewById(R.id.btn_logout);
-
+        binding();
 
         ////초대 버튼 임시 생성
-//        btn_invite = findViewById(R.id.btn_invite);
-//        btn_invite.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                createDynamicLink();
-//            }
-//        });
-//
-//        Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
-//            @Override
-//            public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
-//
-//                if(throwable != null) {
-//                    Toast.makeText(LoginActivity.this, "오류"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
-//                }if(oAuthToken != null){
-//                    Toast.makeText(LoginActivity.this, "받아옴", Toast.LENGTH_SHORT).show();
-//                }
-//                return null;
-//            }
-//        };
+        btn_invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDynamicLink();
+            }
+        });
+
+        Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
+            @Override
+            public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+
+                if(throwable != null) {
+                    Toast.makeText(LoginActivity.this, "오류"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }if(oAuthToken != null){
+                    Toast.makeText(LoginActivity.this, "받아옴", Toast.LENGTH_SHORT).show();
+                }
+                return null;
+            }
+        };
 
         Intent invite_intent = getIntent();
         String invite_title = invite_intent.getStringExtra("family_id");
@@ -159,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
- /*       btn_kakao.setOnClickListener(new View.OnClickListener() {
+        btn_kakao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){
@@ -168,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
                     UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callBack);
                 }
             }
-        });*/
+        });
 
 
 
@@ -179,6 +172,19 @@ public class LoginActivity extends AppCompatActivity {
             NaverIdLoginSDK.INSTANCE.logout();
             Toast.makeText(LoginActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
         });
+    }//onCreate
+
+    private void binding() {
+        btn_login = findViewById(R.id.btn_login);
+        btn_join = findViewById(R.id.btn_join);
+        btn_forget = findViewById(R.id.btn_forget);
+        edt_id = findViewById(R.id.edt_id);
+        edt_pw = findViewById(R.id.edt_pw);
+        chk_auto = findViewById(R.id.chk_auto);
+        btn_kakao = findViewById(R.id.btn_kakao);
+        naverlogin = findViewById(R.id.btn_naver);
+        btn_logout = findViewById(R.id.btn_logout);
+        btn_invite = findViewById(R.id.btn_invite);
     }
 
     public void naverLogin(){
@@ -227,8 +233,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
-
 
     public void changeFrag(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
