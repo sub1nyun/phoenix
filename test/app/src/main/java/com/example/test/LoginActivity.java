@@ -1,6 +1,5 @@
 package com.example.test;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import androidx.fragment.app.Fragment;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
-import com.example.test.diary.DiaryVO;
 import com.example.test.join.JoinMainActivity;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
@@ -68,13 +66,6 @@ public class LoginActivity extends AppCompatActivity {
 
         binding();
 
-        ////초대 버튼 임시 생성
-        btn_invite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createDynamicLink();
-            }
-        });
 
         Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
             @Override
@@ -184,7 +175,6 @@ public class LoginActivity extends AppCompatActivity {
         btn_kakao = findViewById(R.id.btn_kakao);
         naverlogin = findViewById(R.id.btn_naver);
         btn_logout = findViewById(R.id.btn_logout);
-        btn_invite = findViewById(R.id.btn_invite);
     }
 
     public void naverLogin(){
