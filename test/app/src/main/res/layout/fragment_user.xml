@@ -156,7 +156,8 @@
     <ImageView
         android:id="@+id/join_kakao"
         android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="283dp"
         android:layout_height="60dp"
         android:src="@drawable/kakao_login_large_wide"/>
     <com.navercorp.nid.oauth.view.NidOAuthLoginButton
@@ -164,8 +165,8 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:src="@drawable/naver_start"
         />
+
 
 
 </LinearLayout>
