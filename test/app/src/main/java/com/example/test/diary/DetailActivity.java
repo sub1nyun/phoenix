@@ -46,6 +46,7 @@ public class DetailActivity extends AppCompatActivity {
     Gson gson = new Gson();
     String[] time_arr1;
     String[] time_arr2;
+    int result = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,8 +150,18 @@ public class DetailActivity extends AppCompatActivity {
             }else {
                 time_arr2 = (dto.getEnd_time()).split(":");
             }
-            edt_temp.setText(dto.getTemperature()+"");
-            edt_amount.setText(dto.getAmount()+"");
+            for(int i=0; i<amtCategoty.length; i++){
+                if(dto.getBaby_category().equals(amtCategoty[i])){
+                    if(dto.getAmount() == 0){
+                        edt_amount.setText("");
+                    }else {
+                        edt_amount.setText(dto.getAmount() + "");
+                    }
+                }
+            }
+            if(dto.getBaby_category().equals("체온")){
+                edt_temp.setText(dto.getTemperature()+"");
+            }
             edt_memo.setText(dto.getMemo());
         }else{
             time_arr1 = (time).split(":");
@@ -177,21 +188,21 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute)
             {
-                String strdate = "";
+//                String strdate =
+//
+//                if(hourOfDay<10){
+//                    strdate += "0" + hourOfDay;
+//                }else{
+//                    strdate += hourOfDay;
+//                }
+//                if(minute<10){
+//                    strdate +=":0" + minute;
+//                }else{
+//                    strdate +=":" + minute;
+//                }
 
-                if(hourOfDay<10){
-                    strdate += "0" + hourOfDay;
-                }else{
-                    strdate += hourOfDay;
-                }
-                if(minute<10){
-                    strdate +=":0" + minute;
-                }else{
-                    strdate +=":" + minute;
-                }
-
-                dto.setStart_time(strdate);
-                tv_start.setText(strdate);
+                dto.setStart_time(String.format("%02d", hourOfDay ) +":"+ String.format("%02d", minute ));
+                tv_start.setText(String.format("%02d", hourOfDay ) +":"+ String.format("%02d", minute ));
             }
         };
 
@@ -200,7 +211,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute)
             {
-                String strdate = "";
+                /*String strdate = "";
 
                 if(hourOfDay<10){
                     strdate += "0" + hourOfDay;
@@ -211,10 +222,10 @@ public class DetailActivity extends AppCompatActivity {
                     strdate +=":0" + minute;
                 }else{
                     strdate +=":" + minute;
-                }
+                }*/
 
-                dto.setEnd_time(strdate);
-                tv_end.setText(strdate);
+                dto.setEnd_time(String.format("%02d", hourOfDay ) +":"+ String.format("%02d", minute ));
+                tv_end.setText(String.format("%02d", hourOfDay ) +":"+ String.format("%02d", minute ));
             }
         };
 
@@ -244,35 +255,61 @@ public class DetailActivity extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Boolean isSucc = false;
                 dto.setMemo(edt_memo.getText()+"");
                 for(int i=0; i<amtCategoty.length; i++){
                     if(dto.getBaby_category().equals(amtCategoty[i])){
-                        dto.setAmount(Double.parseDouble(edt_amount.getText()+""));
+                        if(edt_amount.getText().toString().equals("")){
+
+                        }else {
+                            dto.setAmount(Double.parseDouble(edt_amount.getText() + ""));
+                        }
                     }
                 }
                 if(dto.getBaby_category().equals("체온")){
-                    dto.setTemperature(Double.parseDouble(edt_temp.getText()+""));
+                    if( edt_temp.getText().toString().equals( "" ) ){
+                        result = 0;
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                        builder.setTitle("체온을 입력해주세요").setMessage("");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    }else{
+                        result = 1;
+                        dto.setTemperature(Double.parseDouble(edt_temp.getText()+""));
+                        dto.setEnd_time(dto.getStart_time());
+                    }
+                }else if(dto.getBaby_category().equals("기저귀")){
+                    dto.setEnd_time(dto.getStart_time());
                 }
-                if(intent.getSerializableExtra("is_info") != null){
+
+                if(intent.getSerializableExtra("is_info") != null && result == 1){
                     AskTask task = new AskTask(CommonVal.httpip,"update.di");
                     String dtogson = gson.toJson(dto);
                     task.addParam("dto", dtogson);
                     InputStream in = CommonMethod.excuteGet(task);
-                    Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
-                }else{
+                    isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                }else if(result == 1){
                     AskTask task = new AskTask(CommonVal.httpip,"insert.di");
                     String dtogson = gson.toJson(dto);
                     task.addParam("dto", dtogson);
                     InputStream in = CommonMethod.excuteGet(task);
-                    Boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                    isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
                 }
 
-
+                if(isSucc){
+                    Intent intent = new Intent();
+                    intent.putExtra("pageDate",dto.getDiary_date());
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
                 //Log.d("isSucc : ", isSucc+"");
-                Intent intent = new Intent();
-                intent.putExtra("pageDate",dto.getDiary_date());
-                setResult(RESULT_OK, intent);
-                finish();
+
             }
         });
 

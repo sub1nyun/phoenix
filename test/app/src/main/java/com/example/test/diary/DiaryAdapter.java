@@ -4,6 +4,8 @@ package com.example.test.diary;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test.R;
@@ -35,6 +38,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
     Context context;
 
     Gson gson = new Gson();
+
 
     public DiaryAdapter(List<DiaryVO> list, Context context) {
         this.list = list;
@@ -84,28 +88,34 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            holder.tv_how.setText(diffMin+"분");
+            if(diffMin == 0){
+                holder.tv_how.setText("");
+            } else if(diffMin >= 61){
+                holder.tv_how.setText((diffMin/60)+"시간 " + (diffMin%60)+"분");
+            }else{
+                holder.tv_how.setText(diffMin+"분");
+            }
             holder.tv_start.setText(list.get(i).getStart_time()+"");
             if(list.get(i).getBaby_category().equals("모유")){
-                holder.imv_state.setImageResource(R.drawable.mou);
+                setColor("#e2a2d6",holder);
             } else if(list.get(i).getBaby_category().equals("분유")){
-                holder.imv_state.setImageResource(R.drawable.bunu);
+                setColor("#8fd9b9",holder);
             } else if(list.get(i).getBaby_category().equals("이유식")){
-                holder.imv_state.setImageResource(R.drawable.eat);
+                setColor("#ffd857",holder);
             } else if(list.get(i).getBaby_category().equals("기저귀")){
-                holder.imv_state.setImageResource(R.drawable.toilet);
+                setColor("#966432",holder);
             } else if(list.get(i).getBaby_category().equals("수면")){
-                holder.imv_state.setImageResource(R.drawable.sleep);
+                setColor("#bbb1e5",holder);
             } else if(list.get(i).getBaby_category().equals("목욕")){
-                holder.imv_state.setImageResource(R.drawable.bath);
+                setColor("#6eb5cf",holder);
             } else if(list.get(i).getBaby_category().equals("체온")){
-                holder.imv_state.setImageResource(R.drawable.temp);
+                setColor("#d68684",holder);
             } else if(list.get(i).getBaby_category().equals("물")){
-                holder.imv_state.setImageResource(R.drawable.water);
+                setColor("#6eb5cf",holder);
             } else if(list.get(i).getBaby_category().equals("투약")){
-                holder.imv_state.setImageResource(R.drawable.pills);
+                setColor("#51c040",holder);
             } else if(list.get(i).getBaby_category().equals("간식")){
-                holder.imv_state.setImageResource(R.drawable.danger);
+                setColor("#fcb860",holder);
             }
             holder.imv_detail.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -125,5 +135,9 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
             });
         }
     }
-
+    public void setColor(String strColor,ViewHolder holder){
+        GradientDrawable drawable = (GradientDrawable) ContextCompat.getDrawable(context, R.drawable.circle);
+        drawable.setColor(Color.parseColor(strColor));
+        holder.imv_state.setImageDrawable(drawable);
+    }
 }

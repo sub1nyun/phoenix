@@ -58,7 +58,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DiaryFragment extends Fragment {
     ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger
             , imv_backday, imv_forwardday, imv_graph, imv_store, imv_invite;
-    TextView tv_today, tv_baby_gender, tv_baby_name, tv_baby_age;
+    TextView tv_today, tv_baby_gender, tv_baby_name, tv_baby_age, tv_none;
     Intent intent;
     RecyclerView rcv_diary;
     CircleImageView imv_baby;
@@ -67,7 +67,7 @@ public class DiaryFragment extends Fragment {
 
     DatePickerDialog.OnDateSetListener callbackMethod;
 
-    List<DiaryVO> list = new ArrayList<>();
+
     Gson gson = new Gson();
     Calendar today = Calendar.getInstance();//오늘날짜 받기
 
@@ -93,6 +93,7 @@ public class DiaryFragment extends Fragment {
         imv_calender = rootview.findViewById(R.id.imv_calender);
         tv_today = rootview.findViewById(R.id.tv_today);
         rcv_diary = rootview.findViewById(R.id.rcv_diary);
+        tv_none = rootview.findViewById(R.id.tv_none);
 
         imv_baby = rootview.findViewById(R.id.imv_baby);
 
@@ -180,7 +181,7 @@ public class DiaryFragment extends Fragment {
         tv_today.setText(today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH)+1) + "월 " + today.get(Calendar.DATE) + "일");
 
         //리스트 불러옴
-        chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE), getContext());
+        chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE));
 
         //얘가 날짜값을 받아서 세팅해주는 역할
         callbackMethod = new DatePickerDialog.OnDateSetListener() {
@@ -188,7 +189,7 @@ public class DiaryFragment extends Fragment {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 today.set(year, month, dayOfMonth);
                 tv_today.setText(year + "년 " + (month+1) + "월 " + dayOfMonth + "일");
-                chgDateList(year,month,dayOfMonth, getContext());
+                chgDateList(year,month,dayOfMonth);
             }
         };
 
@@ -198,7 +199,7 @@ public class DiaryFragment extends Fragment {
             public void onClick(View v) {
                 today.add(Calendar.DATE, -1);
                 tv_today.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일");
-                chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE), getContext());
+                chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE));
             }
         });
         //하루후
@@ -207,7 +208,7 @@ public class DiaryFragment extends Fragment {
             public void onClick(View v) {
                 today.add(Calendar.DATE, 1);
                 tv_today.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일");
-                chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE), getContext());
+                chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE));
             }
         });
 
@@ -321,15 +322,23 @@ public class DiaryFragment extends Fragment {
     Handler handler = new Handler(){
         public void handleMessage(Message msg){
             if (msg.what == 1){
-                DiaryAdapter adapter = new DiaryAdapter(list, (Context) msg.obj );
+                DiaryAdapter adapter = new DiaryAdapter((List<DiaryVO>) msg.obj, getContext() );
+                if(((List<DiaryVO>) msg.obj).size() == 0){
+                    tv_none.setVisibility(View.VISIBLE);
+                }
+                else{
+                    tv_none.setVisibility(View.GONE);
+                }
                 rcv_diary.setAdapter(adapter);
                 LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                 rcv_diary.setLayoutManager(manager);
+
             }
         }
     };
 
-    public void chgDateList(int y, int m, int d, Context context){
+    public void chgDateList(int y, int m, int d){
+        List<DiaryVO> list;
         AskTask task = new AskTask(CommonVal.httpip,"list.di");
         task.addParam("date", y + "-" + (m+1) + "-" + d);
 
@@ -337,7 +346,7 @@ public class DiaryFragment extends Fragment {
         InputStream in = CommonMethod.excuteGet(task);
         if(in != null){
             list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
-            Message msg = handler.obtainMessage(1, context);
+            Message msg = handler.obtainMessage(1, list);
 
             handler.sendMessage(msg);
         }
