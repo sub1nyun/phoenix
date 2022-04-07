@@ -440,15 +440,13 @@ public class UserFragment extends Fragment {
                 Account kakaoAcount = user.getKakaoAccount();
                 if(kakaoAcount != null){
                     String email = kakaoAcount.getEmail();
-                    String name = kakaoAcount.getName();
                     //String nickName = profile.getNickname();
-                    AskTask task = new AskTask( CommonVal.httpip,"kakaoLogin");
+                    AskTask task = new AskTask( CommonVal.httpip,"kakaoLoginn");
                     task.addParam("id" , email);
                     InputStream in =  CommonMethod.excuteGet(task);
                     Gson gson = new Gson();
                     String data = gson.fromJson(new InputStreamReader(in) , String.class);
                     String aa = "";
-                    //vo.setId();
                     if(data !=null){
                         //로그인 된 회원임.
                             //CommonVal.curuser = vo ;
