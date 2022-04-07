@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
-    private static final int GRO_CODE = 7;
+
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION};
     int position = 0;
 
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         changeFrag(new DiaryFragment());
+
 
 
         tab_main.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -143,9 +144,6 @@ public class MainActivity extends AppCompatActivity {
             changeFrag(new DiaryFragment(pageDate));
         } else if (requestCode == 1001) {
 
-        } else if (requestCode == GRO_CODE) {
-            changeFrag(new SnsFragment(MainActivity.this));
-            //탭을 강제 처리
         }
         switch (requestCode) {
             case GPS_ENABLE_REQUEST_CODE:
