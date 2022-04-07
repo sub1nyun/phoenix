@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,6 +52,7 @@ public class SnsNewActivity extends AppCompatActivity {
     public static ArrayList<Uri> uriList = new ArrayList<>();
     EditText sns_new_text;
     GrowthVO gvo = new GrowthVO();
+    Button btn_clear;
 
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;
@@ -68,7 +71,7 @@ public class SnsNewActivity extends AppCompatActivity {
 
         binding();
 
-
+        btn_clear.setVisibility(View.GONE);
         getImage.setOnClickListener(v -> {
             showDialog();
         });
@@ -110,6 +113,7 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_img_rec = findViewById(R.id.sns_new_img_rec);
         sns_new_text = findViewById(R.id.sns_new_text);
         getImage = findViewById(R.id.getImage);
+        btn_clear = findViewById(R.id.btn_clear);
     }
 
     public void showDialog() {
@@ -195,6 +199,12 @@ public class SnsNewActivity extends AppCompatActivity {
         snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList, this);
         sns_new_img_rec.setAdapter(snsImgRecAdapter);
         sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        btn_clear.setVisibility(View.VISIBLE);
+        btn_clear.setOnClickListener(v -> {
+
+        });
+
+
     }
 
     public File createFile() {

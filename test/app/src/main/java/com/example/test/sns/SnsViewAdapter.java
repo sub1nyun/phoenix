@@ -101,6 +101,7 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
                    public void onClick(DialogInterface dialog, int which) {
                         AskTask editTask = new AskTask(CommonVal.httpip, "update.sn");
                         Gson gson = new Gson();
+
                         String testvo =  gson.toJson(growthVOS);
                         editTask.addParam("vo", testvo);
                         CommonMethod.excuteGet(editTask);
