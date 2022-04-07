@@ -46,14 +46,14 @@ public class BirthFragment extends Fragment {
         if(JoinMainActivity.babyInfoVO.getBaby_birth() != null ){
 //            tv_bir.setText( ""+     new Date().getYear() + new Date().getMonth() + new Date().getDay());
             String[] strDate = JoinMainActivity.babyInfoVO.getBaby_birth().substring(0,JoinMainActivity.babyInfoVO.getBaby_birth().indexOf(" ")).split("-");
-            today.set(Integer.parseInt(strDate[0]), Integer.parseInt(strDate[1]), Integer.parseInt(strDate[2]));
-            tv_bir.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)) + "월" + today.get(Calendar.DATE) + "일" + today.get(Calendar.HOUR) + "시" + today.get(Calendar.MINUTE) + "분");
+            String[] strTime = JoinMainActivity.babyInfoVO.getBaby_birth().substring(JoinMainActivity.babyInfoVO.getBaby_birth().indexOf(" ")+1).split(":");
+            today.set(Integer.parseInt(strDate[0]), Integer.parseInt(strDate[1])-1, Integer.parseInt(strDate[2]), Integer.parseInt(strTime[0]), Integer.parseInt(strTime[1]));
         }else {
             JoinMainActivity.babyInfoVO.setBaby_birth( today.get(Calendar.YEAR) + "-" + String.format("%02d",(today.get(Calendar.MONTH)+1)) + "-" + String.format("%02d",today.get(Calendar.DATE)) + " "
                     + String.format("%02d",today.get(Calendar.HOUR)) + ":" + String.format("%02d",today.get(Calendar.MINUTE))   );
-            tv_bir.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일" + today.get(Calendar.HOUR) + "시" + today.get(Calendar.MINUTE) + "분");
         }
         //JoinMainActivity.babyInfoVO.setBaby_birth(tv_bir.getText().toString());
+        tv_bir.setText(today.get(Calendar.YEAR) + "년 " + String.format("%02d",today.get(Calendar.MONTH)+1) + "월 " + String.format("%02d",today.get(Calendar.DATE)) + "일 " + String.format("%02d",today.get(Calendar.HOUR)) + "시 " + String.format("%02d",today.get(Calendar.MINUTE)) + "분");
 
 
 
@@ -80,9 +80,9 @@ public class BirthFragment extends Fragment {
                 h = hourOfDay;
                 mi = minute;
                 today.set(y, m, d);
-                tv_bir.setText(y + "년" + (m + 1) + "월" + d + "일" + h + "시" + mi + "분");
+                tv_bir.setText(y + "년 " + String.format("%02d",m + 1) + "월 " + String.format("%02d",d) + "일 " + String.format("%02d",h) + "시 " + String.format("%02d",mi) + "분 ");
                 //JoinMainActivity.vo.setBirth();
-                JoinMainActivity.babyInfoVO.setBaby_birth( y +"-" +String.format("%02d", m )+"-" + String.format("%02d", d) + " " + String.format("%02d", h) + ":" + String.format("%02d", mi));
+                JoinMainActivity.babyInfoVO.setBaby_birth( y +"-" +String.format("%02d", m+1 )+"-" + String.format("%02d", d) + " " + String.format("%02d", h) + ":" + String.format("%02d", mi));
             }
         };
 

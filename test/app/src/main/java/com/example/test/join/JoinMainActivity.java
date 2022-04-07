@@ -124,7 +124,7 @@ public class JoinMainActivity extends AppCompatActivity {
 
         }else if( go==2 ){
             if( isept( JoinMainActivity.vo.getTitle() , "제목을 입력해주세요.") && title_result==1  )  {
-                changeFrag( relationFragment );
+                changeFrag( new RelationFragment() );
                 go++;
             }
             if( newFamilyFragment.result==0 ){
@@ -133,14 +133,14 @@ public class JoinMainActivity extends AppCompatActivity {
         }else if( go==3 ){
             JoinMainActivity.babyInfoVO.setId(JoinMainActivity.vo.getId());//     babyinfoVO에 id,title담기
             JoinMainActivity.babyInfoVO.setTitle(JoinMainActivity.vo.getTitle());
-            changeFrag( birthFragment );
+            changeFrag( new BirthFragment() );
             go++;
         }else if( go==4 ){
             changeFrag( babyFragment );
             go++;
         }else if( go==5 ){
             if( isept( JoinMainActivity.babyInfoVO.getBaby_name() , "아이의 이름을 입력해주세요.")) {
-                changeFrag(genderFragment);
+                changeFrag(new GenderFragment());
                 go++;
             }
         }else if( go==6 ){
@@ -343,12 +343,12 @@ public class JoinMainActivity extends AppCompatActivity {
                 }
             }
             else{
-                changeFrag( relationFragment );
+                changeFrag( new RelationFragment() );
                 go--;
             }
         }else if( go==5 ){
             //babyInfoVO.setBaby_birth(null);
-            changeFrag( birthFragment );
+            changeFrag( new BirthFragment() );
             //changeFrag( new BirthFragment() );
             go--;
         }else if( go==6 ){
@@ -358,7 +358,7 @@ public class JoinMainActivity extends AppCompatActivity {
             if(family_id != null){
                 altDialog();
             }else{
-                changeFrag( genderFragment );
+                changeFrag( new GenderFragment() );
                 go--;
             }
         }
@@ -476,7 +476,7 @@ public class JoinMainActivity extends AppCompatActivity {
     }
 
     public boolean user() {
-        AskTask task = new AskTask("http://192.168.0.50", "user.join");
+        AskTask task = new AskTask("http://192.168.0.13", "user.join");
         String uuid = UUID.randomUUID().toString();
         babyInfoVO.setBaby_id(uuid);
         task.addParam("vo", gson.toJson( vo ) );

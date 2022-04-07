@@ -57,13 +57,17 @@ public class RelationFragment extends Fragment {
 
 
         if( JoinMainActivity.vo.getFamily_rels() == null ){
+            JoinMainActivity.vo.setFamily_rels("엄마");
+            JoinMainActivity.familyVO.setFamily_rels("엄마");
             chg_linear(0);
         }else {
-            chg_linear(choose);
+            String[] rels_arr = {"엄마","아빠","시터","할머니","할아버지","가족"};
+            for(int i=0; i<rels_arr.length; i++){
+                if(rels_arr[i].equals(JoinMainActivity.vo.getFamily_rels())) {
+                    chg_linear(i);
+                }
+            }
         }
-
-        JoinMainActivity.vo.setFamily_rels("엄마");
-        JoinMainActivity.familyVO.setFamily_rels("엄마");
 
         ((JoinMainActivity)getActivity()).btn_back.setVisibility(View.VISIBLE);//뒤로가기버튼 생성
 
