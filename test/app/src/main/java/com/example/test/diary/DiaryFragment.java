@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -123,11 +124,16 @@ public class DiaryFragment extends Fragment {
         String baby_age_str = CommonVal.curbaby.getBaby_birth();
         String[] baby_age_arr = baby_age_str.substring(0,baby_age_str.indexOf(" ")).split("-");
         LocalDate theDate = LocalDate.of(Integer.parseInt(baby_age_arr[0]),Integer.parseInt(baby_age_arr[1]),Integer.parseInt(baby_age_arr[2]));
-        Period age = theDate.until(LocalDate.now());
+
+        if(theDate.isBefore(LocalDate.now())){
+            Period age = theDate.until(LocalDate.now());
+            tv_baby_age.setText(age.getYears()*12 + age.getMonths() + "개월 " + age.getDays() + "일");
+        }else{
+            tv_baby_age.setText("D - "+ LocalDate.now().until(theDate, ChronoUnit.DAYS));
+        }
 
         tv_baby_name.setText(CommonVal.curbaby.getBaby_name());
         tv_baby_gender.setText(CommonVal.curbaby.getBaby_gender());
-        tv_baby_age.setText(age.getYears()*12 + age.getMonths() + "개월 " + age.getDays() + "일");
 
         if(CommonVal.curbaby.getBaby_photo() == null){
             imv_baby.setImageResource(R.drawable.bss_logo);
