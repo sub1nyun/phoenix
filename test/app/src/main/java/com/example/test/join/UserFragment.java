@@ -25,7 +25,10 @@ import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
+import com.kakao.sdk.user.UserApiClient;
+import com.kakao.sdk.user.model.Account;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.NidOAuthLogin;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
@@ -37,6 +40,9 @@ import com.nhn.android.naverlogin.OAuthLogin;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.regex.Pattern;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
 
 public class UserFragment extends Fragment {
     EditText edt_id, edt_pw, edt_pwchk;
@@ -68,7 +74,7 @@ public class UserFragment extends Fragment {
         }, 500);*/
 
 
-        KakaoSdk.init(getContext() ,"884cf31c300f60971b6a3d015d8c005e");
+        KakaoSdk.init(getContext() ,"9bb5096013cc3ff738a2ca42f3fd61d1");
         NaverIdLoginSDK.INSTANCE.initialize( getContext() ,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
 
@@ -90,9 +96,80 @@ public class UserFragment extends Fragment {
 
         edt_id.requestFocus();
 
-        join_kakao.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "카카오 눌림", Toast.LENGTH_SHORT).show();
+
+        Function2<OAuthToken, Throwable , Unit> callBack = new
+                Function2<OAuthToken, Throwable, Unit>() {
+                    @Override
+                    public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+                        // 소셜 : Token에 정보를 넣어서 바로 주는경우 <=o,
+                        // Token을 통해서 특정 URL을 요청했을때 정보를 주는 경우.
+                        if(throwable != null){
+                            Toast.makeText(getContext(), "오류 발생!?" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        if(oAuthToken != null){
+                            Toast.makeText(getContext(), "정보를 잘받아옴!", Toast.LENGTH_SHORT).show();
+
+
+
+                            //로그아웃
+                           /*UserApiClient.getInstance().logout(new Function1<Throwable, Unit>() {
+                                @Override
+                                public Unit invoke(Throwable error) {
+                                    if (error != null) {
+                                        Log.e("", "invoke: " , error);
+                                        //Log.e(TAG, "연결 끊기 실패", error);
+                                    }
+                                    else {
+                                        Log.e("", "invoke: " , error);
+                                        // Log.i(TAG, "연결 끊기 성공. SDK에서 토큰 삭제 됨")
+                                    }
+                                    return null ;
+                                }
+                            });
+                            UserApiClient.getInstance().unlink(new Function1<Throwable, Unit>() {
+                                @Override
+                                public Unit invoke(Throwable error) {
+                                    if (error != null) {
+                                        Log.e("", "invoke: " , error);
+                                        //Log.e(TAG, "연결 끊기 실패", error);
+                                    }
+                                    else {
+                                        Log.e("", "invoke: " , error);
+                                        // Log.i(TAG, "연결 끊기 성공. SDK에서 토큰 삭제 됨")
+                                    }
+                                    return null;
+                                }
+                            });
+*/
+
+
+
+
+
+                            getKakaoInfo();
+                        }
+                        return null;
+                    }
+                };
+
+
+        join_kakao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "ㅜ림", Toast.LENGTH_SHORT).show();
+                if(UserApiClient.getInstance().isKakaoTalkLoginAvailable( getContext() )){
+                    //카카오톡이 설치가 되어있는 핸드폰의 경우 카카오톡 어플을 통해서 인증하는 방법이 더편리함.
+                    //카카오톡 특성상 로그인이 되어있고 2차인증을 하기만 하면됨.
+                    UserApiClient.getInstance().loginWithKakaoTalk( getContext() ,callBack );
+                }else{
+                    //카카오톡이 설치가 안되어 있는경우. Web을 통해서(Redirect Uri) Activity?
+                    UserApiClient.getInstance().loginWithKakaoAccount( getContext() ,callBack );
+                }
+            }
         });
+
+            
+
 
 
 
@@ -308,7 +385,7 @@ public class UserFragment extends Fragment {
                         JoinMainActivity.vo.setId( nidProfileResponse.getProfile().getEmail() );
                         JoinMainActivity.vo.setNaver_id( "Y" );
                         //edt_id.setEnabled(false); edit 막기
-                        altdialog("네이버 아이디로 시작합니다.", "이름     : " + nidProfileResponse.getProfile().getName() +"\n" + "아이디 : " +JoinMainActivity.vo.getId() );
+                        altdialog("해당 아이디로 가입을 시작합니다.",  "아이디 : " +JoinMainActivity.vo.getId() );
                     }
                     @Override
                     public void onFailure(int i, @NonNull String s) {
@@ -351,7 +428,53 @@ public class UserFragment extends Fragment {
     }
 
 
+    public void getKakaoInfo(){
+        UserApiClient.getInstance().me( (user, throwable) -> {
+            if(throwable != null){
+                // 오류임. 정보 못받아옴 ( Token이 없거나 Token을 삭제했을때(Logout)
+                // KOE + 숫자
+                Toast.makeText( getContext() , "오류 코드 : " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }else{
+                // [ { } ] json 구조처럼 바로 데이터가 있는게 아님.
+                // Account Object안에 List가 있거나 List안에 Object가 있는형식임.
+                Account kakaoAcount = user.getKakaoAccount();
+                if(kakaoAcount != null){
+                    String email = kakaoAcount.getEmail();
+                    //String nickName = profile.getNickname();
+                    AskTask task = new AskTask( CommonVal.httpip,"kakaoLoginn");
+                    task.addParam("id" , email);
+                    InputStream in =  CommonMethod.excuteGet(task);
+                    Gson gson = new Gson();
+                    String data = gson.fromJson(new InputStreamReader(in) , String.class);
+                    String aa = "";
+                    if(data !=null){
+                        //로그인 된 회원임.
+                            //CommonVal.curuser = vo ;
+                        //Intent intent = new Intent(LoginActivity.this , MainActivity.class);
+                        //startActivity(intent);
+                        Toast.makeText(getContext(), "들어있음", Toast.LENGTH_SHORT).show();
+                        JoinMainActivity.vo.setId( data );
+                        JoinMainActivity.vo.setKakao_id( "Y" );
+                        altdialog("해당 아이디로 가입을 시작합니다.",  "아이디 : " +JoinMainActivity.vo.getId() );
+                    }else{
+                        Toast.makeText(getContext(), "안들어있음", Toast.LENGTH_SHORT).show();
+                        //회원가입을 진행.
+                        //Intent intent = new Intent(LoginActivity.this , JoinActivity.class);
+                        //intent.putExtra("email" , email);
+                        //startActivity(intent);
+                    }
 
+
+                    // AsynkTask이용해서
+                }
+
+            }
+
+
+            return null;
+        });
+    }
+    
 
 
 
