@@ -43,6 +43,6 @@
         android:id="@+id/imv_detail"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:src="@drawable/my_next"
+        android:src="@drawable/next_gray"
         android:layout_gravity="right"/>
 </LinearLayout>
