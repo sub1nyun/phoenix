@@ -1,7 +1,6 @@
 package com.example.test.sns;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -20,10 +19,7 @@ import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHolder> {
@@ -81,6 +77,7 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
             baby_name.setText(CommonVal.curbaby.getBaby_name());
             user_comment.setText(growthVOS.get(position).getGro_content());
+            sns_more.setVisibility(View.VISIBLE);
 
             if (growthVOS.get(position).getBaby_gender().equals("남아")) {
                 baby_icon.setImageResource(R.drawable.sns_baby_boy);
