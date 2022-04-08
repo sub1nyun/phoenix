@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,6 +56,8 @@ public class JoinMainActivity extends AppCompatActivity {
     static int result = 0;
     String str;
     public static FamilyInfoVO familyVO = new FamilyInfoVO();
+
+
 
 
     String family_id ;
@@ -128,7 +132,8 @@ public class JoinMainActivity extends AppCompatActivity {
                 go++;
             }
             if( newFamilyFragment.result==0 ){
-                altdialog("입력한 제목을 확인해주세요" , "");
+                padup(newFamilyFragment.edt_title);
+               // altdialog("입력한 제목을 확인해주세요" , "");
             }
         }else if( go==3 ){
             JoinMainActivity.babyInfoVO.setId(JoinMainActivity.vo.getId());//     babyinfoVO에 id,title담기
@@ -142,6 +147,9 @@ public class JoinMainActivity extends AppCompatActivity {
             if( isept( JoinMainActivity.babyInfoVO.getBaby_name() , "아이의 이름을 입력해주세요.")) {
                 changeFrag(new GenderFragment());
                 go++;
+            }else{
+                babyFragment.edt_name.requestFocus();
+                padup(babyFragment.edt_name);
             }
         }else if( go==6 ){
             go++;
@@ -408,7 +416,7 @@ public class JoinMainActivity extends AppCompatActivity {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-
+                    padup( userFragment.edt_id );
                 }
             });
             AlertDialog alertDialog = builder.create();
@@ -426,10 +434,13 @@ public class JoinMainActivity extends AppCompatActivity {
             alertDialog.show();
         }else if ( userFragment.edt_pw.getText().toString().equals("") ){
             String aaa = "";
+            userFragment.edt_pw.requestFocus();
             builder.setTitle("비밀번호를 입력해주세요").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
+
+                    padup( userFragment.edt_pw );
 
                 }
             });
@@ -437,22 +448,26 @@ public class JoinMainActivity extends AppCompatActivity {
             alertDialog.show();
         }else if ( userFragment.edt_pwchk.getText().toString().equals("") ){
             String aaa = "";
+            userFragment.edt_pwchk.requestFocus();
             builder.setTitle("비밀번호를 입력해주세요").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
 
+                    padup( userFragment.edt_pwchk );
                 }
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }else if( !vo.getPw_chk().equals( vo.getPw() )  ) {
             String aaa = "";
+            userFragment.edt_pwchk.requestFocus();
             builder.setTitle("비밀번호가 일치하지않습니다").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
 
+                    padup( userFragment.edt_pwchk );
                 }
             });
             AlertDialog alertDialog = builder.create();
@@ -476,7 +491,7 @@ public class JoinMainActivity extends AppCompatActivity {
     }
 
     public boolean user() {
-        AskTask task = new AskTask("http://192.168.0.13", "user.join");
+        AskTask task = new AskTask("http://192.168.0.50", "user.join");
         String uuid = UUID.randomUUID().toString();
         babyInfoVO.setBaby_id(uuid);
         task.addParam("vo", gson.toJson( vo ) );
@@ -533,4 +548,11 @@ public class JoinMainActivity extends AppCompatActivity {
         alertDialog.show();
         Log.d("testt", "onClick: " + vo.getId() + "");
     }
+
+
+    public void padup(EditText edttext){
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.showSoftInput( edttext , 0 );
+    }
+
 }
