@@ -65,7 +65,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     LinearLayout edit_birth;
     TextView tv_birth, edit_ok;
     ImageView edit_cancel, imv_camera;
-    ImageView edit_photo;
+    RoundedImageView edit_photo;
     EditText edit_name;
     //Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("JST"));
     private  DatePickerDialog.OnDateSetListener callbackMethod;
@@ -100,13 +100,12 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         btn_save = rootView.findViewById(R.id.btn_save);
         btn_del = rootView.findViewById(R.id.btn_del);
         edit_ok = rootView.findViewById(R.id.edit_ok);
-        //imv_camera = rootView.findViewById(R.id.imv_camera);
+        imv_camera = rootView.findViewById(R.id.imv_camera);
 
 
         //초기 세팅
         if(vo.getBaby_photo() == null){
-            //edit_photo.setVisibility(View.GONE);
-            edit_photo.setImageResource(R.drawable.bss_logo);
+            edit_photo.setVisibility(View.GONE);
         } else{
             edit_photo.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(vo.getBaby_photo()).into(edit_photo);
@@ -299,7 +298,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         });
 
         //사진
-        edit_photo.setOnClickListener(new View.OnClickListener() {
+        imv_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog();
