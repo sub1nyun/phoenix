@@ -3,6 +3,7 @@ package com.example.test.sns;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,10 @@ import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHolder> {
@@ -98,10 +102,16 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
                    public void onClick(DialogInterface dialog, int which) {
                         AskTask editTask = new AskTask(CommonVal.httpip, "update.sn");
                         Gson gson = new Gson();
+                        editTask.addParam("no", growthVOS.get(position).getGro_no()+"");
+                        InputStream in = CommonMethod.excuteGet(editTask);
 
-                        String testvo =  gson.toJson(growthVOS);
-                        editTask.addParam("vo", testvo);
-                        CommonMethod.excuteGet(editTask);
+                        GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
+                        String test = "";
+                        Intent intent = new Intent(activity, SnsNewActivity.class);
+                        intent.putExtra("vo",gson.toJson(vo));
+                        activity.startActivityForResult(intent, 7);
+
+
                         //수정하고 이동
                         activity.changeFrag(new SnsFragment(activity));
                     }

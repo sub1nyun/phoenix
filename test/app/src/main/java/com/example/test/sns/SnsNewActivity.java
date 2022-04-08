@@ -63,15 +63,24 @@ public class SnsNewActivity extends AppCompatActivity {
     MainActivity activity;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sns_new);
         checkDangerousPermissions();
 
+
+        Intent intent = getIntent();
+        GrowthVO vo = (GrowthVO) intent.getSerializableExtra("vo");
+        if(vo != null) {
+            imgFilePathList = vo.getImgList();
+
+        }
+
         binding();
 
-        btn_clear.setVisibility(View.GONE);
+//        btn_clear.setVisibility(View.GONE);
         getImage.setOnClickListener(v -> {
             showDialog();
         });
@@ -107,13 +116,14 @@ public class SnsNewActivity extends AppCompatActivity {
         });
     }//onCreate
 
+
     private void binding() {
         sns_new_back = findViewById(R.id.sns_new_back);
         sns_new_share = findViewById(R.id.sns_new_share);
         sns_new_img_rec = findViewById(R.id.sns_new_img_rec);
         sns_new_text = findViewById(R.id.sns_new_text);
         getImage = findViewById(R.id.getImage);
-        btn_clear = findViewById(R.id.btn_clear);
+//        btn_clear = findViewById(R.id.btn_clear);
     }
 
     public void showDialog() {
@@ -199,10 +209,10 @@ public class SnsNewActivity extends AppCompatActivity {
         snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList, this);
         sns_new_img_rec.setAdapter(snsImgRecAdapter);
         sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
-        btn_clear.setVisibility(View.VISIBLE);
-        btn_clear.setOnClickListener(v -> {
-
-        });
+//        btn_clear.setVisibility(View.VISIBLE);
+//        btn_clear.setOnClickListener(v -> {
+//
+//        });
 
 
     }
