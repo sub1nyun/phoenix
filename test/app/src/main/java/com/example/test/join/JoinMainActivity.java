@@ -321,7 +321,7 @@ public class JoinMainActivity extends AppCompatActivity {
             if(str.equals("new")){
                 finish();
                 //JoinMainActivity.babyInfoVO = null;
-                MyFragment.my_spinner.setSelection(0);
+                //MyFragment.my_spinner.setSelection(0);
                 //JoinMainActivity.babyInfoVO = null;
             } else{
                 changeFrag( userFragment );
@@ -335,7 +335,7 @@ public class JoinMainActivity extends AppCompatActivity {
             if(str.equals("old")){
                 finish();
                 //JoinMainActivity.babyInfoVO = null;
-                MyFragment.my_spinner.setSelection(0);
+                //MyFragment.my_spinner.setSelection(0);
                 //JoinMainActivity.babyInfoVO = null;
             } else{
                 changeFrag( relationFragment );

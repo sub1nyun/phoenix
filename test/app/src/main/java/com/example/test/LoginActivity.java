@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
     ImageView btn_kakao;
-    Button btn_invite, btn_logout;
+    Button btn_logout;
 
 
     NidOAuthLoginButton naverlogin;
@@ -67,14 +67,6 @@ public class LoginActivity extends AppCompatActivity {
         NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
         binding();
-
-        ////초대 버튼 임시 생성
-        btn_invite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createDynamicLink();
-            }
-        });
 
         Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
             @Override
@@ -184,7 +176,6 @@ public class LoginActivity extends AppCompatActivity {
         btn_kakao = findViewById(R.id.btn_kakao);
         naverlogin = findViewById(R.id.btn_naver);
         btn_logout = findViewById(R.id.btn_logout);
-        btn_invite = findViewById(R.id.btn_invite);
     }
 
     public void naverLogin(){
