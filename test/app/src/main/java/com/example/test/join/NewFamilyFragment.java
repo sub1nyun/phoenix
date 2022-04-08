@@ -58,6 +58,7 @@ public class NewFamilyFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 JoinMainActivity.vo.setTitle( edt_title.getText().toString() );
+                JoinMainActivity.familyVO.setTitle(edt_title.getText().toString());
                 JoinMainActivity.babyInfoVO.setTitle( edt_title.getText().toString() );
                 title_valid();
                 valid_result();

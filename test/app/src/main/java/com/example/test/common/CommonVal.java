@@ -16,7 +16,6 @@ public class CommonVal {
     public static BabyInfoVO curbaby = new BabyInfoVO();
     public static List<String> family_title = new ArrayList<>();
     public static List<String> user_id = new ArrayList<>();
-    public static String curFamily;
     public static String user;
 }
 

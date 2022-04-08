@@ -12,13 +12,11 @@ public class CommonMethod {
 
     public static InputStream excuteGet(AsyncTask<String, String, InputStream> task){
         try {
-            in = task.execute().get(6000, TimeUnit.MILLISECONDS);
+            in = task.execute().get();
             return in;
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
             e.printStackTrace();
         }
         return null;

@@ -80,14 +80,16 @@ public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.ViewHolder>{
             my_diary_title_edit = itemView.findViewById(R.id.my_diary_title_edit);
             my_family = itemView.findViewById(R.id.my_family);
 
+            //공동육아
             my_family.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((MainActivity)context).backFrag(new CoParentFragment(coparent.get(getAdapterPosition())));
-                    ((MainActivity)context).changeFrag(new CoParentFragment(coparent.get(getAdapterPosition())));
+                    ((MainActivity)context).backFrag(new CoParentFragment(coparent.get(getAdapterPosition()), list.get(getAdapterPosition()).get(0).getTitle()));
+                    ((MainActivity)context).changeFrag(new CoParentFragment(coparent.get(getAdapterPosition()), list.get(getAdapterPosition()).get(0).getTitle()));
                 }
             });
 
+            //육아일기 수정
             my_diary_title_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -47,7 +47,7 @@ import retrofit2.http.GET;
 public class MyFragment extends Fragment{
     ImageView my_grow, my_setting;
     RecyclerView my_rcv1;
-    Spinner my_spinner;
+    public static Spinner my_spinner;
 
     String[] titlelist = new String[CommonVal.family_title.size() + 1];
     int select = 0;
@@ -173,6 +173,7 @@ public class MyFragment extends Fragment{
                     intent.putExtra("category", "old");
                 }
                 startActivity(intent);
+                ((MainActivity)getActivity()).finish();
             }
         }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override

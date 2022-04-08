@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +39,12 @@ public class CoParentFragment extends Fragment implements OnBackPressedListenser
     Button exit_family;
     ImageView family_back;
     List<FamilyInfoVO> list;
+    String title;
     Gson gson = new Gson();
 
-    public CoParentFragment(List<FamilyInfoVO> list) {
+    public CoParentFragment(List<FamilyInfoVO> list, String title) {
         this.list = list;
+        this.title = title;
     }
 
     @Override
@@ -65,15 +68,16 @@ public class CoParentFragment extends Fragment implements OnBackPressedListenser
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 AskTask task = new AskTask(CommonVal.httpip, "exit.family");
-                                task.addParam("title", CommonVal.curbaby.getTitle());
+                                Log.d("title", "onClick: " + title);
+                                task.addParam("title", title);
                                 task.addParam("id", CommonVal.curuser.getId());
-                                task.addParam("baby_id", CommonVal.curbaby.getBaby_id());
+                                //task.addParam("baby_id", CommonVal.curbaby.getBaby_id());
                                 InputStream in = CommonMethod.excuteGet(task);
-                                if (gson.fromJson(new InputStreamReader(in), new TypeToken<Boolean>(){}.getType())) { //육아일기 탈퇴 성공
+                                if (gson.fromJson(new InputStreamReader(in), Boolean.class)) { //육아일기 탈퇴 성공
                                     Toast.makeText(getContext(), "성공적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
 
                                     if(CommonVal.baby_list.size() == 1){
-                                        CommonVal.baby_list = null;
+                                        CommonVal.baby_list.clear();
                                         CommonVal.curbaby = null;
                                         ((MainActivity)getActivity()).changeFrag(new AddFragment());
                                     } else{
@@ -82,6 +86,8 @@ public class CoParentFragment extends Fragment implements OnBackPressedListenser
                                         InputStream in_re = CommonMethod.excuteGet(task_re);
                                         CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>(){}.getType());
                                         CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                        CommonVal.family_title.remove(title);
+
                                         ((MainActivity) getActivity()).changeFrag(new MyFragment());
                                     }
                                 } else { //육아일기 탈퇴 실패

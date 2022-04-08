@@ -69,19 +69,18 @@ public class MainActivity extends AppCompatActivity {
         tab_sns = findViewById(R.id.tab_sns);
         tab_my = findViewById(R.id.tab_my);
 
-        if (CommonVal.baby_list == null) {
+        if (CommonVal.baby_list.size() == 0) {
             changeFrag(new AddFragment());
+        }else {
+            changeFrag(new DiaryFragment());
         }
-
-        changeFrag(new DiaryFragment());
-
 
 
         tab_main.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
-                    if (CommonVal.baby_list == null) {
+                    if (CommonVal.baby_list.size() == 0) {
                         changeFrag(new AddFragment());
                     } else {
                         fragment = new DiaryFragment();
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     changeFrag(fragment);
                     position = 2;
                 } else if (tab.getPosition() == 3) {
-                    if (CommonVal.baby_list == null) {
+                    if (CommonVal.baby_list.size() == 0) {
                         changeFrag(new AddFragment());
                     } else {
                         fragment = new SnsFragment(MainActivity.this);
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                         position = 3;
                     }
                 } else if (tab.getPosition() == 4) {
-                    if (CommonVal.baby_list == null) {
+                    if (CommonVal.baby_list.size() == 0) {
                         changeFrag(new AddFragment());
                     } else {
                         fragment = new MyFragment();

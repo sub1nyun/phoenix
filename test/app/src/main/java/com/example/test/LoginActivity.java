@@ -102,8 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
 
                     //로그인 정보 저장
-                    CommonVal.curuser.setId("a");
-                    CommonVal.curuser.setPw("a");
+                    CommonVal.curuser.setId("a2");
+                    CommonVal.curuser.setPw("a2");
 
                     //초대로 왔을 때
                     if(invite_title != null){
@@ -125,14 +125,15 @@ public class LoginActivity extends AppCompatActivity {
                     task.addParam("id", CommonVal.curuser.getId());
                     InputStream in = CommonMethod.excuteGet(task);
                     CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                    CommonVal.curbaby = CommonVal.baby_list.get(0);
+                    if(CommonVal.baby_list.size() != 0) {
+                        CommonVal.curbaby = CommonVal.baby_list.get(0);
+                    }
 
                    // 가족정보 불러오기
                     task = new AskTask(CommonVal.httpip, "titlelist.us");
                     task.addParam("id", CommonVal.curuser.getId());
                     in = CommonMethod.excuteGet(task);
                     CommonVal.family_title = gson.fromJson(new InputStreamReader(in), new TypeToken<List<String>>(){}.getType());
-                    CommonVal.curFamily =  CommonVal.family_title.get(0);
 
                    finish();
                 }

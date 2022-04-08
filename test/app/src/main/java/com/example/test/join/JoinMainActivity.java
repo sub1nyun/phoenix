@@ -45,10 +45,10 @@ public class JoinMainActivity extends AppCompatActivity {
     List<UserVO> list;
     UserFragment userFragment = new UserFragment();
     NewFamilyFragment newFamilyFragment = new NewFamilyFragment(JoinMainActivity.this);
-    RelationFragment relationFragment = new RelationFragment();
-    BirthFragment birthFragment = new BirthFragment();
+//    RelationFragment relationFragment = new RelationFragment();
+//    BirthFragment birthFragment = new BirthFragment();
     BabyFragment babyFragment = new BabyFragment();
-    GenderFragment genderFragment = new GenderFragment();
+//    GenderFragment genderFragment = new GenderFragment();
     PictureFragment pictureFragment = new PictureFragment();
     static int title_result = 0;
     static int result = 0;
@@ -127,7 +127,7 @@ public class JoinMainActivity extends AppCompatActivity {
                 changeFrag( new RelationFragment() );
                 go++;
             }
-            if( newFamilyFragment.result==0 ){
+            else if( newFamilyFragment.result==0 ){
                 altdialog("입력한 제목을 확인해주세요" , "");
             }
         }else if( go==3 ){
@@ -193,7 +193,6 @@ public class JoinMainActivity extends AppCompatActivity {
                                     CommonVal.baby_list.add(JoinMainActivity.babyInfoVO);
                                     CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
                                     CommonVal.family_title.add(JoinMainActivity.babyInfoVO.getTitle());
-                                    CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
 
                                     Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                     startActivity(intent);
@@ -220,6 +219,8 @@ public class JoinMainActivity extends AppCompatActivity {
                         if(str != null){
                             boolean result2 = false;
                             babyInfoVO.setId(CommonVal.curuser.getId());
+                            String uuid = UUID.randomUUID().toString();
+                            babyInfoVO.setBaby_id(uuid);
                             if(str.equals("new")){
                                 AskTask task = new AskTask(CommonVal.httpip, "insert_new.join");
                                 task.addParam("familyvo", gson.toJson(familyVO));
@@ -234,19 +235,20 @@ public class JoinMainActivity extends AppCompatActivity {
                             }
                             if(result2){
                                 CommonVal.curuser.setId(familyVO.getId());
+
                                 //아기리스트
                                 AskTask task_baby = new AskTask(CommonVal.httpip, "list.bif");
                                 task_baby.addParam("id", CommonVal.curuser.getId());
                                 InputStream in_baby = CommonMethod.excuteGet(task_baby);
                                 CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_baby), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                                CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                //CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                CommonVal.curbaby = babyInfoVO;
 
                                 //육아일기제목 리스트
                                 AskTask task_title = new AskTask(CommonVal.httpip, "titlelist.us");
                                 task_title.addParam("id", CommonVal.curuser.getId());
                                 InputStream in_title = CommonMethod.excuteGet(task_title);
                                 CommonVal.family_title = gson.fromJson(new InputStreamReader(in_title), new TypeToken<List<String>>(){}.getType());
-                                CommonVal.curFamily =  CommonVal.family_title.get(0);
 
                                 Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                 startActivity(intent);
@@ -303,7 +305,6 @@ public class JoinMainActivity extends AppCompatActivity {
 
                                 //CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
 
-                                CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
                                 CommonVal.family_title.add(JoinMainActivity.babyInfoVO.getTitle());
                                 Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                 startActivity(intent);
@@ -330,7 +331,7 @@ public class JoinMainActivity extends AppCompatActivity {
             if(str != null){
                 if(str.equals("new")){
                     finish();
-                    //MyFragment.my_spinner.setSelection(0);
+                    MyFragment.my_spinner.setSelection(0);
                 }
             }
             else{
@@ -345,7 +346,7 @@ public class JoinMainActivity extends AppCompatActivity {
             if(str != null){
                 if(str.equals("old")){
                     finish();
-                    //MyFragment.my_spinner.setSelection(0);
+                    MyFragment.my_spinner.setSelection(0);
                 }
             }
             else{
@@ -388,7 +389,7 @@ public class JoinMainActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int id)
-            { finish(); }
+            { finish();}
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
             @Override

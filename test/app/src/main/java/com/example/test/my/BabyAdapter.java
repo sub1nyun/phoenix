@@ -71,6 +71,7 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
             baby_imgv = itemView.findViewById(R.id.baby_imgv);
             baby_edit = itemView.findViewById(R.id.baby_edit);
 
+            //아기정보 수정 페이지로 이동
             baby_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
