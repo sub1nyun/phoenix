@@ -27,6 +27,7 @@ import com.example.test.common.CommonVal;
 import com.example.test.diary.BodyFragment;
 import com.example.test.diary.DiaryFragment;
 import com.example.test.home.HomeActivity;
+import com.example.test.my.CoParentFragment;
 import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
 import com.example.test.sns.GrowthVO;
@@ -191,6 +192,8 @@ public class MainActivity extends AppCompatActivity {
         if (fragment.getClass() == EditFragment.class) {
             ((OnBackPressedListenser) fragment).onBackPressed();
         } else if (fragment.getClass() == BodyFragment.class) {
+            ((OnBackPressedListenser) fragment).onBackPressed();
+        } else if (fragment.getClass() == CoParentFragment.class) {
             ((OnBackPressedListenser) fragment).onBackPressed();
         } else {
             if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {

@@ -30,7 +30,7 @@
             android:layout_marginRight="5dp"/>
         <TextView
             android:id="@+id/tv_state"
-            android:layout_width="39dp"
+            android:layout_width="42dp"
             android:layout_height="wrap_content"
             android:text="기저귀"
             android:textColor="#111"/>

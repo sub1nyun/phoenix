@@ -49,8 +49,11 @@ public class BabySelectAdapter extends BaseAdapter {
         RoundedImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
         TextView baby_info_name = convertView.findViewById(R.id.baby_info_name);
         TextView baby_info_title = convertView.findViewById(R.id.baby_info_title);
+        ImageView imv_baby = convertView.findViewById(R.id.imv_baby);
+
 
         if(position == list.size()){
+            imv_baby.setVisibility(View.GONE);
             baby_info_photo.setImageResource(R.drawable.plus_baby);
             baby_info_name.setText("아이 추가");
             baby_info_title.setText("");
