@@ -33,6 +33,7 @@ public class NewFamilyFragment extends Fragment {
     int result = 0;
     Gson gson = new Gson();
 
+
     public NewFamilyFragment(Activity activity) {
         this.activity = activity;
     }
@@ -96,6 +97,7 @@ public class NewFamilyFragment extends Fragment {
     //육아일기 유효성
     public boolean title_valid() {
         if (edt_title.getText().toString().equals("")) {
+            edt_title.requestFocus();
             title_check.setText("육아일기제목을 입력해주세요.");
             title_check.setTextColor(Color.parseColor("#FF4A4A"));
             return false;
@@ -156,4 +158,7 @@ public class NewFamilyFragment extends Fragment {
         super.onDestroy();
         JoinMainActivity.id_chk = 0;
     }
+
+
+
 }

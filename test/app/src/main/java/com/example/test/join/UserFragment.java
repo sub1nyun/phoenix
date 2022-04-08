@@ -107,11 +107,8 @@ public class UserFragment extends Fragment {
                             Toast.makeText(getContext(), "오류 발생!?" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                         if(oAuthToken != null){
-                            Toast.makeText(getContext(), "정보를 잘받아옴!", Toast.LENGTH_SHORT).show();
-
-
-
-                            //로그아웃
+                            Toast.makeText(getContext(), "카카오 로그인 페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
+                            //로그아웃 로직
                            /*UserApiClient.getInstance().logout(new Function1<Throwable, Unit>() {
                                 @Override
                                 public Unit invoke(Throwable error) {
@@ -141,11 +138,6 @@ public class UserFragment extends Fragment {
                                 }
                             });
 */
-
-
-
-
-
                             getKakaoInfo();
                         }
                         return null;
@@ -452,12 +444,12 @@ public class UserFragment extends Fragment {
                             //CommonVal.curuser = vo ;
                         //Intent intent = new Intent(LoginActivity.this , MainActivity.class);
                         //startActivity(intent);
-                        Toast.makeText(getContext(), "들어있음", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "정보를 가져옵니다.", Toast.LENGTH_SHORT).show();
                         JoinMainActivity.vo.setId( data );
                         JoinMainActivity.vo.setKakao_id( "Y" );
-                        altdialog("해당 아이디로 가입을 시작합니다.",  "아이디 : " +JoinMainActivity.vo.getId() );
+                        altdialog("해당 아이디로 가입을 시작합니다.",  "ID : " +JoinMainActivity.vo.getId() );
                     }else{
-                        Toast.makeText(getContext(), "안들어있음", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "정보를 가져오기 실패", Toast.LENGTH_SHORT).show();
                         //회원가입을 진행.
                         //Intent intent = new Intent(LoginActivity.this , JoinActivity.class);
                         //intent.putExtra("email" , email);
