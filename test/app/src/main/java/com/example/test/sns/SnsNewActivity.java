@@ -56,6 +56,7 @@ public class SnsNewActivity extends AppCompatActivity {
 
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;
+    Gson gson = new Gson();
 
     File imgFile = null;
     ArrayList<String> imgFilePathList = new ArrayList<>();
@@ -72,9 +73,16 @@ public class SnsNewActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        GrowthVO vo = (GrowthVO) intent.getSerializableExtra("vo");
+        String testdata = (String) intent.getSerializableExtra("vo");
+        gson = new Gson();
+        gson.toJson(testdata);
+        GrowthVO vo = gson.fromJson(testdata,GrowthVO.class);
+        String test = "";
         if(vo != null) {
             imgFilePathList = vo.getImgList();
+            snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList, this);
+            sns_new_img_rec.setAdapter(snsImgRecAdapter);
+            sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
 
         }
 
