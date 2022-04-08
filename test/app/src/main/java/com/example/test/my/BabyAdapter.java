@@ -47,7 +47,7 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
         holder.tv_body.setText(list.get(position).getBody());
 
         if(list.get(position).getBaby_photo() == null){
-            holder.baby_imgv.setImageResource(R.drawable.bss_logo);
+            holder.baby_imgv.setImageResource(R.drawable.baby_img);
         } else{
             Glide.with(context).load(CommonVal.curbaby.getBaby_photo()).into(holder.baby_imgv);
         }

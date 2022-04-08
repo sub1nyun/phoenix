@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/baby_edit"
     android:layout_marginBottom="20dp">
@@ -53,12 +54,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/baby_imgv"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:src="@drawable/bss_logo"
-                android:background="@drawable/border_round"/>
+                android:background="@drawable/border_round"/>-->
+            <androidx.cardview.widget.CardView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="100dp"
+                android:backgroundTint="#E2EDEF"
+                >
+                <ImageView
+                    android:id="@+id/baby_imgv"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/baby_img"
+                    android:layout_gravity="center"/>
+            </androidx.cardview.widget.CardView>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

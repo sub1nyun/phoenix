@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
     ImageView btn_kakao;
-    Button btn_invite, btn_logout;
+    Button btn_logout;
 
 
     NidOAuthLoginButton naverlogin;
@@ -139,14 +139,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-        btn_join.setOnClickListener(new View.OnClickListener() {
+        /*btn_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, JoinMainActivity.class);
                 startActivity(intent);
                 finish();
             }
-        });
+        });*/
         btn_forget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void binding() {
         btn_login = findViewById(R.id.btn_login);
-        btn_join = findViewById(R.id.btn_join);
+        //btn_join = findViewById(R.id.btn_join);
         btn_forget = findViewById(R.id.btn_forget);
         edt_id = findViewById(R.id.edt_id);
         edt_pw = findViewById(R.id.edt_pw);

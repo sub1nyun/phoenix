@@ -58,11 +58,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DiaryFragment extends Fragment {
     ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger
-            , imv_backday, imv_forwardday, imv_graph, imv_store, imv_invite;
+            , imv_backday, imv_forwardday, imv_graph, imv_store, imv_invite, imv_baby;
     TextView tv_today, tv_baby_gender, tv_baby_name, tv_baby_age, tv_none;
     Intent intent;
     RecyclerView rcv_diary;
-    CircleImageView imv_baby;
+    //CircleImageView imv_baby;
 
     final int CODE = 1000;
 
@@ -136,7 +136,7 @@ public class DiaryFragment extends Fragment {
         tv_baby_gender.setText(CommonVal.curbaby.getBaby_gender());
 
         if(CommonVal.curbaby.getBaby_photo() == null){
-            imv_baby.setImageResource(R.drawable.bss_logo);
+            imv_baby.setImageResource(R.drawable.baby_img);
         } else{
             Glide.with(getContext()).load(CommonVal.curbaby.getBaby_photo()).into(imv_baby);
         }

@@ -46,6 +46,7 @@ import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,7 +64,8 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     Button my_rels, btn_man, btn_woman, btn_save, btn_del;
     LinearLayout edit_birth;
     TextView tv_birth, edit_ok;
-    ImageView edit_cancel, edit_photo;
+    ImageView edit_cancel, imv_camera;
+    ImageView edit_photo;
     EditText edit_name;
     //Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("JST"));
     private  DatePickerDialog.OnDateSetListener callbackMethod;
@@ -98,12 +100,15 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         btn_save = rootView.findViewById(R.id.btn_save);
         btn_del = rootView.findViewById(R.id.btn_del);
         edit_ok = rootView.findViewById(R.id.edit_ok);
+        //imv_camera = rootView.findViewById(R.id.imv_camera);
 
 
         //초기 세팅
         if(vo.getBaby_photo() == null){
+            //edit_photo.setVisibility(View.GONE);
             edit_photo.setImageResource(R.drawable.bss_logo);
         } else{
+            edit_photo.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(vo.getBaby_photo()).into(edit_photo);
         }
         edit_name.setText(vo.getBaby_name());
@@ -159,6 +164,14 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                 }
                 task_save.addParam("family", gson.toJson(family));
                 InputStream in = CommonMethod.excuteGet(task_save);
+
+                //아기 리스트 불러오기
+                AskTask task = new AskTask(CommonVal.httpip, "list.bif");
+                //로그인 정보로 수정 필요
+                task.addParam("id", CommonVal.curuser.getId());
+                InputStream in_re = CommonMethod.excuteGet(task);
+                CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>(){}.getType());
+
                 ((MainActivity)getActivity()).changeFrag(new MyFragment());
             }
         });
@@ -379,8 +392,10 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == CAMERA_CODE && resultCode == getActivity().RESULT_OK){
+            edit_photo.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(imgFilePath).into(edit_photo);
         }else if(requestCode == GELLARY_CODE && resultCode == getActivity().RESULT_OK){
+            edit_photo.setVisibility(View.VISIBLE);
             Uri selectImageUri = data.getData();
             imgFilePath = getGalleryRealPath(selectImageUri);
             Glide.with(getContext()).load(imgFilePath).into(edit_photo);

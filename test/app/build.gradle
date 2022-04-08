@@ -22,6 +22,7 @@ android {
         }
     }
     compileOptions {
+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -105,9 +106,12 @@ dependencies {
     //cardview ysm 2022-04-07
     implementation 'androidx.cardview:cardview:1.0.0'
 
-
+    //shape imageView lsj,ysm 2022-04-08
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 
 }
+
+
 //초대링크 사용하려고 추가 LSJ 2022-03-08
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
