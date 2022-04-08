@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.test.AddFragment;
 import com.example.test.MainActivity;
+import com.example.test.OnBackPressedListenser;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CoParentFragment extends Fragment {
+public class CoParentFragment extends Fragment implements OnBackPressedListenser {
     RecyclerView rcv_co_parent;
     Button exit_family;
     ImageView family_back;
@@ -107,5 +108,10 @@ public class CoParentFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onBackPressed() {
+        family_back.callOnClick();
     }
 }

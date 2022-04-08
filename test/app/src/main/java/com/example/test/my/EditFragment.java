@@ -50,6 +50,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,7 +67,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     private  DatePickerDialog.OnDateSetListener callbackMethod;
     private TimePickerDialog.OnTimeSetListener callbackTime;
     int y=0, m=0, d=0, h=0, mi=0;
-    String[] span_item = {"카메라", "갤러리"};
+    String[] span_item = {"카메라", "갤러리", "기본사진"};
     public final int CAMERA_CODE = 1004;
     public final int GELLARY_CODE = 1005;
     File imgFile = null;
@@ -145,6 +147,9 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                 task_save.addParam("vo", gson.toJson(vo));
                 if(imgFilePath != null){
                     Toast.makeText(getContext(), imgFilePath, Toast.LENGTH_SHORT).show();
+                    /*if(imgFilePath.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")){
+
+                    }*/
                     task_save.addFileParam("file", imgFilePath);
                 }
                 task_save.addParam("family", gson.toJson(family));
@@ -239,8 +244,12 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                     public void onClick(DialogInterface dialog, int index) {
                         if(span_item[index].equals("카메라")){
                             go_Camera();
-                        }else{
+                        }else if(span_item[index].equals("갤러리")){
                             go_gallery();
+                        } else{
+                            //이미지 파일 널처리
+                            imgFile = null;
+                            imgFilePath = null;
                         }
                         dialog.dismiss();
                     }
