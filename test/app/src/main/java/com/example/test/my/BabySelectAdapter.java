@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -43,7 +44,8 @@ public class BabySelectAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = inflater.inflate(R.layout.my_spinner_item, parent, false);
-        CircleImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
+//        CircleImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
+        ImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
         TextView baby_info_name = convertView.findViewById(R.id.baby_info_name);
         TextView baby_info_title = convertView.findViewById(R.id.baby_info_title);
 
@@ -53,16 +55,13 @@ public class BabySelectAdapter extends BaseAdapter {
             baby_info_title.setText("");
         } else {
             if(list.get(position).getBaby_photo() == null){
-                baby_info_photo.setImageResource(R.drawable.bss_logo);
+                baby_info_photo.setImageResource(R.drawable.baby_img);
             } else{
                 Glide.with(context).load(list.get(position).getBaby_photo()).into(baby_info_photo);
             }
-            if(list.get(position).getTitle().length() < 8){
-                baby_info_title.setText(list.get(position).getTitle());
-            } else{
-                baby_info_title.setText(list.get(position).getTitle().substring(0, 8));
-            }
+
             baby_info_name.setText(list.get(position).getBaby_name());
+            baby_info_title.setText(list.get(position).getBaby_birth().split(" ")[0].substring(2).replace("-", "/"));
         }
 
         return convertView;

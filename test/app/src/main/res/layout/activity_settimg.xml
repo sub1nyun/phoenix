@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#44526C"
+        android:background="#FFB835"
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/setting_back"

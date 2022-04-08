@@ -50,10 +50,10 @@ public class BirthFragment extends Fragment {
             today.set(Integer.parseInt(strDate[0]), Integer.parseInt(strDate[1])-1, Integer.parseInt(strDate[2]), Integer.parseInt(strTime[0]), Integer.parseInt(strTime[1]));
         }else {
             JoinMainActivity.babyInfoVO.setBaby_birth( today.get(Calendar.YEAR) + "-" + String.format("%02d",(today.get(Calendar.MONTH)+1)) + "-" + String.format("%02d",today.get(Calendar.DATE)) + " "
-                    + String.format("%02d",today.get(Calendar.HOUR)) + ":" + String.format("%02d",today.get(Calendar.MINUTE))   );
+                    + String.format("%02d",today.get(Calendar.HOUR_OF_DAY)) + ":" + String.format("%02d",today.get(Calendar.MINUTE))   );
         }
         //JoinMainActivity.babyInfoVO.setBaby_birth(tv_bir.getText().toString());
-        tv_bir.setText(today.get(Calendar.YEAR) + "년 " + String.format("%02d",today.get(Calendar.MONTH)+1) + "월 " + String.format("%02d",today.get(Calendar.DATE)) + "일 " + String.format("%02d",today.get(Calendar.HOUR)) + "시 " + String.format("%02d",today.get(Calendar.MINUTE)) + "분");
+        tv_bir.setText(today.get(Calendar.YEAR) + "년 " + String.format("%02d",today.get(Calendar.MONTH)+1) + "월 " + String.format("%02d",today.get(Calendar.DATE)) + "일 " + String.format("%02d",today.get(Calendar.HOUR_OF_DAY)) + "시 " + String.format("%02d",today.get(Calendar.MINUTE)) + "분");
 
 
 
@@ -65,12 +65,10 @@ public class BirthFragment extends Fragment {
                 m = monthOfYear;
                 d = dayOfMonth;
 
-                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-                String time = sdf.format(new Date(System.currentTimeMillis()));
-                String times[] = new String[2];
-                times = time.split(":");
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), callbackTime, Integer.parseInt(times[0]), Integer.parseInt(times[1]), true);
-                timePickerDialog.show();
+
+                TimePickerDialog dialog = new TimePickerDialog(getContext(),android.R.style.Theme_Holo_Light_Dialog_NoActionBar, callbackTime, today.get(Calendar.HOUR_OF_DAY), today.get(Calendar.MINUTE), false);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialog.show();
             }
         };
 
@@ -79,7 +77,7 @@ public class BirthFragment extends Fragment {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 h = hourOfDay;
                 mi = minute;
-                today.set(y, m, d);
+                today.set(y, m, d, h, mi);
                 tv_bir.setText(y + "년 " + String.format("%02d",m + 1) + "월 " + String.format("%02d",d) + "일 " + String.format("%02d",h) + "시 " + String.format("%02d",mi) + "분 ");
                 //JoinMainActivity.vo.setBirth();
                 JoinMainActivity.babyInfoVO.setBaby_birth( y +"-" +String.format("%02d", m+1 )+"-" + String.format("%02d", d) + " " + String.format("%02d", h) + ":" + String.format("%02d", mi));

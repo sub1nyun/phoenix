@@ -37,6 +37,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.test.AddFragment;
 import com.example.test.MainActivity;
 import com.example.test.OnBackPressedListenser;
 import com.example.test.R;
@@ -45,27 +46,32 @@ import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 public class EditFragment extends Fragment implements OnBackPressedListenser {
-    Button my_rels, btn_man, btn_woman;
+    Button my_rels, btn_man, btn_woman, btn_save, btn_del;
     LinearLayout edit_birth;
-    TextView edit_ok, tv_birth;
-    ImageView edit_cancel, edit_photo;
+    TextView tv_birth, edit_ok;
+    ImageView edit_cancel, imv_camera;
+    ImageView edit_photo;
     EditText edit_name;
-    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("JST"));
+    //Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("JST"));
     private  DatePickerDialog.OnDateSetListener callbackMethod;
     private TimePickerDialog.OnTimeSetListener callbackTime;
     int y=0, m=0, d=0, h=0, mi=0;
-    String[] span_item = {"카메라", "갤러리"};
+    String[] span_item = {"카메라", "갤러리", "기본사진"};
     public final int CAMERA_CODE = 1004;
     public final int GELLARY_CODE = 1005;
     File imgFile = null;
@@ -87,16 +93,22 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         edit_birth = rootView.findViewById(R.id.edit_birth);
         tv_birth = rootView.findViewById(R.id.tv_birth);
         edit_cancel = rootView.findViewById(R.id.edit_cancel);
-        edit_ok = rootView.findViewById(R.id.edit_ok);
         edit_name = rootView.findViewById(R.id.edit_name);
         btn_man = rootView.findViewById(R.id.btn_man);
         btn_woman = rootView.findViewById(R.id.btn_woman);
         edit_photo = rootView.findViewById(R.id.edit_photo);
+        btn_save = rootView.findViewById(R.id.btn_save);
+        btn_del = rootView.findViewById(R.id.btn_del);
+        edit_ok = rootView.findViewById(R.id.edit_ok);
+        //imv_camera = rootView.findViewById(R.id.imv_camera);
+
 
         //초기 세팅
         if(vo.getBaby_photo() == null){
+            //edit_photo.setVisibility(View.GONE);
             edit_photo.setImageResource(R.drawable.bss_logo);
         } else{
+            edit_photo.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(vo.getBaby_photo()).into(edit_photo);
         }
         edit_name.setText(vo.getBaby_name());
@@ -134,7 +146,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         });
 
         //저장
-        edit_ok.setOnClickListener(new View.OnClickListener() {
+        btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //dto 수정
@@ -145,11 +157,89 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                 task_save.addParam("vo", gson.toJson(vo));
                 if(imgFilePath != null){
                     Toast.makeText(getContext(), imgFilePath, Toast.LENGTH_SHORT).show();
+                    /*if(imgFilePath.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")){
+
+                    }*/
                     task_save.addFileParam("file", imgFilePath);
                 }
                 task_save.addParam("family", gson.toJson(family));
                 InputStream in = CommonMethod.excuteGet(task_save);
+
+                //아기 리스트 불러오기
+                AskTask task = new AskTask(CommonVal.httpip, "list.bif");
+                //로그인 정보로 수정 필요
+                task.addParam("id", CommonVal.curuser.getId());
+                InputStream in_re = CommonMethod.excuteGet(task);
+                CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>(){}.getType());
+
                 ((MainActivity)getActivity()).changeFrag(new MyFragment());
+            }
+        });
+        edit_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_save.callOnClick();
+            }
+        });
+
+        //아이 정보 삭제
+        btn_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder_delete = new AlertDialog.Builder(getContext()).setTitle("아이 정보 삭제").setMessage("현재까지 기록한 아이 기록이 모두 사라집니다.\n정말 삭제하시겠습니까?")
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AskTask task_delete = new AskTask(CommonVal.httpip, "babydel.bif");
+                                task_delete.addParam("baby_id", vo.getBaby_id());
+                                task_delete.addParam("title", vo.getTitle());
+                                InputStream in = CommonMethod.excuteGet(task_delete);
+                                if(gson.fromJson(new InputStreamReader(in), Boolean.class)) { //아기 삭제 성공
+                                    Toast.makeText(getContext(), "아기 정보가 성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                    //아기 목록 다시 불러오기
+                                    if(CommonVal.baby_list.size() == 1){ //아기 1명을 삭제해서 더이상 아기 없음
+                                        AskTask task = new AskTask(CommonVal.httpip, "deltitle.bif");
+                                        task.addParam("title", vo.getTitle());
+                                        task.addParam("id", vo.getId());
+                                        InputStream del_in = CommonMethod.excuteGet(task); //육아일기 삭제
+
+                                        CommonVal.baby_list.clear();
+                                        CommonVal.curbaby = null;
+                                        //add 프래그먼트 띄우기
+                                        ((MainActivity)getActivity()).changeFrag(new AddFragment());
+                                    } else{ //아기 더 있으므로 다시 리스트 불러옴
+                                       CommonVal.baby_list.remove(vo);
+
+                                        int count = 0;
+                                        for (int i = 0; i < CommonVal.baby_list.size(); i++) { //현재 삭제한 아기가 있던 육아일기에 아기가 더 있는지 확인
+                                            if (CommonVal.baby_list.get(i).getTitle().equals(vo.getTitle())) { //육아일기에 아기가 더 있음
+                                                count += 1;
+                                            }
+                                        }
+
+                                        if (count == 0) {
+                                            AskTask task = new AskTask(CommonVal.httpip, "deltitle.bif");
+                                            task.addParam("title", vo.getTitle());
+                                            task.addParam("id", vo.getId());
+                                            InputStream del_in = CommonMethod.excuteGet(task);
+                                        }
+                                        CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                        CommonVal.family_title.remove(vo.getTitle());
+
+                                        ((MainActivity) getActivity()).changeFrag(new MyFragment());
+                                    }
+                                } else{ //아기 삭제 실패
+                                    Toast.makeText(getContext(), "아기 정보 삭제를 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                AlertDialog alertDialog = builder_delete.create();
+                alertDialog.show();
             }
         });
 
@@ -173,15 +263,15 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 y = year;
-                m = monthOfYear + 1;
+                m = monthOfYear+1;
                 d = dayOfMonth;
 
-                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-                String time = sdf.format(new Date(System.currentTimeMillis()));
+                String time = vo.getBaby_birth().split(" ")[1];
                 String times[] = new String[2];
                 times = time.split(":");
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), callbackTime, Integer.parseInt(times[0]), Integer.parseInt(times[1]), true);
-                timePickerDialog.show();
+                TimePickerDialog dialog = new TimePickerDialog(getContext(),android.R.style.Theme_Holo_Light_Dialog_NoActionBar, callbackTime, Integer.parseInt(times[0]), Integer.parseInt(times[1]), false);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialog.show();
             }
         };
 
@@ -199,7 +289,11 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         edit_birth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callbackMethod, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
+                String date = vo.getBaby_birth().split(" ")[0];
+                String dates[] = new String[3];
+                dates = date.split("-");
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callbackMethod, Integer.parseInt(dates[0]), Integer.parseInt(dates[1])-1, Integer.parseInt(dates[2]));
                 datePickerDialog.show();
             }
         });
@@ -239,8 +333,12 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                     public void onClick(DialogInterface dialog, int index) {
                         if(span_item[index].equals("카메라")){
                             go_Camera();
-                        }else{
+                        }else if(span_item[index].equals("갤러리")){
                             go_gallery();
+                        } else{
+                            //이미지 파일 널처리
+                            imgFile = null;
+                            imgFilePath = null;
                         }
                         dialog.dismiss();
                     }
@@ -294,8 +392,10 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == CAMERA_CODE && resultCode == getActivity().RESULT_OK){
+            edit_photo.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(imgFilePath).into(edit_photo);
         }else if(requestCode == GELLARY_CODE && resultCode == getActivity().RESULT_OK){
+            edit_photo.setVisibility(View.VISIBLE);
             Uri selectImageUri = data.getData();
             imgFilePath = getGalleryRealPath(selectImageUri);
             Glide.with(getContext()).load(imgFilePath).into(edit_photo);

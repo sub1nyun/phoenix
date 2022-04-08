@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
     ImageView btn_kakao;
-    Button btn_invite, btn_logout;
+    Button btn_logout;
 
 
     NidOAuthLoginButton naverlogin;
@@ -102,8 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
 
                     //로그인 정보 저장
-                    CommonVal.curuser.setId("a");
-                    CommonVal.curuser.setPw("a");
+                    CommonVal.curuser.setId("a4");
+                    CommonVal.curuser.setPw("a4");
 
                     //초대로 왔을 때
                     if(invite_title != null){
@@ -125,27 +125,28 @@ public class LoginActivity extends AppCompatActivity {
                     task.addParam("id", CommonVal.curuser.getId());
                     InputStream in = CommonMethod.excuteGet(task);
                     CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                    CommonVal.curbaby = CommonVal.baby_list.get(0);
+                    if(CommonVal.baby_list.size() != 0) {
+                        CommonVal.curbaby = CommonVal.baby_list.get(0);
+                    }
 
                    // 가족정보 불러오기
                     task = new AskTask(CommonVal.httpip, "titlelist.us");
                     task.addParam("id", CommonVal.curuser.getId());
                     in = CommonMethod.excuteGet(task);
                     CommonVal.family_title = gson.fromJson(new InputStreamReader(in), new TypeToken<List<String>>(){}.getType());
-                    CommonVal.curFamily =  CommonVal.family_title.get(0);
 
                    finish();
                 }
             }
         });
-        btn_join.setOnClickListener(new View.OnClickListener() {
+        /*btn_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, JoinMainActivity.class);
                 startActivity(intent);
                 finish();
             }
-        });
+        });*/
         btn_forget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void binding() {
         btn_login = findViewById(R.id.btn_login);
-        btn_join = findViewById(R.id.btn_join);
+        //btn_join = findViewById(R.id.btn_join);
         btn_forget = findViewById(R.id.btn_forget);
         edt_id = findViewById(R.id.edt_id);
         edt_pw = findViewById(R.id.edt_pw);

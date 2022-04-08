@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 public class BabyInfoVO implements Serializable {
-	String baby_id, title, baby_name, baby_photo, baby_gender, id;
+	String baby_id, title, baby_name, baby_photo, baby_gender, id, body;
 	String baby_birth;
 
 	public String getId() { return id; }
@@ -57,5 +57,13 @@ public class BabyInfoVO implements Serializable {
 
 	public void setBaby_birth(String baby_birth) {
 		this.baby_birth = baby_birth;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
 	}
 }
