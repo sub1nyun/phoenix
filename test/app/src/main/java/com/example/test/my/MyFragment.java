@@ -83,9 +83,6 @@ public class MyFragment extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == CommonVal.baby_list.size()){ //아기 추가 아이콘
-                    Log.d("ad", "onItemSelected: " + position);
-                    Log.d("ad", "onItemSelected: " + CommonVal.baby_list.size());
-                    String a ="";
                     InsertDialog(view);
                 } else {
                     CommonVal.curbaby = CommonVal.baby_list.get(position);
