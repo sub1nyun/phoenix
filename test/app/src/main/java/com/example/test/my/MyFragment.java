@@ -62,6 +62,11 @@ public class MyFragment extends Fragment{
         my_rcv1 = rootView.findViewById(R.id.my_rcv1);
         my_spinner = rootView.findViewById(R.id.my_spinner);
 
+        for(int i=0; i<titlelist.length; i++){
+            if(i == titlelist.length-1) titlelist[i] = "새로운 육아일기";
+            else titlelist[i] = CommonVal.family_title.get(i);
+        }
+
         //아기 선택
         BabySelectAdapter babySelectAdapter = new BabySelectAdapter(CommonVal.baby_list, inflater, getContext());
         my_spinner.setAdapter(babySelectAdapter);
@@ -78,6 +83,9 @@ public class MyFragment extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == CommonVal.baby_list.size()){ //아기 추가 아이콘
+                    Log.d("ad", "onItemSelected: " + position);
+                    Log.d("ad", "onItemSelected: " + CommonVal.baby_list.size());
+                    String a ="";
                     InsertDialog(view);
                 } else {
                     CommonVal.curbaby = CommonVal.baby_list.get(position);
@@ -122,6 +130,8 @@ public class MyFragment extends Fragment{
                 }
             }
         }
+
+        Log.d("asd", "onCreateView: " + CommonVal.family_title.size());
 
         List<List<BabyInfoVO>> temp = new ArrayList<>();
         for(int i=0; i<CommonVal.family_title.size(); i++){
