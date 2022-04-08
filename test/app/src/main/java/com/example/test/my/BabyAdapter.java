@@ -17,6 +17,7 @@ import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
@@ -47,9 +48,10 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
         holder.tv_body.setText(list.get(position).getBody());
 
         if(list.get(position).getBaby_photo() == null){
-            holder.baby_imgv.setImageResource(R.drawable.baby_img);
+            holder.baby_imgv.setVisibility(View.GONE);
         } else{
-            Glide.with(context).load(CommonVal.curbaby.getBaby_photo()).into(holder.baby_imgv);
+            holder.baby_imgv.setVisibility(View.VISIBLE);
+            Glide.with(context).load(list.get(position).getBaby_photo()).into(holder.baby_imgv);
         }
     }
 
@@ -60,7 +62,7 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tv_name, tv_gender, tv_my_birth, tv_body;
-        ImageView baby_imgv;
+        RoundedImageView baby_imgv;
         LinearLayout baby_edit;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

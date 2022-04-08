@@ -71,20 +71,33 @@
                     app:civ_circle_background_color="#E2EDEF"
                     android:src="@drawable/baby_img"
                     />-->
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="100dp"
-                    app:cardElevation="0dp"
                     android:layout_height="100dp"
-                    app:cardCornerRadius="100dp"
-                    android:backgroundTint="#E2EDEF"
+                    android:layout_gravity="center"
                     >
-                    <ImageView
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="100dp"
+                        app:cardElevation="0dp"
+                        android:backgroundTint="#E2EDEF"
+                        >
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:src="@drawable/baby_img"
+                            android:layout_gravity="center"/>
+                    </androidx.cardview.widget.CardView>
+                    <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/imv_baby"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/baby_img"
-                        android:layout_gravity="center"/>
-                </androidx.cardview.widget.CardView>
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_launcher_background"
+                        app:riv_corner_radius="30dp"
+                        android:scaleType="fitXY"
+                        />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_marginLeft="25dp"

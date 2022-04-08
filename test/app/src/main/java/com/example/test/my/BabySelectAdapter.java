@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.test.R;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class BabySelectAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = inflater.inflate(R.layout.my_spinner_item, parent, false);
 //        CircleImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
-        ImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
+        RoundedImageView baby_info_photo = convertView.findViewById(R.id.baby_info_photo);
         TextView baby_info_name = convertView.findViewById(R.id.baby_info_name);
         TextView baby_info_title = convertView.findViewById(R.id.baby_info_title);
 
@@ -55,8 +56,9 @@ public class BabySelectAdapter extends BaseAdapter {
             baby_info_title.setText("");
         } else {
             if(list.get(position).getBaby_photo() == null){
-                baby_info_photo.setImageResource(R.drawable.baby_img);
+                baby_info_photo.setVisibility(View.GONE);
             } else{
+                baby_info_photo.setVisibility(View.VISIBLE);
                 Glide.with(context).load(list.get(position).getBaby_photo()).into(baby_info_photo);
             }
 

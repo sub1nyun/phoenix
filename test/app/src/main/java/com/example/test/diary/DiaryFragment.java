@@ -42,6 +42,7 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 
 import java.io.InputStream;
@@ -58,7 +59,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DiaryFragment extends Fragment {
     ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger
-            , imv_backday, imv_forwardday, imv_graph, imv_store, imv_invite, imv_baby;
+            , imv_backday, imv_forwardday, imv_graph, imv_store, imv_invite;
+    RoundedImageView imv_baby;
     TextView tv_today, tv_baby_gender, tv_baby_name, tv_baby_age, tv_none;
     Intent intent;
     RecyclerView rcv_diary;
@@ -136,8 +138,9 @@ public class DiaryFragment extends Fragment {
         tv_baby_gender.setText(CommonVal.curbaby.getBaby_gender());
 
         if(CommonVal.curbaby.getBaby_photo() == null){
-            imv_baby.setImageResource(R.drawable.baby_img);
+            imv_baby.setVisibility(View.GONE);
         } else{
+            imv_baby.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(CommonVal.curbaby.getBaby_photo()).into(imv_baby);
         }
 
