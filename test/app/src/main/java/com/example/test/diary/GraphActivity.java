@@ -64,6 +64,9 @@ public class GraphActivity extends AppCompatActivity{
         tab_graph = findViewById(R.id.tab_graph);
         back_graph = findViewById(R.id.back_graph);
 
+        lineChart.setNoDataText("그래프를 그릴 수 있는 데이터가 충분하지 않습니다.");
+        lineChart.setNoDataTextColor(Color.parseColor("#111111"));
+
         AskTask task_heat = new AskTask(CommonVal.httpip, "select_heat.stor");
         task_heat.addParam("baby_id", CommonVal.curbaby.getBaby_id());
         InputStream in_heat = CommonMethod.excuteGet(task_heat);
@@ -78,11 +81,15 @@ public class GraphActivity extends AppCompatActivity{
         date.clear();
         values.clear();
         if(list_heat.size() != 0){
-            for (int i = 0; i < list_heat.size(); i++) {
-                date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date().split("-")[1] + "-" + list_heat.get(i).getDiary_date().split("-")[2]);
-                values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
+            if(list_heat.size() == 1){
+
+            } else {
+                for (int i = 0; i < list_heat.size(); i++) {
+                    date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date().split("-")[1] + "-" + list_heat.get(i).getDiary_date().split("-")[2]);
+                    values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
+                }
+                makeChart(values, date, "heat");
             }
-            makeChart(values, date, "heat");
         }
 
         tab_graph.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -93,34 +100,44 @@ public class GraphActivity extends AppCompatActivity{
                     date.clear();
                     values.clear();
                     if(list_heat.size() != 0){
-                        for (int i = 0; i < list_heat.size(); i++) {
-                            date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date().split("-")[1] + "-" + list_heat.get(i).getDiary_date().split("-")[2]);
-                            //date.add(list_heat.get(i).getStart_time());
-                            values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
+                        if(list_heat.size() == 1){
+
+                        } else {
+                            for (int i = 0; i < list_heat.size(); i++) {
+                                date.add(list_heat.get(i).getStart_time() + "," + list_heat.get(i).getDiary_date().split("-")[1] + "-" + list_heat.get(i).getDiary_date().split("-")[2]);
+                                //date.add(list_heat.get(i).getStart_time());
+                                values.add(new Entry(i, (float) list_heat.get(i).getTemperature()));
+                            }
+                            makeChart(values, date, "heat");
                         }
-                        makeChart(values, date, "heat");
                     }
                 } else if(tab.getPosition() == 1){ //키
                     lineChart.clear();
                     date.clear();
                     values.clear();
                     if(list_body.size() != 0){
-                        for (int i = 0; i < list_body.size(); i++) {
-                            date.add(list_body.get(i).getStor_date().split("-")[1] + "-" + list_body.get(i).getStor_date().split("-")[2]);
-                            values.add(new Entry(i, (float) list_body.get(i).getStor_cm()));
+                        if(list_body.size() == 1){
+                        } else {
+                            for (int i = 0; i < list_body.size(); i++) {
+                                date.add(list_body.get(i).getStor_date().split("-")[1] + "-" + list_body.get(i).getStor_date().split("-")[2]);
+                                values.add(new Entry(i, (float) list_body.get(i).getStor_cm()));
+                            }
+                            makeChart(values, date, "cm");
                         }
-                        makeChart(values, date, "cm");
                     }
                 } else if(tab.getPosition() == 2){ //몸무게
                     lineChart.clear();
                     date.clear();
                     values.clear();
                     if(list_body.size() != 0){
-                        for (int i = 0; i < list_body.size(); i++){
-                            date.add(list_body.get(i).getStor_date().split("-")[1] + "-" + list_body.get(i).getStor_date().split("-")[2]);
-                            values.add(new Entry(i, (float)list_body.get(i).getStor_kg()));
+                        if(list_body.size() == 1){
+                        } else {
+                            for (int i = 0; i < list_body.size(); i++) {
+                                date.add(list_body.get(i).getStor_date().split("-")[1] + "-" + list_body.get(i).getStor_date().split("-")[2]);
+                                values.add(new Entry(i, (float) list_body.get(i).getStor_kg()));
+                            }
+                            makeChart(values, date, "kg");
                         }
-                        makeChart(values, date, "kg");
                     }
                 }
             }
@@ -225,8 +242,6 @@ public class GraphActivity extends AppCompatActivity{
         yRAxis.setDrawAxisLine(false);
         yRAxis.setDrawGridLines(false);
         yLAxis.setTextSize(13);
-        /*Description description = new Description();
-        description.setText("");*/
 
         MyMarker mm = new MyMarker(this, R.layout.custom_marker, category, date);
         mm.setChartView(lineChart);
@@ -307,7 +322,7 @@ public class GraphActivity extends AppCompatActivity{
                 float x = positions[i];
 
                 if (mViewPortHandler.isInBoundsX(x)) {
-                    String label = topValueFormatter.getFormattedValue(mXAxis.mEntries[i / 2], mXAxis);
+                    String label = topValueFormatter.getFormattedValue(mXAxis.mEntries[i/2], mXAxis);
                     if (mXAxis.isAvoidFirstLastClippingEnabled()) {
                         if (i == mXAxis.mEntryCount - 1 && mXAxis.mEntryCount > 1) {
                             float width = Utils.calcTextWidth(mAxisLabelPaint, label);

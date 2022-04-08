@@ -198,8 +198,11 @@ public class JoinMainActivity extends AppCompatActivity {
                                 }
                             }else{
                                 if(user()){
+                                    CommonVal.baby_list.add(JoinMainActivity.babyInfoVO);
                                     CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
+                                    CommonVal.family_title.add(JoinMainActivity.babyInfoVO.getTitle());
                                     CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
+
                                     Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                     startActivity(intent);
                                     finish();
@@ -239,12 +242,14 @@ public class JoinMainActivity extends AppCompatActivity {
                             }
                             if(result2){
                                 CommonVal.curuser.setId(familyVO.getId());
+                                //아기리스트
                                 AskTask task_baby = new AskTask(CommonVal.httpip, "list.bif");
                                 task_baby.addParam("id", CommonVal.curuser.getId());
                                 InputStream in_baby = CommonMethod.excuteGet(task_baby);
                                 CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_baby), new TypeToken<List<BabyInfoVO>>(){}.getType());
                                 CommonVal.curbaby = CommonVal.baby_list.get(0);
 
+                                //육아일기제목 리스트
                                 AskTask task_title = new AskTask(CommonVal.httpip, "titlelist.us");
                                 task_title.addParam("id", CommonVal.curuser.getId());
                                 InputStream in_title = CommonMethod.excuteGet(task_title);
@@ -260,7 +265,7 @@ public class JoinMainActivity extends AppCompatActivity {
                             }
                         }
                         //      회원가입 들어가는 부분
-                        else if(family_id != null){
+                        /*else if(family_id != null){
                             AskTask invite_task1 = new AskTask(CommonVal.httpip, "user_join.us");
                             Gson gson = new Gson();
                             invite_task1.addParam("vo", gson.toJson(CommonVal.curuser));
@@ -290,7 +295,7 @@ public class JoinMainActivity extends AppCompatActivity {
                                     finish();
                                 }
                             }
-                        }else{
+                        }*/else{
                             if(user()){
                                 /*CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
                                 CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
@@ -307,6 +312,7 @@ public class JoinMainActivity extends AppCompatActivity {
                                 //CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
 
                                 CommonVal.curFamily = JoinMainActivity.babyInfoVO.getTitle() ;
+                                CommonVal.family_title.add(JoinMainActivity.babyInfoVO.getTitle());
                                 Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
                                 startActivity(intent);
                                 finish();
@@ -332,7 +338,7 @@ public class JoinMainActivity extends AppCompatActivity {
             if(str != null){
                 if(str.equals("new")){
                     finish();
-                    MyFragment.my_spinner.setSelection(0);
+                    //MyFragment.my_spinner.setSelection(0);
                 }
             }
             else{
@@ -347,7 +353,7 @@ public class JoinMainActivity extends AppCompatActivity {
             if(str != null){
                 if(str.equals("old")){
                     finish();
-                    MyFragment.my_spinner.setSelection(0);
+                    //MyFragment.my_spinner.setSelection(0);
                 }
             }
             else{
@@ -491,7 +497,7 @@ public class JoinMainActivity extends AppCompatActivity {
     }
 
     public boolean user() {
-        AskTask task = new AskTask("http://192.168.0.50", "user.join");
+        AskTask task = new AskTask(CommonVal.httpip, "user.join");
         String uuid = UUID.randomUUID().toString();
         babyInfoVO.setBaby_id(uuid);
         task.addParam("vo", gson.toJson( vo ) );
