@@ -4,11 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+
     <ImageView
         android:id="@+id/gro_rec"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="fitXY"
-        android:src="@drawable/bss_logo"/>
+        android:src="@drawable/baby_logo"/>
 
 </LinearLayout>

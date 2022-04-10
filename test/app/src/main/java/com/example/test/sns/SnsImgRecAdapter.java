@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
 import com.example.test.R;
 
@@ -58,6 +57,7 @@ public class SnsImgRecAdapter extends RecyclerView.Adapter<SnsImgRecAdapter.View
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             sns_new_img_rec_imv =itemView.findViewById(R.id.sns_new_img_rec_imv);
+
         }
     }
 }

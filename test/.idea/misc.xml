@@ -48,9 +48,19 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/view_loader.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/menu/line.xml" value="0.1796875" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/menu/sns_submenu.xml" value="0.36614583333333334" />
+        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/activity_edit.xml" value="0.2046875" />
+        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/activity_gallery.xml" value="0.1921875" />
         <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/activity_join_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/activity_sns_new.xml" value="0.17806484295845998" />
         <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/activity_splash.xml" value="0.1" />
+        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/fragment_dairy.xml" value="0.17806484295845998" />
+        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/fragment_my.xml" value="0.1" />
+        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/fragment_sns.xml" value="0.17806484295845998" />
+        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/grid_item.xml" value="0.1" />
+        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/sns_growth_item.xml" value="0.17806484295845998" />
+        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/sns_img_rec_item.xml" value="0.36614583333333334" />
+        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/sns_item_pick.xml" value="0.36614583333333334" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.22552083333333334" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_new_family.xml" value="0.22552083333333334" />
