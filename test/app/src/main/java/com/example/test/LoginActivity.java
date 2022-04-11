@@ -102,8 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
 
                     //로그인 정보 저장
-                    CommonVal.curuser.setId("asd123");
-                    CommonVal.curuser.setPw("asd123");
+                    CommonVal.curuser.setId("a");
+                    CommonVal.curuser.setPw("a");
 
                     //초대로 왔을 때
                     if(invite_title != null){
