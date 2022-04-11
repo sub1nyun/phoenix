@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -30,8 +31,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
+import com.example.test.home.HomeActivity;
+import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class SettingActivity extends AppCompatActivity {
     ImageView setting_back;
@@ -40,6 +48,8 @@ public class SettingActivity extends AppCompatActivity {
     SeekBar set_bell_volume, set_vibration_volume;
     int bell_volume;
     int vib_volume;
+
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,7 +229,14 @@ public class SettingActivity extends AppCompatActivity {
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //회원 정보 삭제, 로그인 화면으로 이동
+                                AskTask task = new AskTask(CommonVal.httpip, "secession.bif");
+                                task.addParam("id", CommonVal.curuser.getId());
+                                InputStream in = CommonMethod.excuteGet(task);
+                                if(gson.fromJson(new InputStreamReader(in), Boolean.class)){
+                                    Toast.makeText(SettingActivity.this, "성공적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
+                                    startActivity(intent);
+                                }
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override
@@ -241,6 +258,8 @@ public class SettingActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //로그인 화면으로 이동
+                                Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
+                                startActivity(intent);
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override

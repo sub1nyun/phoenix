@@ -100,20 +100,20 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
                 builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
                     @Override
                    public void onClick(DialogInterface dialog, int which) {
-                        AskTask editTask = new AskTask(CommonVal.httpip, "update.sn");
+                        AskTask editTask = new AskTask(CommonVal.httpip, "groselect.sn");
                         Gson gson = new Gson();
                         editTask.addParam("no", growthVOS.get(position).getGro_no()+"");
                         InputStream in = CommonMethod.excuteGet(editTask);
 
                         GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
                         String test = "";
-                        Intent intent = new Intent(activity, SnsNewActivity.class);
+                        Intent intent = new Intent(activity, EditActivity.class);
                         intent.putExtra("vo",gson.toJson(vo));
                         activity.startActivityForResult(intent, 7);
 
 
                         //수정하고 이동
-                        activity.changeFrag(new SnsFragment(activity));
+                        //activity.changeFrag(new SnsFragment(activity));
                     }
                 });
                 builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {

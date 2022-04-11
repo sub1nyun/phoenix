@@ -5,14 +5,17 @@
     android:orientation="vertical">
 
 
+
+
+
+
     <ImageView
         android:scaleType="fitXY"
-        android:src="@drawable/sns_logo"
-        android:layout_width="415dp"
-        android:layout_height="400dp"
+        android:src="@drawable/baby_img"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
         android:id="@+id/sns_new_img_rec_imv"
-        android:orientation="horizontal"
-        android:background="#919191"/>
+        android:orientation="horizontal" />
 
 
 

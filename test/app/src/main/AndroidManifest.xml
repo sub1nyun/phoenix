@@ -11,13 +11,14 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
 
     <queries>
+
         <!-- WebView -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -54,31 +55,35 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
         android:theme="@style/Theme.Test"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".PlaceDetailActivity"
-            android:exported="false"/>
-
+        <activity
+            android:name=".sns.EditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sns.GalleryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlaceDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".home.HomeActivity"
             android:exported="false" />
-
         <activity
             android:name=".my.SettingActivity"
             android:exported="false" />
-
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
-                <data android:host="oauth"
+                <data
+                    android:host="oauth"
                     android:scheme="kakao9bb5096013cc3ff738a2ca42f3fd61d1" />
             </intent-filter>
         </activity>
@@ -87,8 +92,8 @@
             android:name=".InviteLinkActivity"
             android:exported="false" />
         -->
-
-        <!--<activity android:name=".InviteActivity">
+        <!--
+<activity android:name=".InviteActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -98,7 +103,8 @@
                     android:scheme="@string/kakao_scheme" />
             </intent-filter>
 
-        </activity>-->
+        </activity>
+        -->
         <activity
             android:name=".InviteActivity"
             android:exported="true">
@@ -119,9 +125,6 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
-
-
         <activity
             android:name=".diary.GraphActivity"
             android:exported="false" />
@@ -134,13 +137,9 @@
         <activity
             android:name=".MapActivity"
             android:exported="false" />
-
         <activity
             android:name=".diary.DetailActivity"
-            android:exported="false"
-            />
-        <!--android:windowSoftInputMode="stateAlwaysHidden" 이거 뭐야-->
-
+            android:exported="false" /> <!-- android:windowSoftInputMode="stateAlwaysHidden" 이거 뭐야 -->
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
@@ -152,10 +151,10 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- 카카오 맵 app key 추가 -->
+        </activity> <!-- 카카오 맵 app key 추가 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="9bb5096013cc3ff738a2ca42f3fd61d1" />
@@ -177,4 +176,5 @@ provider authorities:도메인.
                 android:resource="@xml/filepath" />
         </provider>
     </application>
+
 </manifest>

@@ -53,6 +53,7 @@ public class SnsPickAdapter extends RecyclerView.Adapter<SnsPickAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             gro_rec = itemView.findViewById(R.id.gro_rec);
+
         }
 
     }

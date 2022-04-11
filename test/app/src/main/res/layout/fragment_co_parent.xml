@@ -32,22 +32,26 @@
         </FrameLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9"
-        android:orientation="vertical">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_co_parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"/>
-        <Button
-            android:id="@+id/exit_family"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:text="공동양육 포기하기"/>
-    </LinearLayout>
+        android:layout_weight="9">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_co_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"/>
+            <Button
+                android:id="@+id/exit_family"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:text="공동양육 포기하기"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
