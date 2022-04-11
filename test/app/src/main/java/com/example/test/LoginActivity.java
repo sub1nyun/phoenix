@@ -1,7 +1,8 @@
 package com.example.test;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,14 +14,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
-import com.example.test.diary.DiaryVO;
-import com.example.test.join.JoinMainActivity;
+import com.example.test.join.UserVO;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
 import com.google.firebase.dynamiclinks.DynamicLink;
@@ -51,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox chk_auto;
     ImageView btn_kakao;
     Button btn_logout;
+    String id , pw;
 
 
     NidOAuthLoginButton naverlogin;
@@ -76,6 +78,13 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        });
 
+
+        SharedPreferences preferences = getPreferences(LoginActivity.MODE_PRIVATE);
+        id = preferences.getString("id","");
+        pw = preferences.getString("pw","");
+        Boolean isLogin = preferences.getBoolean("autologin" , false);
+        chk_auto.setChecked(isLogin); // 자동로그인을 체크하고나서 앱을 종료해도 그대로 저장된상태를 보여줌.
+
         Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
             @Override
             public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
@@ -97,13 +106,17 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edt_id.getText().toString().equals("a") && edt_pw.getText().toString().equals("a")) {
+                //if (edt_id.getText().toString().equals("a") && edt_pw.getText().toString().equals("a")) {
+                if( login() ){
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
 
                     //로그인 정보 저장
-                    CommonVal.curuser.setId("asd123");
-                    CommonVal.curuser.setPw("asd123");
+                  /*  CommonVal.curuser.setId( edt_id.getText().toString() );
+                    CommonVal.curuser.setPw( edt_id.getText().toString() );
+*/
+
+
 
                     //초대로 왔을 때
                     if(invite_title != null){
@@ -173,6 +186,13 @@ public class LoginActivity extends AppCompatActivity {
             NaverIdLoginSDK.INSTANCE.logout();
             Toast.makeText(LoginActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
         });
+
+        if(isLogin){
+            edt_id.setText(id);
+            edt_pw.setText(pw);
+            btn_login.callOnClick(); // OnClick을 강제로 실행함.
+        }
+
     }//onCreate
 
     private void binding() {
@@ -255,8 +275,59 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    public void saveLoginInfo() {
+        //체크박스 자동로그인이 체크가 된 상태라면 임시 데이터를 저장함 ( 로그인 정보를 )
+        try {
+            SharedPreferences preferences  = getPreferences(LoginActivity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            if (chk_auto.isChecked()) { //로그인 정보를 저장함.
+                editor.putBoolean("autologin" , true);
+                editor.putString("id", edt_id.getText() + "");
+                editor.putString("pw", edt_pw.getText() + "");
+            } else {  // 로그인 정보를 삭제함.
+                editor.remove("autologin");
+                editor.remove("id");
+                editor.remove("pw");
+                //editor.clear();
+            }
+            editor.apply();
+        } catch (Exception e) {
+            Toast.makeText(LoginActivity.this, "자동로그인 정보 저장 실패.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    //login idpw chk
+    public boolean login () {
+        //id,pw유무
+        AskTask login_task = new AskTask(CommonVal.httpip, "bssLoginn");
+
+        login_task.addParam("id", edt_id.getText().toString() );
+        login_task.addParam("pw", edt_pw.getText().toString() );
+        InputStream login_in = CommonMethod.excuteGet(login_task);
+        CommonVal.curuser = gson.fromJson(new InputStreamReader(login_in), UserVO.class);
+        if (CommonVal.curuser != null ){
+            saveLoginInfo();
+            Intent login_intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(login_intent);
+            return true;
+        }else {
+            altdialog("아이디 비밀번호를 확인해주세요.","");
+        }
+        return false;
+    }
+
+
+    public void altdialog(String settitle , String setmessage){
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setTitle( settitle ).setMessage( setmessage );
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
 }//Class
-
-
-

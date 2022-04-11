@@ -512,8 +512,6 @@ public class JoinMainActivity extends AppCompatActivity {
                 {
                     changeFrag(newFamilyFragment);
                     go++;
-
-
                 }
             });
             AlertDialog alertDialog = builder.create();
