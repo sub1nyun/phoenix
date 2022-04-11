@@ -1,12 +1,13 @@
 package com.example.test.my;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,12 +19,10 @@ import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class BabySelectAdapter extends ArrayAdapter<String> {
     List<BabyInfoVO> list;
     Context context;
-
+    int flag = 0 ;
     public BabySelectAdapter(@NonNull Context context, List<BabyInfoVO> list) {
         super(context, R.layout.my_spinner_item);
         this.list = list;
@@ -52,6 +51,15 @@ public class BabySelectAdapter extends ArrayAdapter<String> {
             viewHolder.baby_info_name = convertView.findViewById(R.id.baby_info_name);
             viewHolder.baby_info_birth = convertView.findViewById(R.id.baby_info_birth);
             viewHolder.imv_baby = convertView.findViewById(R.id.imv_baby);
+
+            if(flag==1) {
+                viewHolder.baby_info_birth.setTextColor(Color.parseColor("#000000"));
+                viewHolder.baby_info_name.setTextColor(Color.parseColor("#000000"));
+            }
+            else if(flag==0){
+                viewHolder.baby_info_birth.setTextColor(Color.parseColor("#FFFFFF"));
+                viewHolder.baby_info_name.setTextColor(Color.parseColor("#FFFFFF"));
+            }
             convertView.setTag(viewHolder);
         } else{
             viewHolder = (ViewHolder) convertView.getTag();

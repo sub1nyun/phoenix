@@ -41,7 +41,7 @@
         android:layout_gravity="center"
         android:text="아기이름"
         android:layout_marginHorizontal="10dp"
-        android:textColor="#fff"/>
+        android:textColor="#111"/>
     <TextView
         android:id="@+id/baby_info_birth"
         android:layout_width="wrap_content"
@@ -49,5 +49,5 @@
         android:text="육아일기제목"
         android:layout_gravity="center"
         android:layout_marginHorizontal="5dp"
-        android:textColor="#fff"/>
+        android:textColor="#111"/>
 </LinearLayout>

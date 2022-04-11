@@ -6,12 +6,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -20,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +57,7 @@ public class MyFragment extends Fragment{
     String[] titlelist = new String[CommonVal.family_title.size() + 1];
     int select = 0;
     Gson gson = new Gson();
+    int press = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +75,7 @@ public class MyFragment extends Fragment{
 
         //아기 선택
         BabySelectAdapter babySelectAdapter = new BabySelectAdapter(getContext(), CommonVal.baby_list);
-        babySelectAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
+        //babySelectAdapter.setDropDownViewResource(R.layout.my_spinner_item2);
         my_spinner.setAdapter(babySelectAdapter);
 
         int index = 0;
@@ -80,7 +85,22 @@ public class MyFragment extends Fragment{
                 break;
             }
         }
+
         my_spinner.setSelection(index);
+        my_spinner.setTag("0");
+        my_spinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP){
+                    babySelectAdapter.flag = 1;
+                }else{
+                    babySelectAdapter.flag = 0;
+                }
+                return false;
+            }
+        });
+
+
         my_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
