@@ -50,12 +50,14 @@ public class EditActivity extends AppCompatActivity {
     Button btn_clear;
     Gson gson = new Gson();
     ArrayList<String> imgFilePathList = new ArrayList<>();
+    ArrayList<String> editList = new ArrayList<>();
     SnsImgRecAdapter snsImgRecAdapter;
     MainActivity activity;
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;
     File imgFile = null;
     String[] sns_item = {"카메라", "갤러리"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,69 +67,85 @@ public class EditActivity extends AppCompatActivity {
 
         binding();
 
-        //수정할 게시물 정보 받아옴
+
         Intent intent = getIntent();
         String testdata = (String) intent.getSerializableExtra("vo");
         gson = new Gson();
         GrowthVO vo = gson.fromJson(testdata,GrowthVO.class);
         if(vo != null) {
-            //넘어온 값으로 세팅
+
             imgFilePathList = vo.getImgList();
             sns_edit_text.setText(vo.getGro_content());
-            //클릭하면 목록 사진 비우기
-            btn_clear.setVisibility(View.VISIBLE);
-            btn_clear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                }
-            });
+
 
             snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList, this);
             sns_new_img_rec.setAdapter(snsImgRecAdapter);
             sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
 
-            //수정사항 담아가기
-            vo.setGro_content(sns_edit_text.getText()+"");
 
-//            GrowthVO resultvo = new GrowthVO();
-//            resultvo.setGro_content(sns_edit_text.getText()+"");
-            String test = "";
+            editList = vo.getImgList();
+
+
+
+
+
+
+
+
 
             sns_edit_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AskTask editShareTask = new AskTask(CommonVal.httpip, "update.sn");
-                    Gson gson =new Gson();
+                    //if(imgFilePathList == vo.getImgList()) {
+                    if(imgFilePathList == vo.getImgList() && vo.getGro_content().equals(sns_edit_text.getText().toString())){
+                        Toast.makeText(EditActivity.this, "변동사항이 없습니다.", Toast.LENGTH_SHORT).show();
+                    }else if(! vo.getGro_content().equals(sns_edit_text.getText().toString())) {
+                        //editList.clear();
+                        AskTask textUpTask = new AskTask(CommonVal.httpip, "content.sn");
+                        Gson gson =new Gson();
+
+                        String test = vo.getGro_content();
+                        test = "";
+
+                        vo.setGro_content(sns_edit_text.getText()+"");
+                        textUpTask.addParam("vo", gson.toJson(vo));
+
+                        CommonMethod.excuteGet(textUpTask);
 
 
-                    String test="";
+                        activity.changeFrag(new SnsFragment(activity));
+                        String a = "";
 
-                    for (int i = 0; i < imgFilePathList.size(); i++) {
 
-                        editShareTask.addFileParam("file" + i, imgFilePathList.get(i));
                     }
-                    editShareTask.addParam("vo", gson.toJson(vo));
-                    String a = "";
-                    CommonMethod.excuteGet(editShareTask);
-                    activity.changeFrag(new SnsFragment(activity));
+                    else {
+                        AskTask editShareTask = new AskTask(CommonVal.httpip, "update.sn");
+                        Gson gson =new Gson();
+
+                        String test = vo.getGro_content();
+                        test = "";
+
+                        vo.setGro_content(sns_edit_text.getText()+"");
+                        //editList.clear();
+                        for (int i = 0; i < imgFilePathList.size(); i++) {
+
+                            vo.setImgList(imgFilePathList.get(i));
+                            editShareTask.addFileParam("file" + i, imgFilePathList.get(i));
+                        }
+
+                        editShareTask.addParam("vo", gson.toJson(vo));
+                        String a = "";
+                        CommonMethod.excuteGet(editShareTask);
+
+                        activity.changeFrag(new SnsFragment(activity));
+                        String aa = "";
+                    }
+
+
 
                 }
             });
-
-            //여길 안 탐
-//            sns_edit_share.setOnClickListener(view -> {
-//                AskTask editShareTask = new AskTask(CommonVal.httpip, "update.sn");
-//                Gson gson =new Gson();
-//                for (int i = 0; i < imgFilePathList.size(); i++) {
-//                    editShareTask.addFileParam("file" + i, imgFilePathList.get(i));
-//                }
-//                editShareTask.addParam("vo", gson.toJson(vo));
-//                String a = "";
-//                CommonMethod.excuteGet(editShareTask);
-//                activity.changeFrag(new SnsFragment(activity));
-//            });
-
 
         }
 
@@ -232,7 +250,9 @@ public class EditActivity extends AppCompatActivity {
             Toast.makeText(EditActivity.this, "찰칵", Toast.LENGTH_SHORT).show();
 
         } else if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
+            imgFilePathList = null;
             imgFilePathList = data.getStringArrayListExtra("img_list");
+            editList.clear();
             if (data.getClipData() == null) {
                 Toast.makeText(EditActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
             } else if (data.getClipData().getItemCount() > 10) {
@@ -254,12 +274,6 @@ public class EditActivity extends AppCompatActivity {
         //일괄 비우기
         btn_clear.setVisibility(View.VISIBLE);
         btn_clear.setOnClickListener(v -> {
-
-            imgFilePathList = new ArrayList<>();
-            snsImgRecAdapter.notifyDataSetChanged();
-            //sns_new_img_rec.removeItemDecorationAt(imgFilePathList.size());
-//            sns_new_img_rec.setAdapter(snsImgRecAdapter);
-//            sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
 
         });
 

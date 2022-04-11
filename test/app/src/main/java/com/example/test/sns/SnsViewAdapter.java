@@ -113,7 +113,7 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
 
                         //수정하고 이동
-                        activity.changeFrag(new SnsFragment(activity));
+                        //activity.changeFrag(new SnsFragment(activity));
                     }
                 });
                 builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {
