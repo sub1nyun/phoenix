@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_logout;
     String id , pw;
 
-
     NidOAuthLoginButton naverlogin;
     Gson gson = new Gson();
     public static OAuthLogin mOAuthLoginModule;
@@ -78,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        });
 
-
+        //자동로그인
         SharedPreferences preferences = getPreferences(LoginActivity.MODE_PRIVATE);
         id = preferences.getString("id","");
         pw = preferences.getString("pw","");
@@ -107,49 +106,55 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //if (edt_id.getText().toString().equals("a") && edt_pw.getText().toString().equals("a")) {
-                if( login() ){
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                if( vaildchk() ) {
+                    boolean login = login();
 
-                    //로그인 정보 저장
+                    if ( login ) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+
+                        //로그인 정보 저장
                   /*  CommonVal.curuser.setId( edt_id.getText().toString() );
                     CommonVal.curuser.setPw( edt_id.getText().toString() );
 */
 
 
+                        //초대로 왔을 때
+                        if (invite_title != null) {
+                            AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
+                            FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+                            familyInfoVO.setTitle(invite_title);
+                            familyInfoVO.setFamily_rels(invite_rels);
+                            familyInfoVO.setId(CommonVal.curuser.getId());
+                            Gson gson = new Gson();
+                            invite_task.addParam("vo", gson.toJson(familyInfoVO));
+                            InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                            boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                        }
 
-                    //초대로 왔을 때
-                    if(invite_title != null){
-                        AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
-                        FamilyInfoVO familyInfoVO = new FamilyInfoVO();
-                        familyInfoVO.setTitle(invite_title);
-                        familyInfoVO.setFamily_rels(invite_rels);
-                        familyInfoVO.setId(CommonVal.curuser.getId());
-                        Gson gson = new Gson();
-                        invite_task.addParam("vo", gson.toJson(familyInfoVO));
-                        InputStream invite_in = CommonMethod.excuteGet(invite_task);
-                        boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+
+                        //아기 리스트 불러오기
+                        AskTask task = new AskTask(CommonVal.httpip, "list.bif");
+                        //로그인 정보로 수정 필요
+                        task.addParam("id", CommonVal.curuser.getId());
+                        InputStream in = CommonMethod.excuteGet(task);
+                        CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>() {
+                        }.getType());
+                        if (CommonVal.baby_list.size() != 0) {
+                            CommonVal.curbaby = CommonVal.baby_list.get(0);
+                        }
+
+                        // 가족정보 불러오기
+                        task = new AskTask(CommonVal.httpip, "titlelist.us");
+                        task.addParam("id", CommonVal.curuser.getId());
+                        in = CommonMethod.excuteGet(task);
+                        CommonVal.family_title = gson.fromJson(new InputStreamReader(in), new TypeToken<List<String>>() {
+                        }.getType());
+
+                        finish();
                     }
-
-
-                    //아기 리스트 불러오기
-                    AskTask task = new AskTask(CommonVal.httpip, "list.bif");
-                    //로그인 정보로 수정 필요
-                    task.addParam("id", CommonVal.curuser.getId());
-                    InputStream in = CommonMethod.excuteGet(task);
-                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                    if(CommonVal.baby_list.size() != 0) {
-                        CommonVal.curbaby = CommonVal.baby_list.get(0);
-                    }
-
-                   // 가족정보 불러오기
-                    task = new AskTask(CommonVal.httpip, "titlelist.us");
-                    task.addParam("id", CommonVal.curuser.getId());
-                    in = CommonMethod.excuteGet(task);
-                    CommonVal.family_title = gson.fromJson(new InputStreamReader(in), new TypeToken<List<String>>(){}.getType());
-
-                   finish();
                 }
+
             }
         });
         /*btn_join.setOnClickListener(new View.OnClickListener() {
@@ -329,5 +334,33 @@ public class LoginActivity extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    public boolean vaildchk(){
+        if( edt_id.getText().toString().equals("") ) {
+            altdialog("아이디를 입력해주세요", "");
+        }else if( edt_pw.getText().toString().equals("") ){
+            altdialog("비밀번호를 입력해주세요", "");
+        }else{
+            return true;
+        }
+
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }//Class
