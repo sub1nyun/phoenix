@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.join.JoinMainActivity;
 import com.example.test.join.UserVO;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
@@ -31,6 +32,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
 import com.kakao.sdk.user.UserApiClient;
+import com.kakao.sdk.user.model.Account;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.NidOAuthLogin;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
@@ -64,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        KakaoSdk.init(this,"884cf31c300f60971b6a3d015d8c005e");
+        KakaoSdk.init(this,"9bb5096013cc3ff738a2ca42f3fd61d1");
         NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
         binding();
@@ -92,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "오류"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
                 }if(oAuthToken != null){
                     Toast.makeText(LoginActivity.this, "받아옴", Toast.LENGTH_SHORT).show();
+                    getKakaoInfo();
                 }
                 return null;
             }
@@ -183,7 +186,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
 
 
         naverLogin();
@@ -361,7 +363,51 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
+    public void getKakaoInfo(){
+        UserApiClient.getInstance().me( (user, throwable) -> {
+            if(throwable != null){
+                // 오류임. 정보 못받아옴 ( Token이 없거나 Token을 삭제했을때(Logout)
+                // KOE + 숫자
+                Toast.makeText( LoginActivity.this , "오류 코드 : " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }else{
+                // [ { } ] json 구조처럼 바로 데이터가 있는게 아님.
+                // Account Object안에 List가 있거나 List안에 Object가 있는형식임.
+                Account kakaoAcount = user.getKakaoAccount();
+                if(kakaoAcount != null){
+                    String email = kakaoAcount.getEmail();
+                    AskTask task = new AskTask( CommonVal.httpip,"social_login.user");
+                    task.addParam("id" , email);
+                    InputStream in =  CommonMethod.excuteGet(task);
+                    Gson gson = new Gson();
+                    boolean data = gson.fromJson(new InputStreamReader(in) , Boolean.class);
+                    String aa = "";
+                    if( data ){
+                        //로그인 된 회원임.
+                        //CommonVal.curuser = vo ;
+                        //Intent intent = new Intent(LoginActivity.this , MainActivity.class);
+                        //startActivity(intent);
+                        Toast.makeText(LoginActivity.this, "정보를 가져옵니다.", Toast.LENGTH_SHORT).show();
+                        JoinMainActivity.vo.setId( email );
+                        JoinMainActivity.vo.setKakao_id( "Y" );
+                        altdialog("해당 아이디로 가입을 시작합니다.",  "ID : " +JoinMainActivity.vo.getId() );
+                    }else{
+                        Toast.makeText(LoginActivity.this, "정보를 가져오기 실패", Toast.LENGTH_SHORT).show();
 
+                        //회원가입을 진행.
+                        Intent intent = new Intent(LoginActivity.this , JoinMainActivity.class);
+                        startActivity(intent);
+                    }
+
+
+                    // AsynkTask이용해서
+                }
+
+            }
+
+
+            return null;
+        });
+    }
 
 
 

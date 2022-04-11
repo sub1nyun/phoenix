@@ -39,7 +39,7 @@ public class JoinMainActivity extends AppCompatActivity {
     FrameLayout container;
     TextView tv_id_check;
     static int go = 0;
-    static UserVO vo = new UserVO();
+    public static UserVO vo = new UserVO();
     static BabyInfoVO babyInfoVO = new BabyInfoVO();
     static int id_chk = 0;
  //   static String id_chkchk = vo.getId();
