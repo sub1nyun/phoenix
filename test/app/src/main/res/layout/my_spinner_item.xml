@@ -9,7 +9,7 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_gravity="center"
-        >
+        android:layout_margin="5dp">
         <androidx.cardview.widget.CardView
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -18,6 +18,7 @@
             android:backgroundTint="#E2EDEF"
             >
             <ImageView
+                android:id="@+id/imv_baby"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/baby_img"

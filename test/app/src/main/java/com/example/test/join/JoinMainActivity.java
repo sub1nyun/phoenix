@@ -57,6 +57,8 @@ public class JoinMainActivity extends AppCompatActivity {
     String str;
     public static FamilyInfoVO familyVO = new FamilyInfoVO();
 
+    UserFragment invite;
+
 
 
 
@@ -71,6 +73,12 @@ public class JoinMainActivity extends AppCompatActivity {
         //아기 추가 시
         Intent intent_my = getIntent();
         str = intent_my.getStringExtra("category");
+
+        //초대코드로 왔을 때
+        Intent intent = getIntent();
+        family_id = intent.getStringExtra("family_id");
+        rels = intent.getStringExtra("rels");
+
         if (str != null) {
             if (str.equals("new")) {
                 go = 2;
@@ -80,17 +88,15 @@ public class JoinMainActivity extends AppCompatActivity {
                 babyInfoVO.setTitle(familyVO.getTitle());
                 changeFrag(new BirthFragment());
             }
-        } else {
+        }  else {
             changeFrag(userFragment);
         }
 
-        //초대코드로 왔을 때
-        Intent intent = getIntent();
-        family_id = intent.getStringExtra("family_id");
-        rels = intent.getStringExtra("rels");
         if (family_id != null) {
-            changeFrag(new UserFragment(family_id));
+            invite = new UserFragment(family_id);
+            changeFrag(invite);
         }
+
 
         btn_next = findViewById(R.id.btn_next);
         btn_back = findViewById(R.id.btn_back);
@@ -115,9 +121,11 @@ public class JoinMainActivity extends AppCompatActivity {
         changeFrag(newFamilyFragment);
         go++;
     }
+
     public void gogo() {//앞으로
+        String a="";
         if (go == 1) {
-            emptychk();
+            emptychk(userFragment);
 
             if (result == 1) {
                 allok();
@@ -133,28 +141,30 @@ public class JoinMainActivity extends AppCompatActivity {
                     padup(newFamilyFragment.edt_title);
                     // altdialog("입력한 제목을 확인해주세요" , "");
                 }
-            } else if (go == 3) {
-                JoinMainActivity.babyInfoVO.setId(JoinMainActivity.vo.getId());//     babyinfoVO에 id,title담기
-                JoinMainActivity.babyInfoVO.setTitle(JoinMainActivity.vo.getTitle());
-                changeFrag(new BirthFragment());
+            }
+        }else if (go == 3) {
+            JoinMainActivity.babyInfoVO.setId(JoinMainActivity.vo.getId());//     babyinfoVO에 id,title담기
+            JoinMainActivity.babyInfoVO.setTitle(JoinMainActivity.vo.getTitle());
+            changeFrag(new BirthFragment());
+            go++;
+        } else if (go == 4) {
+            changeFrag(babyFragment);
+            go++;
+        } else if (go == 5) {
+            if (isept(JoinMainActivity.babyInfoVO.getBaby_name(), "아이의 이름을 입력해주세요.")) {
+                changeFrag(new GenderFragment());
                 go++;
-            } else if (go == 4) {
-                changeFrag(babyFragment);
-                go++;
-            } else if (go == 5) {
-                if (isept(JoinMainActivity.babyInfoVO.getBaby_name(), "아이의 이름을 입력해주세요.")) {
-                    changeFrag(new GenderFragment());
-                    go++;
-                } else {
-                    babyFragment.edt_name.requestFocus();
-                    padup(babyFragment.edt_name);
-                }
-            } else if (go == 6) {
-                go++;
-                changeFrag(pictureFragment);
-            } else if (go == 7) {
+            } else {
+                babyFragment.edt_name.requestFocus();
+                padup(babyFragment.edt_name);
+            }
+        } else if (go == 6) {
+            go++;
+            changeFrag(pictureFragment);
+        } else if (go == 7) {
                 if (family_id != null) {
-                    emptychk();
+                    emptychk(invite);
+                    Log.d("TAG", "gogo: "+result);
                     if (result == 1) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
                         builder.setTitle("회원가입을 완료 하시겠습니까?").setMessage("");
@@ -163,7 +173,7 @@ public class JoinMainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 CommonVal.curuser = JoinMainActivity.vo;
                                 //      회원가입 들어가는 부분
-                                if (family_id != null) {
+
                                     AskTask invite_task1 = new AskTask(CommonVal.httpip, "user_join.us");
                                     Gson gson = new Gson();
                                     invite_task1.addParam("vo", gson.toJson(CommonVal.curuser));
@@ -179,31 +189,19 @@ public class JoinMainActivity extends AppCompatActivity {
                                         InputStream invite_in = CommonMethod.excuteGet(invite_task);
                                         boolean isSucc2 = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
                                         if (isSucc2) {
-                                            CommonVal.curuser = JoinMainActivity.vo;
                                             //아기 리스트 불러오기
                                             AskTask task = new AskTask(CommonVal.httpip, "list.bif");
                                             //로그인 정보로 수정 필요
                                             task.addParam("id", CommonVal.curuser.getId());
                                             InputStream in = CommonMethod.excuteGet(task);
-                                            CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>() {
-                                            }.getType());
+                                            CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>() {}.getType());
                                             CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                            CommonVal.family_title.add(CommonVal.baby_list.get(0).getTitle());
 
                                             Intent intent = new Intent(JoinMainActivity.this, MainActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }
-                                    }
-                                } else {
-                                    if (user()) {
-                                        CommonVal.baby_list.add(JoinMainActivity.babyInfoVO);
-                                        CommonVal.curbaby = JoinMainActivity.babyInfoVO;
-                                        CommonVal.family_title.add(JoinMainActivity.babyInfoVO.getTitle());
-
-                                        Intent intent = new Intent(JoinMainActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
                                 }
                             }
                         });
@@ -266,38 +264,6 @@ public class JoinMainActivity extends AppCompatActivity {
                                     Toast.makeText(JoinMainActivity.this, "아기 추가에 실패했습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            //      회원가입 들어가는 부분
-                        /*else if(family_id != null){
-                            AskTask invite_task1 = new AskTask(CommonVal.httpip, "user_join.us");
-                            Gson gson = new Gson();
-                            invite_task1.addParam("vo", gson.toJson(CommonVal.curuser));
-                            InputStream invite_in1 = CommonMethod.excuteGet(invite_task1);
-                            boolean isSucc1 = gson.fromJson(new InputStreamReader(invite_in1), Boolean.class);
-                            if(isSucc1){
-                                AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
-                                FamilyInfoVO familyInfoVO = new FamilyInfoVO();
-                                familyInfoVO.setTitle(family_id);
-                                familyInfoVO.setFamily_rels(rels);
-                                familyInfoVO.setId(CommonVal.curuser.getId());
-                                invite_task.addParam("vo", gson.toJson(familyInfoVO));
-                                InputStream invite_in = CommonMethod.excuteGet(invite_task);
-                                boolean isSucc2 = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
-                                if(isSucc2){
-                                    CommonVal.curuser = JoinMainActivity.vo ;
-                                    //아기 리스트 불러오기
-                                    AskTask task = new AskTask(CommonVal.httpip, "list.bif");
-                                    //로그인 정보로 수정 필요
-                                    task.addParam("id", CommonVal.curuser.getId());
-                                    InputStream in = CommonMethod.excuteGet(task);
-                                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                                    CommonVal.curbaby = CommonVal.baby_list.get(0);
-
-                                    Intent intent = new Intent( JoinMainActivity.this , MainActivity.class );
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                        }*/
                             else {
                                 if (user()) {
                                 /*CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
@@ -334,7 +300,6 @@ public class JoinMainActivity extends AppCompatActivity {
                 }
             }
         }
-    }
         public void back () {//뒤로
             if (go == 1) {
                 altDialog();
@@ -415,21 +380,21 @@ public class JoinMainActivity extends AppCompatActivity {
 
 
 
-    public void emptychk(){
+    public void emptychk(UserFragment fragment){
         String aa = "";
         AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
-        if( userFragment.edt_id.getText().toString().equals( "" ) ){
+        if( fragment.edt_id.getText().toString().equals( "" ) ){
             String aaa = "";
             builder.setTitle("아이디를 입력해주세요").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    padup( userFragment.edt_id );
+                    padup( fragment.edt_id );
                 }
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-        }else if ( !userFragment.id_check() ){
+        }else if ( !fragment.id_check() ){
             String aaa = "";
             builder.setTitle("아이디 중복확인을 해주세요").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
@@ -440,48 +405,48 @@ public class JoinMainActivity extends AppCompatActivity {
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-        }else if ( userFragment.edt_pw.getText().toString().equals("") ){
+        }else if ( fragment.edt_pw.getText().toString().equals("") ){
             String aaa = "";
-            userFragment.edt_pw.requestFocus();
+            fragment.edt_pw.requestFocus();
             builder.setTitle("비밀번호를 입력해주세요").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
 
-                    padup( userFragment.edt_pw );
+                    padup( fragment.edt_pw );
 
                 }
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-        }else if ( userFragment.edt_pwchk.getText().toString().equals("") ){
+        }else if ( fragment.edt_pwchk.getText().toString().equals("") ){
             String aaa = "";
-            userFragment.edt_pwchk.requestFocus();
+            fragment.edt_pwchk.requestFocus();
             builder.setTitle("비밀번호를 입력해주세요").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
 
-                    padup( userFragment.edt_pwchk );
+                    padup( fragment.edt_pwchk );
                 }
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }else if( !vo.getPw_chk().equals( vo.getPw() )  ) {
             String aaa = "";
-            userFragment.edt_pwchk.requestFocus();
+            fragment.edt_pwchk.requestFocus();
             builder.setTitle("비밀번호가 일치하지않습니다").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
 
-                    padup( userFragment.edt_pwchk );
+                    padup( fragment.edt_pwchk );
                 }
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }else {
-            builder.setTitle("입력을 완료하시겠습니까?").setMessage("");
+            /*builder.setTitle("입력을 완료하시겠습니까?").setMessage("");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id)
@@ -493,7 +458,7 @@ public class JoinMainActivity extends AppCompatActivity {
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            Log.d("testt", "onClick: " + vo.getId() + "");
+            Log.d("testt", "onClick: " + vo.getId() + "");*/
         }
 
     }

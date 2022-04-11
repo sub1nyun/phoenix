@@ -33,6 +33,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DetailActivity extends AppCompatActivity {
@@ -232,7 +233,8 @@ public class DetailActivity extends AppCompatActivity {
         tv_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog dialog = new TimePickerDialog(DetailActivity.this, callbackMethod1, Integer.parseInt(time_arr1[0]), Integer.parseInt(time_arr1[1]), true);
+                TimePickerDialog dialog = new TimePickerDialog(DetailActivity.this,android.R.style.Theme_Holo_Light_Dialog_NoActionBar, callbackMethod1, Integer.parseInt(time_arr1[0]), Integer.parseInt(time_arr1[1]), false);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialog.show();
             }
         });
@@ -240,7 +242,8 @@ public class DetailActivity extends AppCompatActivity {
         tv_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog dialog = new TimePickerDialog(DetailActivity.this, callbackMethod2, Integer.parseInt(time_arr2[0]), Integer.parseInt(time_arr2[1]), true);
+                TimePickerDialog dialog = new TimePickerDialog(DetailActivity.this,android.R.style.Theme_Holo_Light_Dialog_NoActionBar, callbackMethod2, Integer.parseInt(time_arr2[0]), Integer.parseInt(time_arr2[1]), false);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialog.show();
             }
         });
