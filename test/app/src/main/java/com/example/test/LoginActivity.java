@@ -107,15 +107,17 @@ public class LoginActivity extends AppCompatActivity {
 
                     //초대로 왔을 때
                     if(invite_title != null){
-                        AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
-                        FamilyInfoVO familyInfoVO = new FamilyInfoVO();
-                        familyInfoVO.setTitle(invite_title);
-                        familyInfoVO.setFamily_rels(invite_rels);
-                        familyInfoVO.setId(CommonVal.curuser.getId());
-                        Gson gson = new Gson();
-                        invite_task.addParam("vo", gson.toJson(familyInfoVO));
-                        InputStream invite_in = CommonMethod.excuteGet(invite_task);
-                        boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                        if(!in_family(invite_title)) {
+                            AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
+                            FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+                            familyInfoVO.setTitle(invite_title);
+                            familyInfoVO.setFamily_rels(invite_rels);
+                            familyInfoVO.setId(CommonVal.curuser.getId());
+                            Gson gson = new Gson();
+                            invite_task.addParam("vo", gson.toJson(familyInfoVO));
+                            InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                            boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                        }
                     }
 
 
@@ -175,6 +177,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }//onCreate
 
+    public boolean in_family(String invite_title){
+        AskTask task = new AskTask(CommonVal.httpip, "family_selectid.join");
+        FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+        familyInfoVO.setTitle(invite_title);
+        familyInfoVO.setId(CommonVal.curuser.getId());
+        Gson gson = new Gson();
+        task.addParam("vo", gson.toJson(familyInfoVO));
+        InputStream in = CommonMethod.excuteGet(task);
+        boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+        return isSucc;
+    }
     private void binding() {
         btn_login = findViewById(R.id.btn_login);
         //btn_join = findViewById(R.id.btn_join);

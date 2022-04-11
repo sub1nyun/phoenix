@@ -41,91 +41,123 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class SnsNewActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity {
 
-
-
-   RecyclerView sns_new_img_rec;
-    ImageView sns_new_back, getImage;
-    TextView sns_new_share;
-    String[] sns_item = {"카메라", "갤러리"};
-    public static ArrayList<Uri> uriList = new ArrayList<>();
-    EditText sns_new_text;
-    GrowthVO gvo = new GrowthVO();
+    ImageView sns_edit_back, getImage;
+    TextView sns_edit_share;
+    RecyclerView sns_new_img_rec;
+    EditText sns_edit_text;
     Button btn_clear;
-
-    public final int CAMERA_CODE = 1004;
-    public final int GALLERY_CODE = 1005;
     Gson gson = new Gson();
-
-    File imgFile = null;
     ArrayList<String> imgFilePathList = new ArrayList<>();
     SnsImgRecAdapter snsImgRecAdapter;
     MainActivity activity;
-
-
+    public final int CAMERA_CODE = 1004;
+    public final int GALLERY_CODE = 1005;
+    File imgFile = null;
+    String[] sns_item = {"카메라", "갤러리"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sns_new);
+        setContentView(R.layout.activity_edit);
         checkDangerousPermissions();
 
-        //xml 찾는 함수
         binding();
-        btn_clear.setVisibility(View.GONE);
 
+        //수정할 게시물 정보 받아옴
+        Intent intent = getIntent();
+        String testdata = (String) intent.getSerializableExtra("vo");
+        gson = new Gson();
+        GrowthVO vo = gson.fromJson(testdata,GrowthVO.class);
+        if(vo != null) {
+            //넘어온 값으로 세팅
+            imgFilePathList = vo.getImgList();
+            sns_edit_text.setText(vo.getGro_content());
+            //클릭하면 목록 사진 비우기
+            btn_clear.setVisibility(View.VISIBLE);
+            btn_clear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-
-
-
-
-
-        getImage.setOnClickListener(v -> {
-            showDialog();
-        });
-
-
-        sns_new_back.setOnClickListener(v -> {
-            finish();
-        });
-
-        sns_new_share.setOnClickListener(v -> {
-            if(imgFilePathList != null && imgFilePathList.size() > 0) {
-
-                AskTask addSns = new AskTask(CommonVal.httpip, "share.sn");
-                Gson gson = new Gson();
-
-                gvo.setBaby_id(CommonVal.curbaby.getBaby_id());
-                gvo.setBaby_gender(CommonVal.curbaby.getBaby_gender());
-                gvo.setBaby_name(CommonVal.curbaby.getBaby_name());
-                gvo.setGro_content(sns_new_text.getText() + "");
-
-                String testvo = gson.toJson(gvo);
-                addSns.addParam("vo", testvo);
-
-                for (int i = 0; i < imgFilePathList.size(); i++) {
-                    addSns.addFileParam("file" + i, imgFilePathList.get(i));
                 }
-                CommonMethod.excuteGet(addSns);
-                finish();
+            });
 
-            }else {
-                Toast.makeText(SnsNewActivity.this, "기록될 사진을 등록해 주세요", Toast.LENGTH_SHORT).show();
+            snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList, this);
+            sns_new_img_rec.setAdapter(snsImgRecAdapter);
+            sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+
+            //수정사항 담아가기
+            vo.setGro_content(sns_edit_text.getText()+"");
+
+//            GrowthVO resultvo = new GrowthVO();
+//            resultvo.setGro_content(sns_edit_text.getText()+"");
+            String test = "";
+
+            sns_edit_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AskTask editShareTask = new AskTask(CommonVal.httpip, "update.sn");
+                    Gson gson =new Gson();
+
+
+                    String test="";
+
+                    for (int i = 0; i < imgFilePathList.size(); i++) {
+
+                        editShareTask.addFileParam("file" + i, imgFilePathList.get(i));
+                    }
+                    editShareTask.addParam("vo", gson.toJson(vo));
+                    String a = "";
+                    CommonMethod.excuteGet(editShareTask);
+                    activity.changeFrag(new SnsFragment(activity));
+
+                }
+            });
+
+            //여길 안 탐
+//            sns_edit_share.setOnClickListener(view -> {
+//                AskTask editShareTask = new AskTask(CommonVal.httpip, "update.sn");
+//                Gson gson =new Gson();
+//                for (int i = 0; i < imgFilePathList.size(); i++) {
+//                    editShareTask.addFileParam("file" + i, imgFilePathList.get(i));
+//                }
+//                editShareTask.addParam("vo", gson.toJson(vo));
+//                String a = "";
+//                CommonMethod.excuteGet(editShareTask);
+//                activity.changeFrag(new SnsFragment(activity));
+//            });
+
+
+        }
+
+        getImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog();
             }
         });
-    }//onCreate
 
+
+
+        sns_edit_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+
+    }
 
     private void binding() {
-        sns_new_back = findViewById(R.id.sns_new_back);
-        sns_new_share = findViewById(R.id.sns_new_share);
+        sns_edit_back = findViewById(R.id.sns_edit_back);
+        sns_edit_share = findViewById(R.id.sns_edit_share);
         sns_new_img_rec = findViewById(R.id.sns_new_img_rec);
-        sns_new_text = findViewById(R.id.sns_new_text);
+        sns_edit_text = findViewById(R.id.sns_edit_text);
         getImage = findViewById(R.id.getImage);
         btn_clear = findViewById(R.id.btn_clear);
     }
-
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("업로드 방법 선택")
@@ -135,7 +167,7 @@ public class SnsNewActivity extends AppCompatActivity {
                         if (sns_item[index].equals("카메라")) {
                             go_Camera();
                         } else {
-                           // go_gallery();
+                            // go_gallery();
                             gallerytest();
                         }
                         dialog.dismiss();
@@ -154,7 +186,7 @@ public class SnsNewActivity extends AppCompatActivity {
     }
 
     public void gallerytest() {
-        Intent intent = new Intent(SnsNewActivity.this, GalleryActivity.class);
+        Intent intent = new Intent(EditActivity.this, GalleryActivity.class);
         intent.putExtra("img_list", imgFilePathList);
         startActivityForResult(intent, GALLERY_CODE);
 
@@ -185,7 +217,7 @@ public class SnsNewActivity extends AppCompatActivity {
                 }
                 try{
 
-                startActivityForResult(intent, CAMERA_CODE);
+                    startActivityForResult(intent, CAMERA_CODE);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -197,14 +229,14 @@ public class SnsNewActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
-            Toast.makeText(SnsNewActivity.this, "찰칵", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditActivity.this, "찰칵", Toast.LENGTH_SHORT).show();
 
         } else if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
             imgFilePathList = data.getStringArrayListExtra("img_list");
             if (data.getClipData() == null) {
-                Toast.makeText(SnsNewActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditActivity.this, "사진을 선택하세요", Toast.LENGTH_SHORT).show();
             } else if (data.getClipData().getItemCount() > 10) {
-                Toast.makeText(SnsNewActivity.this, "사진은 열장까지 선택 가능합니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditActivity.this, "사진은 열장까지 선택 가능합니다", Toast.LENGTH_SHORT).show();
             } else if (data.getClipData() != null) {
                 ClipData clipData = data.getClipData();
                 Log.e("clipData", String.valueOf(clipData.getItemCount()));
