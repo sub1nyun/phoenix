@@ -1,7 +1,8 @@
 package com.example.test;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,14 +14,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
-import com.example.test.diary.DiaryVO;
 import com.example.test.join.JoinMainActivity;
+import com.example.test.join.UserVO;
 import com.example.test.my.BabyInfoVO;
 import com.example.test.my.FamilyInfoVO;
 import com.google.firebase.dynamiclinks.DynamicLink;
@@ -30,6 +32,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
 import com.kakao.sdk.user.UserApiClient;
+import com.kakao.sdk.user.model.Account;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.NidOAuthLogin;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
@@ -51,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox chk_auto;
     ImageView btn_kakao;
     Button btn_logout;
-
+    String id , pw;
 
     NidOAuthLoginButton naverlogin;
     Gson gson = new Gson();
@@ -63,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        KakaoSdk.init(this,"884cf31c300f60971b6a3d015d8c005e");
+        KakaoSdk.init(this,"9bb5096013cc3ff738a2ca42f3fd61d1");
         NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
         binding();
@@ -76,6 +79,13 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        });
 
+        //자동로그인
+        SharedPreferences preferences = getPreferences(LoginActivity.MODE_PRIVATE);
+        id = preferences.getString("id","");
+        pw = preferences.getString("pw","");
+        Boolean isLogin = preferences.getBoolean("autologin" , false);
+        chk_auto.setChecked(isLogin); // 자동로그인을 체크하고나서 앱을 종료해도 그대로 저장된상태를 보여줌.
+
         Function2<OAuthToken, Throwable, Unit> callBack = new Function2<OAuthToken, Throwable, Unit>() {
             @Override
             public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
@@ -84,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "오류"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
                 }if(oAuthToken != null){
                     Toast.makeText(LoginActivity.this, "받아옴", Toast.LENGTH_SHORT).show();
+                    getKakaoInfo();
                 }
                 return null;
             }
@@ -97,48 +108,58 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edt_id.getText().toString().equals("a") && edt_pw.getText().toString().equals("a")) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                //if (edt_id.getText().toString().equals("a") && edt_pw.getText().toString().equals("a")) {
+                if( vaildchk() ) {
+                    boolean login = login();
 
-                    //로그인 정보 저장
-                    CommonVal.curuser.setId("a");
-                    CommonVal.curuser.setPw("a");
+                    if ( login ) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
 
-                    //초대로 왔을 때
-                    if(invite_title != null){
-                        if(!in_family(invite_title)) {
-                            AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
-                            FamilyInfoVO familyInfoVO = new FamilyInfoVO();
-                            familyInfoVO.setTitle(invite_title);
-                            familyInfoVO.setFamily_rels(invite_rels);
-                            familyInfoVO.setId(CommonVal.curuser.getId());
-                            Gson gson = new Gson();
-                            invite_task.addParam("vo", gson.toJson(familyInfoVO));
-                            InputStream invite_in = CommonMethod.excuteGet(invite_task);
-                            boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                        //로그인 정보 저장
+                  /*  CommonVal.curuser.setId( edt_id.getText().toString() );
+                    CommonVal.curuser.setPw( edt_id.getText().toString() );
+*/
+
+
+                        //초대로 왔을 때
+                        if (invite_title != null) {
+                            if(!in_family(invite_title)) {
+                                AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
+                                FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+                                familyInfoVO.setTitle(invite_title);
+                                familyInfoVO.setFamily_rels(invite_rels);
+                                familyInfoVO.setId(CommonVal.curuser.getId());
+                                Gson gson = new Gson();
+                                invite_task.addParam("vo", gson.toJson(familyInfoVO));
+                                InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                                boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                            }
                         }
+
+
+                        //아기 리스트 불러오기
+                        AskTask task = new AskTask(CommonVal.httpip, "list.bif");
+                        //로그인 정보로 수정 필요
+                        task.addParam("id", CommonVal.curuser.getId());
+                        InputStream in = CommonMethod.excuteGet(task);
+                        CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>() {
+                        }.getType());
+                        if (CommonVal.baby_list.size() != 0) {
+                            CommonVal.curbaby = CommonVal.baby_list.get(0);
+                        }
+
+                        // 가족정보 불러오기
+                        task = new AskTask(CommonVal.httpip, "titlelist.us");
+                        task.addParam("id", CommonVal.curuser.getId());
+                        in = CommonMethod.excuteGet(task);
+                        CommonVal.family_title = gson.fromJson(new InputStreamReader(in), new TypeToken<List<String>>() {
+                        }.getType());
+
+                        finish();
                     }
-
-
-                    //아기 리스트 불러오기
-                    AskTask task = new AskTask(CommonVal.httpip, "list.bif");
-                    //로그인 정보로 수정 필요
-                    task.addParam("id", CommonVal.curuser.getId());
-                    InputStream in = CommonMethod.excuteGet(task);
-                    CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>(){}.getType());
-                    if(CommonVal.baby_list.size() != 0) {
-                        CommonVal.curbaby = CommonVal.baby_list.get(0);
-                    }
-
-                   // 가족정보 불러오기
-                    task = new AskTask(CommonVal.httpip, "titlelist.us");
-                    task.addParam("id", CommonVal.curuser.getId());
-                    in = CommonMethod.excuteGet(task);
-                    CommonVal.family_title = gson.fromJson(new InputStreamReader(in), new TypeToken<List<String>>(){}.getType());
-
-                   finish();
                 }
+
             }
         });
         /*btn_join.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +188,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
         naverLogin();
 
 
@@ -175,6 +195,13 @@ public class LoginActivity extends AppCompatActivity {
             NaverIdLoginSDK.INSTANCE.logout();
             Toast.makeText(LoginActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
         });
+
+        if(isLogin){
+            edt_id.setText(id);
+            edt_pw.setText(pw);
+            btn_login.callOnClick(); // OnClick을 강제로 실행함.
+        }
+
     }//onCreate
 
     public boolean in_family(String invite_title){
@@ -188,6 +215,7 @@ public class LoginActivity extends AppCompatActivity {
         boolean isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
         return isSucc;
     }
+
     private void binding() {
         btn_login = findViewById(R.id.btn_login);
         //btn_join = findViewById(R.id.btn_join);
@@ -268,8 +296,131 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    public void saveLoginInfo() {
+        //체크박스 자동로그인이 체크가 된 상태라면 임시 데이터를 저장함 ( 로그인 정보를 )
+        try {
+            SharedPreferences preferences  = getPreferences(LoginActivity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            if (chk_auto.isChecked()) { //로그인 정보를 저장함.
+                editor.putBoolean("autologin" , true);
+                editor.putString("id", edt_id.getText() + "");
+                editor.putString("pw", edt_pw.getText() + "");
+            } else {  // 로그인 정보를 삭제함.
+                editor.remove("autologin");
+                editor.remove("id");
+                editor.remove("pw");
+                //editor.clear();
+            }
+            editor.apply();
+        } catch (Exception e) {
+            Toast.makeText(LoginActivity.this, "자동로그인 정보 저장 실패.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    //login idpw chk
+    public boolean login () {
+        //id,pw유무
+        AskTask login_task = new AskTask(CommonVal.httpip, "bssLoginn");
+
+        login_task.addParam("id", edt_id.getText().toString() );
+        login_task.addParam("pw", edt_pw.getText().toString() );
+        InputStream login_in = CommonMethod.excuteGet(login_task);
+        CommonVal.curuser = gson.fromJson(new InputStreamReader(login_in), UserVO.class);
+        if (CommonVal.curuser != null ){
+            saveLoginInfo();
+            Intent login_intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(login_intent);
+            return true;
+        }else {
+            altdialog("아이디 비밀번호를 확인해주세요.","");
+        }
+        return false;
+    }
+
+
+    public void altdialog(String settitle , String setmessage){
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setTitle( settitle ).setMessage( setmessage );
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public boolean vaildchk(){
+        if( edt_id.getText().toString().equals("") ) {
+            altdialog("아이디를 입력해주세요", "");
+        }else if( edt_pw.getText().toString().equals("") ){
+            altdialog("비밀번호를 입력해주세요", "");
+        }else{
+            return true;
+        }
+
+        return false;
+    }
+
+    public void getKakaoInfo(){
+        UserApiClient.getInstance().me( (user, throwable) -> {
+            if(throwable != null){
+                // 오류임. 정보 못받아옴 ( Token이 없거나 Token을 삭제했을때(Logout)
+                // KOE + 숫자
+                Toast.makeText( LoginActivity.this , "오류 코드 : " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }else{
+                // [ { } ] json 구조처럼 바로 데이터가 있는게 아님.
+                // Account Object안에 List가 있거나 List안에 Object가 있는형식임.
+                Account kakaoAcount = user.getKakaoAccount();
+                if(kakaoAcount != null){
+                    String email = kakaoAcount.getEmail();
+                    AskTask task = new AskTask( CommonVal.httpip,"social_login.user");
+                    task.addParam("id" , email);
+                    InputStream in =  CommonMethod.excuteGet(task);
+                    Gson gson = new Gson();
+                    boolean data = gson.fromJson(new InputStreamReader(in) , Boolean.class);
+                    String aa = "";
+                    if( data ){
+                        //로그인 된 회원임.
+                        //CommonVal.curuser = vo ;
+                        //Intent intent = new Intent(LoginActivity.this , MainActivity.class);
+                        //startActivity(intent);
+                        Toast.makeText(LoginActivity.this, "정보를 가져옵니다.", Toast.LENGTH_SHORT).show();
+                        JoinMainActivity.vo.setId( email );
+                        JoinMainActivity.vo.setKakao_id( "Y" );
+                        altdialog("해당 아이디로 가입을 시작합니다.",  "ID : " +JoinMainActivity.vo.getId() );
+                    }else{
+                        Toast.makeText(LoginActivity.this, "정보를 가져오기 실패", Toast.LENGTH_SHORT).show();
+
+                        //회원가입을 진행.
+                        Intent intent = new Intent(LoginActivity.this , JoinMainActivity.class);
+                        startActivity(intent);
+                    }
+
+
+                    // AsynkTask이용해서
+                }
+
+            }
+
+
+            return null;
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }//Class
-
-
-

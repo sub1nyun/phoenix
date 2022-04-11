@@ -171,8 +171,9 @@
         </LinearLayout>
         <ImageView
             android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
+            android:layout_width="283dp"
             android:layout_height="60dp"
+            android:layout_gravity="center"
             android:layout_marginHorizontal="3dp"
             android:src="@drawable/kakaologinbtn"
             android:id="@+id/btn_kakao"

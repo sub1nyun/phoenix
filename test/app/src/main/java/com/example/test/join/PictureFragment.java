@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,6 +49,8 @@ public class PictureFragment extends Fragment {
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_picture, container, false);
         checkDangerousPermissions();
         imv_photo = rootview.findViewById(R.id.imv_photo);
+        imv_photo.setBackground(Drawable.createFromPath("@drawable/bss_logo"));
+
 
         if(JoinMainActivity.babyInfoVO.getBaby_photo() != null){
             Glide.with(getContext()).load(imgFilePath).into(imv_photo);
@@ -131,12 +134,14 @@ public class PictureFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == CAMERA_CODE && resultCode == getActivity().RESULT_OK){
+            imv_photo.setBackground(null);
             Glide.with(getContext()).load(imgFilePath).into(imv_photo);
+
         }else if(requestCode == GELLARY_CODE && resultCode == getActivity().RESULT_OK){
+            imv_photo.setBackground(null);
             Uri selectImageUri = data.getData();
             imgFilePath = getGalleryRealPath(selectImageUri);
             Glide.with(getContext()).load(imgFilePath).into(imv_photo);
-
         }
     }
 
