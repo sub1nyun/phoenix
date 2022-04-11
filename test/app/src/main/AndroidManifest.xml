@@ -72,6 +72,8 @@
         <activity
             android:name=".my.SettingActivity"
             android:exported="false" />
+        <activity android:name=".sns.GroDetailMainActivity"
+            android:exported="false"/>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

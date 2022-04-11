@@ -13,7 +13,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +46,7 @@ public class EditActivity extends AppCompatActivity {
     TextView sns_edit_share;
     RecyclerView sns_new_img_rec;
     EditText sns_edit_text;
-    Button btn_clear;
+
     Gson gson = new Gson();
     ArrayList<String> imgFilePathList = new ArrayList<>();
     ArrayList<String> editList = new ArrayList<>();
@@ -132,7 +131,7 @@ public class EditActivity extends AppCompatActivity {
                         editShareTask.addParam("vo", gson.toJson(vo));
                         CommonMethod.excuteGet(editShareTask);
 
-                        //액
+
                     }
                     Intent intent = new Intent(EditActivity.this, MainActivity.class);
                     intent.putExtra("vo","test");
@@ -169,7 +168,6 @@ public class EditActivity extends AppCompatActivity {
         sns_new_img_rec = findViewById(R.id.sns_new_img_rec);
         sns_edit_text = findViewById(R.id.sns_edit_text);
         getImage = findViewById(R.id.getImage);
-        btn_clear = findViewById(R.id.btn_clear);
     }
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -266,11 +264,6 @@ public class EditActivity extends AppCompatActivity {
         sns_new_img_rec.setAdapter(snsImgRecAdapter);
         sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
 
-        //일괄 비우기
-        btn_clear.setVisibility(View.VISIBLE);
-        btn_clear.setOnClickListener(v -> {
-
-        });
 
 
     }

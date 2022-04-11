@@ -17,7 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#F2000000"
+            android:background="#99B5EC"
             android:orientation="horizontal">
 
             <TextView
@@ -27,7 +27,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_weight="8.5"
                 android:text="성장일기"
-                android:textColor="#a09bde"
+                android:textColor="#FFFFFF"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -38,12 +38,25 @@
                 android:layout_gravity="center"
                 android:layout_weight="1.5"
                 android:src="@drawable/sns_more_white" />
+
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="가족들이 공유한 성장일기를 읽어보세요"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="13dp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:background="#335495"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#FFFFFF">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/sns_view_rec"

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,6 +62,7 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
         TextView baby_name, user_comment, gro_date;
         ImageView sns_more, baby_icon;
         RecyclerView rec_view;
+        LinearLayout click;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +72,7 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
             rec_view = itemView.findViewById(R.id.rec_view);
             baby_icon = itemView.findViewById(R.id.baby_icon);
             gro_date = itemView.findViewById(R.id.gro_date);
+            click = itemView.findViewById(R.id.click);
         }
 
         public void bind(@NonNull ViewHolder holder, int position) {
@@ -94,6 +97,18 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
                 holder.rec_view.setVisibility(View.GONE);
             }
 
+            holder.click.setOnClickListener(view -> {
+                AskTask editTask = new AskTask(CommonVal.httpip, "detail.sn");
+                Gson gson = new Gson();
+                editTask.addParam("no", growthVOS.get(position).getGro_no()+"");
+                InputStream in = CommonMethod.excuteGet(editTask);
+
+                GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
+                Intent intent = new Intent(activity, GroDetailMainActivity.class);
+                intent.putExtra("vo",gson.toJson(vo));
+                activity.startActivityForResult(intent, 7);
+            });
+
             holder.sns_more.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 builder.setTitle("성장일지 관리하기").setMessage("");
@@ -106,14 +121,9 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
                         InputStream in = CommonMethod.excuteGet(editTask);
 
                         GrowthVO vo = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
-                        String test = "";
                         Intent intent = new Intent(activity, EditActivity.class);
                         intent.putExtra("vo",gson.toJson(vo));
                         activity.startActivityForResult(intent, 7);
-
-
-                        //수정하고 이동
-                        //activity.changeFrag(new SnsFragment(activity));
                     }
                 });
                 builder.setNegativeButton("삭제하기", new DialogInterface.OnClickListener() {
@@ -134,7 +144,6 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
                                 delTask.addParam("no", growthVOS.get(position).getGro_no()+"");
                                 CommonMethod.excuteGet(delTask);
 
-                                //삭제시키고 이동
                                 activity.changeFrag(new SnsFragment(activity));
                             }
                         }).show();
