@@ -52,7 +52,7 @@ public class EditActivity extends AppCompatActivity {
     ArrayList<String> imgFilePathList = new ArrayList<>();
     ArrayList<String> editList = new ArrayList<>();
     SnsImgRecAdapter snsImgRecAdapter;
-    MainActivity activity;
+    MainActivity activity ;
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;
     File imgFile = null;
@@ -99,8 +99,8 @@ public class EditActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     //if(imgFilePathList == vo.getImgList()) {
                     if(imgFilePathList == vo.getImgList() && vo.getGro_content().equals(sns_edit_text.getText().toString())){
-                        Toast.makeText(EditActivity.this, "변동사항이 없습니다.", Toast.LENGTH_SHORT).show();
-                    }else if(! vo.getGro_content().equals(sns_edit_text.getText().toString())) {
+                        Toast.makeText(EditActivity.this, "수정사항이 없습니다", Toast.LENGTH_SHORT).show();
+                    }else if( !vo.getGro_content().equals(sns_edit_text.getText().toString()) && imgFilePathList == vo.getImgList() ) {
                         //editList.clear();
                         AskTask textUpTask = new AskTask(CommonVal.httpip, "content.sn");
                         Gson gson =new Gson();
@@ -112,11 +112,6 @@ public class EditActivity extends AppCompatActivity {
                         textUpTask.addParam("vo", gson.toJson(vo));
 
                         CommonMethod.excuteGet(textUpTask);
-
-
-                        activity.changeFrag(new SnsFragment(activity));
-                        String a = "";
-
 
                     }
                     else {
@@ -135,13 +130,13 @@ public class EditActivity extends AppCompatActivity {
                         }
 
                         editShareTask.addParam("vo", gson.toJson(vo));
-                        String a = "";
                         CommonMethod.excuteGet(editShareTask);
 
-                        activity.changeFrag(new SnsFragment(activity));
-                        String aa = "";
+                        //액
                     }
-
+                    Intent intent = new Intent(EditActivity.this, MainActivity.class);
+                    intent.putExtra("vo","test");
+                    startActivity(intent);
 
 
                 }

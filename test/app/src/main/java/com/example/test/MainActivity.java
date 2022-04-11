@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION};
     int position = 0;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,11 +73,19 @@ public class MainActivity extends AppCompatActivity {
         tab_sns = findViewById(R.id.tab_sns);
         tab_my = findViewById(R.id.tab_my);
 
+        Intent intent = getIntent();
+        intent.getStringExtra("vo");
+
         if (CommonVal.baby_list.size() == 0) {
             changeFrag(new AddFragment());
-        }else {
+        }else if(intent.getStringExtra("vo") != null){
+            changeFrag(new SnsFragment(this));
+        }
+        else {
             changeFrag(new DiaryFragment());
         }
+
+
 
 
         tab_main.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
