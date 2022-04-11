@@ -335,6 +335,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                         }else if(span_item[index].equals("갤러리")){
                             go_gallery();
                         } else{
+                            edit_photo.setVisibility(View.GONE);
                             //이미지 파일 널처리
                             imgFile = null;
                             imgFilePath = null;

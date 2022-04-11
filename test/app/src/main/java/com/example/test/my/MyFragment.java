@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -68,7 +69,8 @@ public class MyFragment extends Fragment{
         }
 
         //아기 선택
-        BabySelectAdapter babySelectAdapter = new BabySelectAdapter(CommonVal.baby_list, inflater, getContext());
+        BabySelectAdapter babySelectAdapter = new BabySelectAdapter(getContext(), CommonVal.baby_list);
+        babySelectAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         my_spinner.setAdapter(babySelectAdapter);
 
         int index = 0;

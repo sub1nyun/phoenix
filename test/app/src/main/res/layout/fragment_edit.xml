@@ -38,7 +38,6 @@
                 android:textColor="#fff"
                 android:layout_gravity="center_vertical|right"
                 android:layout_marginRight="20dp"/>
-
         </FrameLayout>
     </LinearLayout>
     <LinearLayout
@@ -50,15 +49,13 @@
         <RelativeLayout
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_gravity="center"
-            >
+            android:layout_gravity="center">
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 app:cardCornerRadius="30dp"
                 app:cardElevation="0dp"
-                android:backgroundTint="#E2EDEF"
-                >
+                android:backgroundTint="#E2EDEF">
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -71,8 +68,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_launcher_background"
                 app:riv_corner_radius="30dp"
-                android:scaleType="fitXY"
-                />
+                android:scaleType="fitXY" />
             <ImageView
                 android:id="@+id/imv_camera"
                 android:layout_width="40dp"
@@ -81,17 +77,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="10dp"/>
-
-
         </RelativeLayout>
-        <!--<ImageView
-            android:id="@+id/edit_photo"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/bss_logo"
-            android:background="@drawable/border_round"
-            android:layout_gravity="center"
-            android:scaleType="fitXY"/>-->
 
         <LinearLayout
             android:layout_width="match_parent"
