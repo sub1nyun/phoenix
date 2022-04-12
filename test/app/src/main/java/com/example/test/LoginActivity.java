@@ -192,11 +192,10 @@ public class LoginActivity extends AppCompatActivity {
         naverLogin();
 
 
-        btn_logout.setOnClickListener(v -> {
+       /* btn_logout.setOnClickListener(v -> {
             NaverIdLoginSDK.INSTANCE.logout();
             Toast.makeText(LoginActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
-        });
-
+        });*/
         if(isLogin){
             edt_id.setText(id);
             edt_pw.setText(pw);
@@ -226,7 +225,7 @@ public class LoginActivity extends AppCompatActivity {
         chk_auto = findViewById(R.id.chk_auto);
         btn_kakao = findViewById(R.id.btn_kakao);
         naverlogin = findViewById(R.id.btn_naver);
-        btn_logout = findViewById(R.id.btn_logout);
+        //btn_logout = findViewById(R.id.btn_logout);
     }
 
     public void naverLogin(){

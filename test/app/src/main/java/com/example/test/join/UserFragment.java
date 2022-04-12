@@ -254,23 +254,24 @@ public class UserFragment extends Fragment {
     public boolean id_valid() {
         if (edt_id.getText().toString().equals("")) {
             auto_id_check.setText("아이디를 입력해주세요.");
-            auto_id_check.setTextColor(Color.parseColor("#FF4A4A"));
+            auto_id_check.setTextColor(Color.parseColor("#FF7575"));
             return false;
         } else if (Pattern.matches("^[0-9]{1,28}+[a-z0-9]{1,28}$", JoinMainActivity.vo.getId()) || Pattern.matches("^[a-z]{1,28}+[a-z0-9]{1,28}$", JoinMainActivity.vo.getId())) {
             //"(?:\\w{4,10}[a-z][0-9]+)$"
             auto_id_check.setText("사용가능한 ID 형식입니다.");
-            auto_id_check.setTextColor(Color.parseColor("#46FF3E"));
+            auto_id_check.setTextColor(Color.parseColor("#3a539f"));
+            //                                        원래색 #46FF3E
             if (id_check()) {
                 auto_id_check.setText("사용 가능한 아이디 입니다.");
-                auto_id_check.setTextColor(Color.parseColor("#46FF3E"));
+                auto_id_check.setTextColor(Color.parseColor("#3a539f"));
                 return true;
             } else {
                 auto_id_check.setText("이미사용중인 아이디 입니다.");
-                auto_id_check.setTextColor(Color.parseColor("#FF4A4A"));
+                auto_id_check.setTextColor(Color.parseColor("#FF7575"));
             }
         } else {
             auto_id_check.setText("ID는 영어 소문자/숫자를 5~10글자 입력하셔야합니다.");
-            auto_id_check.setTextColor(Color.parseColor("#FF4A4A"));
+            auto_id_check.setTextColor(Color.parseColor("#FF7575"));
             return false;
         }
 
@@ -282,30 +283,29 @@ public class UserFragment extends Fragment {
     public boolean pw_valid() {
         if (edt_pw.getText().toString().equals("")) {
             pw_check.setText("비밀번호를 입력해주세요.");
-            pw_check.setTextColor(Color.parseColor("#FF4A4A"));
+            pw_check.setTextColor(Color.parseColor("#FF7575"));
             return false;
         } else if (Pattern.matches("^[0-9]{1,28}+[a-z0-9]{1,28}$", JoinMainActivity.vo.getPw()) || Pattern.matches("^[a-z]{1,28}+[a-z0-9]{1,28}$", JoinMainActivity.vo.getPw())) {
             pw_check.setText("사용 가능한 비밀번호입니다.");
-            pw_check.setTextColor(Color.parseColor("#46FF3E"));
+            pw_check.setTextColor(Color.parseColor("#3a539f"));
             return true;
         }else {
             pw_check.setText("PW는 영어 소문자/숫자를 5~10글자 입력하셔야합니다.");
-            pw_check.setTextColor(Color.parseColor("#FF4A4A"));
+            pw_check.setTextColor(Color.parseColor("#FF7575"));
         }
         return false;
     }
-
     public boolean pwchk_valid(){
         if( edt_pwchk.getText().toString().equals("")){
             pwchk_check.setText("비밀번호를 입력하세요.");
-            pwchk_check.setTextColor(Color.parseColor("#FF4A4A"));
+            pwchk_check.setTextColor(Color.parseColor("#FF7575"));
         }else if( edt_pwchk.getText().toString().equals(edt_pw.getText().toString())){
             pwchk_check.setText("비밀번호가 일치합니다.");
-            pwchk_check.setTextColor(Color.parseColor("#46FF3E"));
+            pwchk_check.setTextColor(Color.parseColor("#3a539f"));
             return true;
         }else if( !edt_pw.getText().toString().equals(edt_pwchk.getText().toString())){
             pwchk_check.setText("비밀번호가 다릅니다.");
-            pwchk_check.setTextColor(Color.parseColor("#FF4A4A"));
+            pwchk_check.setTextColor(Color.parseColor("#FF7575"));
             return false;
         }
         return false;

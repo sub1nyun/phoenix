@@ -13,9 +13,12 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="아이의 출산(예정)일은\n언제인가요?"
-        android:textColor="#44526C"
+        android:textColor="#000000"
         android:textSize="30dp"
-        android:lines="2">
+        android:lines="2"
+        android:textStyle="bold"
+        >
+
     </TextView>
 
 

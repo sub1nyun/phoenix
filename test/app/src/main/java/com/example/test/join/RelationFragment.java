@@ -142,9 +142,11 @@ public class RelationFragment extends Fragment {
     public void chg_linear(int num){
         for(int i=0; i<6; i++){
             if(i==num){
-                linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.select_btn));
+                linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.select_bt));
                 tv_list.get(i).setTextColor(Color.parseColor("#ffffff"));
                 //JoinMainActivity.vo.setFamily_rels(btn);
+                // <!--하늘#f0f4f7    파랑 #3a539f 회#B3B3B3 -->
+
                 String aa = "";
             }else{
                 linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.border_round_gray));

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f0f4f7"
     android:orientation="vertical"
     tools:context=".LoginActivity"
     android:padding="30dp">
@@ -12,14 +13,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
-        <Button
+<!--하늘#f0f4f7    파랑 #3a539f 회#B3B3B3 -->
+        <!--<Button
             android:background="#44526C"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="네이버 로그아웃"
             android:backgroundTint="#4CAF50"
-            android:id="@+id/btn_logout"/>
+            android:id="@+id/btn_logout"/>-->
     </LinearLayout>
 
 
@@ -107,7 +108,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:backgroundTint="#44526C"
+            android:backgroundTint="#3a539f"
             android:text="로그인"
             android:textColor="#fff"
             android:textSize="16dp"
@@ -156,17 +157,19 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1"
-                android:background="#C5C4C4"
+                android:background="#000000"
                 android:layout_gravity="center"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" 소셜로 로그인하기 "/>
+                android:text=" 소셜로 로그인하기 "
+                android:textColor="@color/black"
+                />
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1"
-                android:background="#C5C4C4"
+                android:background="#000000"
                 android:layout_gravity="center"/>
         </LinearLayout>
         <ImageView
