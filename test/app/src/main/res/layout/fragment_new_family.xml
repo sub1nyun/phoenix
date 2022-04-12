@@ -9,9 +9,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#44526C"
+        android:textColor="#000000"
         android:text="앞으로 써내려갈 육아일기의\n제목을 정해주세요."
-        android:textSize="30dp"/>
+        android:textStyle="bold"
+        android:textSize="30dp"
+        />
     <TextView
         android:id="@+id/title_check"
         android:layout_width="wrap_content"
@@ -37,4 +39,15 @@
             android:hint="육아일기 제목을 입력해주세요."
             android:textSize="20dp" />
     </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="육아일기 제목은 마이페이지에서 변경이 가능합니다."
+        android:textSize="13dp"
+        android:textColor="#B3B3B3"
+        android:textAlignment="center"
+
+        />
 </LinearLayout>

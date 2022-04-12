@@ -15,6 +15,7 @@
         android:text="아이에게 당신은\n누구인가요?"
         android:textColor="#44526C"
         android:textSize="30dp"
+        android:textStyle="bold"
         >
     </TextView>
 

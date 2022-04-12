@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="우리아이의 사진을\n등록해주세요."
-        android:textColor="#44526C"
+        android:textColor="#000000"
+        android:textStyle="bold"
         android:textSize="30dp"/>
 
     <LinearLayout
@@ -26,14 +27,22 @@
             android:id="@+id/imv_photo"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:src="@drawable/bss_logo"
+            android:src="@drawable/baby_img"
             android:background="@drawable/border_round"
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
             />
 
     </LinearLayout>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이의 사진은 마이페이지에서 언제든지 변경이 가능합니다."
+        android:layout_gravity="center"
+        android:textSize="13dp"
+        android:textColor="#B3B3B3"
+        android:layout_marginTop="15dp"
+        />
 
 
 </LinearLayout>

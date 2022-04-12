@@ -3,20 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f0f4f7"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".join.UserFragment"
     android:orientation="vertical"
     android:padding="30dp">
 
-
+    <!--하늘#f0f4f7    파랑 #3a539f 회#B3B3B3 -->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="사용자(양육자)의 정보를\n입력해주세요"
-        android:textColor="#6C4444"
+        android:text="양육자의 정보를\n입력해주세요."
+        android:textColor="#000000"
         android:textSize="30dp"
+        android:textStyle="bold"
         >
     </TextView>
 
@@ -143,17 +145,19 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"
-            android:background="#C5C4C4"
+            android:background="@color/black"
             android:layout_gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" SNS 계정으로 가입하기 "/>
+            android:text=" SNS 계정으로 가입하기 "
+            android:textColor="@color/black"
+            />
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"
-            android:background="#C5C4C4"
+            android:background="@color/black"
             android:layout_gravity="center"/>
     </LinearLayout>
     <ImageView

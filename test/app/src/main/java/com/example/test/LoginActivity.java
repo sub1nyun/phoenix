@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //key
         KakaoSdk.init(this,"9bb5096013cc3ff738a2ca42f3fd61d1");
         NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
@@ -190,11 +191,10 @@ public class LoginActivity extends AppCompatActivity {
         naverLogin();
 
 
-        btn_logout.setOnClickListener(v -> {
+       /* btn_logout.setOnClickListener(v -> {
             NaverIdLoginSDK.INSTANCE.logout();
             Toast.makeText(LoginActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
-        });
-
+        });*/
         if(isLogin){
             edt_id.setText(id);
             edt_pw.setText(pw);
@@ -224,7 +224,7 @@ public class LoginActivity extends AppCompatActivity {
         chk_auto = findViewById(R.id.chk_auto);
         btn_kakao = findViewById(R.id.btn_kakao);
         naverlogin = findViewById(R.id.btn_naver);
-        btn_logout = findViewById(R.id.btn_logout);
+        //btn_logout = findViewById(R.id.btn_logout);
     }
 
     public void naverLogin(){
@@ -238,6 +238,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(NidProfileResponse nidProfileResponse) {
                         Log.d("naver","onSuccess:성공" + nidProfileResponse.getProfile().getEmail());
+<<<<<<< HEAD
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
                         intent.putExtra("name", nidProfileResponse.getProfile().getName());
@@ -245,6 +246,17 @@ public class LoginActivity extends AppCompatActivity {
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         finish();
+=======
+      //                  Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        String email = nidProfileResponse.getProfile().getEmail();
+                        getinfo( email );
+       //                 intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
+       //                 intent.putExtra("name", nidProfileResponse.getProfile().getName());
+      //                  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      //                  intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+      //                  startActivity(intent);
+
+>>>>>>> 8cc59de93b1d3e3f618b72c3d19bab7f568203ba
                     }
 
                     @Override
@@ -383,24 +395,15 @@ public class LoginActivity extends AppCompatActivity {
                     boolean data = gson.fromJson(new InputStreamReader(in) , Boolean.class);
                     String aa = "";
                     if( data ){
-                        //로그인 된 회원임.
-                        //CommonVal.curuser = vo ;
-                        //Intent intent = new Intent(LoginActivity.this , MainActivity.class);
-                        //startActivity(intent);
-                        Toast.makeText(LoginActivity.this, "정보를 가져옵니다.", Toast.LENGTH_SHORT).show();
-                        JoinMainActivity.vo.setId( email );
-                        JoinMainActivity.vo.setKakao_id( "Y" );
-                        altdialog("해당 아이디로 가입을 시작합니다.",  "ID : " +JoinMainActivity.vo.getId() );
+                        getinfo(email);
                     }else{
-                        Toast.makeText(LoginActivity.this, "정보를 가져오기 실패", Toast.LENGTH_SHORT).show();
-
-                        //회원가입을 진행.
+                        //아이디가 없음
+                        altdialog("알림" ,"아이디가 없어 회원가입 화면으로 이동합니다.");
                         Intent intent = new Intent(LoginActivity.this , JoinMainActivity.class);
                         startActivity(intent);
+
                     }
 
-
-                    // AsynkTask이용해서
                 }
 
             }
@@ -413,7 +416,36 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    public void getinfo(String email){
+        //아이디가 있음
+        if(email != null){
+            CommonVal.curuser.setId( email );
+            Intent intent = new Intent( LoginActivity.this , MainActivity.class);
+            startActivity(intent);
+            //아기 리스트 불러오기
+            AskTask task_social = new AskTask(CommonVal.httpip, "list.bif");
+            //로그인 정보로 수정 필요
+            task_social.addParam("id", CommonVal.curuser.getId());
+            InputStream in1 = CommonMethod.excuteGet(task_social);
+            CommonVal.baby_list = gson.fromJson(new InputStreamReader(in1), new TypeToken<List<BabyInfoVO>>() {
+            }.getType());
+            if (CommonVal.baby_list.size() != 0) {
+                CommonVal.curbaby = CommonVal.baby_list.get(0);
+            }
 
+            // 가족정보 불러오기
+            task_social = new AskTask(CommonVal.httpip, "titlelist.us");
+            task_social.addParam("id", CommonVal.curuser.getId());
+            in1 = CommonMethod.excuteGet(task_social);
+            CommonVal.family_title = gson.fromJson(new InputStreamReader(in1), new TypeToken<List<String>>() {
+            }.getType());
+
+            finish();
+        }else{
+            altdialog("아이디가 없습니다","");
+        }
+
+    }
 
 
 

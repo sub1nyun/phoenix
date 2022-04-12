@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f0f4f7"
     tools:context=".join.JoinMainActivity"
     android:orientation="vertical"
     >
@@ -16,7 +17,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/btn_back"
+            android:src="@drawable/back_bt"
             android:id="@+id/btn_back"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
@@ -37,7 +38,7 @@
         android:text="다  음"
         android:textColor="#fff"
         android:textSize="20dp"
-        android:backgroundTint="#44526C"
+        android:backgroundTint="#3a539f"
         android:background="@drawable/border_round"
         android:layout_margin="20dp"
         />
