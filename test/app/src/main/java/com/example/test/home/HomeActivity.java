@@ -12,6 +12,7 @@ import com.example.test.LoginActivity;
 import com.example.test.R;
 import com.example.test.join.JoinMainActivity;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import me.relex.circleindicator.CircleIndicator3;
 
@@ -20,10 +21,11 @@ public class HomeActivity extends AppCompatActivity {
     FragmentStateAdapter pagerAdapter;
     int num_page = 5;
     DotsIndicator mIndicator;
-    Button btn_login, btn_join;
     Intent intent;
     CircleIndicator3 nIndicator;
     public static HomeActivity activity_home;
+    WormDotsIndicator wormDotsIndicator;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +33,14 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_main);
         activity_home = this;
 
-        btn_join = findViewById(R.id.btn_join);
-        btn_login = findViewById(R.id.btn_login);
         mPager = findViewById(R.id.viewpager);
+
+
+
 
         pagerAdapter = new MyAdapter(this, num_page);
         mPager.setAdapter(pagerAdapter);
+
 
         nIndicator = findViewById(R.id.indicator);
         nIndicator.setViewPager(mPager);
@@ -62,15 +66,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        btn_join.setOnClickListener(v -> {
-           intent = new Intent(this, JoinMainActivity.class);
-           startActivity(intent);
-        });
 
-        btn_login.setOnClickListener(v -> {
-            intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        });
 
     }
 }

@@ -4,39 +4,49 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#44526C">
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_weight="8">
-    <TextView
-        android:textStyle="bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="베시시와 함께하는 육아일기"
-        android:textColor="#FDC2C2"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        android:layout_marginTop="100dp"/>
+
 
     <ImageView
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="130dp"
         android:layout_width="250dp"
         android:layout_height="180dp"
-        android:src="@drawable/t1"
+        android:src="@drawable/tmdwn_boy"
         android:layout_gravity="center"/>
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="베시시와 함께하는 육아일기"
+            android:textColor="#3a539f"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:layout_marginTop="50dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="여기다가 어플의 장점과 주요 기능등을\n적어어어어어어어어어어"
-            android:textColor="#fff"
+            android:text="자신감 있는 육아를 시작하세요"
+            android:textColor="#000"
             android:textSize="15dp"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="15dp"/>
+
+        <ImageView
+            android:layout_width="220dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="150dp"
+            android:src="@drawable/home_hand" />
+
 
      <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
          android:id="@+id/main_dot"
@@ -45,12 +55,11 @@
          android:layout_gravity="center"
          app:progressMode="true"
          app:dotsSize="16dp"
-         app:dotsColor="#FDC2C2"
+         app:dotsColor="#FFEB3B"
          app:selectedDotColor="#FDC2C2"
          app:dotsCornerRadius="8dp"
-         app:dotsWidthFactor="2.5"/>
-
-
+         app:dotsWidthFactor="2.5"
+         android:layout_marginTop="30dp"/>
     </LinearLayout>
 
 

@@ -87,9 +87,9 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
             sns_more.setVisibility(View.VISIBLE);
 
             if (growthVOS.get(position).getBaby_gender().equals("남아")) {
-                baby_icon.setImageResource(R.drawable.sns_baby_boy);
+                baby_icon.setImageResource(R.drawable.tmdwn_boy);
             } else {
-                baby_icon.setImageResource(R.drawable.sns_baby_girl);
+                baby_icon.setImageResource(R.drawable.tmdwn_girl);
             }
             gro_date.setText(growthVOS.get(position).getGro_date());
 
