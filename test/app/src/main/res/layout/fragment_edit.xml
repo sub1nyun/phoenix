@@ -28,7 +28,9 @@
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:textColor="#fff"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false" />
             <TextView
                 android:id="@+id/edit_ok"
                 android:layout_width="wrap_content"
@@ -37,7 +39,9 @@
                 android:text="저장"
                 android:textColor="#fff"
                 android:layout_gravity="center_vertical|right"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </FrameLayout>
     </LinearLayout>
     <LinearLayout
@@ -92,7 +96,9 @@
                 android:text="이름(별명)"
                 android:textStyle="bold"
                 android:textColor="#000"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -105,7 +111,9 @@
                     android:layout_height="wrap_content"
                     android:hint="이름(별명)"
                     android:layout_margin="10dp"
-                    android:background="#fff"/>
+                    android:background="#fff"
+                    android:fontFamily="@font/aa"
+                    android:includeFontPadding="false" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -120,21 +128,27 @@
                 android:text="성별"
                 android:textStyle="bold"
                 android:textColor="#000"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false" />
             <Button
                 android:id="@+id/btn_man"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:text="남자"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <Button
                 android:id="@+id/btn_woman"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:text="여자"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -148,7 +162,9 @@
                 android:text="출생일"
                 android:textStyle="bold"
                 android:textColor="#000"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
 
             <LinearLayout
                 android:id="@+id/edit_birth"
@@ -163,7 +179,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1999/06/30"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:fontFamily="@font/aa"
+                    android:includeFontPadding="false" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -178,14 +196,18 @@
                 android:text="나와의 관계"
                 android:textStyle="bold"
                 android:textColor="#000"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <Button
                 android:id="@+id/my_rels"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="엄마"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -203,13 +225,17 @@
                 android:layout_weight="1"
                 android:text="저장"
                 android:layout_marginRight="10dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <Button
                 android:id="@+id/btn_del"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:text="삭제"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

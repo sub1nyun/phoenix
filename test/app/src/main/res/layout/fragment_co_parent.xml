@@ -28,7 +28,9 @@
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:textColor="#fff"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </FrameLayout>
     </LinearLayout>
 
@@ -51,7 +53,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:text="공동양육 포기하기"/>
+                android:text="공동양육 포기하기"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

@@ -118,8 +118,8 @@ public class GenderFragment extends Fragment {
             if(i==num){
                 //int rtn_index = num;
                 choose = num;
-                linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.select_btn));
-                tv_list.get(i).setTextColor(Color.parseColor("#ffffff"));
+                linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.select_bt));
+                tv_list.get(i).setTextColor(Color.parseColor("#FFFFFF"));
             }else{
                 linear_list.get(i).setBackground(getContext().getDrawable(R.drawable.border_round_gray));
                 tv_list.get(i).setTextColor(Color.parseColor("#707070"));

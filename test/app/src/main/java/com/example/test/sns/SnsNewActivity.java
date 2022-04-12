@@ -68,7 +68,7 @@ public class SnsNewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sns_new);
         checkDangerousPermissions();
 
-        //xml 찾는 함수
+
         binding();
 
         getImage.setOnClickListener(v -> {

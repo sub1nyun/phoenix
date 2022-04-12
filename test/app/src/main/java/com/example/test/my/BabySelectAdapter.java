@@ -36,7 +36,7 @@ public class BabySelectAdapter extends ArrayAdapter<String> {
 
     @Override
     public int getCount() {
-        return list.size();
+        return list.size()+1;
     }
 
     @NonNull
@@ -51,15 +51,16 @@ public class BabySelectAdapter extends ArrayAdapter<String> {
             viewHolder.baby_info_name = convertView.findViewById(R.id.baby_info_name);
             viewHolder.baby_info_birth = convertView.findViewById(R.id.baby_info_birth);
             viewHolder.imv_baby = convertView.findViewById(R.id.imv_baby);
+            viewHolder.spinner = convertView.findViewById(R.id.spinner);
 
-            if(flag==1) {
+            if(flag != 0) {
                 viewHolder.baby_info_birth.setTextColor(Color.parseColor("#000000"));
                 viewHolder.baby_info_name.setTextColor(Color.parseColor("#000000"));
-            }
-            else if(flag==0){
+            } else {
                 viewHolder.baby_info_birth.setTextColor(Color.parseColor("#FFFFFF"));
                 viewHolder.baby_info_name.setTextColor(Color.parseColor("#FFFFFF"));
             }
+
             convertView.setTag(viewHolder);
         } else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -81,6 +82,7 @@ public class BabySelectAdapter extends ArrayAdapter<String> {
             viewHolder.baby_info_birth.setText(list.get(position).getBaby_birth().split(" ")[0].substring(2).replace("-", "/"));
         }
 
+
         return convertView;
     }
 
@@ -88,5 +90,6 @@ public class BabySelectAdapter extends ArrayAdapter<String> {
         RoundedImageView baby_info_photo;
         TextView baby_info_name, baby_info_birth;
         ImageView imv_baby;
+        LinearLayout spinner;
     }
 }

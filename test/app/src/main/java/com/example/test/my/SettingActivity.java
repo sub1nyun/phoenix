@@ -30,6 +30,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.test.LoginActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
@@ -234,8 +235,13 @@ public class SettingActivity extends AppCompatActivity {
                                 InputStream in = CommonMethod.excuteGet(task);
                                 if(gson.fromJson(new InputStreamReader(in), Boolean.class)){
                                     Toast.makeText(SettingActivity.this, "성공적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
+                                    CommonVal.baby_list = null;
+                                    CommonVal.curbaby = null;
+                                    CommonVal.family_title = null;
+                                    CommonVal.curuser = null;
                                     Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
@@ -258,8 +264,20 @@ public class SettingActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //로그인 화면으로 이동
+                                CommonVal.curuser = null;
+                                CommonVal.baby_list = null;
+                                CommonVal.curbaby = null;
+                                CommonVal.family_title = null;
+                                if(LoginActivity.editor != null) {
+                                    LoginActivity.editor.remove("autologin");
+                                    LoginActivity.editor.remove("id");
+                                    LoginActivity.editor.remove("pw");
+                                    LoginActivity.editor.apply();
+                                }
                                 Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
                                 startActivity(intent);
+                                finish();
+
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override

@@ -99,15 +99,15 @@ public class NewFamilyFragment extends Fragment {
         if (edt_title.getText().toString().equals("")) {
             edt_title.requestFocus();
             title_check.setText("육아일기제목을 입력해주세요.");
-            title_check.setTextColor(Color.parseColor("#FF4A4A"));
+            title_check.setTextColor(Color.parseColor("#FF7575"));
             return false;
         } else if (title_check()) {
             title_check.setText("사용 가능한 육아일기제목 입니다.");
-            title_check.setTextColor(Color.parseColor("#46FF3E"));
+            title_check.setTextColor(Color.parseColor("#3a539f"));
             return true;
         } else {
             title_check.setText("이미 사용중인 육아일기제목 입니다.");
-            title_check.setTextColor(Color.parseColor("#FF4A4A"));
+            title_check.setTextColor(Color.parseColor("#FF7575"));
             return false;
         }
     }
