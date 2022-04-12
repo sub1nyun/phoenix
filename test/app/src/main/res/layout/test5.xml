@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#daecf6">
+    android:background="#E7EFF3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,10 +22,11 @@
             android:layout_marginTop="100dp"/>
 
         <ImageView
-            android:layout_marginTop="20dp"
-            android:layout_width="250dp"
-            android:layout_height="180dp"
-            android:src="@drawable/t1"
+            android:scaleType="fitXY"
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="310dp"
+            android:src="@drawable/bss_gro_home"
             android:layout_gravity="center"/>
 
         <TextView
@@ -37,9 +38,10 @@
             android:textSize="15dp"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="30dp"/>
 
         <TextView
+            android:fontFamily="@font/aa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="가족들이 공유한 육아일기를 보며\n어떻게 성장하고 있는 지 확인해보세요"
@@ -62,18 +64,18 @@
             android:id="@+id/btn_join"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="신규 사용자(가입하기)"
-            android:textStyle="bold"
+            android:text="신규 사용자 (가입하기)"
             android:layout_marginTop="10dp"
             android:backgroundTint="#3a539f"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:textStyle="bold"/>
 
         <Button
             android:textColor="#fff"
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="기존 사용자(로그인)"
+            android:text="기존 사용자 (로그인)"
             android:backgroundTint="#3a539f"
             android:textStyle="bold"/>
 

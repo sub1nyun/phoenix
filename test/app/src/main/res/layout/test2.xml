@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#daecf6">
+    android:background="#E7EFF3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +30,7 @@
             android:layout_gravity="center"/>
 
         <TextView
+            android:fontFamily="@font/aa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="아이와 떨어져 있어도~~ 울음소리를 감지해\n알려드립니다."
