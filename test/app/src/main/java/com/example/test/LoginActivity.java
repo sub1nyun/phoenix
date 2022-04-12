@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //key
         KakaoSdk.init(this,"9bb5096013cc3ff738a2ca42f3fd61d1");
         NaverIdLoginSDK.INSTANCE.initialize(LoginActivity.this,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
@@ -239,12 +240,15 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(NidProfileResponse nidProfileResponse) {
                         Log.d("naver","onSuccess:성공" + nidProfileResponse.getProfile().getEmail());
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
-                        intent.putExtra("name", nidProfileResponse.getProfile().getName());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
+      //                  Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        String email = nidProfileResponse.getProfile().getEmail();
+                        getinfo( email );
+       //                 intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
+       //                 intent.putExtra("name", nidProfileResponse.getProfile().getName());
+      //                  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      //                  intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+      //                  startActivity(intent);
+
                     }
 
                     @Override
@@ -382,30 +386,7 @@ public class LoginActivity extends AppCompatActivity {
                     boolean data = gson.fromJson(new InputStreamReader(in) , Boolean.class);
                     String aa = "";
                     if( data ){
-                        //아이디가 있음
-                        CommonVal.curuser.setId( email );
-                        Intent intent = new Intent( LoginActivity.this , MainActivity.class);
-                        startActivity(intent);
-                        //아기 리스트 불러오기
-                        AskTask task_social = new AskTask(CommonVal.httpip, "list.bif");
-                        //로그인 정보로 수정 필요
-                        task_social.addParam("id", CommonVal.curuser.getId());
-                        InputStream in1 = CommonMethod.excuteGet(task_social);
-                        CommonVal.baby_list = gson.fromJson(new InputStreamReader(in1), new TypeToken<List<BabyInfoVO>>() {
-                        }.getType());
-                        if (CommonVal.baby_list.size() != 0) {
-                            CommonVal.curbaby = CommonVal.baby_list.get(0);
-                        }
-
-                        // 가족정보 불러오기
-                        task_social = new AskTask(CommonVal.httpip, "titlelist.us");
-                        task_social.addParam("id", CommonVal.curuser.getId());
-                        in1 = CommonMethod.excuteGet(task_social);
-                        CommonVal.family_title = gson.fromJson(new InputStreamReader(in1), new TypeToken<List<String>>() {
-                        }.getType());
-
-                        finish();
-                        // AsynkTask이용해서
+                        getinfo(email);
                     }else{
                         //아이디가 없음
                         altdialog("알림" ,"아이디가 없어 회원가입 화면으로 이동합니다.");
@@ -426,7 +407,36 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    public void getinfo(String email){
+        //아이디가 있음
+        if(email != null){
+            CommonVal.curuser.setId( email );
+            Intent intent = new Intent( LoginActivity.this , MainActivity.class);
+            startActivity(intent);
+            //아기 리스트 불러오기
+            AskTask task_social = new AskTask(CommonVal.httpip, "list.bif");
+            //로그인 정보로 수정 필요
+            task_social.addParam("id", CommonVal.curuser.getId());
+            InputStream in1 = CommonMethod.excuteGet(task_social);
+            CommonVal.baby_list = gson.fromJson(new InputStreamReader(in1), new TypeToken<List<BabyInfoVO>>() {
+            }.getType());
+            if (CommonVal.baby_list.size() != 0) {
+                CommonVal.curbaby = CommonVal.baby_list.get(0);
+            }
 
+            // 가족정보 불러오기
+            task_social = new AskTask(CommonVal.httpip, "titlelist.us");
+            task_social.addParam("id", CommonVal.curuser.getId());
+            in1 = CommonMethod.excuteGet(task_social);
+            CommonVal.family_title = gson.fromJson(new InputStreamReader(in1), new TypeToken<List<String>>() {
+            }.getType());
+
+            finish();
+        }else{
+            altdialog("아이디가 없습니다","");
+        }
+
+    }
 
 
 
