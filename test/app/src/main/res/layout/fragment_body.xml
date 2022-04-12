@@ -30,7 +30,9 @@
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:textColor="#fff"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <TextView
                 android:id="@+id/edit_ok"
                 android:layout_width="wrap_content"
@@ -38,7 +40,9 @@
                 android:text="저장"
                 android:textSize="17dp"
                 android:textColor="#fff"
-                android:layout_gravity="center_vertical|right"/>
+                android:layout_gravity="center_vertical|right"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </FrameLayout>
     </LinearLayout>
     <LinearLayout
@@ -54,7 +58,9 @@
             android:text="기본 정보"
             android:textColor="#000"
             android:textStyle="bold"
-            android:textSize="18dp"/>
+            android:textSize="18dp"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,14 +74,18 @@
                 android:text="이름(별명)"
                 android:textStyle="bold"
                 android:textColor="#000"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:text="이름"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,14 +100,18 @@
                 android:text="성별"
                 android:textStyle="bold"
                 android:textColor="#000"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <TextView
                 android:id="@+id/tv_gender"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:text="성별"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -114,8 +128,10 @@
                 android:id="@+id/tv_bodyinfo"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="신체 정보"
+                android:fontFamily="@font/aa"
                 android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="신체 정보"
                 android:textColor="#673AB7"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -126,7 +142,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/tv_bodyinfo"
+                android:fontFamily="@font/aa"
                 android:gravity="center_vertical"
+                android:includeFontPadding="false"
                 android:text="(2222년 22월 22일)" />
 
             <ImageView
@@ -163,21 +181,27 @@
                 android:layout_weight="2"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                android:text="몸무게"/>
+                android:text="몸무게"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <EditText
                 android:id="@+id/edit_weight"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:inputType="numberDecimal"
-                android:textAlignment="textEnd"/>
+                android:textAlignment="textEnd"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                android:text="kg"/>
+                android:text="kg"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -196,21 +220,27 @@
                 android:layout_weight="2"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                android:text="키"/>
+                android:text="키"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <EditText
                 android:id="@+id/edit_height"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:inputType="numberDecimal"
-                android:textAlignment="textEnd"/>
+                android:textAlignment="textEnd"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                android:text="kg"/>
+                android:text="kg"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

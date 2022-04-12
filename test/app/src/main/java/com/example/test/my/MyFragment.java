@@ -3,9 +3,11 @@ package com.example.test.my;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +44,8 @@ import com.example.test.join.NewFamilyFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.w3c.dom.Text;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -75,7 +79,6 @@ public class MyFragment extends Fragment{
 
         //아기 선택
         BabySelectAdapter babySelectAdapter = new BabySelectAdapter(getContext(), CommonVal.baby_list);
-        //babySelectAdapter.setDropDownViewResource(R.layout.my_spinner_item2);
         my_spinner.setAdapter(babySelectAdapter);
 
         int index = 0;
@@ -108,6 +111,13 @@ public class MyFragment extends Fragment{
                     InsertDialog(view);
                 } else {
                     CommonVal.curbaby = CommonVal.baby_list.get(position);
+                    for(int i = 0 ;  i < my_spinner.getChildCount();  i++){
+                        View v = my_spinner.getChildAt(i);
+                        TextView birth = v.findViewById(R.id.baby_info_birth);
+                        TextView name = v.findViewById(R.id.baby_info_name);
+                        birth.setTextColor(Color.parseColor("#FFFFFF"));
+                        name.setTextColor(Color.parseColor("#FFFFFF"));
+                    }
                 }
             }
 
@@ -173,7 +183,8 @@ public class MyFragment extends Fragment{
 
     //스피너에서 아기 추가 선택 시
     public void InsertDialog(View view){
-        new AlertDialog.Builder(getContext()).setTitle("육아 일기 선택").setSingleChoiceItems(titlelist, -1, new DialogInterface.OnClickListener() {
+        ContextThemeWrapper cw = new ContextThemeWrapper(getContext(), R.style.AlertDialogTheme);
+        AlertDialog dialog = new AlertDialog.Builder(cw).setTitle("육아일기선택").setSingleChoiceItems(titlelist, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getContext(), titlelist[which], Toast.LENGTH_SHORT).show();
@@ -192,13 +203,16 @@ public class MyFragment extends Fragment{
                     intent.putExtra("category", "old");
                 }
                 startActivity(intent);
-                ((MainActivity)getActivity()).finish();
             }
         }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 my_spinner.setSelection(0);
             }
-        }).show();
+        }).setCancelable(false).show();
+
+        /*TextView tv = dialog.findViewById(R.id.title);
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "@font/aa");
+        tv.setTypeface(typeface);*/
     }
 }

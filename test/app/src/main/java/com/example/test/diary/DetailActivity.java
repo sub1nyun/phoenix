@@ -2,6 +2,7 @@ package com.example.test.diary;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -189,21 +191,10 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute)
             {
-//                String strdate =
-//
-//                if(hourOfDay<10){
-//                    strdate += "0" + hourOfDay;
-//                }else{
-//                    strdate += hourOfDay;
-//                }
-//                if(minute<10){
-//                    strdate +=":0" + minute;
-//                }else{
-//                    strdate +=":" + minute;
-//                }
-
                 dto.setStart_time(String.format("%02d", hourOfDay ) +":"+ String.format("%02d", minute ));
                 tv_start.setText(String.format("%02d", hourOfDay ) +":"+ String.format("%02d", minute ));
+                time_arr1[0] = String.format("%02d", hourOfDay );
+                time_arr1[1] = String.format("%02d", minute );
             }
         };
 
@@ -212,21 +203,10 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute)
             {
-                /*String strdate = "";
-
-                if(hourOfDay<10){
-                    strdate += "0" + hourOfDay;
-                }else{
-                    strdate += hourOfDay;
-                }
-                if(minute<10){
-                    strdate +=":0" + minute;
-                }else{
-                    strdate +=":" + minute;
-                }*/
-
                 dto.setEnd_time(String.format("%02d", hourOfDay ) +":"+ String.format("%02d", minute ));
                 tv_end.setText(String.format("%02d", hourOfDay ) +":"+ String.format("%02d", minute ));
+                time_arr2[0] = String.format("%02d", hourOfDay );
+                time_arr2[1] = String.format("%02d", minute );
             }
         };
 
@@ -387,11 +367,10 @@ public class DetailActivity extends AppCompatActivity {
     public void changeBtn(int num){
         for(int i=0; i<btns.size(); i++){
             if(i==num){
-                btns.get(i).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFB547")));
-                btns.get(i).setTextColor(Color.parseColor("#ffffff"));
+                btns.get(i).setBackground(ContextCompat.getDrawable(this, R.drawable.border_round_gray_fill));
+//btns.get(i).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D1D1D1")));
             }else{
-                btns.get(i).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));
-                btns.get(i).setTextColor(Color.parseColor("#000000"));
+                btns.get(i).setBackground(ContextCompat.getDrawable(this, R.drawable.border_round_gray));
             }
         }
     }

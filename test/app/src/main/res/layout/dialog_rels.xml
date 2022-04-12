@@ -20,7 +20,9 @@
             android:text="아이와의 관계를 선택해주세요."
             android:textColor="#000"
             android:textSize="18dp"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false" />
     </LinearLayout>
 
     <LinearLayout
@@ -41,7 +43,9 @@
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="2dp"
-                android:text="엄마"/>
+                android:text="엄마"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rels_dad"
                 android:layout_width="60dp"
@@ -49,7 +53,9 @@
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="2dp"
-                android:text="아빠"/>
+                android:text="아빠"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rels_sitter"
                 android:layout_width="60dp"
@@ -57,7 +63,9 @@
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="2dp"
-                android:text="시터"/>
+                android:text="시터"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -72,7 +80,9 @@
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="2dp"
-                android:text="할머니"/>
+                android:text="할머니"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rels_grdad"
                 android:layout_width="60dp"
@@ -80,7 +90,9 @@
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="2dp"
-                android:text="할아버지"/>
+                android:text="할아버지"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rels_other"
                 android:layout_width="60dp"
@@ -88,7 +100,9 @@
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="2dp"
-                android:text="기타"/>
+                android:text="가족"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
         </LinearLayout>
         <Button
             android:id="@+id/btn_rels"
@@ -96,6 +110,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="확인"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"/>
     </LinearLayout>
 </LinearLayout>

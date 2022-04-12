@@ -28,7 +28,9 @@
                     android:layout_marginRight="5dp"
                     android:textSize="16dp"
                     android:textStyle="bold"
-                    android:textColor="#858585"/>
+                    android:textColor="#858585"
+                    android:fontFamily="@font/aa"
+                    android:includeFontPadding="false"/>
                 <View
                     android:layout_width="2dp"
                     android:layout_height="2dp"
@@ -43,7 +45,9 @@
                     android:text="여아"
                     android:textStyle="bold"
                     android:textColor="#FFB547"
-                    android:textSize="15dp"/>
+                    android:textSize="15dp"
+                    android:fontFamily="@font/aa"
+                    android:includeFontPadding="false"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -90,13 +94,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="생년월일"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    android:fontFamily="@font/aa"
+                    android:includeFontPadding="false"/>
                 <TextView
                     android:id="@+id/tv_body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="키, 몸무게"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    android:fontFamily="@font/aa"
+                    android:includeFontPadding="false"/>
             </LinearLayout>
         </LinearLayout>
         <!--<ImageView

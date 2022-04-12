@@ -23,7 +23,9 @@
             android:layout_height="wrap_content"
             android:text="육아일기 제목"
             android:textStyle="bold"
-            android:textSize="23dp"/>
+            android:textSize="23dp"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false" />
         <ImageView
             android:id="@+id/my_diary_title_edit"
             android:layout_width="25dp"

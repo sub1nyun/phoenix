@@ -59,6 +59,8 @@ public class LoginActivity extends AppCompatActivity {
     NidOAuthLoginButton naverlogin;
     Gson gson = new Gson();
     public static OAuthLogin mOAuthLoginModule;
+    public static SharedPreferences preferences;
+    public static SharedPreferences.Editor editor;
 
 
     @Override
@@ -115,13 +117,10 @@ public class LoginActivity extends AppCompatActivity {
                     if ( login ) {
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
-
                         //로그인 정보 저장
                   /*  CommonVal.curuser.setId( edt_id.getText().toString() );
                     CommonVal.curuser.setPw( edt_id.getText().toString() );
 */
-
-
                         //초대로 왔을 때
                         if (invite_title != null) {
                             if(!in_family(invite_title)) {
@@ -245,6 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
+                        finish();
                     }
 
                     @Override
@@ -299,8 +299,8 @@ public class LoginActivity extends AppCompatActivity {
     public void saveLoginInfo() {
         //체크박스 자동로그인이 체크가 된 상태라면 임시 데이터를 저장함 ( 로그인 정보를 )
         try {
-            SharedPreferences preferences  = getPreferences(LoginActivity.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
+            preferences  = getPreferences(LoginActivity.MODE_PRIVATE);
+            editor = preferences.edit();
             if (chk_auto.isChecked()) { //로그인 정보를 저장함.
                 editor.putBoolean("autologin" , true);
                 editor.putString("id", edt_id.getText() + "");
@@ -327,8 +327,9 @@ public class LoginActivity extends AppCompatActivity {
         CommonVal.curuser = gson.fromJson(new InputStreamReader(login_in), UserVO.class);
         if (CommonVal.curuser != null ){
             saveLoginInfo();
-            Intent login_intent = new Intent(LoginActivity.this, MainActivity.class);
+           /* Intent login_intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(login_intent);
+            finish();*/
             return true;
         }else {
             altdialog("아이디 비밀번호를 확인해주세요.","");
