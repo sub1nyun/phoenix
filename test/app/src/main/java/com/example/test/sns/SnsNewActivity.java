@@ -71,6 +71,10 @@ public class SnsNewActivity extends AppCompatActivity {
 
         binding();
 
+        sns_new_img_rec.setOnClickListener(v -> {
+            showDialog();
+        });
+
         getImage.setOnClickListener(v -> {
             showDialog();
         });
@@ -101,7 +105,15 @@ public class SnsNewActivity extends AppCompatActivity {
                 finish();
 
             }else {
-                Toast.makeText(SnsNewActivity.this, "기록될 사진을 등록해 주세요", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("기록될 사진을 등록해 주세요!").setMessage("");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+
             }
         });
     }//onCreate

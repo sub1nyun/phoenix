@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:textColor="#000"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,6 +78,7 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
+
             android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="300dp"

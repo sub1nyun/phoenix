@@ -12,14 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        android:background="#FFFFFF">
+        android:background="#3a539f">
+
+
 
         <ImageView
+            android:id="@+id/sns_new_back"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:src="@drawable/sns_back"
-            android:id="@+id/sns_new_back"/>
+            android:src="@drawable/gro_arrow" />
 
         <ImageView
             android:layout_width="0dp"
@@ -27,11 +29,12 @@
             android:layout_height="wrap_content" />
 
         <ImageView
+            android:layout_margin="10dp"
             android:id="@+id/getImage"
-            android:src="@drawable/sns_camera"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="2"
-            android:layout_height="wrap_content" />
+            android:src="@drawable/gro_camera" />
 
         <TextView
             android:layout_width="0dp"
@@ -41,26 +44,43 @@
             android:textSize="20dp"
             android:layout_gravity="center"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="#fff"
             android:id="@+id/sns_new_share"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="vertical"
+        >
 
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@drawable/border_square_gray"
+        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
+        android:tooltipText="카메라 아이콘을 클릭해주세요"
         android:scaleType="fitXY"
         android:layout_weight="5"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/sns_new_img_rec"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal"
+        />
 
   <EditText
+      android:layout_margin="10dp"
+      android:layout_marginTop="5dp"
+      android:background="@drawable/border_round_gray"
       android:layout_weight="4"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/sns_new_text"
       android:textSize="20dp"
-      android:hint="내용을 작성하세요"/>
+      android:hint="일기를 작성해보세요"/>
 
+
+    </LinearLayout>
 </LinearLayout>

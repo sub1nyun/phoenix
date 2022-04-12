@@ -111,7 +111,7 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
             holder.sns_more.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle("성장일지 관리하기").setMessage("");
+                builder.setTitle("성장일기 관리하기").setMessage("");
                 builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
                     @Override
                    public void onClick(DialogInterface dialog, int which) {

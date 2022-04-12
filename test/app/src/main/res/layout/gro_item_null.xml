@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="5dp"
                 android:layout_gravity="center"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -31,7 +31,7 @@
                 />
 
             <TextView
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Baby Smile Support"
@@ -71,6 +71,7 @@
             android:layout_weight="0">
 
             <TextView
+                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="놓치기 싫은 아이와의 행복한 순간들을 지금바로\n공유하세요"
