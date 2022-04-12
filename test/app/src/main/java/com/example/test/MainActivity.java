@@ -208,7 +208,9 @@ public class MainActivity extends AppCompatActivity {
             ((OnBackPressedListenser) fragment).onBackPressed();
         } else {
             if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+                moveTaskToBack(true);
                 finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
             } else {
                 backPressedTime = tempTime;
                 Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();

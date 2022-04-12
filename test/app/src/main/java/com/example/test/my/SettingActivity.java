@@ -277,7 +277,6 @@ public class SettingActivity extends AppCompatActivity {
                                 Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
                                 startActivity(intent);
                                 finish();
-                                android.os.Process.killProcess(android.os.Process.myPid());
 
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {

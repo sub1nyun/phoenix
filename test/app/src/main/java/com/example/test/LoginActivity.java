@@ -47,6 +47,7 @@ import java.util.List;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
+import retrofit2.http.HEAD;
 
 public class LoginActivity extends AppCompatActivity {
     Button btn_login, btn_join, btn_forget;
@@ -238,7 +239,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(NidProfileResponse nidProfileResponse) {
                         Log.d("naver","onSuccess:성공" + nidProfileResponse.getProfile().getEmail());
-<<<<<<< HEAD
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
                         intent.putExtra("name", nidProfileResponse.getProfile().getName());
@@ -246,7 +246,6 @@ public class LoginActivity extends AppCompatActivity {
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         finish();
-=======
       //                  Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         String email = nidProfileResponse.getProfile().getEmail();
                         getinfo( email );
@@ -256,7 +255,6 @@ public class LoginActivity extends AppCompatActivity {
       //                  intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
       //                  startActivity(intent);
 
->>>>>>> 8cc59de93b1d3e3f618b72c3d19bab7f568203ba
                     }
 
                     @Override
