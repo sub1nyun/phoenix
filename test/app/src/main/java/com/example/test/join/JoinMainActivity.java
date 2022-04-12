@@ -46,7 +46,7 @@ public class JoinMainActivity extends AppCompatActivity {
     Gson gson = new Gson();
     List<UserVO> list;
     UserFragment userFragment = new UserFragment();
-    NewFamilyFragment newFamilyFragment = new NewFamilyFragment(JoinMainActivity.this);
+    public NewFamilyFragment newFamilyFragment = new NewFamilyFragment(JoinMainActivity.this);
 //    RelationFragment relationFragment = new RelationFragment();
 //    BirthFragment birthFragment = new BirthFragment();
     BabyFragment babyFragment = new BabyFragment();
@@ -73,6 +73,15 @@ public class JoinMainActivity extends AppCompatActivity {
         //아기 추가 시
         Intent intent_my = getIntent();
         str = intent_my.getStringExtra("category");
+
+        //소셜 로그인 시 아이디 없을떄
+        /*Intent intent_id = getIntent();
+        String no_id = intent_id.getStringExtra("no_id");
+        if(  no_id.equals("no_id") ){
+
+        }*/
+
+
 
         //초대코드로 왔을 때
         Intent intent = getIntent();

@@ -382,24 +382,38 @@ public class LoginActivity extends AppCompatActivity {
                     boolean data = gson.fromJson(new InputStreamReader(in) , Boolean.class);
                     String aa = "";
                     if( data ){
-                        //로그인 된 회원임.
-                        //CommonVal.curuser = vo ;
-                        //Intent intent = new Intent(LoginActivity.this , MainActivity.class);
-                        //startActivity(intent);
-                        Toast.makeText(LoginActivity.this, "정보를 가져옵니다.", Toast.LENGTH_SHORT).show();
-                        JoinMainActivity.vo.setId( email );
-                        JoinMainActivity.vo.setKakao_id( "Y" );
-                        altdialog("해당 아이디로 가입을 시작합니다.",  "ID : " +JoinMainActivity.vo.getId() );
-                    }else{
-                        Toast.makeText(LoginActivity.this, "정보를 가져오기 실패", Toast.LENGTH_SHORT).show();
+                        //아이디가 있음
+                        CommonVal.curuser.setId( email );
+                        Intent intent = new Intent( LoginActivity.this , MainActivity.class);
+                        startActivity(intent);
+                        //아기 리스트 불러오기
+                        AskTask task_social = new AskTask(CommonVal.httpip, "list.bif");
+                        //로그인 정보로 수정 필요
+                        task_social.addParam("id", CommonVal.curuser.getId());
+                        InputStream in1 = CommonMethod.excuteGet(task_social);
+                        CommonVal.baby_list = gson.fromJson(new InputStreamReader(in1), new TypeToken<List<BabyInfoVO>>() {
+                        }.getType());
+                        if (CommonVal.baby_list.size() != 0) {
+                            CommonVal.curbaby = CommonVal.baby_list.get(0);
+                        }
 
-                        //회원가입을 진행.
+                        // 가족정보 불러오기
+                        task_social = new AskTask(CommonVal.httpip, "titlelist.us");
+                        task_social.addParam("id", CommonVal.curuser.getId());
+                        in1 = CommonMethod.excuteGet(task_social);
+                        CommonVal.family_title = gson.fromJson(new InputStreamReader(in1), new TypeToken<List<String>>() {
+                        }.getType());
+
+                        finish();
+                        // AsynkTask이용해서
+                    }else{
+                        //아이디가 없음
+                        altdialog("알림" ,"아이디가 없어 회원가입 화면으로 이동합니다.");
                         Intent intent = new Intent(LoginActivity.this , JoinMainActivity.class);
                         startActivity(intent);
+
                     }
 
-
-                    // AsynkTask이용해서
                 }
 
             }
