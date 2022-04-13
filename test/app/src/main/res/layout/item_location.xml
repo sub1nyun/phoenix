@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:padding="8dp"
     android:layout_height="wrap_content"
-    android:id="@+id/location_detail">
+    android:id="@+id/location_detail"
+    android:background="#fff">
     <TextView
         android:id="@+id/ltem_location_tv_placename"
         android:layout_width="match_parent"

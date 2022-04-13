@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tab_main;
     TabItem tab_diary, tab_map, tab_iot, tab_sns, tab_my;
 
+    public static Activity mainActivity;
+
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainActivity = this;
+
         if (HomeActivity.activity_home != null) {
             HomeActivity.activity_home.finish();
         }

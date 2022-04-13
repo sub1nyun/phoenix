@@ -142,13 +142,6 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
         mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
         mLoaderLayout.setVisibility(View.VISIBLE);
 
-        findViewById(R.id.exit_map).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         imgv_injection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

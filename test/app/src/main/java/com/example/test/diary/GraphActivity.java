@@ -2,6 +2,7 @@ package com.example.test.diary;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -65,7 +67,9 @@ public class GraphActivity extends AppCompatActivity{
         back_graph = findViewById(R.id.back_graph);
 
         lineChart.setNoDataText("그래프를 그릴 수 있는 데이터가 충분하지 않습니다.");
-        lineChart.setNoDataTextColor(Color.parseColor("#111111"));
+        lineChart.setNoDataTextColor(Color.parseColor("#FFA200"));
+        Paint paint = lineChart.getPaint(Chart.PAINT_INFO);
+        paint.setTextSize(40);
 
         AskTask task_heat = new AskTask(CommonVal.httpip, "select_heat.stor");
         task_heat.addParam("baby_id", CommonVal.curbaby.getBaby_id());
@@ -164,8 +168,8 @@ public class GraphActivity extends AppCompatActivity{
 
     //그래프 생성
     public void makeChart(ArrayList<Entry> values, ArrayList<String> date, String category){
-        LineDataSet lineDataSet = new LineDataSet(values, "라벨 줘야돼?");
-        lineDataSet.setLineWidth(2);
+        LineDataSet lineDataSet = new LineDataSet(values, "라벨");
+        lineDataSet.setLineWidth(3);
         lineDataSet.setCircleRadius(6);
         lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
         lineDataSet.setCircleHoleColor(Color.BLUE);
@@ -181,9 +185,9 @@ public class GraphActivity extends AppCompatActivity{
         XAxis xAxis = lineChart.getXAxis(); //x축 설정
 
         if(category.equals("heat")){
-            lineDataSet.setCircleColor(Color.parseColor("#4de62210"));
-            lineDataSet.setCircleHoleColor(Color.parseColor("#940000"));
-            lineDataSet.setColor(Color.parseColor("#e62210"));
+            lineDataSet.setCircleColor(Color.parseColor("#4dFF6B6B"));
+            lineDataSet.setCircleHoleColor(Color.parseColor("#FF6B6B"));
+            lineDataSet.setColor(Color.parseColor("#99FF6B6B"));
 
             String[] diary_date = new String[date.size()];
             String[] time_date = new String[date.size()];
@@ -213,14 +217,14 @@ public class GraphActivity extends AppCompatActivity{
             xAxis.setValueFormatter(new IndexAxisValueFormatter(time_date));
         }else{
             if(category.equals("cm")){
-                lineDataSet.setCircleColor(Color.parseColor("#4d00ba09"));
-                lineDataSet.setCircleHoleColor(Color.parseColor("#00610b"));
-                lineDataSet.setColor(Color.parseColor("#00ba09"));
+                lineDataSet.setCircleColor(Color.parseColor("#4d6BCB77"));
+                lineDataSet.setCircleHoleColor(Color.parseColor("#6BCB77"));
+                lineDataSet.setColor(Color.parseColor("#b36BCB77"));
             }
             else if(category.equals("kg")){
-                lineDataSet.setCircleColor(Color.parseColor("#4d1126f5"));
-                lineDataSet.setCircleHoleColor(Color.parseColor("#000640"));
-                lineDataSet.setColor(Color.parseColor("#1126f5"));
+                lineDataSet.setCircleColor(Color.parseColor("#4d4D96FF"));
+                lineDataSet.setCircleHoleColor(Color.parseColor("#4D96FF"));
+                lineDataSet.setColor(Color.parseColor("#994D96FF"));
             }
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis.setValueFormatter(new IndexAxisValueFormatter(date)); //x축 표현을 string으로 포맷

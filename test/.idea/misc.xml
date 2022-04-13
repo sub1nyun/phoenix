@@ -23,10 +23,14 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/font/mainfont.xml" value="0.26458333333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_detail.xml" value="0.33" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_detail2.xml" value="0.36614583333333334" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_graph.xml" value="0.33" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_edit.xml" value="0.234375" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_gallery.xml" value="0.234375" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_graph.xml" value="0.3762541806020067" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_gro_detail_main.xml" value="0.234375" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_home.xml" value="0.234375" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_invite.xml" value="0.25" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_join_main.xml" value="0.2046875" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_kakao_map.xml" value="0.25" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_kakao_map.xml" value="0.22" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.22864583333333333" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.26403985507246375" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_map_search_detail.xml" value="0.27760416666666665" />
@@ -40,9 +44,10 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/dialog_diary_title.xml" value="0.21693840579710144" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/dialog_rels.xml" value="0.21693840579710144" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fontf.xml" value="0.234375" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_add.xml" value="0.33" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_body.xml" value="0.33" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_co_parent.xml" value="0.16530797101449277" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_dairy.xml" value="0.67" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_dairy.xml" value="0.25" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_edit.xml" value="0.25" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_iot.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_map.xml" value="0.36614583333333334" />
@@ -68,31 +73,10 @@
         <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/activity_join_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/activity_splash.xml" value="0.1" />
-<<<<<<< HEAD
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.22552083333333334" />
-=======
-        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/fragment_my.xml" value="0.18802083333333333" />
-        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/fragment_sns.xml" value="0.22" />
-        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/gro_detail_item.xml" value="0.36614583333333334" />
-        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/gro_item_null.xml" value="0.18802083333333333" />
-        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/sns_growth_item.xml" value="0.1816123188405797" />
-        <entry key="..\:/Study/Study_android/phoenix/test/app/src/main/res/layout/sns_item_pick.xml" value="0.1816123188405797" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/drawable/back_bt.xml" value="0.38229166666666664" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/drawable/border_round_gray.xml" value="0.22083333333333333" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/drawable/select_bt.xml" value="0.22083333333333333" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/drawable/select_btn.xml" value="0.22083333333333333" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_join_main.xml" value="0.25905797101449274" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.22" />
->>>>>>> 8cc59de93b1d3e3f618b72c3d19bab7f568203ba
         <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_baby.xml" value="0.33" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_birth.xml" value="0.2046875" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_child_birth.xml" value="0.2046875" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_gender.xml" value="0.2046875" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_new_family.xml" value="0.33" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_picture.xml" value="0.2046875" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_relation.xml" value="0.2046875" />
-        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_user.xml" value="0.25" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_new_family.xml" value="0.22552083333333334" />
+        <entry key="..\:/bss/phoenix/test/app/src/main/res/layout/fragment_user.xml" value="0.2390625" />
         <entry key="..\:/test/app/src/main/res/layout/activity_main.xml" value="0.15881458966565348" />
         <entry key="..\:/tmdwnProgram/bss/test/app/src/main/res/layout/activity_detail.xml" value="0.24947916666666667" />
         <entry key="..\:/tmdwnProgram/bss/test/app/src/main/res/layout/activity_graph.xml" value="0.18432971014492755" />

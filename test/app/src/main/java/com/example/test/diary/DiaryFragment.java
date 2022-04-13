@@ -207,7 +207,7 @@ public class DiaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 today.add(Calendar.DATE, -1);
-                tv_today.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일");
+                tv_today.setText(today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH)+1) + "월 " + today.get(Calendar.DATE) + "일");
                 chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE));
             }
         });
@@ -216,7 +216,7 @@ public class DiaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 today.add(Calendar.DATE, 1);
-                tv_today.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH)+1) + "월" + today.get(Calendar.DATE) + "일");
+                tv_today.setText(today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH)+1) + "월 " + today.get(Calendar.DATE) + "일");
                 chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE));
             }
         });
