@@ -49,18 +49,11 @@ public class InviteActivity extends AppCompatActivity {
                         Uri deepLink = null;
                         //app으로 실행 했을 경우 (deeplink 없는 경우)
                         if (pendingDynamicLinkData == null) {
-                            //String family_id = deepLink.getQueryParameter("familyId");
 
                             Log.d("asd: ", "No have dynamic link");
-                            //tv.setText(family_id);
-                            /*Intent intent = new Intent(InviteLinkActivity.this, SplashActivity.class);
-                            startActivity(intent);
-                            finish();*/
-
 
                         }
-                        //deeplink로 app 넘어 왔을 경우
-                        //pendingDynamicLinkData != null && deepLink.getBooleanQueryParameter("familyId",false)-- 조건
+
                         else {
                             deepLink = pendingDynamicLinkData.getLink();
                             String family_id = deepLink.getQueryParameter("familyId");
@@ -71,18 +64,7 @@ public class InviteActivity extends AppCompatActivity {
                             String title = gson.fromJson(new InputStreamReader(in), String.class);
                             Log.d("asd : ", "family_id: " + title);
                             tv_invite.setText(title + "에 " + rels + "로 초대 받으셨습니다.");
-                            //tv.setText(family_id);
-                            /*deepLink = pendingDynamicLinkData.getLink();
-                            Log.d("asd: ", "deepLink: " + deepLink);
-                            String segment = deepLink.getLastPathSegment();
 
-                            //uri에 있는 key값 가져오기
-                            switch (segment) {
-                                case "invite":
-                                    String code = deepLink.getQueryParameter("uid");
-                                    showCheckDialog(code);      //임의로 dialog로 key값 띄움
-                                    break;
-                            }*/
                             btn_login.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

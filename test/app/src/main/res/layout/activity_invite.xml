@@ -41,10 +41,10 @@
             android:layout_gravity="bottom"
             android:background="@drawable/border_round_blue"
             android:backgroundTint="#335495"
-            android:text="가입하기(신규 사용자)"
-            android:textColor="#fff"
             android:fontFamily="@font/aa"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false"
+            android:text="가입하기(신규 사용자)"
+            android:textColor="#fff" />
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
