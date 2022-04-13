@@ -46,7 +46,7 @@ import kotlin.jvm.functions.Function2;
 
 public class UserFragment extends Fragment {
     EditText edt_id, edt_pw, edt_pwchk;
-    ImageView join_kakao;
+    ImageView join_kakao, imv_naver;
     TextView tv_id_check, auto_id_check, pw_check, pwchk_check;
     String family_id;
     Gson gson = new Gson();
@@ -91,6 +91,7 @@ public class UserFragment extends Fragment {
         pwchk_check = rootVIew.findViewById(R.id.pwchk_check);
 
         join_kakao = rootVIew.findViewById(R.id.join_kakao);
+        imv_naver = rootVIew.findViewById(R.id.imv_naver);
         join_naver = rootVIew.findViewById(R.id.join_naver);
 
 
@@ -159,11 +160,13 @@ public class UserFragment extends Fragment {
                 }
             }
         });
-
+        imv_naver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                join_naver.callOnClick();
+            }
+        });
             
-
-
-
 
         naverLogin();
 

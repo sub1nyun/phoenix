@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public class RelsDialog extends Dialog implements View.OnClickListener {
     private DialogListener dialogListener;
-    ImageView my_close;
-    Button btn_rels;
+
+    Button btn_rels, my_close;
     String rels = "";
     ArrayList<Button> buttons = new ArrayList<>();
     public RelsDialog(@NonNull Context context, String rels) {
