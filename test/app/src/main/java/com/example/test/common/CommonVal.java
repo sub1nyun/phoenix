@@ -17,4 +17,3 @@ public class CommonVal {
     public static List<String> user_id = new ArrayList<>();
     public static String user;
 }
-

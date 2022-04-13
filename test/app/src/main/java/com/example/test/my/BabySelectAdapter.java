@@ -73,7 +73,10 @@ public class BabySelectAdapter extends ArrayAdapter<String> {
             viewHolder.baby_info_birth.setText("");
         } else{
             if(list.get(position).getBaby_photo() == null){
-                viewHolder.baby_info_photo.setVisibility(View.GONE);
+                if(list.get(position).getBaby_gender().equals("여아")) {
+                    viewHolder.baby_info_photo.setVisibility(View.VISIBLE);
+                    viewHolder.baby_info_photo.setImageResource(R.drawable.tmdwn_girl);
+                } else viewHolder.baby_info_photo.setVisibility(View.GONE);
             } else{
                 viewHolder.baby_info_photo.setVisibility(View.VISIBLE);
                 Glide.with(context).load(list.get(position).getBaby_photo()).into(viewHolder.baby_info_photo);
@@ -81,7 +84,6 @@ public class BabySelectAdapter extends ArrayAdapter<String> {
             viewHolder.baby_info_name.setText(list.get(position).getBaby_name());
             viewHolder.baby_info_birth.setText(list.get(position).getBaby_birth().split(" ")[0].substring(2).replace("-", "/"));
         }
-
 
         return convertView;
     }
