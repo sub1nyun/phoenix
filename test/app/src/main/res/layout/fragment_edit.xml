@@ -150,7 +150,8 @@
                 android:background="@drawable/border_round_gray"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/aa"
-                android:includeFontPadding="false"/>
+                android:includeFontPadding="false"
+                android:layout_marginRight="10dp"/>
             <Button
                 android:id="@+id/btn_woman"
                 android:layout_width="0dp"
