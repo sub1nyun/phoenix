@@ -48,40 +48,52 @@
             android:id="@+id/sns_new_share"/>
     </LinearLayout>
 
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="4.5"-->
+<!--        android:orientation="vertical"-->
+<!--        >-->
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sns_new_img_rec"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="5"
+                android:background="@drawable/border_square_gray"
+                android:orientation="horizontal"
+                android:scaleType="fitXY" />
+<!--        <ImageView-->
+<!--            android:id="@+id/rec_camera"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:src="@drawable/sns_camera" />-->
+<!--    </RelativeLayout>-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9"
-        android:orientation="vertical"
-        >
+        android:layout_weight="4.5">
 
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:background="@drawable/border_square_gray"
-        android:layout_margin="10dp"
-        android:layout_marginTop="20dp"
-        android:tooltipText="카메라 아이콘을 클릭해주세요"
-        android:scaleType="fitXY"
-        android:layout_weight="5"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:id="@+id/sns_new_img_rec"
-        android:orientation="horizontal"
-        />
-
-  <EditText
-     android:gravity="start"
-      android:layout_margin="10dp"
-      android:layout_marginTop="5dp"
-      android:background="@drawable/border_round_gray"
-      android:layout_weight="4"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/sns_new_text"
-      android:textSize="20dp"
-      android:hint="  일기를 작성해보세요"/>
-
+        <EditText
+            android:id="@+id/sns_new_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_round_gray"
+            android:gravity="start"
+            android:hint="  일기를 작성해보세요"
+            android:textSize="20dp" />
 
     </LinearLayout>
+
 </LinearLayout>

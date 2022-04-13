@@ -32,6 +32,7 @@ import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,9 +43,9 @@ import java.util.Date;
 public class SnsNewActivity extends AppCompatActivity {
 
 
-
+    RoundedImageView sns_photo;
    RecyclerView sns_new_img_rec;
-    ImageView sns_new_back, getImage;
+    ImageView sns_new_back, getImage, rec_camera;
     TextView sns_new_share;
     String[] sns_item = {"카메라", "갤러리"};
     public static ArrayList<Uri> uriList = new ArrayList<>();
@@ -71,7 +72,7 @@ public class SnsNewActivity extends AppCompatActivity {
 
         binding();
 
-        sns_new_img_rec.setOnClickListener(v -> {
+        rec_camera.setOnClickListener(v -> {
             showDialog();
         });
 
@@ -125,6 +126,8 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_img_rec = findViewById(R.id.sns_new_img_rec);
         sns_new_text = findViewById(R.id.sns_new_text);
         getImage = findViewById(R.id.getImage);
+        rec_camera = findViewById(R.id.rec_camera);
+        //sns_photo = findViewById(R.id.sns_photo);
     }
 
     public void showDialog() {

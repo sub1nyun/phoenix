@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.test.R;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
