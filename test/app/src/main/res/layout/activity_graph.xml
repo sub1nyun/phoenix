@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#fefefe">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.7"
         android:orientation="horizontal"
-        android:background="#FFB547">
+        android:background="#335495">
         <ImageView
             android:id="@+id/back_graph"
             android:layout_width="0dp"
@@ -24,12 +25,14 @@
             android:layout_height="match_parent"
             android:layout_weight="9"
             app:tabTextColor="#fff"
-            app:tabSelectedTextColor="#000">
+            app:tabTextAppearance="@style/tab_text"
+            app:tabSelectedTextColor="#FFD181"
+            app:tabIndicatorColor="#FFD181">
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tab_heat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="체온" />
+                android:text="체온"/>
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tab_height"
                 android:layout_width="wrap_content"
@@ -39,7 +42,7 @@
                 android:id="@+id/tab_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="몸무게"/>
+                android:text="몸무게" />
         </com.google.android.material.tabs.TabLayout>
     </LinearLayout>
 

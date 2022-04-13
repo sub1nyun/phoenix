@@ -71,6 +71,7 @@
         />
 
   <EditText
+     android:gravity="start"
       android:layout_margin="10dp"
       android:layout_marginTop="5dp"
       android:background="@drawable/border_round_gray"
@@ -79,7 +80,7 @@
       android:layout_height="wrap_content"
       android:id="@+id/sns_new_text"
       android:textSize="20dp"
-      android:hint="일기를 작성해보세요"/>
+      android:hint="  일기를 작성해보세요"/>
 
 
     </LinearLayout>
