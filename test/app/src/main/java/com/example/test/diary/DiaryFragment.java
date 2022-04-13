@@ -33,6 +33,7 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.my.BabyInfoVO;
 import com.example.test.my.RelsDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,7 +60,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DiaryFragment extends Fragment {
     ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger
-            , imv_backday, imv_forwardday, imv_graph, imv_store, imv_invite;
+            , imv_backday, imv_forwardday, imv_graph, imv_store, imv_invite, baby_img;
     RoundedImageView imv_baby;
     TextView tv_today, tv_baby_gender, tv_baby_name, tv_baby_age, tv_none;
     Intent intent;
@@ -118,6 +119,7 @@ public class DiaryFragment extends Fragment {
         imv_backday = rootview.findViewById(R.id.imv_backday);
         imv_forwardday = rootview.findViewById(R.id.imv_forwardday);
 
+        baby_img = rootview.findViewById(R.id.baby_img);
         imv_graph = rootview.findViewById(R.id.imv_graph);
         imv_store = rootview.findViewById(R.id.imv_store);
         imv_invite = rootview.findViewById(R.id.imv_invite);
@@ -139,6 +141,11 @@ public class DiaryFragment extends Fragment {
 
         if(CommonVal.curbaby.getBaby_photo() == null){
             imv_baby.setVisibility(View.GONE);
+            if(CommonVal.curbaby.getBaby_gender().equals("여아")){
+                baby_img.setImageResource(R.drawable.tmdwn_girl);
+            }else{
+                baby_img.setImageResource(R.drawable.tmdwn_boy);
+            }
         } else{
             imv_baby.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(CommonVal.curbaby.getBaby_photo()).into(imv_baby);
@@ -361,8 +368,20 @@ public class DiaryFragment extends Fragment {
         }
     }
     private void createDynamicLink(String rels) {
+
+        List<String> temp = new ArrayList<>();
+        for(int i=0; i<CommonVal.baby_list.size(); i++){
+            if(CommonVal.curbaby.getTitle().equals(CommonVal.baby_list.get(i).getTitle())) {
+                if(CommonVal.baby_list.get(i).getBaby_photo() != null)
+                    temp.add(CommonVal.baby_list.get(i).getBaby_photo());
+            }
+        }
+
+        Gson gson = new Gson();
+        String data = gson.toJson(temp);
+
         String familyId = CommonVal.curbaby.getBaby_id();
-        String invitationLink = "https://babysmilesupport.page.link/invite?"+"rels="+rels+"&familyId="+familyId; //생성할 다이나믹 링크
+        String invitationLink = "https://babysmilesupport.page.link/invite?"+"rels="+rels+"&familyId="+familyId+"&data="+data; //생성할 다이나믹 링크
 
         Uri imageUri = (new Uri.Builder())
                 .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)

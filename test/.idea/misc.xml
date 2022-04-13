@@ -15,7 +15,11 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/btn_back.xml" value="0.2985" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/circle_btn.xml" value="0.2985" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/circle_btn_select.xml" value="0.2365" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/delete.xml" value="0.209" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/plus_baby.xml" value="0.2025" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/select_bt.xml" value="0.209" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/select_btn.xml" value="0.209" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/settings.xml" value="0.209" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/top_round.xml" value="0.2365" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/tv_custom.xml" value="0.2365" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/drawable/tv_custom_select.xml" value="0.2365" />
@@ -35,6 +39,7 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.22864583333333333" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.26403985507246375" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_map_search_detail.xml" value="0.27760416666666665" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_pager.xml" value="0.2015625" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_place_detail.xml" value="0.27760416666666665" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_settimg.xml" value="0.19479166666666667" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_sns_new.xml" value="0.2046875" />
@@ -63,6 +68,7 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/multi_item.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/my_spinner_item.xml" value="0.33" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/my_spinner_item2.xml" value="0.234375" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/pager_item.xml" value="0.2015625" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/sns_delete_dialog.xml" value="1.0" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/sns_image_item.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/sns_item.xml" value="0.2957427536231884" />
