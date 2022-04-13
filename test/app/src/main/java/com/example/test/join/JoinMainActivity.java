@@ -233,6 +233,7 @@ public class JoinMainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             if (str != null) {
                                 boolean result2 = false;
+                                Log.d("asd", "onClick: " + babyInfoVO.getBaby_photo());
                                 babyInfoVO.setId(CommonVal.curuser.getId());
                                 String uuid = UUID.randomUUID().toString();
                                 babyInfoVO.setBaby_id(uuid);

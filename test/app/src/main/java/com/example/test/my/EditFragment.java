@@ -64,7 +64,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     Button my_rels, btn_man, btn_woman, btn_save, btn_del;
     LinearLayout edit_birth;
     TextView tv_birth, edit_ok;
-    ImageView edit_cancel, imv_camera;
+    ImageView edit_cancel, imv_camera, img_boy, img_girl;
     RoundedImageView edit_photo;
     EditText edit_name;
     //Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("JST"));
@@ -79,6 +79,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     Gson gson = new Gson();
     BabyInfoVO vo;
     FamilyInfoVO family;
+    String tempImg = null;
 
     public EditFragment(BabyInfoVO vo) {
         this.vo = vo;
@@ -101,14 +102,24 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         btn_del = rootView.findViewById(R.id.btn_del);
         edit_ok = rootView.findViewById(R.id.edit_ok);
         imv_camera = rootView.findViewById(R.id.imv_camera);
-
+        img_boy = rootView.findViewById(R.id.img_boy);
+        img_girl = rootView.findViewById(R.id.img_girl);
 
         //초기 세팅
         if(vo.getBaby_photo() == null){
-            edit_photo.setVisibility(View.GONE);
+            if(vo.getBaby_gender().equals("여아")){
+                edit_photo.setVisibility(View.VISIBLE);
+                img_boy.setVisibility(View.GONE);
+                img_girl.setVisibility(View.VISIBLE);
+            } else{
+                edit_photo.setVisibility(View.GONE);
+                img_girl.setVisibility(View.GONE);
+                img_boy.setVisibility(View.VISIBLE);
+            }
         } else{
             edit_photo.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(vo.getBaby_photo()).into(edit_photo);
+            tempImg = vo.getBaby_photo();
         }
         edit_name.setText(vo.getBaby_name());
         changeBtn(vo.getBaby_gender());
@@ -156,9 +167,6 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                 task_save.addParam("vo", gson.toJson(vo));
                 if(imgFilePath != null){
                     Toast.makeText(getContext(), imgFilePath, Toast.LENGTH_SHORT).show();
-                    /*if(imgFilePath.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")){
-
-                    }*/
                     task_save.addFileParam("file", imgFilePath);
                 }
                 task_save.addParam("family", gson.toJson(family));
@@ -172,6 +180,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                 CommonVal.baby_list = gson.fromJson(new InputStreamReader(in_re), new TypeToken<List<BabyInfoVO>>(){}.getType());
 
                 ((MainActivity)getActivity()).changeFrag(new MyFragment());
+                tempImg = null;
             }
         });
         edit_ok.setOnClickListener(new View.OnClickListener() {
@@ -221,9 +230,9 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                                             task.addParam("title", vo.getTitle());
                                             task.addParam("id", vo.getId());
                                             InputStream del_in = CommonMethod.excuteGet(task);
+                                            CommonVal.family_title.remove(vo.getTitle());
                                         }
                                         CommonVal.curbaby = CommonVal.baby_list.get(0);
-                                        CommonVal.family_title.remove(vo.getTitle());
 
                                         ((MainActivity) getActivity()).changeFrag(new MyFragment());
                                     }
@@ -336,9 +345,17 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                             go_gallery();
                         } else{
                             edit_photo.setVisibility(View.GONE);
+                            if(vo.getBaby_gender().equals("여아")){
+                                img_boy.setVisibility(View.GONE);
+                                img_girl.setVisibility(View.VISIBLE);
+                            } else{
+                                img_boy.setVisibility(View.VISIBLE);
+                                img_girl.setVisibility(View.GONE);
+                            }
                             //이미지 파일 널처리
                             imgFile = null;
                             imgFilePath = null;
+                            tempImg = null;
                         }
                         dialog.dismiss();
                     }
@@ -399,6 +416,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             Uri selectImageUri = data.getData();
             imgFilePath = getGalleryRealPath(selectImageUri);
             Glide.with(getContext()).load(imgFilePath).into(edit_photo);
+            tempImg = imgFilePath;
         }
     }
 
@@ -414,6 +432,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             e.printStackTrace();
         }
         imgFilePath = rtnFile.getAbsolutePath();
+        tempImg = rtnFile.getAbsolutePath();
         return rtnFile;
     }
 
@@ -468,20 +487,21 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     //버튼 색 변경
     public void changeBtn(String gender){
         if(gender.equals("남아")){
-            btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
-            btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));
-            btn_man.setTextColor(Color.parseColor("#ffffff"));
-            btn_woman.setTextColor(Color.parseColor("#000000"));
+            btn_man.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.border_round_gray_fill));
+            btn_woman.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.border_round_gray));
+            if(tempImg == null) {
+                edit_photo.setVisibility(View.GONE);
+                img_boy.setVisibility(View.VISIBLE);
+                img_girl.setVisibility(View.GONE);
+            }
         } else if(gender.equals("여아")){
-            btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#44526C")));
-            btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));
-            btn_woman.setTextColor(Color.parseColor("#ffffff"));
-            btn_man.setTextColor(Color.parseColor("#000000"));
-        } else {
-            btn_man.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));
-            btn_woman.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E2E2")));
-            btn_man.setTextColor(Color.parseColor("#000000"));
-            btn_woman.setTextColor(Color.parseColor("#000000"));
+            btn_woman.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.border_round_gray_fill));
+            btn_man.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.border_round_gray));
+            if(tempImg == null){
+                edit_photo.setVisibility(View.GONE);
+                img_boy.setVisibility(View.GONE);
+                img_girl.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

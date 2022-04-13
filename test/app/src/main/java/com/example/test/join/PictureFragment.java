@@ -157,6 +157,7 @@ public class PictureFragment extends Fragment {
             e.printStackTrace();
         }
         imgFilePath = rtnFile.getAbsolutePath();
+        JoinMainActivity.babyInfoVO.setBaby_photo( imgFilePath );
         return rtnFile;
     }
 

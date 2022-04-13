@@ -19,10 +19,16 @@
             app:cardElevation="0dp"
             android:backgroundTint="#E2EDEF">
             <ImageView
-                android:id="@+id/imv_baby"
+                android:id="@+id/imv_boy"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/baby_img"
+                android:layout_gravity="center"/>
+            <ImageView
+                android:id="@+id/imv_girl"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/tmdwn_girl"
                 android:layout_gravity="center"/>
         </androidx.cardview.widget.CardView>
 

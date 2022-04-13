@@ -48,7 +48,15 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
         holder.tv_body.setText(list.get(position).getBody());
 
         if(list.get(position).getBaby_photo() == null){
-            holder.baby_imgv.setVisibility(View.GONE);
+            if(list.get(position).getBaby_gender().equals("여아")) {
+                holder.baby_imgv.setVisibility(View.GONE);
+                holder.imgv_girl.setVisibility(View.VISIBLE);
+                holder.imgv_boy.setVisibility(View.GONE);
+            } else{
+                holder.baby_imgv.setVisibility(View.GONE);
+                holder.imgv_boy.setVisibility(View.VISIBLE);
+                holder.imgv_girl.setVisibility(View.GONE);
+            }
         } else{
             holder.baby_imgv.setVisibility(View.VISIBLE);
             Glide.with(context).load(list.get(position).getBaby_photo()).into(holder.baby_imgv);
@@ -64,6 +72,7 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
         TextView tv_name, tv_gender, tv_my_birth, tv_body;
         RoundedImageView baby_imgv;
         LinearLayout baby_edit;
+        ImageView imgv_boy, imgv_girl;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_name = itemView.findViewById(R.id.tv_name);
@@ -72,6 +81,8 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
             tv_body = itemView.findViewById(R.id.tv_body);
             baby_imgv = itemView.findViewById(R.id.baby_imgv);
             baby_edit = itemView.findViewById(R.id.baby_edit);
+            imgv_boy = itemView.findViewById(R.id.imgv_boy);
+            imgv_girl = itemView.findViewById(R.id.imgv_girl);
 
             //아기정보 수정 페이지로 이동
             baby_edit.setOnClickListener(new View.OnClickListener() {

@@ -38,7 +38,7 @@
         android:orientation="vertical"
         android:layout_marginHorizontal="20dp">
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/set_bell"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -53,7 +53,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.5"
             android:text="알림 볼륨"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:fontFamily="@font/aa"
             android:includeFontPadding="false"/>
         <SeekBar
@@ -64,7 +64,7 @@
             android:min="0"
             android:max="100"/>
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/set_vibration"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -79,7 +79,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.5"
             android:text="진동 세기"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:fontFamily="@font/aa"
             android:includeFontPadding="false"/>
         <SeekBar
@@ -88,7 +88,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.5"
             android:min="0"
-            android:max="100"/>
+            android:max="254"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -99,8 +99,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="회원탈퇴"
-                android:textSize="20dp"
-                android:textColor="#000"
+                android:textSize="17dp"
+                android:textColor="#757575"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/aa"
                 android:includeFontPadding="false"/>
@@ -112,8 +112,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="로그아웃"
-            android:textColor="#000"
-            android:textSize="20dp"
+            android:textSize="17dp"
+            android:textColor="#757575"
             android:fontFamily="@font/aa"
             android:includeFontPadding="false"/>
     </LinearLayout>
