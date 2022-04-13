@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -25,6 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.test.R;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +34,10 @@ import java.util.Date;
 
 
 public class PictureFragment extends Fragment {
-    ImageView imv_photo;
+
+    RoundedImageView imv_photo;
+    //ImageView imv_camera;
+
 
     String[] span_item = {"카메라", "갤러리"};
     public final int CAMERA_CODE = 1004;
@@ -49,14 +52,18 @@ public class PictureFragment extends Fragment {
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_picture, container, false);
         checkDangerousPermissions();
         imv_photo = rootview.findViewById(R.id.imv_photo);
+        //imv_camera = rootview.findViewById(R.id.imv_camera);
         imv_photo.setBackground(Drawable.createFromPath("@drawable/bss_logo"));
 
 
         if(JoinMainActivity.babyInfoVO.getBaby_photo() != null){
+            //imv_photo.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(imgFilePath).into(imv_photo);
             //JoinMainActivity.vo.setKakao_id("sdf");      값 test
             //Toast.makeText(getContext(), JoinMainActivity.babyInfoVO.getBaby_photo()+"", Toast.LENGTH_SHORT).show();
-        }
+        }/*else{
+            imv_photo.setVisibility(View.GONE);
+        }*/
 
 
 

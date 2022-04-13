@@ -163,17 +163,20 @@
     <ImageView
         android:id="@+id/join_kakao"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        android:layout_width="283dp"
-        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_height="55dp"
         android:src="@drawable/kakao_login_large_wide"/>
-    <com.navercorp.nid.oauth.view.NidOAuthLoginButton
-        android:id="@+id/join_naver"
+    <ImageView
+        android:id="@+id/imv_naver"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_height="55dp"
+        android:src="@drawable/naver_start"/>
+    <com.navercorp.nid.oauth.view.NidOAuthLoginButton
+        android:id="@+id/join_naver"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         />
-
-
-
 </LinearLayout>

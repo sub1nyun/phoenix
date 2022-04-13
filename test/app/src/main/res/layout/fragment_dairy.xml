@@ -90,9 +90,10 @@
                         android:backgroundTint="#E2EDEF"
                         >
                         <ImageView
+                            android:id="@+id/baby_img"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
-                            android:src="@drawable/baby_img"
+                            android:src="@drawable/tmdwn_boy"
                             android:layout_gravity="center"/>
                     </androidx.cardview.widget.CardView>
                     <com.makeramen.roundedimageview.RoundedImageView
