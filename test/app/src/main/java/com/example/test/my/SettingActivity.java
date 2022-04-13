@@ -3,6 +3,7 @@ package com.example.test.my;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
@@ -31,11 +32,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.test.LoginActivity;
+import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.example.test.home.HomeActivity;
+import com.example.test.join.UserVO;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -45,7 +48,7 @@ import java.io.InputStreamReader;
 public class SettingActivity extends AppCompatActivity {
     ImageView setting_back;
     TextView set_secession, set_logout;
-    Switch set_bell, set_vibration;
+    SwitchCompat set_bell, set_vibration;
     SeekBar set_bell_volume, set_vibration_volume;
     int bell_volume;
     int vib_volume;
@@ -152,7 +155,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    set_vibration_volume.setProgress(50);
+                    set_vibration_volume.setProgress(127);
                     set_vibration_volume.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
@@ -175,18 +178,22 @@ public class SettingActivity extends AppCompatActivity {
         set_bell_volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { //조작 중
-                bell_volume = progress;
-                audioManager.setStreamVolume(AudioManager.STREAM_ALARM, progress, AudioManager.FLAG_PLAY_SOUND);
-                MediaPlayer mp = new MediaPlayer();
-                Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-                try {
-                    mp.setDataSource(uri.toString());
-                    mp.setAudioStreamType(AudioManager.STREAM_ALARM);
-                    mp.setLooping(true);
-                    mp.prepare();
-                    mp.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(progress > 0) {
+                    bell_volume = progress;
+                    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, progress, AudioManager.FLAG_PLAY_SOUND);
+                    MediaPlayer mp = new MediaPlayer();
+                    Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                    try {
+                        mp.setDataSource(uri.toString());
+                        mp.setAudioStreamType(AudioManager.STREAM_ALARM);
+                        mp.setLooping(true);
+                        mp.prepare();
+                        mp.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else{
+                    set_bell.setChecked(false);
                 }
             }
 
@@ -206,9 +213,13 @@ public class SettingActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                vib_volume = progress;
-                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                vibrator.vibrate(VibrationEffect.createOneShot(1000, progress));
+                if(progress > 0) {
+                    vib_volume = progress;
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(VibrationEffect.createOneShot(1000, progress));
+                } else{
+                    set_vibration.setChecked(false);
+                }
             }
 
             @Override
@@ -235,13 +246,20 @@ public class SettingActivity extends AppCompatActivity {
                                 InputStream in = CommonMethod.excuteGet(task);
                                 if(gson.fromJson(new InputStreamReader(in), Boolean.class)){
                                     Toast.makeText(SettingActivity.this, "성공적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
-                                    CommonVal.baby_list = null;
-                                    CommonVal.curbaby = null;
-                                    CommonVal.family_title = null;
-                                    CommonVal.curuser = null;
+                                    CommonVal.curuser = new UserVO();
+                                    CommonVal.baby_list.clear();
+                                    CommonVal.curbaby = new BabyInfoVO();
+                                    CommonVal.family_title.clear();
+                                    if(LoginActivity.editor != null) {
+                                        LoginActivity.editor.remove("autologin");
+                                        LoginActivity.editor.remove("id");
+                                        LoginActivity.editor.remove("pw");
+                                        LoginActivity.editor.apply();
+                                    }
                                     Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
                                     startActivity(intent);
                                     finish();
+                                    MainActivity.mainActivity.finish();
                                 }
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
@@ -264,10 +282,10 @@ public class SettingActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //로그인 화면으로 이동
-                                CommonVal.curuser = null;
-                                CommonVal.baby_list = null;
-                                CommonVal.curbaby = null;
-                                CommonVal.family_title = null;
+                                CommonVal.curuser = new UserVO();
+                                CommonVal.baby_list.clear();
+                                CommonVal.curbaby = new BabyInfoVO();
+                                CommonVal.family_title.clear();
                                 if(LoginActivity.editor != null) {
                                     LoginActivity.editor.remove("autologin");
                                     LoginActivity.editor.remove("id");
@@ -277,7 +295,7 @@ public class SettingActivity extends AppCompatActivity {
                                 Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
                                 startActivity(intent);
                                 finish();
-
+                                MainActivity.mainActivity.finish();
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override

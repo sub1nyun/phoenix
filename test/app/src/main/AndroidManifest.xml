@@ -58,6 +58,9 @@
         android:theme="@style/Theme.Test"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".diary.PagerActivity"
+            android:exported="false" />
+        <activity
             android:name=".sns.EditActivity"
             android:exported="false" />
         <activity
@@ -72,8 +75,9 @@
         <activity
             android:name=".my.SettingActivity"
             android:exported="false" />
-        <activity android:name=".sns.GroDetailMainActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".sns.GroDetailMainActivity"
+            android:exported="false" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -108,7 +112,7 @@
         </activity>
         -->
         <activity
-            android:name=".InviteActivity"
+            android:name=".diary.InviteActivity"
             android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />

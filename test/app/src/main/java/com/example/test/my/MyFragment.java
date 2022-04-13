@@ -210,9 +210,5 @@ public class MyFragment extends Fragment{
                 my_spinner.setSelection(0);
             }
         }).setCancelable(false).show();
-
-        /*TextView tv = dialog.findViewById(R.id.title);
-        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "@font/aa");
-        tv.setTypeface(typeface);*/
     }
 }

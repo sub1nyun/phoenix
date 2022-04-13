@@ -4,48 +4,139 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InviteActivity"
+    tools:context=".diary.InviteActivity"
     android:orientation="vertical"
-    android:padding="30dp">
+    android:paddingHorizontal="30dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="베시시와 함께하는 육아일기"
+                android:textSize="28dp"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/baby_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp"
+            android:backgroundTint="#E2EDEF">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/baby_img"
+                android:layout_gravity="center"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </RelativeLayout>
 
 
-    <TextView
+    <LinearLayout
+        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="환영합니다.\nBSS입니다."
-        android:textSize="30dp"
-        android:textAlignment="center"
-        android:layout_marginTop="30dp"/>
-    <TextView
-        android:id="@+id/tv_invite"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="육아일기 이름에게 초대를 받으셨습니다."/>
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_invite1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="육아일기 이름"
+                    android:textSize="18dp"
+                    android:textColor="#FFB547"
+                    android:fontFamily="@font/aa"
+                    android:includeFontPadding="false"/>
+                <TextView
+                    android:id="@+id/tv_invite2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="에"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/aa"
+                    android:includeFontPadding="false"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <TextView
+            android:textAlignment="center"
+            android:layout_marginTop="5dp"
+            android:id="@+id/tv_invite3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="엄마로 초대를 받으셨습니다."
+            android:textSize="18dp"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"/>
+        <TextView
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="함께 육아일기를 작성해보실래요?"
+            android:textSize="18dp"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"/>
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         >
+
         <Button
             android:id="@+id/btn_join"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_login"
+            android:layout_gravity="bottom"
+            android:background="@drawable/border_round_blue"
+            android:backgroundTint="#335495"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:text="가입하기(신규 사용자)"
             android:textColor="#fff"
-            android:background="@drawable/border_round_blue"
-            android:backgroundTint="#44526C"
-            android:layout_gravity="bottom"
-            android:layout_above="@+id/btn_login"/>
+            android:layout_marginBottom="10dp"/>
+
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="로그인(기존 사용자)"
-            android:textColor="#44526C"
-            android:background="@drawable/border_round_blue"
             android:layout_alignParentBottom="true"
-            android:layout_marginVertical="20dp"/>
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/border_round_blue"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
+            android:text="로그인(기존 사용자)"
+            android:textColor="#335495" />
     </RelativeLayout>
 </LinearLayout>

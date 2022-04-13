@@ -210,6 +210,8 @@ public class JoinMainActivity extends AppCompatActivity {
                                             Intent intent = new Intent(JoinMainActivity.this, MainActivity.class);
                                             startActivity(intent);
                                             finish();
+                                            vo = new UserVO();
+                                            babyInfoVO = new BabyInfoVO();
                                         }
                                 }
                             }
@@ -231,6 +233,7 @@ public class JoinMainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             if (str != null) {
                                 boolean result2 = false;
+                                Log.d("asd", "onClick: " + babyInfoVO.getBaby_photo());
                                 babyInfoVO.setId(CommonVal.curuser.getId());
                                 String uuid = UUID.randomUUID().toString();
                                 babyInfoVO.setBaby_id(uuid);
@@ -268,7 +271,8 @@ public class JoinMainActivity extends AppCompatActivity {
                                     Intent intent = new Intent(JoinMainActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
-                                    //JoinMainActivity.babyInfoVO = null;
+                                    vo = new UserVO();
+                                    babyInfoVO = new BabyInfoVO();
                                 } else {
                                     Toast.makeText(JoinMainActivity.this, "아기 추가에 실패했습니다.", Toast.LENGTH_SHORT).show();
                                 }
@@ -290,10 +294,12 @@ public class JoinMainActivity extends AppCompatActivity {
 
                                     //CommonVal.curbaby = JoinMainActivity.babyInfoVO ;
 
-                                    CommonVal.family_title.add(JoinMainActivity.babyInfoVO.getTitle());
+                                    CommonVal.family_title.add(CommonVal.curbaby.getTitle());
                                     Intent intent = new Intent(JoinMainActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
+                                    vo = new UserVO();
+                                    babyInfoVO = new BabyInfoVO();
                                 }
                             }
                         }
@@ -316,6 +322,8 @@ public class JoinMainActivity extends AppCompatActivity {
                 if (str != null) {
                     if (str.equals("new")) {
                         finish();
+                        vo = new UserVO();
+                        babyInfoVO = new BabyInfoVO();
                         MyFragment.my_spinner.setSelection(0);
                     }
                 } else {
@@ -330,6 +338,8 @@ public class JoinMainActivity extends AppCompatActivity {
                 if (str != null) {
                     if (str.equals("old")) {
                         finish();
+                        vo = new UserVO();
+                        babyInfoVO = new BabyInfoVO();
                         MyFragment.my_spinner.setSelection(0);
                     }
                 } else {
@@ -371,6 +381,8 @@ public class JoinMainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
                     finish();
+                    vo = new UserVO();
+                    babyInfoVO = new BabyInfoVO();
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -78,7 +78,6 @@ public class BodyFragment extends Fragment  implements OnBackPressedListenser {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 today.set(year, month, dayOfMonth);
                 tv_bodydate.setText("("+year + "년 " + (month+1) + "월 " + dayOfMonth + "일)");
-
                 babyStorVO = setBody();
             }
         };

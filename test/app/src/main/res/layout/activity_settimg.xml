@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".my.SettingActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#E4E4E4">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="#335495"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingVertical="20dp">
         <ImageView
             android:id="@+id/setting_back"
             android:layout_width="30dp"
@@ -33,16 +34,17 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9.7"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginHorizontal="20dp">
+        android:paddingHorizontal="30dp"
+        android:paddingTop="20dp"
+        android:background="#fefefe">
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/set_bell"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingVertical="20dp"
             android:text="알림"
             android:textSize="20dp"
             android:fontFamily="@font/aa"
@@ -50,25 +52,28 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
             android:text="알림 볼륨"
-            android:textSize="20dp"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
             android:fontFamily="@font/aa"
             android:includeFontPadding="false"/>
         <SeekBar
             android:id="@+id/set_bell_volume"
+            android:layout_marginHorizontal="10dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
             android:min="0"
             android:max="100"/>
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_marginTop="30dp"
             android:id="@+id/set_vibration"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingVertical="20dp"
             android:text="진동"
             android:textSize="20dp"
             android:fontFamily="@font/aa"
@@ -76,46 +81,46 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:layout_marginLeft="10dp"
             android:text="진동 세기"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:fontFamily="@font/aa"
             android:includeFontPadding="false"/>
         <SeekBar
             android:id="@+id/set_vibration_volume"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:paddingVertical="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:layout_marginHorizontal="10dp"
             android:min="0"
-            android:max="100"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/set_secession"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="회원탈퇴"
-                android:textSize="20dp"
-                android:textColor="#000"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="@font/aa"
-                android:includeFontPadding="false"/>
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/set_logout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="로그아웃"
-            android:textColor="#000"
-            android:textSize="20dp"
-            android:fontFamily="@font/aa"
-            android:includeFontPadding="false"/>
+            android:max="254"/>
     </LinearLayout>
+    <TextView
+        android:layout_marginVertical="30dp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/set_secession"
+        android:layout_width="match_parent"
+        android:paddingVertical="10dp"
+        android:layout_height="wrap_content"
+        android:text="회원탈퇴"
+        android:textSize="17dp"
+        android:textColor="#757575"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="@font/aa"
+        android:includeFontPadding="false"/>
+    <TextView
+        android:layout_marginLeft="30dp"
+        android:id="@+id/set_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:text="로그아웃"
+        android:textSize="17dp"
+        android:textColor="#757575"
+        android:fontFamily="@font/aa"
+        android:includeFontPadding="false"/>
 
 </LinearLayout>

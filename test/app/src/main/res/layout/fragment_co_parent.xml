@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#44526C">
+        android:background="#335495">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -54,8 +54,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:text="공동양육 포기하기"
+                android:textColor="#fff"
+                android:background="@drawable/border_fill"
                 android:fontFamily="@font/aa"
-                android:includeFontPadding="false" />
+                android:includeFontPadding="false"
+                android:paddingHorizontal="10dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

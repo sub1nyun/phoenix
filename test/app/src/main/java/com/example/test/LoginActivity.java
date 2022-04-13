@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -50,10 +51,10 @@ import kotlin.jvm.functions.Function2;
 import retrofit2.http.HEAD;
 
 public class LoginActivity extends AppCompatActivity {
-    Button btn_login, btn_join, btn_forget;
+    Button btn_login, btn_forget;
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
-    ImageView btn_kakao;
+    ImageView btn_kakao, imv_naver;
     Button btn_logout;
     String id , pw;
 
@@ -68,6 +69,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         //key
         KakaoSdk.init(this,"9bb5096013cc3ff738a2ca42f3fd61d1");
@@ -144,8 +148,7 @@ public class LoginActivity extends AppCompatActivity {
                         //로그인 정보로 수정 필요
                         task.addParam("id", CommonVal.curuser.getId());
                         InputStream in = CommonMethod.excuteGet(task);
-                        CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>() {
-                        }.getType());
+                        CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>() {}.getType());
                         if (CommonVal.baby_list.size() != 0) {
                             CommonVal.curbaby = CommonVal.baby_list.get(0);
                         }
@@ -187,15 +190,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
+        imv_naver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                naverlogin.callOnClick();
+            }
+        });
 
         naverLogin();
 
-
-       /* btn_logout.setOnClickListener(v -> {
-            NaverIdLoginSDK.INSTANCE.logout();
-            Toast.makeText(LoginActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
-        });*/
         if(isLogin){
             edt_id.setText(id);
             edt_pw.setText(pw);
@@ -224,6 +227,7 @@ public class LoginActivity extends AppCompatActivity {
         edt_pw = findViewById(R.id.edt_pw);
         chk_auto = findViewById(R.id.chk_auto);
         btn_kakao = findViewById(R.id.btn_kakao);
+        imv_naver = findViewById(R.id.imv_naver);
         naverlogin = findViewById(R.id.btn_naver);
         //btn_logout = findViewById(R.id.btn_logout);
     }
@@ -444,13 +448,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-
-
-
-
-
-
-
 
 
 

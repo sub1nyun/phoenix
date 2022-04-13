@@ -3,28 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#fefefe">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.7"
+        android:layout_weight="0.9"
         android:orientation="horizontal"
-        android:background="#FFB547">
+        android:background="#335495">
         <ImageView
             android:id="@+id/back_graph"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
             android:src="@drawable/arrow_back"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="3dp"/>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_graph"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="9"
             app:tabTextColor="#fff"
-            app:tabSelectedTextColor="#000">
+            app:tabTextAppearance="@style/tab_text"
+            app:tabSelectedTextColor="#FFD181"
+            app:tabIndicatorColor="#FFD181">
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tab_heat"
                 android:layout_width="wrap_content"
@@ -39,7 +43,7 @@
                 android:id="@+id/tab_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="몸무게"/>
+                android:text="몸무게" />
         </com.google.android.material.tabs.TabLayout>
     </LinearLayout>
 
@@ -47,5 +51,5 @@
         android:id="@+id/chart1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9.3" />
+        android:layout_weight="9" />
 </LinearLayout>

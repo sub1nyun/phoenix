@@ -157,39 +157,46 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1"
-                android:background="#000000"
+                android:background="#8C8C8C"
                 android:layout_gravity="center"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" SNS계정으로 로그인하기 "
-                android:textColor="@color/black"
+                android:textColor="#8C8C8C"
                 />
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1"
-                android:background="#000000"
+                android:background="#8C8C8C"
                 android:layout_gravity="center"/>
         </LinearLayout>
         <ImageView
             android:layout_marginTop="10dp"
-            android:layout_width="283dp"
-            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="3dp"
+            android:layout_marginHorizontal="10dp"
             android:src="@drawable/kakaologinbtn"
             android:id="@+id/btn_kakao"
             />
-
-        <com.navercorp.nid.oauth.view.NidOAuthLoginButton
+        <ImageView
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginHorizontal="3dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10dp"
             android:src="@drawable/naverloginbtn"
-            android:id="@+id/btn_naver"
+            android:id="@+id/imv_naver"
             />
+            <com.navercorp.nid.oauth.view.NidOAuthLoginButton
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="3dp"
+                android:src="@drawable/naverloginbtn"
+                android:id="@+id/btn_naver"
+                />
         <Button
             android:id="@+id/btn_forget"
             android:layout_width="wrap_content"
