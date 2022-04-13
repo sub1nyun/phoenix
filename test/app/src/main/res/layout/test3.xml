@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#44526C">
+    android:background="#E7EFF3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="공동육아 기능 자랑하는 부분"
-            android:textColor="#FDC2C2"
+            android:text="공동 육아"
+            android:textColor="#3a539f"
             android:textAlignment="center"
             android:textSize="20dp"
             android:layout_marginTop="100dp"/>
@@ -24,20 +24,32 @@
         <ImageView
             android:scaleType="fitXY"
             android:layout_marginTop="50dp"
-            android:layout_width="250dp"
-            android:layout_height="180dp"
-            android:src="@drawable/share_test"
+            android:layout_width="wrap_content"
+            android:layout_height="310dp"
+            android:src="@drawable/bss_share_home"
             android:layout_gravity="center"/>
 
         <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="엄마, 아빠 뿐만 아니라 가족에 속해있는\n모두가 함게 사용이 가능합니다."
-            android:textColor="#fff"
+            android:text="워킹맘도 이제 걱정 끝!\n아빠도 손쉽게 육아 참여해요."
+            android:textColor="#000"
             android:textSize="15dp"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="70dp"/>
+
+        <TextView
+            android:fontFamily="@font/aa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="엄마, 아빠는 물론, 가족들과 베이비시터도\n함께 육아 기록을 할 수 있습니다."
+            android:textColor="#000"
+            android:textSize="12dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
 
 
 

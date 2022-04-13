@@ -87,9 +87,9 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
             sns_more.setVisibility(View.VISIBLE);
 
             if (growthVOS.get(position).getBaby_gender().equals("남아")) {
-                baby_icon.setImageResource(R.drawable.sns_baby_boy);
+                baby_icon.setImageResource(R.drawable.tmdwn_boy);
             } else {
-                baby_icon.setImageResource(R.drawable.sns_baby_girl);
+                baby_icon.setImageResource(R.drawable.tmdwn_girl);
             }
             gro_date.setText(growthVOS.get(position).getGro_date());
 
@@ -111,7 +111,7 @@ public class SnsViewAdapter extends RecyclerView.Adapter<SnsViewAdapter.ViewHold
 
             holder.sns_more.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle("성장일지 관리하기").setMessage("");
+                builder.setTitle("성장일기 관리하기").setMessage("");
                 builder.setPositiveButton("수정하기", new DialogInterface.OnClickListener() {
                     @Override
                    public void onClick(DialogInterface dialog, int which) {

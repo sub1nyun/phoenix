@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".sns.GalleryActivity"
     android:orientation="vertical"
-    android:background="#000">
+    android:background="#3a539f">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,6 +36,7 @@
     </LinearLayout>
 
     <GridView
+        android:backgroundTint="#f0f4f7"
         android:id="@+id/PhoneImageGrid"
         android:layout_width="match_parent"
         android:layout_height="0dp"

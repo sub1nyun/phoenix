@@ -11,13 +11,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F2FFFFFF"
+        android:background="#3a539f"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#99B5EC"
             android:orientation="horizontal">
 
             <TextView
@@ -28,7 +27,7 @@
                 android:layout_weight="8.5"
                 android:text="성장일기"
                 android:textColor="#FFFFFF"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -48,9 +47,8 @@
             android:textAlignment="center"
             android:gravity="center"
             android:textSize="13dp"
-            android:textColor="#fff"
-            android:textStyle="bold"
-            android:background="#335495"/>
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,7 +60,8 @@
                 android:id="@+id/sns_view_rec"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:background="#f0f4f7"/>
 
             <include
                 android:id="@+id/sns_none"

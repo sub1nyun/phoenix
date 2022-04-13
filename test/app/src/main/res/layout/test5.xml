@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#44526C">
+    android:background="#E7EFF3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,31 +15,69 @@
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SNS 기능 자랑하는 부분"
-            android:textColor="#FDC2C2"
+            android:text="성장 일기"
+            android:textColor="#3a539f"
             android:textAlignment="center"
             android:textSize="20dp"
             android:layout_marginTop="100dp"/>
 
         <ImageView
-            android:layout_marginTop="20dp"
-            android:layout_width="250dp"
-            android:layout_height="180dp"
-            android:src="@drawable/t1"
+            android:scaleType="fitXY"
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="310dp"
+            android:src="@drawable/bss_gro_home"
             android:layout_gravity="center"/>
 
         <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="아이의 사진을 등록하고 가족구성원분들과\n일기를 써내려가세요"
-            android:textColor="#fff"
+            android:text="아기의 하루가 궁금하신가요?"
+            android:textColor="#000"
             android:textSize="15dp"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="30dp"/>
 
+        <TextView
+            android:fontFamily="@font/aa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="가족들이 공유한 육아일기를 보며\n어떻게 성장하고 있는 지 확인해보세요"
+            android:textColor="#000"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="#f0f4f7"
+        android:orientation="vertical"
+        android:padding="10dp">
 
+        <Button
+            android:id="@+id/btn_join"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="신규 사용자 (가입하기)"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#3a539f"
+            android:textColor="#fff"
+            android:textStyle="bold"/>
+
+        <Button
+            android:textColor="#fff"
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="기존 사용자 (로그인)"
+            android:backgroundTint="#3a539f"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

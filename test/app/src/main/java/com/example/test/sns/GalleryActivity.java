@@ -90,10 +90,7 @@ public class GalleryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 select_arrPath = new ArrayList<>();
-//                intent.putExtra("list", select_arrPath);
-//                startActivityForResult(intent,7);
 
-                //선택 완료 후 처리가 들어가면ㄷ ㅚ는부분
                 final int len = thumbnailsselection.length;
                 int cnt = 0;
                 String selectImages = "";

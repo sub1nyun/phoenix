@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".sns.GroDetailMainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:background="#f0f4f7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#FFFFFF">
+        android:background="#3a539f"
+        >
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:src="@drawable/gro_arrow"
             android:id="@+id/detail_back"/>
     </LinearLayout>
 
     <LinearLayout
+
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -31,6 +43,7 @@
             android:padding="10dp">
 
             <TextView
+                android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,6 +68,12 @@
                 />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B3B3B3"/>
+
+
         <LinearLayout
             android:padding="5dp"
             android:layout_width="match_parent"
@@ -77,4 +96,39 @@
             android:layout_margin="10dp"/>
     </LinearLayout>
 
-</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/detail_btn_del"
+                android:backgroundTint="#fff"
+                android:layout_margin="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="#3a539f"
+                android:textStyle="bold"
+                android:text="삭제하기"/>
+
+            <Button
+                android:id="@+id/detail_btn_edit"
+                android:backgroundTint="#3a539f"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:layout_margin="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="수정하기"/>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>

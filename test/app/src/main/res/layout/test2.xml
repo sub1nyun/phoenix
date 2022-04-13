@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#44526C">
+    android:background="#E7EFF3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="IOT 기능 자랑하는 부분"
-            android:textColor="#FDC2C2"
+            android:text="IOT"
+            android:textColor="#3a539f"
             android:textAlignment="center"
             android:textSize="20dp"
             android:layout_marginTop="100dp"/>
@@ -30,10 +30,11 @@
             android:layout_gravity="center"/>
 
         <TextView
+            android:fontFamily="@font/aa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="아이와 떨어져 있어도~~ 울음소리를 감지해\n알려드립니다."
-            android:textColor="#fff"
+            android:textColor="#000"
             android:textSize="15dp"
             android:textAlignment="center"
             android:layout_gravity="center"

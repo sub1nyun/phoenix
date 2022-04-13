@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/border_round_blue"
-    android:layout_marginBottom="10dp"
+    android:background="@drawable/border_round_gray"
+    android:layout_marginBottom="5dp"
     android:padding="10dp"
     android:layout_margin="10dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="5dp"
     android:id="@+id/click">
 
     <LinearLayout
@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:textColor="#000"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,6 +33,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/sns_baby_girl"/>
         <TextView
+
             android:id="@+id/gro_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,13 +44,18 @@
 
         <ImageView
             android:id="@+id/sns_more"
-            android:layout_width="match_parent"
+            android:layout_width="20dp"
             android:layout_height="30dp"
-            android:src="@drawable/view_more"
-            android:layout_marginLeft="30dp"
+            android:src="@drawable/gro_more"
+            android:layout_marginLeft="40dp"
             />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#B3B3B3"/>
 
     <LinearLayout
         android:padding="5dp"
@@ -71,7 +78,8 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_margin="10dp"
+
+            android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:background="#000"

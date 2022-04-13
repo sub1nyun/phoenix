@@ -72,26 +72,14 @@ public class EditActivity extends AppCompatActivity {
         gson = new Gson();
         GrowthVO vo = gson.fromJson(testdata,GrowthVO.class);
         if(vo != null) {
-
             imgFilePathList = vo.getImgList();
             sns_edit_text.setText(vo.getGro_content());
-
-
 
             snsImgRecAdapter = new SnsImgRecAdapter(imgFilePathList, this);
             sns_new_img_rec.setAdapter(snsImgRecAdapter);
             sns_new_img_rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
 
-
             editList = vo.getImgList();
-
-
-
-
-
-
-
-
 
             sns_edit_share.setOnClickListener(new View.OnClickListener() {
                 @Override
