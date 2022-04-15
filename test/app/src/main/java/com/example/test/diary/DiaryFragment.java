@@ -34,6 +34,7 @@ import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.example.test.my.BabyInfoVO;
+import com.example.test.my.MyFragment;
 import com.example.test.my.RelsDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -184,6 +185,7 @@ public class DiaryFragment extends Fragment {
                 RelsDialog dialog = new RelsDialog(getContext(),"엄마");
                 dialog.show();
                 dialog.setDialogListener(new RelsDialog.DialogListener() {
+
                     @Override
                     public void onPositiveClick(String name) {
                         createDynamicLink(name);
@@ -191,6 +193,10 @@ public class DiaryFragment extends Fragment {
                 });
 
             }
+        });
+
+        baby_img.setOnClickListener(v -> {
+            ((MainActivity)getActivity()).changeFrag(new MyFragment());
         });
 
         //날짜 세팅함

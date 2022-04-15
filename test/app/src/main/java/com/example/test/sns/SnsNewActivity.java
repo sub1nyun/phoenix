@@ -72,9 +72,6 @@ public class SnsNewActivity extends AppCompatActivity {
 
         binding();
 
-        rec_camera.setOnClickListener(v -> {
-            showDialog();
-        });
 
         getImage.setOnClickListener(v -> {
             showDialog();
@@ -126,7 +123,6 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_img_rec = findViewById(R.id.sns_new_img_rec);
         sns_new_text = findViewById(R.id.sns_new_text);
         getImage = findViewById(R.id.getImage);
-        rec_camera = findViewById(R.id.rec_camera);
         //sns_photo = findViewById(R.id.sns_photo);
     }
 

@@ -73,6 +73,10 @@ public class SnsFragment extends Fragment {
         if(isEmpty(growthVOS)) {
             sns_none.setVisibility(View.VISIBLE);
             sns_view_rec.setVisibility(View.GONE);
+            sns_none.setOnClickListener(v -> {
+                Intent intent = new Intent(getContext(), SnsNewActivity.class);
+                startActivity(intent);
+            });
         } else {
             sns_none.setVisibility(View.GONE);
             SnsViewAdapter adapter = new SnsViewAdapter(inflater,growthVOS, (MainActivity)getActivity());

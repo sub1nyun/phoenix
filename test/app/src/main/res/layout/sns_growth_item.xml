@@ -47,7 +47,7 @@
             android:layout_width="20dp"
             android:layout_height="30dp"
             android:src="@drawable/gro_more"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="15dp"
             />
 
     </LinearLayout>

@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="작성날짜"
                 android:layout_gravity="center"
-                android:layout_marginLeft="200dp"
+                android:layout_marginLeft="150dp"
                 />
         </LinearLayout>
 
