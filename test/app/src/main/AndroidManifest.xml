@@ -57,9 +57,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test"
         android:usesCleartextTraffic="true">
-        <activity
+        <!--<activity
             android:name=".diary.PagerActivity"
-            android:exported="false" />
+            android:exported="false" />-->
         <activity
             android:name=".sns.EditActivity"
             android:exported="false" />

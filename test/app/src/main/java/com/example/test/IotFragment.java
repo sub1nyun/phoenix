@@ -2,14 +2,15 @@ package com.example.test;
 
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.test.iot.MusicFragment;
 
@@ -25,6 +26,21 @@ public class IotFragment extends Fragment {
         iot_cctv = rootView.findViewById(R.id.iot_cctv);
 
         iot_recode.setColorFilter(Color.parseColor("#000000"));
+
+        iot_cctv.setWebViewClient(new WebViewClient());
+        iot_cctv.getSettings().setLoadWithOverviewMode(true);
+        iot_cctv.getSettings().setUseWideViewPort(true);
+
+        WebSettings webSettings = iot_cctv.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        /*iot_cctv.loadData("<html><head><style type='text/css'>body{margin:auto auto;text-align:center;} " +
+                        "img{width:100%25;} div{overflow: hidden;} </style></head>" +
+                        "<body><div><img src='http://192.168.0.92:8000/stream.mjpeg'/></div></body></html>",
+                "text/html", "UTF-8");
+        iot_cctv.reload();*/
+
+        iot_cctv.loadUrl("http://192.168.0.92:8000");
 
         iot_capture.setOnClickListener(new View.OnClickListener() {
             @Override
