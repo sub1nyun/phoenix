@@ -45,22 +45,10 @@
             android:layout_width="220dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="100dp"
             android:src="@drawable/home_hand" />
 
 
-     <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-         android:id="@+id/main_dot"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_gravity="center"
-         app:progressMode="true"
-         app:dotsSize="16dp"
-         app:dotsColor="#FFEB3B"
-         app:selectedDotColor="#FDC2C2"
-         app:dotsCornerRadius="8dp"
-         app:dotsWidthFactor="2.5"
-         android:layout_marginTop="30dp"/>
     </LinearLayout>
 
 

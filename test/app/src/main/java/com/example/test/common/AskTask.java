@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class AskTask extends AsyncTask<String , String , InputStream> {
     HttpClient httpClient;
@@ -66,7 +67,12 @@ public class AskTask extends AsyncTask<String , String , InputStream> {
                 , ContentType.create("Multipart/related" , "UTF-8") );
 
         for(int i=0 ; i<fileParams.size() ; i++){                   //파일 경로
-            builder.addPart( fileParams.get(i).getKey()  ,  new FileBody( new File(fileParams.get(i).getValue()) ) );
+
+            FileBody fb = new FileBody(
+                    new File(fileParams.get(i).getValue()) ,ContentType.MULTIPART_FORM_DATA ,UUID.randomUUID().toString());
+
+            builder.addPart( fileParams.get(i).getKey()  ,  fb);
+
         }
 
         httpClient = AndroidHttpClient.newInstance("Android");//<=요청한 플랫폼(Android고정)

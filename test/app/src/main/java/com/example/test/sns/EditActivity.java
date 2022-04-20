@@ -86,7 +86,7 @@ public class EditActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     //if(imgFilePathList == vo.getImgList()) {
                     if(imgFilePathList == vo.getImgList() && vo.getGro_content().equals(sns_edit_text.getText().toString())){
-                        Toast.makeText(EditActivity.this, "수정사항이 없습니다", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(EditActivity.this, "수정사항이 없습니다", Toast.LENGTH_SHORT).show();
                     }else if( !vo.getGro_content().equals(sns_edit_text.getText().toString()) && imgFilePathList == vo.getImgList() ) {
                         //editList.clear();
                         AskTask textUpTask = new AskTask(CommonVal.httpip, "content.sn");
@@ -228,7 +228,7 @@ public class EditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_CODE && resultCode == RESULT_OK) {
-            Toast.makeText(EditActivity.this, "찰칵", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(EditActivity.this, "찰칵", Toast.LENGTH_SHORT).show();
 
         } else if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
             imgFilePathList = null;

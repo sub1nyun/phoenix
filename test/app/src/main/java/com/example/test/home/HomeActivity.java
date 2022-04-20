@@ -20,11 +20,8 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager2 mPager;
     FragmentStateAdapter pagerAdapter;
     int num_page = 5;
-    DotsIndicator mIndicator;
-    Intent intent;
     CircleIndicator3 nIndicator;
     public static HomeActivity activity_home;
-    WormDotsIndicator wormDotsIndicator;
 
 
     @Override
@@ -42,29 +39,29 @@ public class HomeActivity extends AppCompatActivity {
         mPager.setAdapter(pagerAdapter);
 
 
-        nIndicator = findViewById(R.id.indicator);
-        nIndicator.setViewPager(mPager);
+//        nIndicator = findViewById(R.id.indicator);
+//        nIndicator.setViewPager(mPager);
 
-        mPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-
-        mPager.setCurrentItem(0);
-        mPager.setOffscreenPageLimit(5);
-
-        mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                if(positionOffsetPixels == 0) {
-                    mPager.setCurrentItem(position);
-                }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                nIndicator.animatePageSelected(position%num_page);
-            }
-        });
+//        mPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+//
+//        mPager.setCurrentItem(0);
+//        mPager.setOffscreenPageLimit(5);
+//
+//        mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+//                if(positionOffsetPixels == 0) {
+//                    mPager.setCurrentItem(position);
+//                }
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                super.onPageSelected(position);
+//                nIndicator.animatePageSelected(position%num_page);
+//            }
+//        });
 
 
 
