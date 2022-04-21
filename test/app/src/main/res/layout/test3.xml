@@ -19,7 +19,7 @@
             android:textColor="#3a539f"
             android:textAlignment="center"
             android:textSize="20dp"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="30dp"/>
 
         <ImageView
             android:scaleType="fitXY"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="워킹맘도 이제 걱정 끝!\n아빠도 손쉽게 육아 참여해요."
             android:textColor="#000"
-            android:textSize="15dp"
+            android:textSize="17dp"
             android:textAlignment="center"
             android:layout_gravity="center"
             android:layout_marginTop="70dp"/>
@@ -49,7 +49,7 @@
             android:textSize="12dp"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="10dp"/>
 
 
 

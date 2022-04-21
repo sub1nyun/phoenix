@@ -19,7 +19,7 @@
             android:textColor="#3a539f"
             android:textAlignment="center"
             android:textSize="20dp"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="30dp"/>
 
         <ImageView
             android:layout_marginTop="50dp"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="이제 아기도 엄마도 스트레스 없는\n스마트 육아를 시작해 보세요!"
             android:textColor="#000"
-            android:textSize="15dp"
+            android:textSize="17dp"
             android:textAlignment="center"
             android:layout_gravity="center"
             android:layout_marginTop="70dp"/>
@@ -46,10 +46,10 @@
             android:layout_height="wrap_content"
             android:text="베시시는 육아 활동을 쉽게 기록하여\n양육자가 아기에게 필요한 것을 정확하게\n챙길 수 있도록 도움을 줍니다."
             android:textColor="#000"
-            android:textSize="15dp"
+            android:textSize="12dp"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="10dp"/>
 
 
 
