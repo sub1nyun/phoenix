@@ -2,8 +2,13 @@ package com.example.test.diary;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +16,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
@@ -50,6 +57,18 @@ public class DetailActivity extends AppCompatActivity {
     String[] time_arr1;
     String[] time_arr2;
     int result = 1;
+
+
+    NotificationManager manager;
+
+    //하나의 알림당 하나의 채널이 필요함
+    String CHANNEL_ID1 = "channer1";
+    String CHANNEL_NAME1 = "channer1";
+    String CHANNEL_ID2 = "channer2";
+    String CHANNEL_NAME2 = "channer2";
+    String CHANNEL_ID3 = "channer3";
+    String CHANNEL_NAME3 = "channer3";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -257,7 +276,7 @@ public class DetailActivity extends AppCompatActivity {
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-
+                                    showCheck();
                             }
                         });
                         AlertDialog alertDialog = builder.create();
@@ -355,6 +374,39 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void showCheck() {
+        manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            if(manager.getNotificationChannel(CHANNEL_ID2) == null){
+                manager.createNotificationChannel(new NotificationChannel(
+                        CHANNEL_ID2,CHANNEL_NAME2,NotificationManager.IMPORTANCE_DEFAULT
+                ));
+            }
+            builder = new NotificationCompat.Builder(this,CHANNEL_ID2);
+        }else{
+            builder = new NotificationCompat.Builder(this);
+        }
+        Intent intent = new Intent(DetailActivity.this , MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent
+                .getActivity(DetailActivity.this , 1004 ,
+                        intent ,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder.setContentTitle("베시시 알림");
+        builder.setContentText("37℃ ~ 37.5℃(이)가 정상 체온입니다.");
+        builder.setSmallIcon(android.R.drawable.ic_menu_view);
+        builder.setAutoCancel(true);
+        builder.setContentIntent(pendingIntent);
+        Notification noti = builder.build();
+
+        manager.notify(2,noti);
+
+    }
+
+
 
     public String getNowtime(){
         //현재 시간

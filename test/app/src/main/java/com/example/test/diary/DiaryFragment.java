@@ -1,6 +1,10 @@
 package com.example.test.diary;
 
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,6 +16,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,6 +74,8 @@ public class DiaryFragment extends Fragment {
     //CircleImageView imv_baby;
 
     final int CODE = 1000;
+
+
 
     DatePickerDialog.OnDateSetListener callbackMethod;
 
@@ -293,6 +300,7 @@ public class DiaryFragment extends Fragment {
                 intent = new Intent(getContext(), DetailActivity.class);
                 intent.putExtra("dto", setDTO("투약"));
                 getActivity().startActivityForResult(intent, CODE);
+
             }
         });
         imv_mou.setOnClickListener(new View.OnClickListener() {
@@ -317,6 +325,7 @@ public class DiaryFragment extends Fragment {
                 intent = new Intent(getContext(), DetailActivity.class);
                 intent.putExtra("dto", setDTO("물"));
                 getActivity().startActivityForResult(intent, CODE);
+
             }
         });
         imv_danger.setOnClickListener(new View.OnClickListener() {
@@ -330,6 +339,8 @@ public class DiaryFragment extends Fragment {
 
         return rootview;
     }
+
+
 
     public DiaryVO setDTO(String category){
         DiaryVO vo = new DiaryVO();
