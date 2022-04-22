@@ -4,12 +4,12 @@ import static android.Manifest.permission.RECORD_AUDIO;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.os.Environment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,36 +24,38 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.example.test.iot.MusicFragment;
+import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.UUID;
 
 public class IotFragment extends Fragment {
     ImageView iot_capture, iot_recode, iot_white_noise;
     WebView iot_cctv;
-    Handler handler = new Handler(Looper.getMainLooper());
+    Gson gson = new Gson();
+
+    MediaRecorder recorder;
+    String filename;
 
     private static final String LOG_TAG = "AudioRecordTest";
     public static final int REQUEST_AUDIO_PERMISSION_CODE = 200;
-    private static String fileName;
-
-    private MediaRecorder recorder;
-
-    private boolean isRecording = false;    // 현재 녹음 상태를 확인하기 위함.
-    private Uri audioUri = null; // 오디오 파일 uri
 
     private String recordPermission = Manifest.permission.RECORD_AUDIO;
     private int PERMISSION_CODE = 21;
+
+    private boolean isRecording = true;    // 현재 녹음 상태를 확인하기 위함.
+
     
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_iot, container, false);
-        thtest thtest;
-
-        thtest = new thtest(handler);
-        thtest.start();
 
 
         iot_capture = rootView.findViewById(R.id.iot_capture);
@@ -61,13 +63,9 @@ public class IotFragment extends Fragment {
         iot_white_noise = rootView.findViewById(R.id.iot_white_noise);
         iot_cctv = rootView.findViewById(R.id.iot_cctv);
 
-        iot_recode.setColorFilter(Color.parseColor("#000000"));
-
         iot_cctv.setWebViewClient(new WebViewClient());
         iot_cctv.getSettings().setLoadWithOverviewMode(true);
         iot_cctv.getSettings().setUseWideViewPort(true);
-
-
 
         int perissionCheck = ContextCompat.checkSelfPermission(getContext(), RECORD_AUDIO);
 
@@ -82,15 +80,20 @@ public class IotFragment extends Fragment {
             }
         }
 
-        /*fileName = getContext().getExternalCacheDir().getAbsolutePath();
-        fileName += "/audiorecordtest.mp4";
-        Log.d("asd", "onCreateView: " + fileName);*/
-        /*File scard = Environment.getExternalStorageDirectory();
-        File file = new File(sdcard, "recorded.mp3"d);
-        fileName = file.getAbsolutePath();*/
-
         WebSettings webSettings = iot_cctv.getSettings();
         webSettings.setJavaScriptEnabled(true);
+
+            File sdcard = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                sdcard = ((MainActivity) getActivity()).getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+            }else{
+                sdcard = Environment.getExternalStorageDirectory();
+            }
+            String uuid = UUID.randomUUID().toString();
+            File file = new File(sdcard, uuid + ".mp3");
+            filename = file.getAbsolutePath();
+            Log.d("태그","파일명"+filename);
+
 
         /*iot_cctv.loadData("<html><head><style type='text/css'>body{margin:auto auto;text-align:center;} " +
                         "img{width:100%25;} div{overflow: hidden;} </style></head>" +
@@ -98,7 +101,8 @@ public class IotFragment extends Fragment {
                 "text/html", "UTF-8");
         iot_cctv.reload();*/
 
-        iot_cctv.loadUrl("http://192.168.0.18:8000");
+
+        iot_cctv.loadUrl("http://192.168.0.92:8000");
 
         iot_capture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,11 +111,18 @@ public class IotFragment extends Fragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            thtest.send("OFF");
-                        }catch (IOException e){
-                            e.printStackTrace();
-                        }
+                        AskTask askTask = new AskTask(CommonVal.httpip, "iot_cap.io");
+                        askTask.addParam("code", "pic");
+                        CommonMethod.excuteGet(askTask);
+
+                        AskTask img_task = new AskTask(CommonVal.httpip, "base_to_img.io");
+                        InputStream in = CommonMethod.excuteGet(img_task);
+                        String precode = gson.fromJson(new InputStreamReader(in), String.class);
+
+                        byte[] encode = Base64.decode(precode, Base64.DEFAULT);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(encode, 0, encode.length);
+                        Log.d("asd", "run: " + bitmap);
+                        //iot_white_noise.setImageBitmap(bitmap);
                     }
                 }).start();
             }
@@ -119,14 +130,17 @@ public class IotFragment extends Fragment {
 
 
         iot_recode.setOnClickListener(v -> {
-            //음성녹화 녹화
-            if(isRecording){
+            //음성 녹음
+            Toast.makeText(getContext(), "클릭클릭", Toast.LENGTH_SHORT).show();
+            if(isRecording) {
                 isRecording = false;
-                stopRecording();
+                recordAudio();
+                iot_recode.setImageResource(R.drawable.iot_mic_stop);
             }else {
                 if(checkAudioPermission()) {
                     isRecording = true;
-                    startRecording();
+                    stopRecording();
+                    iot_recode.setImageResource(R.drawable.icon_rec);
                 }
             }
         });
@@ -170,41 +184,32 @@ public class IotFragment extends Fragment {
         }
     }
 
-    // 녹음 시작
-    private void startRecording() {
-        //파일의 외부 경로 확인
-        String recordPath = getContext().getExternalFilesDir("/").getAbsolutePath();
-        // 파일 이름 변수를 현재 날짜가 들어가도록 초기화. 그 이유는 중복된 이름으로 기존에 있던 파일이 덮어 쓰여지는 것을 방지하고자 함.
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        fileName = recordPath + "/" +"RecordExample_" + timeStamp + "_"+"audio.mp4";
-
+    public void recordAudio(){
         recorder = new MediaRecorder();
+
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-        recorder.setOutputFile(fileName);
+
+        recorder.setOutputFile(filename);
 
         try {
             recorder.prepare();
-
-            Toast.makeText(getContext(), "녹음 시작", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
+        }catch (Exception e) {
+            e.printStackTrace();
         }
         recorder.start();
+        Toast.makeText(getActivity(), "녹음 시작", Toast.LENGTH_SHORT).show();
 
     }
 
-    // 녹음 종료
-    private void stopRecording() {
-        // 녹음 종료 종료
-
+    public void stopRecording(){
+        if(recorder != null) {
             recorder.stop();
             recorder.release();
             recorder = null;
-            audioUri = Uri.parse(fileName);
-            Toast.makeText(getContext(), "녹음 종료" + audioUri, Toast.LENGTH_SHORT).show();
-            Log.d("asd", "stopRecording: " + audioUri);
-        //Toast.makeText(getContext(), "if 안탐", Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(getContext(), "녹음 중지임", Toast.LENGTH_SHORT).show();
+        }
     }
 }
