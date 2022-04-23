@@ -36,8 +36,29 @@ public class GroDetailMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gro_detail_main);
-        binding();
 
+        binding();
+        OnclickButton();
+
+
+
+
+
+    }
+
+    @SuppressLint("WrongViewCast")
+    public void binding() {
+        detail_back = findViewById(R.id.detail_back);
+        de_baby_name = findViewById(R.id.de_baby_name);
+        baby_icon = findViewById(R.id.baby_icon);
+        gro_date = findViewById(R.id.gro_date);
+        user_comment = findViewById(R.id.user_comment);
+        grodetailrec = findViewById(R.id.grodetailrec);
+        detail_btn_del =findViewById(R.id.detail_btn_del);
+        detail_btn_edit =findViewById(R.id.detail_btn_edit);
+    }
+
+    private void OnclickButton() {
         Intent intent = getIntent();
         String testdata = (String) intent.getSerializableExtra("vo");
         Gson gson = new Gson();
@@ -63,7 +84,7 @@ public class GroDetailMainActivity extends AppCompatActivity {
 
         detail_back.setOnClickListener(view ->
                 finish()
-                );
+        );
 
 
         detail_btn_del.setOnClickListener(v -> {
@@ -87,29 +108,14 @@ public class GroDetailMainActivity extends AppCompatActivity {
         });
 
         detail_btn_edit.setOnClickListener(v -> {
-                AskTask detailedit = new AskTask(CommonVal.httpip, "groselect.sn");
-                detailedit.addParam("no", vo.getGro_no()+"");
-                InputStream in =CommonMethod.excuteGet(detailedit);
+            AskTask detailedit = new AskTask(CommonVal.httpip, "groselect.sn");
+            detailedit.addParam("no", vo.getGro_no()+"");
+            InputStream in =CommonMethod.excuteGet(detailedit);
 
-                GrowthVO data = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
-                Intent intent1 = new Intent(GroDetailMainActivity.this, EditActivity.class);
-                intent1.putExtra("vo", gson.toJson(data));
-                startActivity(intent1);
+            GrowthVO data = gson.fromJson(new InputStreamReader(in), new TypeToken<GrowthVO>(){}.getType());
+            Intent intent1 = new Intent(GroDetailMainActivity.this, EditActivity.class);
+            intent1.putExtra("vo", gson.toJson(data));
+            startActivity(intent1);
         });
-
-
-
-    }
-
-    @SuppressLint("WrongViewCast")
-    public void binding() {
-        detail_back = findViewById(R.id.detail_back);
-        de_baby_name = findViewById(R.id.de_baby_name);
-        baby_icon = findViewById(R.id.baby_icon);
-        gro_date = findViewById(R.id.gro_date);
-        user_comment = findViewById(R.id.user_comment);
-        grodetailrec = findViewById(R.id.grodetailrec);
-        detail_btn_del =findViewById(R.id.detail_btn_del);
-        detail_btn_edit =findViewById(R.id.detail_btn_edit);
     }
 }

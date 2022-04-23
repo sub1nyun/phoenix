@@ -131,6 +131,14 @@ public class EditActivity extends AppCompatActivity {
 
         }
 
+        Onclick();
+
+
+
+
+    }
+
+    private void Onclick() {
         getImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,8 +154,6 @@ public class EditActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 
     private void binding() {

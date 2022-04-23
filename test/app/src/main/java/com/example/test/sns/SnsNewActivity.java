@@ -26,13 +26,11 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,9 +41,8 @@ import java.util.Date;
 public class SnsNewActivity extends AppCompatActivity {
 
 
-    RoundedImageView sns_photo;
    RecyclerView sns_new_img_rec;
-    ImageView sns_new_back, getImage, rec_camera;
+    ImageView sns_new_back, getImage;
     TextView sns_new_share;
     String[] sns_item = {"카메라", "갤러리"};
     public static ArrayList<Uri> uriList = new ArrayList<>();
@@ -54,12 +51,11 @@ public class SnsNewActivity extends AppCompatActivity {
 
     public final int CAMERA_CODE = 1004;
     public final int GALLERY_CODE = 1005;
-    Gson gson = new Gson();
 
     File imgFile = null;
     ArrayList<String> imgFilePathList = new ArrayList<>();
     SnsImgRecAdapter snsImgRecAdapter;
-    MainActivity activity;
+
 
 
 
@@ -67,21 +63,22 @@ public class SnsNewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sns_new);
+
         checkDangerousPermissions();
 
 
         binding();
+        OnClick();
 
+    }//onCreate
 
+    private void OnClick() {
         getImage.setOnClickListener(v -> {
             showDialog();
         });
-
-
         sns_new_back.setOnClickListener(v -> {
             finish();
         });
-
         sns_new_share.setOnClickListener(v -> {
             if(imgFilePathList != null && imgFilePathList.size() > 0) {
 
@@ -114,7 +111,7 @@ public class SnsNewActivity extends AppCompatActivity {
 
             }
         });
-    }//onCreate
+    }
 
 
     private void binding() {
@@ -123,7 +120,6 @@ public class SnsNewActivity extends AppCompatActivity {
         sns_new_img_rec = findViewById(R.id.sns_new_img_rec);
         sns_new_text = findViewById(R.id.sns_new_text);
         getImage = findViewById(R.id.getImage);
-        //sns_photo = findViewById(R.id.sns_photo);
     }
 
     public void showDialog() {
