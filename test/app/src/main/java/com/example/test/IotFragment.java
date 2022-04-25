@@ -3,10 +3,12 @@ package com.example.test;
 import static android.Manifest.permission.RECORD_AUDIO;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -59,6 +61,10 @@ public class IotFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_iot, container, false);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        checkDangerousPermissions();
 
         iot_capture = rootView.findViewById(R.id.iot_capture);
         iot_recode = rootView.findViewById(R.id.iot_recode);
@@ -94,7 +100,7 @@ public class IotFragment extends Fragment {
             String uuid = UUID.randomUUID().toString();
             File file = new File(sdcard, uuid + ".mp3");
             filename = file.getAbsolutePath();
-            Log.d("태그","파일명"+filename);
+            Log.d("태그","filename"+filename);
 
 
         /*iot_cctv.loadData("<html><head><style type='text/css'>body{margin:auto auto;text-align:center;} " +
@@ -135,7 +141,6 @@ public class IotFragment extends Fragment {
             }
         });
 
-
         iot_recode.setOnClickListener(v -> {
             //음성 녹음
             Toast.makeText(getContext(), "클릭클릭", Toast.LENGTH_SHORT).show();
@@ -152,15 +157,46 @@ public class IotFragment extends Fragment {
             }
         });
 
-
         iot_white_noise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeFrag(new MusicFragment());
+                Intent intent_upload = new Intent();
+                intent_upload.setType("audio/mpeg");
+                intent_upload.setAction(Intent.ACTION_GET_CONTENT);
+                getActivity().startActivityForResult(intent_upload, 1001);
             }
         });
-
         return rootView;
+    }
+
+    private void checkDangerousPermissions() {
+        String[] permissions = {
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_MEDIA_LOCATION,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.RECORD_AUDIO
+        };
+
+        int permissionCheck = PackageManager.PERMISSION_GRANTED;
+        for (int i = 0; i < permissions.length; i++) {
+            permissionCheck = ContextCompat.checkSelfPermission(getActivity(), permissions[i]);
+            if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+                break;
+            }
+        }
+
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            //Toast.makeText(this, "권한 있음", Toast.LENGTH_LONG).show();
+        } else {
+            //Toast.makeText(this, "권한 없음", Toast.LENGTH_LONG).show();
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[0])) {
+                //Toast.makeText(this, "권한 설명 필요함.", Toast.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(getActivity(), permissions, 1);
+            }
+        }
     }
 
     @Override

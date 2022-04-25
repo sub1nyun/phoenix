@@ -2,15 +2,20 @@ package com.example.test;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.database.Cursor;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.provider.Settings;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -23,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.test.common.AskTask;
 import com.example.test.common.CommonVal;
 import com.example.test.diary.BodyFragment;
 import com.example.test.diary.DiaryFragment;
@@ -30,14 +36,13 @@ import com.example.test.home.HomeActivity;
 import com.example.test.my.CoParentFragment;
 import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
-import com.example.test.sns.GrowthVO;
 import com.example.test.sns.SnsFragment;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Base64;
 
 public class MainActivity extends AppCompatActivity {
     Fragment fragment;
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        getHashKey();
+        //getHashKey();
 
         container = findViewById(R.id.container);
         tab_main = findViewById(R.id.tab_main);
@@ -158,8 +163,11 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {// 한 화면에서 액티비티 또는 인텐트로 여러 기능을 사용했을때
             String pageDate = data.getStringExtra("pageDate");
             changeFrag(new DiaryFragment(pageDate));
-        } else if (requestCode == 1001) {
-
+        } else if (requestCode == 1001 && resultCode == RESULT_OK) {
+            String a = "";
+            Uri fileUri = data.getData();
+            sendMpeg(getRealPath(MainActivity.this ,fileUri));
+            Log.d("TAG", "onActivityResult: ");
         }
         switch (requestCode) {
             case GPS_ENABLE_REQUEST_CODE:
@@ -173,7 +181,66 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getHashKey() {
+    @Nullable
+    public static String getRealPath(Context context, Uri uri) {
+        // DocumentProvider
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, uri)) {
+            // MediaProvider
+            final String docId = DocumentsContract.getDocumentId(uri);
+            final String[] split = docId.split(":");
+            final String type = split[0];
+            Uri contentUri = null;
+            if ("image".equals(type)) {
+                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            } else if ("video".equals(type)) {
+                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+            } else if ("audio".equals(type)) {
+                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+            } else if ("primary".equals(type)) {
+                contentUri = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+            }
+
+
+            final String selection = "_id=?";
+            final String[] selectionArgs = new String[]{split[1]};
+
+            Cursor cursor = null;
+            String column = "_data";
+            String[] projection = {column};
+            try {
+                cursor = context.getContentResolver().query(contentUri, projection, selection, selectionArgs, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndexOrThrow(column);
+                    return cursor.getString(index);
+                }
+            } finally {
+                if (cursor != null)
+                    cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public void sendMpeg(String realPath) {
+
+        File file = new File(realPath);
+        byte[] data = new byte[(int) file.length()];
+
+        try (FileInputStream stream = new FileInputStream(file)) {
+            stream.read(data, 0, data.length);
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        AskTask askTask = new AskTask("http://192.168.0.13","music");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            askTask.addParam("musicfile", Base64.getUrlEncoder().encodeToString(data));
+            //askTask.fileData = java.util.Base64.getUrlEncoder().encodeToString(data);
+            askTask.execute();
+        }
+    }
+
+    /*private void getHashKey() {
         PackageInfo packageInfo = null;
         try {
             packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
@@ -192,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
             }
         }
-    }
+    }*/
 
     //백버튼 처리
     private final long FINISH_INTERVAL_TIME = 2000;
@@ -228,7 +295,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSIONS_REQUEST_CODE && grantResults.length == REQUIRED_PERMISSIONS.length) {
             boolean check_result = true;
-
             for (int result : grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
                     check_result = false;
