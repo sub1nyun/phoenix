@@ -6,18 +6,14 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -27,16 +23,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.test.common.AskTask;
-import com.example.test.common.CommonMethod;
-import com.example.test.common.CommonVal;
-import com.example.test.iot.MusicFragment;
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -88,19 +78,25 @@ public class IotFragment extends Fragment {
             }
         }
 
+        /*if(Build.VERSION.SDK_INT >= 19){
+            iot_cctv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        } else{
+            iot_cctv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         WebSettings webSettings = iot_cctv.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        webSettings.setJavaScriptEnabled(true);*/
 
-            File sdcard = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                sdcard = ((MainActivity) getActivity()).getExternalFilesDir(Environment.DIRECTORY_MUSIC);
-            }else{
-                sdcard = Environment.getExternalStorageDirectory();
-            }
-            String uuid = UUID.randomUUID().toString();
-            File file = new File(sdcard, uuid + ".mp3");
-            filename = file.getAbsolutePath();
-            Log.d("태그","filename"+filename);
+        File sdcard = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            sdcard = ((MainActivity) getActivity()).getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+        }else{
+            sdcard = Environment.getExternalStorageDirectory();
+        }
+        String uuid = UUID.randomUUID().toString();
+        File file = new File(sdcard, uuid + ".mp3");
+        filename = file.getAbsolutePath();
+        Log.d("태그","filename"+filename);
 
 
         /*iot_cctv.loadData("<html><head><style type='text/css'>body{margin:auto auto;text-align:center;} " +
@@ -260,6 +256,7 @@ public class IotFragment extends Fragment {
         if(webView == null){
             return;
         }
+        webView.setDrawingCacheEnabled(true);
         webView.buildDrawingCache();
         Bitmap bitmap = webView.getDrawingCache();
         FileOutputStream fos;
@@ -274,6 +271,10 @@ public class IotFragment extends Fragment {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
         }catch (Exception e){
             e.printStackTrace();
+            //bitmap.recycle();
+        }finally {
+            webView.setDrawingCacheEnabled(false);
+            bitmap = null;
         }
     }
 }
