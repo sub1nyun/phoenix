@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,8 +32,11 @@ import com.example.test.iot.MusicFragment;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 public class IotFragment extends Fragment {
@@ -50,8 +54,6 @@ public class IotFragment extends Fragment {
     private int PERMISSION_CODE = 21;
 
     private boolean isRecording = true;    // 현재 녹음 상태를 확인하기 위함.
-
-    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -108,7 +110,7 @@ public class IotFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //cctv 캡쳐
-                new Thread(new Runnable() {
+                /*new Thread(new Runnable() {
                     @Override
                     public void run() {
                         AskTask askTask = new AskTask(CommonVal.httpip, "iot_cap.io");
@@ -124,7 +126,12 @@ public class IotFragment extends Fragment {
                         Log.d("asd", "run: " + bitmap);
                         //iot_white_noise.setImageBitmap(bitmap);
                     }
-                }).start();
+                }).start();*/
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date time = new Date();
+                String current_tile = sdf.format(time);
+
+                Request_Capture(iot_cctv, current_tile+"_capture");
             }
         });
 
@@ -210,6 +217,27 @@ public class IotFragment extends Fragment {
             recorder = null;
 
             Toast.makeText(getContext(), "녹음 중지임", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void Request_Capture(WebView webView, String title){
+        if(webView == null){
+            return;
+        }
+        webView.buildDrawingCache();
+        Bitmap bitmap = webView.getDrawingCache();
+        FileOutputStream fos;
+
+        File uploadFolder = Environment.getExternalStoragePublicDirectory("/DCIM/Camera/");
+
+        if(!uploadFolder.exists()) uploadFolder.mkdir();
+
+        String str_path = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/DCIM/Camera";
+        try{
+            fos = new FileOutputStream(str_path + title + ".jpg");
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
