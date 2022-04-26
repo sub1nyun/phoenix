@@ -1,7 +1,6 @@
 package com.example.test.my;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 public class BabyInfoVO implements Serializable {
 	String baby_id, title, baby_name, baby_photo, baby_gender, id, body;

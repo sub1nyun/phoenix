@@ -38,7 +38,6 @@ public class MyMarker extends MarkerView {
                 }
 
                 CandleEntry ce = (CandleEntry) e;
-                Log.d("asd", "refreshContent: " + ce.getX());
                 tv_marker.setText(diary_date[(int)ce.getX()] + " " + time_date[(int)ce.getX()] + "\n" + ce.getHigh() + "°C");
             } else if(category.equals("cm")){
                 CandleEntry ce = (CandleEntry) e;
@@ -47,8 +46,6 @@ public class MyMarker extends MarkerView {
                 CandleEntry ce = (CandleEntry) e;
                 tv_marker.setText("" + ce.getHigh() + "kg");
             }
-            /*CandleEntry ce = (CandleEntry) e;
-            tv_marker.setText("" + ce.getHigh());*/
         } else{
             if(category.equals("heat")){
                 String[] diary_date = new String[date.size()];
@@ -64,7 +61,6 @@ public class MyMarker extends MarkerView {
             } else if(category.equals("kg")){
                 tv_marker.setText("" + e.getY() + "kg");
             }
-            //tv_marker.setText("" + e.getY());
         }
         super.refreshContent(e, highlight);
     }

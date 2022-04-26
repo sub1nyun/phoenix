@@ -1,7 +1,6 @@
 package com.example.test.my;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,14 +108,12 @@ public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.ViewHolder>{
                             task.addParam("old_title", CommonVal.family_title.get(getAdapterPosition()));
                             InputStream in = CommonMethod.excuteGet(task);
 
-                            Log.d("asd", "onPositiveClick: " + list.get(getAdapterPosition()).get(0).getTitle());
                             for(int i=0; i<CommonVal.baby_list.size(); i++){
                                 if(CommonVal.baby_list.get(i).getTitle().equals(temp_title)){
                                     CommonVal.baby_list.get(i).setTitle(name);
                                 }
                             }
 
-                            Log.d("asd", "onPositiveClick: " + list.get(getAdapterPosition()).get(0).getTitle());
                             for(int i=0; i<CommonVal.family_title.size(); i++){
                                 if(CommonVal.family_title.get(i).equals(temp_title)){
                                     CommonVal.family_title.set(i, name);

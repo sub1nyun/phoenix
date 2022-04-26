@@ -1,7 +1,6 @@
 package com.example.test.my;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -24,14 +23,11 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
-import com.example.test.home.HomeActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CoParentFragment extends Fragment implements OnBackPressedListenser {
@@ -68,10 +64,8 @@ public class CoParentFragment extends Fragment implements OnBackPressedListenser
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 AskTask task = new AskTask(CommonVal.httpip, "exit.family");
-                                Log.d("title", "onClick: " + title);
                                 task.addParam("title", title);
                                 task.addParam("id", CommonVal.curuser.getId());
-                                //task.addParam("baby_id", CommonVal.curbaby.getBaby_id());
                                 InputStream in = CommonMethod.excuteGet(task);
                                 if (gson.fromJson(new InputStreamReader(in), Boolean.class)) { //육아일기 탈퇴 성공
                                     Toast.makeText(getContext(), "성공적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show();

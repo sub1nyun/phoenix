@@ -18,7 +18,6 @@ import com.example.test.home.HomeActivity;
 import com.example.test.join.JoinMainActivity;
 import com.example.test.join.UserVO;
 import com.example.test.my.BabyInfoVO;
-import com.example.test.my.SettingActivity;
 
 public class AddFragment extends Fragment {
     Button btn_new;

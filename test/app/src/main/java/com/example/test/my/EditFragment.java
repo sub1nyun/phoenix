@@ -6,10 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +20,6 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,13 +48,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class EditFragment extends Fragment implements OnBackPressedListenser {
     Button my_rels, btn_man, btn_woman, btn_save, btn_del;
@@ -67,7 +59,6 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
     ImageView edit_cancel, imv_camera, img_boy, img_girl;
     RoundedImageView edit_photo;
     EditText edit_name;
-    //Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("JST"));
     private  DatePickerDialog.OnDateSetListener callbackMethod;
     private TimePickerDialog.OnTimeSetListener callbackTime;
     int y=0, m=0, d=0, h=0, mi=0;
@@ -166,7 +157,6 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
                 AskTask task_save = new AskTask(CommonVal.httpip, "updatebaby.bif");
                 task_save.addParam("vo", gson.toJson(vo));
                 if(imgFilePath != null){
-                    Toast.makeText(getContext(), imgFilePath, Toast.LENGTH_SHORT).show();
                     task_save.addFileParam("file", imgFilePath);
                 }
                 task_save.addParam("family", gson.toJson(family));
@@ -395,7 +385,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
 
     public String getGalleryRealPath(Uri contentUri){
         String rtnPath = null;
-        String[] paths = {MediaStore.Images.Media.DATA};//<=
+        String[] paths = {MediaStore.Images.Media.DATA};
         Cursor cursor = ((MainActivity)getActivity()).getContentResolver().query(contentUri , paths , null , null , null);
         if(cursor.moveToFirst()){
             int columns_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -451,12 +441,9 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
             }
         }
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getContext(), "권한 있음", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getContext(), "권한 없음", Toast.LENGTH_LONG).show();
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[0])) {
-                Toast.makeText(getContext(), "권한 설명 필요함.", Toast.LENGTH_LONG).show();
             } else {
                 ActivityCompat.requestPermissions(getActivity(), permissions, 1);
             }
@@ -469,9 +456,7 @@ public class EditFragment extends Fragment implements OnBackPressedListenser {
         if (requestCode == 1) {
             for (int i = 0; i < permissions.length; i++) {
                 if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(), permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getContext(), permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
                 }
             }
         }

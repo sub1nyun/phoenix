@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 
 import com.example.test.R;
 import com.example.test.common.CommonVal;
-import com.google.gson.Gson;
 import java.util.List;
 
 public class DiaryTitleDialog extends Dialog {
@@ -27,7 +26,6 @@ public class DiaryTitleDialog extends Dialog {
     String title;
     Boolean check = false;
     TextView check_title;
-    Gson gson = new Gson();
 
     public DiaryTitleDialog(@NonNull Context context, String title) {
         super(context);
@@ -51,7 +49,6 @@ public class DiaryTitleDialog extends Dialog {
 
         List<String> list = CommonVal.family_title;
 
-        //넘어온 값으로 edittext 변경
         diary_title_edit.setText(title);
 
         diary_title_close.setOnClickListener(new View.OnClickListener() {

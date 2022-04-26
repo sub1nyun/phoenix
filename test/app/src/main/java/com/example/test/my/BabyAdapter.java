@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 import com.example.test.R;
-import com.example.test.common.CommonVal;
-import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -25,7 +23,6 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
     List<BabyInfoVO> list;
     Context context;
     LayoutInflater inflater;
-    Gson gson = new Gson();
 
     public BabyAdapter(List<BabyInfoVO> list, Context context) {
         this.list = list;
