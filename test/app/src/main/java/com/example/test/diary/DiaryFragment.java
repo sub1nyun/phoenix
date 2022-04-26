@@ -64,21 +64,23 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class DiaryFragment extends Fragment {
-    ImageView imv_calender, imv_mou, imv_bunu, imv_eat, imv_bath, imv_temp, imv_sleep, imv_toilet, imv_phar, imv_water, imv_danger
-            , imv_backday, imv_forwardday, imv_graph, imv_store, imv_invite, baby_img;
+public class DiaryFragment extends Fragment implements  View.OnLongClickListener{
+    ImageView imv_calender, imv_backday, imv_forwardday, imv_graph, imv_store, imv_invite, baby_img;
     RoundedImageView imv_baby;
     TextView tv_today, tv_baby_gender, tv_baby_name, tv_baby_age, tv_none;
     Intent intent;
     RecyclerView rcv_diary;
-    //CircleImageView imv_baby;
+
 
     final int CODE = 1000;
 
-
+    ArrayList<ImageView> imv_list = new ArrayList<>();
+    boolean[] ac_arr = new boolean[10];
+    String[] cate_arr = {"모유", "체온", "기저귀", "수면", "분유", "이유식", "목욕", "물", "투약", "간식"};
+    int[] cateimg_arr = {R.drawable.mou, R.drawable.temp, R.drawable.toilet, R.drawable.sleep, R.drawable.bunu, R.drawable.eat, R.drawable.bath, R.drawable.water, R.drawable.pills, R.drawable.danger};
+    int[] cateac_arr = {R.drawable.mou_ac, R.drawable.temp_ac, R.drawable.toilet_ac, R.drawable.sleep_ac, R.drawable.bunu_ac, R.drawable.eat_ac, R.drawable.bath_ac, R.drawable.water_ac, R.drawable.pill_ac, R.drawable.danger_ac};
 
     DatePickerDialog.OnDateSetListener callbackMethod;
-
 
     Gson gson = new Gson();
     Calendar today = Calendar.getInstance();//오늘날짜 받기
@@ -113,16 +115,16 @@ public class DiaryFragment extends Fragment {
         tv_baby_name = rootview.findViewById(R.id.tv_baby_name);
         tv_baby_age = rootview.findViewById(R.id.tv_baby_age);
 
-        imv_bath = rootview.findViewById(R.id.imv_bath);
-        imv_temp = rootview.findViewById(R.id.imv_temp);
-        imv_sleep = rootview.findViewById(R.id.imv_sleep);
-        imv_eat = rootview.findViewById(R.id.imv_eat);
-        imv_toilet = rootview.findViewById(R.id.imv_toilet);
-        imv_phar = rootview.findViewById(R.id.imv_pills);
-        imv_mou = rootview.findViewById(R.id.imv_mou);
-        imv_bunu = rootview.findViewById(R.id.imv_bunu);
-        imv_water = rootview.findViewById(R.id.imv_water);
-        imv_danger = rootview.findViewById(R.id.imv_danger);
+        imv_list.add(rootview.findViewById(R.id.imv_mou));
+        imv_list.add(rootview.findViewById(R.id.imv_temp));
+        imv_list.add(rootview.findViewById(R.id.imv_toilet));
+        imv_list.add(rootview.findViewById(R.id.imv_sleep));
+        imv_list.add(rootview.findViewById(R.id.imv_bunu));
+        imv_list.add(rootview.findViewById(R.id.imv_eat));
+        imv_list.add(rootview.findViewById(R.id.imv_bath));
+        imv_list.add(rootview.findViewById(R.id.imv_water));
+        imv_list.add(rootview.findViewById(R.id.imv_pills));
+        imv_list.add(rootview.findViewById(R.id.imv_danger));
 
         imv_backday = rootview.findViewById(R.id.imv_backday);
         imv_forwardday = rootview.findViewById(R.id.imv_forwardday);
@@ -132,6 +134,10 @@ public class DiaryFragment extends Fragment {
         imv_store = rootview.findViewById(R.id.imv_store);
         imv_invite = rootview.findViewById(R.id.imv_invite);
 
+        for(int i=0; i<ac_arr.length; i++){
+            ac_arr[i] = false;
+        }
+        
         //개월수 구하기
         String baby_age_str = CommonVal.curbaby.getBaby_birth();
         String[] baby_age_arr = baby_age_str.substring(0,baby_age_str.indexOf(" ")).split("-");
@@ -167,7 +173,6 @@ public class DiaryFragment extends Fragment {
 
         //Toast.makeText(getContext(), CommonVal.curbaby.getBaby_name(), Toast.LENGTH_SHORT).show();
 
-
         //그래프
         imv_graph.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,17 +197,17 @@ public class DiaryFragment extends Fragment {
                 RelsDialog dialog = new RelsDialog(getContext(),"엄마");
                 dialog.show();
                 dialog.setDialogListener(new RelsDialog.DialogListener() {
-
                     @Override
                     public void onPositiveClick(String name) {
                         createDynamicLink(name);
                     }
                 });
-
             }
         });
 
+        //탭도 옮기기-----------------------------
         baby_img.setOnClickListener(v -> {
+            ((MainActivity)getActivity()).changeTab();
             ((MainActivity)getActivity()).changeFrag(new MyFragment());
         });
 
@@ -219,6 +224,7 @@ public class DiaryFragment extends Fragment {
                 today.set(year, month, dayOfMonth);
                 tv_today.setText(year + "년 " + (month+1) + "월 " + dayOfMonth + "일");
                 chgDateList(year,month,dayOfMonth);
+                setCateImage(10);
             }
         };
 
@@ -229,6 +235,7 @@ public class DiaryFragment extends Fragment {
                 today.add(Calendar.DATE, -1);
                 tv_today.setText(today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH)+1) + "월 " + today.get(Calendar.DATE) + "일");
                 chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE));
+                setCateImage(10);
             }
         });
         //하루후
@@ -238,6 +245,7 @@ public class DiaryFragment extends Fragment {
                 today.add(Calendar.DATE, 1);
                 tv_today.setText(today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH)+1) + "월 " + today.get(Calendar.DATE) + "일");
                 chgDateList(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE));
+                setCateImage(10);
             }
         });
 
@@ -253,7 +261,7 @@ public class DiaryFragment extends Fragment {
 
 
         //아기상태 버튼 클릭 시
-        imv_bath.setOnClickListener(new View.OnClickListener() {
+        imv_list.get(6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getContext(), DetailActivity.class);
@@ -262,7 +270,8 @@ public class DiaryFragment extends Fragment {
                 //startActivity(intent);
             }
         });
-        imv_temp.setOnClickListener(new View.OnClickListener() {
+        imv_list.get(6).setOnLongClickListener(this);
+        imv_list.get(1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getContext(), DetailActivity.class);
@@ -270,7 +279,8 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-        imv_sleep.setOnClickListener(new View.OnClickListener() {
+        imv_list.get(1).setOnLongClickListener(this);
+        imv_list.get(3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getContext(), DetailActivity.class);
@@ -278,7 +288,8 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-        imv_eat.setOnClickListener(new View.OnClickListener() {
+        imv_list.get(3).setOnLongClickListener(this);
+        imv_list.get(5).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getContext(), DetailActivity.class);
@@ -286,7 +297,8 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-        imv_toilet.setOnClickListener(new View.OnClickListener() {
+        imv_list.get(5).setOnLongClickListener(this);
+        imv_list.get(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getContext(), DetailActivity.class);
@@ -294,7 +306,8 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-        imv_phar.setOnClickListener(new View.OnClickListener() {
+        imv_list.get(2).setOnLongClickListener(this);
+        imv_list.get(8).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getContext(), DetailActivity.class);
@@ -303,7 +316,8 @@ public class DiaryFragment extends Fragment {
 
             }
         });
-        imv_mou.setOnClickListener(new View.OnClickListener() {
+        imv_list.get(8).setOnLongClickListener(this);
+        imv_list.get(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getContext(), DetailActivity.class);
@@ -311,7 +325,8 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-        imv_bunu.setOnClickListener(new View.OnClickListener() {
+        imv_list.get(0).setOnLongClickListener(this);
+        imv_list.get(4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getContext(), DetailActivity.class);
@@ -319,7 +334,8 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
-        imv_water.setOnClickListener(new View.OnClickListener() {
+        imv_list.get(4).setOnLongClickListener(this);
+        imv_list.get(7).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getContext(), DetailActivity.class);
@@ -328,7 +344,8 @@ public class DiaryFragment extends Fragment {
 
             }
         });
-        imv_danger.setOnClickListener(new View.OnClickListener() {
+        imv_list.get(7).setOnLongClickListener(this);
+        imv_list.get(9).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getContext(), DetailActivity.class);
@@ -336,12 +353,65 @@ public class DiaryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, CODE);
             }
         });
+        imv_list.get(9).setOnLongClickListener(this);
 
         return rootview;
     }
 
+    public boolean onLongClick(View v){
+        switch (v.getId()){
+            case R.id.imv_mou:
+                setCateImage(0);
+                break;
+            case R.id.imv_temp:
+                setCateImage(1);
+                break;
+            case R.id.imv_toilet:
+                setCateImage(2);
+                break;
+            case R.id.imv_sleep:
+                setCateImage(3);
+                break;
+            case R.id.imv_bunu:
+                setCateImage(4);
+                break;
+            case R.id.imv_eat:
+                setCateImage(5);
+                break;
+            case R.id.imv_bath:
+                setCateImage(6);
+                break;
+            case R.id.imv_water:
+                setCateImage(7);
+                break;
+            case R.id.imv_pills:
+                setCateImage(8);
+                break;
+            case R.id.imv_danger:
+                setCateImage(9);
+                break;
+        }
+        return true;
+    }
 
-
+    public void setCateImage(int n){
+        for(int i=0; i<ac_arr.length; i++){
+            if(i == n){
+                if(ac_arr[i]){
+                    chgDateList(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
+                    imv_list.get(i).setImageResource(cateimg_arr[i]);
+                    ac_arr[i] = false;
+                }else{
+                    chgCateList(cate_arr[i]);
+                    imv_list.get(i).setImageResource(cateac_arr[i]);
+                    ac_arr[i] = true;
+                }
+            }else{
+                imv_list.get(i).setImageResource(cateimg_arr[i]);
+                ac_arr[i] = false;
+            }
+        }
+    }
     public DiaryVO setDTO(String category){
         DiaryVO vo = new DiaryVO();
         vo.setBaby_id(CommonVal.curbaby.getBaby_id());
@@ -384,8 +454,22 @@ public class DiaryFragment extends Fragment {
             handler.sendMessage(msg);
         }
     }
-    private void createDynamicLink(String rels) {
 
+    public void chgCateList(String category){
+        List<DiaryVO> list;
+        AskTask task = new AskTask(CommonVal.httpip,"list_cate.di");
+        task.addParam("date", today.get(Calendar.YEAR) + "-" + (today.get(Calendar.MONTH)+1) + "-" + today.get(Calendar.DATE));
+        task.addParam("id", CommonVal.curbaby.getBaby_id());
+        task.addParam("baby_category", category);
+        InputStream in = CommonMethod.excuteGet(task);
+        if(in != null){
+            list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<DiaryVO>>(){}.getType());
+            Message msg = handler.obtainMessage(1, list);
+            handler.sendMessage(msg);
+        }
+    }
+
+    private void createDynamicLink(String rels) {
         List<String> temp = new ArrayList<>();
         for(int i=0; i<CommonVal.baby_list.size(); i++){
             if(CommonVal.curbaby.getTitle().equals(CommonVal.baby_list.get(i).getTitle())) {

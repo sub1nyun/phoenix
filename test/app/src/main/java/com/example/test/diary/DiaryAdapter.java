@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -66,7 +67,8 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tv_state,tv_how,tv_start;
-        ImageView imv_detail, imv_state;
+        ImageView imv_state;
+        LinearLayout imv_detail;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imv_detail = itemView.findViewById(R.id.imv_detail);
@@ -107,7 +109,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
             } else if(list.get(i).getBaby_category().equals("수면")){
                 setColor("#bbb1e5",holder);
             } else if(list.get(i).getBaby_category().equals("목욕")){
-                setColor("#6eb5cf",holder);
+                setColor("#8faadc",holder);
             } else if(list.get(i).getBaby_category().equals("체온")){
                 setColor("#d68684",holder);
             } else if(list.get(i).getBaby_category().equals("물")){

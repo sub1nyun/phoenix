@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -23,11 +24,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.test.common.AskTask;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
@@ -98,6 +102,7 @@ public class IotFragment extends Fragment {
         filename = file.getAbsolutePath();
         Log.d("태그","filename"+filename);
 
+            ///storage/emulated/0/Android/data/com.example.test/files/Music/aaceea38-0a51-4f8f-a584-370d277f3690.mp3
 
         /*iot_cctv.loadData("<html><head><style type='text/css'>body{margin:auto auto;text-align:center;} " +
                         "img{width:100%25;} div{overflow: hidden;} </style></head>" +
@@ -148,6 +153,7 @@ public class IotFragment extends Fragment {
                 if(checkAudioPermission()) {
                     isRecording = true;
                     stopRecording();
+                    sendMpeg(filename);
                     iot_recode.setImageResource(R.drawable.icon_rec);
                 }
             }
@@ -163,6 +169,25 @@ public class IotFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    public void sendMpeg(String realPath) {
+
+        File file = new File(realPath);
+        byte[] data = new byte[(int) file.length()];
+
+        try (FileInputStream stream = new FileInputStream(file)) {
+            stream.read(data, 0, data.length);
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        AskTask askTask = new AskTask("http://192.168.0.13","music");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            askTask.addParam("musicfile", Base64.getUrlEncoder().encodeToString(data));
+            //askTask.fileData = java.util.Base64.getUrlEncoder().encodeToString(data);
+            askTask.execute();
+        }
     }
 
     private void checkDangerousPermissions() {

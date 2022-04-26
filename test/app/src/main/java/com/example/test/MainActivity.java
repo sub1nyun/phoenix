@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -197,7 +198,8 @@ public class MainActivity extends AppCompatActivity {
             } else if ("audio".equals(type)) {
                 contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
             } else if ("primary".equals(type)) {
-                contentUri = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+                Log.d("filename", "getRealPath: "+Environment.getExternalStorageDirectory() + "/" + split[1]);
+                return Environment.getExternalStorageDirectory() + "/" + split[1];
             }
 
 
@@ -354,5 +356,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean checkLocationServicesStatus() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    public void changeTab(){
+        TabLayout.Tab tab = tab_main.getTabAt(4);
+        tab.select();
     }
 }
