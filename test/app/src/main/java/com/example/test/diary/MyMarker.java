@@ -28,23 +28,22 @@ public class MyMarker extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         if(e instanceof CandleEntry){
+            String[] diary_date = new String[date.size()];
+            String[] time_date = new String[date.size()];
+
+            for(int i=0; i<date.size(); i++){
+                diary_date[i] = date.get(i).split(",")[1];
+                time_date[i] = date.get(i).split(",")[0];
+            }
             if(category.equals("heat")){
-                String[] diary_date = new String[date.size()];
-                String[] time_date = new String[date.size()];
-
-                for(int i=0; i<date.size(); i++){
-                    diary_date[i] = date.get(i).split(",")[1];
-                    time_date[i] = date.get(i).split(",")[0];
-                }
-
                 CandleEntry ce = (CandleEntry) e;
                 tv_marker.setText(diary_date[(int)ce.getX()] + " " + time_date[(int)ce.getX()] + "\n" + ce.getHigh() + "°C");
             } else if(category.equals("cm")){
                 CandleEntry ce = (CandleEntry) e;
-                tv_marker.setText("" + ce.getHigh() + "cm");
+                tv_marker.setText(diary_date[(int)ce.getX()] + "\n" + ce.getHigh() + "cm");
             } else if(category.equals("kg")){
                 CandleEntry ce = (CandleEntry) e;
-                tv_marker.setText("" + ce.getHigh() + "kg");
+                tv_marker.setText(diary_date[(int)ce.getX()] + "\n" + ce.getHigh() + "kg");
             }
         } else{
             if(category.equals("heat")){
