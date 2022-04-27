@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        AskTask askTask = new AskTask("http://192.168.0.13","music");
+        AskTask askTask = new AskTask(CommonVal.httpip,"music");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             askTask.addParam("musicfile", Base64.getUrlEncoder().encodeToString(data));
             //askTask.fileData = java.util.Base64.getUrlEncoder().encodeToString(data);
