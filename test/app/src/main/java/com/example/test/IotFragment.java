@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.test.common.AskTask;
+import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -182,7 +183,7 @@ public class IotFragment extends Fragment {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        AskTask askTask = new AskTask("http://192.168.0.13","music");
+        AskTask askTask = new AskTask(CommonVal.httpip,"music");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             askTask.addParam("musicfile", Base64.getUrlEncoder().encodeToString(data));
             //askTask.fileData = java.util.Base64.getUrlEncoder().encodeToString(data);
