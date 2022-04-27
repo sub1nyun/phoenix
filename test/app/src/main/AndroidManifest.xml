@@ -60,6 +60,7 @@
         android:usesCleartextTraffic="true"
         android:hardwareAccelerated="true"
         android:requestLegacyExternalStorage="true">
+        <receiver android:name=".diary.AlertReceiver"/>
         <activity
             android:name=".socketActivity"
             android:exported="false" />

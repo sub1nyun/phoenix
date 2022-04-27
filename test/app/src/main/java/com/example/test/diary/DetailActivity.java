@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -30,6 +31,7 @@ import android.widget.TimePicker;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
+import com.example.test.SplashActivity;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
@@ -259,6 +261,44 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                 long diffMin = 0;
+
+                Boolean isSucc = false;
+                dto.setMemo(edt_memo.getText() + "");
+                for (int i = 0; i < amtCategoty.length; i++) {
+                    if (dto.getBaby_category().equals(amtCategoty[i])) {
+                        if (edt_amount.getText().toString().equals("")) {
+
+                        } else {
+                            dto.setAmount(Double.parseDouble(edt_amount.getText() + ""));
+                        }
+                    }
+                }
+                if (dto.getBaby_category().equals("체온")) {
+                    if (edt_temp.getText().toString().equals("")) {
+                        result = 0;
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                        builder.setTitle("체온을 입력해주세요").setMessage("");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                        dto.setEnd_time(dto.getStart_time());
+                    } else if(35.5>Double.parseDouble(edt_temp.getText().toString()) || 38<Double.parseDouble(edt_temp.getText().toString())){
+                        showCheck();
+                        result = 1;
+                        dto.setTemperature(Double.parseDouble(edt_temp.getText() + ""));
+                        dto.setEnd_time(dto.getStart_time());
+                    }else {
+                        result = 1;
+                        dto.setTemperature(Double.parseDouble(edt_temp.getText() + ""));
+                        dto.setEnd_time(dto.getStart_time());
+                    }
+                } else if (dto.getBaby_category().equals("기저귀")) {
+                    dto.setEnd_time(dto.getStart_time());
+                }
                 try {
                     if(dto.getEnd_time() != null){
                         Date date1 = dateFormat.parse(dto.getEnd_time());
@@ -268,7 +308,6 @@ public class DetailActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
                 if(diffMin<0){
                     AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
                     builder.setTitle("시간이 잘못 설정되었습니다.").setMessage("");
@@ -278,44 +317,7 @@ public class DetailActivity extends AppCompatActivity {
                     });
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
-                }else {
-                    Boolean isSucc = false;
-                    dto.setMemo(edt_memo.getText() + "");
-                    for (int i = 0; i < amtCategoty.length; i++) {
-                        if (dto.getBaby_category().equals(amtCategoty[i])) {
-                            if (edt_amount.getText().toString().equals("")) {
-
-                            } else {
-                                dto.setAmount(Double.parseDouble(edt_amount.getText() + ""));
-                            }
-                        }
-                    }
-                    if (dto.getBaby_category().equals("체온")) {
-                        if (edt_temp.getText().toString().equals("")) {
-                            result = 0;
-                            AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-                            builder.setTitle("체온을 입력해주세요").setMessage("");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-                                }
-                            });
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.show();
-                        } else if(35.5>Double.parseDouble(edt_temp.getText().toString()) || 38<Double.parseDouble(edt_temp.getText().toString())){
-                            showCheck();
-                            result = 1;
-                            dto.setTemperature(Double.parseDouble(edt_temp.getText() + ""));
-                            dto.setEnd_time(dto.getStart_time());
-                        }else {
-                            result = 1;
-                            dto.setTemperature(Double.parseDouble(edt_temp.getText() + ""));
-                            dto.setEnd_time(dto.getStart_time());
-                        }
-                    } else if (dto.getBaby_category().equals("기저귀")) {
-                        dto.setEnd_time(dto.getStart_time());
-                    }
-
+                }else{
                     if (intent.getSerializableExtra("is_info") != null && result == 1) {
                         AskTask task = new AskTask(CommonVal.httpip, "update.di");
                         String dtogson = gson.toJson(dto);
@@ -331,6 +333,19 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     if (isSucc) {
+                        try {
+                            Date now = dateFormat.parse(dateFormat.format(new Date()));
+                            Date setTime = dateFormat.parse(dto.getStart_time());
+                            if(setTime.getTime() > now.getTime()){
+                                Calendar c = Calendar.getInstance();
+                                String[] datestr = dto.getDiary_date().split("-");
+                                String[] timestr = dto.getStart_time().split(":");
+                                c.set(Integer.parseInt(datestr[0]),Integer.parseInt(datestr[1]),Integer.parseInt(datestr[2]),Integer.parseInt(timestr[0]),Integer.parseInt(timestr[1]));
+                                startAlarm(c);
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         Intent intent = new Intent();
                         intent.putExtra("pageDate", dto.getDiary_date());
                         setResult(RESULT_OK, intent);
@@ -398,6 +413,13 @@ public class DetailActivity extends AppCompatActivity {
                 dto.setDiary_type(btns.get(3).getText()+"");
             }
         });
+    }
+
+    private void startAlarm(Calendar c){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(DetailActivity.this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
     }
 
     private void showCheck() {
