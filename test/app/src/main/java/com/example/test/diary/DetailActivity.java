@@ -1,5 +1,7 @@
 package com.example.test.diary;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -17,8 +19,10 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -28,7 +32,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.example.test.LoginActivity;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.SplashActivity;
@@ -55,11 +61,15 @@ public class DetailActivity extends AppCompatActivity {
     TimePickerDialog.OnTimeSetListener callbackMethod1, callbackMethod2;
     LinearLayout linear_start, linear_end, linear_amount, linear_temp, linear_many;
     ArrayList<Button> btns = new ArrayList<>();
+
     Gson gson = new Gson();
     String[] time_arr1;
     String[] time_arr2;
     int result = 1;
 
+    String[] amtCategoty = {"분유", "이유식", "물", "투약", "간식", "모유"};
+
+    private ActivityResultLauncher<Void> overlayPermissionLauncher;
 
     NotificationManager manager;
 
@@ -71,6 +81,7 @@ public class DetailActivity extends AppCompatActivity {
     String CHANNEL_ID3 = "channer3";
     String CHANNEL_NAME3 = "channer3";
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,10 +123,9 @@ public class DetailActivity extends AppCompatActivity {
         }
 
 
-        String[] amtCategoty = {"분유", "이유식", "물", "투약", "간식"};
 
         if((dto.getBaby_category()).equals("모유")){
-            linear_amount.setVisibility(View.GONE);
+            //linear_amount.setVisibility(View.GONE);
             linear_temp.setVisibility(View.GONE);
             btns.get(0).setText("왼쪽");
             btns.get(1).setText("오른쪽");
@@ -259,20 +269,18 @@ public class DetailActivity extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-                long diffMin = 0;
-
                 Boolean isSucc = false;
                 dto.setMemo(edt_memo.getText() + "");
+                //amount가 필요한 카테고리들을 걸러서 설정
                 for (int i = 0; i < amtCategoty.length; i++) {
                     if (dto.getBaby_category().equals(amtCategoty[i])) {
                         if (edt_amount.getText().toString().equals("")) {
-
                         } else {
                             dto.setAmount(Double.parseDouble(edt_amount.getText() + ""));
                         }
                     }
                 }
+                //체온일때 빈칸이면 입력해달라 하고 비정상 체온이면 알람가게 정상이면 그대로 진행
                 if (dto.getBaby_category().equals("체온")) {
                     if (edt_temp.getText().toString().equals("")) {
                         result = 0;
@@ -285,29 +293,30 @@ public class DetailActivity extends AppCompatActivity {
                         });
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
-                        dto.setEnd_time(dto.getStart_time());
                     } else if(35.5>Double.parseDouble(edt_temp.getText().toString()) || 38<Double.parseDouble(edt_temp.getText().toString())){
                         showCheck();
                         result = 1;
                         dto.setTemperature(Double.parseDouble(edt_temp.getText() + ""));
-                        dto.setEnd_time(dto.getStart_time());
                     }else {
                         result = 1;
                         dto.setTemperature(Double.parseDouble(edt_temp.getText() + ""));
-                        dto.setEnd_time(dto.getStart_time());
                     }
+                    dto.setEnd_time(dto.getStart_time());
+                //기저귀일때 종료시간 세팅
                 } else if (dto.getBaby_category().equals("기저귀")) {
                     dto.setEnd_time(dto.getStart_time());
                 }
+                //시작시간 끝시간 차이구하기
+                long diffMin = 0;
                 try {
-                    if(dto.getEnd_time() != null){
-                        Date date1 = dateFormat.parse(dto.getEnd_time());
-                        Date date2 = dateFormat.parse(dto.getStart_time());
-                        diffMin = (date1.getTime() - date2.getTime()) / 60000;
-                    }
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                    Date date1 = dateFormat.parse(dto.getEnd_time());
+                    Date date2 = dateFormat.parse(dto.getStart_time());
+                    diffMin = (date1.getTime() - date2.getTime()) / 60000;
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                //시작시간보다 끝시간이 전이면 시간설정 잘못됐다고 알리기
                 if(diffMin<0){
                     AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
                     builder.setTitle("시간이 잘못 설정되었습니다.").setMessage("");
@@ -317,13 +326,16 @@ public class DetailActivity extends AppCompatActivity {
                     });
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
+                //시간 설정이 잘되었다면
                 }else{
+                    //수정일때
                     if (intent.getSerializableExtra("is_info") != null && result == 1) {
                         AskTask task = new AskTask(CommonVal.httpip, "update.di");
                         String dtogson = gson.toJson(dto);
                         task.addParam("dto", dtogson);
                         InputStream in = CommonMethod.excuteGet(task);
                         isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
+                    //새로운 데이터 저장일때
                     } else if (result == 1) {
                         AskTask task = new AskTask(CommonVal.httpip, "insert.di");
                         String dtogson = gson.toJson(dto);
@@ -331,21 +343,26 @@ public class DetailActivity extends AppCompatActivity {
                         InputStream in = CommonMethod.excuteGet(task);
                         isSucc = gson.fromJson(new InputStreamReader(in), Boolean.class);
                     }
-
+                    //수정이나 저장처리가 잘 되었다면
                     if (isSucc) {
                         try {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                            //현재 시간보다 설정한 시작시간이 후라면 지정된 시간에 알림 울리게
                             Date now = dateFormat.parse(dateFormat.format(new Date()));
-                            Date setTime = dateFormat.parse(dto.getStart_time());
+                            Date setTime = dateFormat.parse(dto.getDiary_date()+" "+dto.getStart_time());
                             if(setTime.getTime() > now.getTime()){
                                 Calendar c = Calendar.getInstance();
-                                String[] datestr = dto.getDiary_date().split("-");
-                                String[] timestr = dto.getStart_time().split(":");
-                                c.set(Integer.parseInt(datestr[0]),Integer.parseInt(datestr[1]),Integer.parseInt(datestr[2]),Integer.parseInt(timestr[0]),Integer.parseInt(timestr[1]));
-                                startAlarm(c);
+                                c.setTime(setTime);
+                                if(checkPermissionOverlay(DetailActivity.this)) {
+                                    setAlarm(c, dto.getBaby_category());
+                                }else{
+                                    Toast.makeText(DetailActivity.this, "권한을 허용해주세요.", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
+                        //현재페이지 날짜 가지고 메인액티로 돌아가자
                         Intent intent = new Intent();
                         intent.putExtra("pageDate", dto.getDiary_date());
                         setResult(RESULT_OK, intent);
@@ -415,11 +432,46 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    private void startAlarm(Calendar c){
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(DetailActivity.this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void setAlarm(Calendar calendar, String cate) {
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        for(int i=0; i< amtCategoty.length; i++){
+            if(cate.equals(amtCategoty[i]))
+                intent.putExtra("cate" , cate.equals("투약") ? "아이에게 투약할 시간입니다." : cate + "를(을) 먹일 시간입니다.");//리시버에 데이터 보내기 테스트
+        }
+        if(cate.equals("체온"))
+            intent.putExtra("cate" , cate + "을 측정할 시간입니다.");//리시버에 데이터 보내기 테스트
+        else if(cate.equals("기저귀"))
+            intent.putExtra("cate" , cate + "를 확인할 시간입니다.");//리시버에 데이터 보내기 테스트
+        else if(cate.equals("수면"))
+            intent.putExtra("cate" , "아이를 재울 시간입니다.");//리시버에 데이터 보내기 테스트
+        else if(cate.equals("목욕"))
+            intent.putExtra("cate" , "아이가 목욕할 시간입니다.");//리시버에 데이터 보내기 테스트
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getApplicationContext(),
+                0,
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT|PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        // 알람 설정
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                pendingIntent
+        );
+    }
+
+    private final int OVERRAY_REQ_CODE = 1111;
+    public  boolean checkPermissionOverlay(Context context) {
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && Settings.canDrawOverlays(context) ){ //<=권한이 허용되었는지를 체크
+            return true;
+        }else{
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent,  OVERRAY_REQ_CODE);
+        }
+        return false;
     }
 
     private void showCheck() {
@@ -436,7 +488,7 @@ public class DetailActivity extends AppCompatActivity {
         }else{
             builder = new NotificationCompat.Builder(this);
         }
-        Intent intent = new Intent(DetailActivity.this , MainActivity.class);
+        Intent intent = new Intent(DetailActivity.this , LoginActivity.class);
         PendingIntent pendingIntent = PendingIntent
                 .getActivity(DetailActivity.this , 1004 ,
                         intent ,
