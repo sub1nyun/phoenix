@@ -238,7 +238,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                android:text="kg"
+                android:text="cm"
                 android:fontFamily="@font/aa"
                 android:includeFontPadding="false"/>
         </LinearLayout>

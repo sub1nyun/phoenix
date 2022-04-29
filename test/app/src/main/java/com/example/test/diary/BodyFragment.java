@@ -139,7 +139,9 @@ public class BodyFragment extends Fragment  implements OnBackPressedListenser {
         view_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calendar maxdate = Calendar.getInstance();
                 DatePickerDialog dialog = new DatePickerDialog(getContext(), callbackMethod, today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMaxDate(maxdate.getTimeInMillis());
                 dialog.show();
             }
         });
