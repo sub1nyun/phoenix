@@ -26,7 +26,7 @@
             android:scaleType="fitXY"
             android:layout_width="wrap_content"
             android:layout_height="310dp"
-            android:src="@drawable/bss_diary_home"
+            android:src="@drawable/bss_home2"
             android:layout_gravity="center"/>
 
         <TextView
