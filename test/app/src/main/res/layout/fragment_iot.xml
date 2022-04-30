@@ -47,12 +47,12 @@
                 android:id="@+id/iot_recode"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:src="@drawable/icon_rec"
+                android:src="@drawable/play"
                 android:layout_gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="녹음"
+                android:text="음악 틀어주기"
                 android:textSize="20dp"
                 android:textAlignment="center"
                 android:layout_marginTop="5dp"/>
@@ -66,12 +66,12 @@
                 android:id="@+id/iot_white_noise"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:src="@drawable/iot_mic"
+                android:src="@drawable/shake"
                 android:layout_gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="백색소음"
+                android:text="침대 흔들기"
                 android:textSize="20dp"
                 android:textAlignment="center"
                 android:layout_marginTop="5dp"/>

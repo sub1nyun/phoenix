@@ -66,6 +66,9 @@ public class IotFragment extends Fragment {
         iot_white_noise = rootView.findViewById(R.id.iot_white_noise);
         iot_cctv = rootView.findViewById(R.id.iot_cctv);
 
+        iot_capture.setColorFilter(getResources().getColor(R.color.main));
+        iot_white_noise.setColorFilter(getResources().getColor(R.color.main));
+
         iot_cctv.setWebViewClient(new WebViewClient());
         iot_cctv.getSettings().setLoadWithOverviewMode(true);
         iot_cctv.getSettings().setUseWideViewPort(true);
@@ -145,7 +148,6 @@ public class IotFragment extends Fragment {
 
         iot_recode.setOnClickListener(v -> {
             //음성 녹음
-            Toast.makeText(getContext(), "클릭클릭", Toast.LENGTH_SHORT).show();
             if(isRecording) {
                 isRecording = false;
                 recordAudio();
