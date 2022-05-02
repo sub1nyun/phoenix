@@ -43,12 +43,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <ImageView
                 android:id="@+id/iot_recode"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:src="@drawable/play"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:src="@drawable/play" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
