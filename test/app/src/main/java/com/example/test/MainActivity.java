@@ -34,12 +34,16 @@ import com.example.test.common.CommonVal;
 import com.example.test.diary.BodyFragment;
 import com.example.test.diary.DiaryFragment;
 import com.example.test.home.HomeActivity;
+import com.example.test.iot.MyFirebaseMessaging;
 import com.example.test.my.CoParentFragment;
 import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
 import com.example.test.sns.SnsFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -72,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
         if (HomeActivity.activity_home != null) {
             HomeActivity.activity_home.finish();
         }
+
+        //fcm 서비스 실행
+        Intent fcm = new Intent(getApplicationContext(), MyFirebaseMessaging.class);
+        startService(fcm);
+
 
 
         //getHashKey();

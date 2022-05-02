@@ -61,6 +61,11 @@
         android:hardwareAccelerated="true"
         android:requestLegacyExternalStorage="true">
         <receiver android:name=".diary.AlarmReceiver"/>
+        <service android:name=".iot.MyFirebaseMessaging">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
         <activity
             android:name=".socketActivity"
             android:exported="false" />
