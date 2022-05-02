@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.ScrollCaptureCallback;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,6 +20,7 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,6 +38,8 @@ public class SnsFragment extends Fragment {
     Activity activity;
     View sns_none;
     RecyclerView sns_view_rec;
+    FloatingActionButton up_arrow;
+    ScrollView scrollView;
 
 
     LayoutInflater inflater ;
@@ -51,6 +56,8 @@ public class SnsFragment extends Fragment {
 
         sns_view_rec = rootView.findViewById(R.id.sns_view_rec);
         sns_plus = rootView.findViewById(R.id.sns_plus);
+        up_arrow = (FloatingActionButton) rootView.findViewById(R.id.up_arrow);
+        scrollView =rootView.findViewById(R.id.scrollView);
 
         return rootView;
     }
@@ -89,6 +96,10 @@ public class SnsFragment extends Fragment {
         sns_plus.setOnClickListener(v -> {
             intent = new Intent(getContext(), SnsNewActivity.class);
             startActivity(intent);
+        });
+
+        up_arrow.setOnClickListener(v -> {
+            scrollView.smoothScrollTo(0,0);
         });
     }
 
