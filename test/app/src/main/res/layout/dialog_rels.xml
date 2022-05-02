@@ -32,7 +32,8 @@
             android:layout_gravity="center">
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rels_mom"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="70dp"
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
@@ -42,7 +43,8 @@
                 android:includeFontPadding="false"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rels_dad"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="70dp"
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
@@ -52,7 +54,8 @@
                 android:includeFontPadding="false"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rels_sitter"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="70dp"
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
@@ -69,7 +72,8 @@
             android:layout_gravity="center">
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rels_grmom"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="70dp"
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
@@ -79,7 +83,8 @@
                 android:includeFontPadding="false" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rels_grdad"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="70dp"
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"
@@ -89,7 +94,8 @@
                 android:includeFontPadding="false"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rels_other"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="70dp"
                 android:background="@drawable/circle_btn"
                 android:layout_marginHorizontal="10dp"

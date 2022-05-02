@@ -30,7 +30,6 @@ import androidx.fragment.app.Fragment;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
-import com.example.test.join.JoinMainActivity;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -42,7 +41,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class IotFragment extends Fragment {
-    ImageView iot_capture, iot_recode, iot_white_noise;
+    ImageView iot_capture, iot_recode, iot_white_noise, iot_biking;
     WebView iot_cctv;
     Gson gson = new Gson();
 
@@ -73,6 +72,9 @@ public class IotFragment extends Fragment {
         iot_recode = rootView.findViewById(R.id.iot_recode);
         iot_white_noise = rootView.findViewById(R.id.iot_white_noise);
         iot_cctv = rootView.findViewById(R.id.iot_cctv);
+        iot_biking = rootView.findViewById(R.id.iot_biking);
+
+
 
         iot_capture.setColorFilter(getResources().getColor(R.color.main));
         iot_white_noise.setColorFilter(getResources().getColor(R.color.main));
@@ -193,6 +195,16 @@ public class IotFragment extends Fragment {
                 CommonMethod.excuteGet(task);
             }
         });
+
+        iot_biking.setOnClickListener(v -> {
+            AskTask bikingtask = new AskTask(CommonVal.httpip,"biking.io");
+            bikingtask.addParam("biking", "biking");
+            CommonMethod.excuteGet(bikingtask);
+
+
+        });
+
+
         return rootView;
     }
 
