@@ -12,6 +12,8 @@
         android:orientation="vertical"
         android:layout_weight="8">
         <TextView
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +32,8 @@
             android:layout_gravity="center"/>
 
         <TextView
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,6 +45,7 @@
             android:layout_marginTop="30dp"/>
 
         <TextView
+            android:includeFontPadding="false"
             android:fontFamily="@font/aa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,6 +66,8 @@
         android:padding="10dp">
 
         <Button
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:id="@+id/btn_join"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,6 +78,8 @@
             android:textStyle="bold"/>
 
         <Button
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:textColor="#fff"
             android:id="@+id/btn_login"
             android:layout_width="match_parent"

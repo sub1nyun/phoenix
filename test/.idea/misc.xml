@@ -37,7 +37,7 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_join_main.xml" value="0.2046875" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_kakao_map.xml" value="0.22" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_login.xml" value="0.22" />
-        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.26403985507246375" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_main.xml" value="0.14" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_map_search_detail.xml" value="0.27760416666666665" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_pager.xml" value="0.2015625" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/activity_place_detail.xml" value="0.27760416666666665" />
@@ -63,6 +63,7 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_new_family.xml" value="0.19479166666666667" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_sns.xml" value="0.2046875" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_user.xml" value="0.33" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/gro_item_null.xml" value="0.30027173913043476" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/home_main.xml" value="0.23958333333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/item_baby.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/item_diary.xml" value="0.33" />

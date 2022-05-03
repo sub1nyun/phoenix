@@ -21,6 +21,8 @@
             android:orientation="horizontal">
 
             <TextView
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -42,6 +44,8 @@
         </LinearLayout>
 
         <TextView
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="가족들이 공유한 성장일기를 읽어보세요"

@@ -43,6 +43,8 @@
             android:padding="10dp">
 
             <TextView
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -59,6 +61,8 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/sns_baby_girl"/>
             <TextView
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                 android:id="@+id/gro_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,6 +85,8 @@
             android:orientation="horizontal">
 
             <TextView
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,6 +109,8 @@
             android:orientation="horizontal">
 
             <Button
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                 android:id="@+id/detail_btn_del"
                 android:backgroundTint="#fff"
                 android:layout_margin="10dp"
@@ -114,6 +122,8 @@
                 android:text="삭제하기"/>
 
             <Button
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                 android:id="@+id/detail_btn_edit"
                 android:backgroundTint="#3a539f"
                 android:textColor="#fff"
