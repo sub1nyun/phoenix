@@ -25,10 +25,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.test.common.AskTask;
-<<<<<<< Updated upstream
-=======
 import com.example.test.common.CommonMethod;
->>>>>>> Stashed changes
 import com.example.test.common.CommonVal;
 import com.google.gson.Gson;
 
