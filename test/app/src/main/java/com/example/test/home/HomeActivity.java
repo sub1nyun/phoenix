@@ -2,17 +2,12 @@ package com.example.test.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.test.LoginActivity;
 import com.example.test.R;
-import com.example.test.join.JoinMainActivity;
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
-import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import me.relex.circleindicator.CircleIndicator3;
 
@@ -31,13 +26,16 @@ public class HomeActivity extends AppCompatActivity {
         activity_home = this;
 
         mPager = findViewById(R.id.viewpager);
-
+        Intent intent = getIntent();
 
 
 
         pagerAdapter = new MyAdapter(this, num_page);
         mPager.setAdapter(pagerAdapter);
+        if(intent.getStringExtra("restart")!=null){
 
+        mPager.setCurrentItem(4);
+        }
 
 //        nIndicator = findViewById(R.id.indicator);
 //        nIndicator.setViewPager(mPager);
