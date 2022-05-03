@@ -43,6 +43,9 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         if (remoteMessage.getData().size() > 0) {
             showNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"));
+        } else if(remoteMessage.getNotification() != null) {
+            showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
+            //up_Nt(remoteMessage.getData().get("orderCnt1"),null,null);
         }
     }
 

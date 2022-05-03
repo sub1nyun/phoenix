@@ -319,6 +319,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putBoolean("autologin" , true);
                 editor.putString("id", edt_id.getText() + "");
                 editor.putString("pw", edt_pw.getText() + "");
+                editor.putBoolean("first" , true);
             } else {  // 로그인 정보를 삭제함.
                 editor.remove("autologin");
                 editor.remove("id");

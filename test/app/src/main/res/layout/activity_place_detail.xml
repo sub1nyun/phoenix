@@ -5,29 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PlaceDetailActivity"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-
-        <TextView
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="상세보기"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            />
+            android:background="#335495"
+            android:padding="8dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/back_map"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/arrow_back"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="상세보기"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="#fff"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            >
+            android:layout_marginTop="10dp"
+            android:padding="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:padding="8dp"
             android:orientation="horizontal"
             >
 
@@ -72,6 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:padding="8dp"
             android:orientation="horizontal"
             >
 
@@ -95,6 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:padding="8dp"
             android:orientation="horizontal"
             >
 
@@ -102,7 +115,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="장소 상세페이지 URL : "
+                android:text="URL : "
                 android:textSize="15sp"
                 />
 
@@ -120,6 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:padding="8dp"
             android:orientation="horizontal"
             >
 

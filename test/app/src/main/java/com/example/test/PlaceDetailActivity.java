@@ -4,17 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.test.mapmodel.Document;
 import com.example.test.utils.IntentKey;
 
 public class PlaceDetailActivity extends AppCompatActivity {
-    TextView placeNameText;
-    TextView addressText;
-    TextView categoryText;
-    TextView urlText;
-    TextView phoneText;
+    TextView placeNameText, addressText, categoryText, urlText, phoneText;
+    ImageView back_map;
+
+    private long backTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,15 @@ public class PlaceDetailActivity extends AppCompatActivity {
         categoryText = findViewById(R.id.placedetail_tv_category);
         urlText = findViewById(R.id.placedetail_tv_url);
         phoneText = findViewById(R.id.placedetail_tv_phone);
+        back_map = findViewById(R.id.back_map);
+
+        back_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         processIntent();
     }
 
@@ -36,5 +47,12 @@ public class PlaceDetailActivity extends AppCompatActivity {
         categoryText.setText(document.getCategoryName());
         urlText.setText(document.getPlaceUrl());
         phoneText.setText(document.getPhone());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(System.currentTimeMillis() > backTime + 2000){
+            finish();
+        }
     }
 }

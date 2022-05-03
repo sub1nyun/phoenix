@@ -3,6 +3,7 @@ package com.example.test;
 import static android.Manifest.permission.RECORD_AUDIO;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -20,6 +21,8 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -44,6 +47,9 @@ public class IotFragment extends Fragment {
 
     MediaRecorder recorder;
     String filename;
+    String[] checkList = {"음성녹음", "파일선택"};
+    int select = 0;
+    int cnt = 0;
 
     private static final String LOG_TAG = "AudioRecordTest";
     public static final int REQUEST_AUDIO_PERMISSION_CODE = 200;
@@ -152,7 +158,7 @@ public class IotFragment extends Fragment {
 
         iot_recode.setOnClickListener(v -> {
             //음성 녹음
-            if(isRecording) {
+            /*if(isRecording) {
                 isRecording = false;
                 recordAudio();
                 iot_recode.setImageResource(R.drawable.iot_mic_stop);
@@ -163,16 +169,30 @@ public class IotFragment extends Fragment {
                     sendMpeg(filename);
                     iot_recode.setImageResource(R.drawable.icon_rec);
                 }
+            }*/
+            if(cnt == 0){
+                ChoseDialog(rootView);
+            } else{
+                if(checkAudioPermission()){
+                    isRecording = true;
+                    stopRecording();
+                    sendMpeg(filename);
+                }
+                iot_recode.setImageResource(R.drawable.play);
+                cnt = 0;
             }
         });
 
         iot_white_noise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_upload = new Intent();
+                /*Intent intent_upload = new Intent();
                 intent_upload.setType("audio/mpeg");
                 intent_upload.setAction(Intent.ACTION_GET_CONTENT);
-                getActivity().startActivityForResult(intent_upload, 1001);
+                getActivity().startActivityForResult(intent_upload, 1001);*/
+                AskTask task = new AskTask(CommonVal.httpip, "biking.io");
+                task.addParam("biking", "biking");
+                CommonMethod.excuteGet(task);
             }
         });
 
@@ -318,5 +338,38 @@ public class IotFragment extends Fragment {
             webView.setDrawingCacheEnabled(false);
             bitmap = null;
         }
+    }
+
+    public void ChoseDialog(View view){
+        ContextThemeWrapper cw = new ContextThemeWrapper(getContext(), R.style.AlertDialogTheme);
+        AlertDialog dialog = new AlertDialog.Builder(cw).setTitle("선택").setSingleChoiceItems(checkList, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                select = which;
+            }
+        }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(select == 0){
+                    if(isRecording) {
+                        isRecording = false;
+                        recordAudio();
+                        iot_recode.setImageResource(R.drawable.iot_mic_stop);
+                        iot_recode.setColorFilter(getResources().getColor(R.color.main));
+                    }
+                    cnt = 1;
+                } else{
+                    Intent intent_upload = new Intent();
+                    intent_upload.setType("audio/mpeg");
+                    intent_upload.setAction(Intent.ACTION_GET_CONTENT);
+                    getActivity().startActivityForResult(intent_upload, 1001);
+                }
+            }
+        }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).setCancelable(false).show();
     }
 }
