@@ -48,9 +48,9 @@ import java.util.List;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import retrofit2.http.HEAD;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "테스트" ;
     Button btn_login, btn_forget;
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        Log.d(TAG, "onCreate: aa");
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -196,11 +196,13 @@ public class LoginActivity extends AppCompatActivity {
         imv_naver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("네이버", "onClick: ");
+                naverLogin();
                 naverlogin.callOnClick();
             }
         });
 
-        naverLogin();
+
 
         if(isLogin){
             edt_id.setText(id);
