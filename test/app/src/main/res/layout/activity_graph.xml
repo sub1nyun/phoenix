@@ -85,7 +85,9 @@
                     android:textColor="#000"
                     android:textStyle="bold"
                     android:layout_gravity="center"
-                    android:layout_marginTop="30dp"/>
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/aa"
+                    android:includeFontPadding="false"/>
                 <Button
                     android:id="@+id/add_stor"
                     android:layout_width="wrap_content"
@@ -93,7 +95,9 @@
                     android:text="기록 추가하러 가기"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:backgroundTint="#f0f4f7"/>
+                    android:backgroundTint="#f0f4f7"
+                    android:fontFamily="@font/aa"
+                    android:includeFontPadding="false"/>
             </LinearLayout>
 
         </LinearLayout>
