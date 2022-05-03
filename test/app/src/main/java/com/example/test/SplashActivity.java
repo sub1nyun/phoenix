@@ -72,6 +72,12 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("restart" , "Y");
+        startActivity(intent);
 
-
+    }
 }

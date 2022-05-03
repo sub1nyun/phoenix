@@ -41,7 +41,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class IotFragment extends Fragment {
-    ImageView iot_capture, iot_recode, iot_white_noise, iot_biking;
+    ImageView iot_capture, iot_recode, iot_white_noise;
     WebView iot_cctv;
     Gson gson = new Gson();
 
@@ -72,9 +72,6 @@ public class IotFragment extends Fragment {
         iot_recode = rootView.findViewById(R.id.iot_recode);
         iot_white_noise = rootView.findViewById(R.id.iot_white_noise);
         iot_cctv = rootView.findViewById(R.id.iot_cctv);
-        iot_biking = rootView.findViewById(R.id.iot_biking);
-
-
 
         iot_capture.setColorFilter(getResources().getColor(R.color.main));
         iot_white_noise.setColorFilter(getResources().getColor(R.color.main));
@@ -96,15 +93,6 @@ public class IotFragment extends Fragment {
             }
         }
 
-        /*if(Build.VERSION.SDK_INT >= 19){
-            iot_cctv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        } else{
-            iot_cctv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-        WebSettings webSettings = iot_cctv.getSettings();
-        webSettings.setJavaScriptEnabled(true);*/
-
         File sdcard = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             sdcard = ((MainActivity) getActivity()).getExternalFilesDir(Environment.DIRECTORY_MUSIC);
@@ -116,38 +104,11 @@ public class IotFragment extends Fragment {
         filename = file.getAbsolutePath();
         Log.d("태그","filename"+filename);
 
-            ///storage/emulated/0/Android/data/com.example.test/files/Music/aaceea38-0a51-4f8f-a584-370d277f3690.mp3
-
-        /*iot_cctv.loadData("<html><head><style type='text/css'>body{margin:auto auto;text-align:center;} " +
-                        "img{width:100%25;} div{overflow: hidden;} </style></head>" +
-                        "<body><div><img src='http://192.168.0.92:8000/stream.mjpeg'/></div></body></html>",
-                "text/html", "UTF-8");
-        iot_cctv.reload();*/
-
-
         iot_cctv.loadUrl("http://192.168.0.92:8000");
 
         iot_capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //cctv 캡쳐
-                /*new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        AskTask askTask = new AskTask(CommonVal.httpip, "iot_cap.io");
-                        askTask.addParam("code", "pic");
-                        CommonMethod.excuteGet(askTask);
-
-                        AskTask img_task = new AskTask(CommonVal.httpip, "base_to_img.io");
-                        InputStream in = CommonMethod.excuteGet(img_task);
-                        String precode = gson.fromJson(new InputStreamReader(in), String.class);
-
-                        byte[] encode = Base64.decode(precode, Base64.DEFAULT);
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(encode, 0, encode.length);
-                        Log.d("asd", "run: " + bitmap);
-                        //iot_white_noise.setImageBitmap(bitmap);
-                    }
-                }).start();*/
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
                 Date time = new Date();
                 String current_tile = sdf.format(time);
@@ -157,19 +118,6 @@ public class IotFragment extends Fragment {
         });
 
         iot_recode.setOnClickListener(v -> {
-            //음성 녹음
-            /*if(isRecording) {
-                isRecording = false;
-                recordAudio();
-                iot_recode.setImageResource(R.drawable.iot_mic_stop);
-            }else {
-                if(checkAudioPermission()) {
-                    isRecording = true;
-                    stopRecording();
-                    sendMpeg(filename);
-                    iot_recode.setImageResource(R.drawable.icon_rec);
-                }
-            }*/
             if(cnt == 0){
                 ChoseDialog(rootView);
             } else{
@@ -186,24 +134,11 @@ public class IotFragment extends Fragment {
         iot_white_noise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent_upload = new Intent();
-                intent_upload.setType("audio/mpeg");
-                intent_upload.setAction(Intent.ACTION_GET_CONTENT);
-                getActivity().startActivityForResult(intent_upload, 1001);*/
                 AskTask task = new AskTask(CommonVal.httpip, "biking.io");
                 task.addParam("biking", "biking");
                 CommonMethod.excuteGet(task);
             }
         });
-
-        iot_biking.setOnClickListener(v -> {
-            AskTask bikingtask = new AskTask(CommonVal.httpip,"biking.io");
-            bikingtask.addParam("biking", "biking");
-            CommonMethod.excuteGet(bikingtask);
-
-
-        });
-
 
         return rootView;
     }
@@ -222,7 +157,6 @@ public class IotFragment extends Fragment {
         AskTask askTask = new AskTask(CommonVal.httpip,"music");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             askTask.addParam("musicfile", Base64.getUrlEncoder().encodeToString(data));
-            //askTask.fileData = java.util.Base64.getUrlEncoder().encodeToString(data);
             askTask.execute();
         }
     }
@@ -333,7 +267,6 @@ public class IotFragment extends Fragment {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
         }catch (Exception e){
             e.printStackTrace();
-            //bitmap.recycle();
         }finally {
             webView.setDrawingCacheEnabled(false);
             bitmap = null;
