@@ -32,6 +32,7 @@ import com.example.test.common.CommonVal;
 import com.example.test.diary.BodyFragment;
 import com.example.test.diary.DiaryFragment;
 import com.example.test.home.HomeActivity;
+import com.example.test.iot.IotFragment;
 import com.example.test.iot.MyFirebaseMessaging;
 import com.example.test.my.CoParentFragment;
 import com.example.test.my.EditFragment;
