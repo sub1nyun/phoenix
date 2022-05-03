@@ -75,7 +75,7 @@ public class UserFragment extends Fragment {
 
 
         KakaoSdk.init(getContext() ,"9bb5096013cc3ff738a2ca42f3fd61d1");
-        NaverIdLoginSDK.INSTANCE.initialize( getContext() ,"6qlDOXLBKzQkw1eBhMsi","U3LRpxH6Tq","BSS");
+        NaverIdLoginSDK.INSTANCE.initialize( getContext() ,"uR4I8FNC11hwqTB3Fr6l","U3LRpxH6Tq","BSS");
 
 
         if (family_id != null) {
