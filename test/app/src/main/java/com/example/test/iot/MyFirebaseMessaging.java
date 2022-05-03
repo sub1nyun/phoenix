@@ -16,6 +16,9 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.test.MainActivity;
 import com.example.test.R;
+import com.example.test.common.AskTask;
+import com.example.test.common.CommonMethod;
+import com.example.test.common.CommonVal;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -32,6 +35,9 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             public void onComplete(@NonNull Task<String> task) {
                 if(task.isSuccessful()){
                     Log.d("FCM Token", task.getResult());
+                    AskTask task_token = new AskTask(CommonVal.httpip, "fcm_token");
+                    task_token.addParam("token", task.getResult());
+                    CommonMethod.excuteGet(task_token);
                 }
             }
         });
