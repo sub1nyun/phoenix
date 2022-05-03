@@ -37,17 +37,15 @@ import com.example.test.my.CoParentFragment;
 import com.example.test.my.EditFragment;
 import com.example.test.my.MyFragment;
 import com.example.test.sns.SnsFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Base64;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "Te";
     Fragment fragment;
     FrameLayout container;
     TabLayout tab_main;
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainActivity = this;
-
+        Log.d(TAG, "테스트: " + "asfsaf");
         if (HomeActivity.activity_home != null) {
             HomeActivity.activity_home.finish();
         }
@@ -289,12 +287,13 @@ public class MainActivity extends AppCompatActivity {
             ((OnBackPressedListenser) fragment).onBackPressed();
         } else {
             if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
-                moveTaskToBack(true);
-                finish();
-                android.os.Process.killProcess(android.os.Process.myPid());
+                finishAffinity();
+                System.runFinalization();
+                System.exit(0);
             } else {
                 backPressedTime = tempTime;
                 Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+
             }
         }
     }
