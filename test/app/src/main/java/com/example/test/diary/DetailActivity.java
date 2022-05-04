@@ -86,7 +86,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
         btn_cancel = findViewById(R.id.btn_cancel);
         btn_save = findViewById(R.id.btn_save);
         btn_del = findViewById(R.id.btn_del);
@@ -244,6 +243,10 @@ public class DetailActivity extends AppCompatActivity {
         tv_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkPermissionOverlay(DetailActivity.this);
+                if(! Settings.canDrawOverlays(DetailActivity.this)) {
+                    Toast.makeText(DetailActivity.this, "알림을 받고싶다면 권한을 허용해주세요.", Toast.LENGTH_SHORT).show();
+                }
                 TimePickerDialog dialog = new TimePickerDialog(DetailActivity.this,android.R.style.Theme_Holo_Light_Dialog_NoActionBar, callbackMethod1, Integer.parseInt(time_arr1[0]), Integer.parseInt(time_arr1[1]), false);
                 dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialog.show();
@@ -351,9 +354,9 @@ public class DetailActivity extends AppCompatActivity {
                             Date now = dateFormat.parse(dateFormat.format(new Date()));
                             Date setTime = dateFormat.parse(dto.getDiary_date()+" "+dto.getStart_time());
                             if(setTime.getTime() > now.getTime()){
-                                Calendar c = Calendar.getInstance();
-                                c.setTime(setTime);
-                                if(checkPermissionOverlay(DetailActivity.this)) {
+                                if(Settings.canDrawOverlays(DetailActivity.this)) {
+                                    Calendar c = Calendar.getInstance();
+                                    c.setTime(setTime);
                                     setAlarm(c, dto.getBaby_category());
                                 }else{
                                     Toast.makeText(DetailActivity.this, "권한을 허용해주세요.", Toast.LENGTH_SHORT).show();

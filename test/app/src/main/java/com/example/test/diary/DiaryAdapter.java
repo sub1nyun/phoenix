@@ -95,7 +95,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder>{
                 if(list.get(i).getBaby_category().equals("체온"))
                     holder.tv_how.setText(list.get(i).getTemperature()+"°C");
                 else if(list.get(i).getBaby_category().equals("기저귀"))
-                    holder.tv_how.setText(list.get(i).getDiary_type()+"");
+                    holder.tv_how.setText((list.get(i).getDiary_type()==null? "":list.get(i).getDiary_type())+"");
             } else if(diffMin >= 61){
                 holder.tv_how.setText((diffMin/60)+"시간 " + (diffMin%60)+"분");
             }else{
