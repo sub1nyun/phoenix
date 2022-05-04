@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                         InputStream in = CommonMethod.excuteGet(task);
                         CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>() {}.getType());
                         if (CommonVal.baby_list.size() != 0) {
-                            CommonVal.curbaby = CommonVal.baby_list.get(0);
+                            CommonVal.curbaby = CommonVal.baby_list.get(1);
                         }
 
                         // 가족정보 불러오기

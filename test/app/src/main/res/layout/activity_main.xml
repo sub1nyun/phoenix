@@ -20,26 +20,36 @@
         android:id="@+id/tab_main">
 
         <com.google.android.material.tabs.TabItem
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:id="@+id/tab_diary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="다이어리"/>
         <com.google.android.material.tabs.TabItem
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:id="@+id/tab_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="맵"/>
         <com.google.android.material.tabs.TabItem
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:id="@+id/tab_iot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="iot"/>
         <com.google.android.material.tabs.TabItem
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:id="@+id/tab_sns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="sns"/>
+            android:text="일기"/>
         <com.google.android.material.tabs.TabItem
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:id="@+id/tab_my"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

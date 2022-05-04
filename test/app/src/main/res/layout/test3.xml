@@ -12,6 +12,8 @@
         android:orientation="vertical"
         android:layout_weight="8">
         <TextView
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +32,8 @@
             android:layout_gravity="center"/>
 
         <TextView
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,6 +46,7 @@
 
         <TextView
             android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="엄마, 아빠는 물론, 가족들과 베이비시터도\n함께 육아 기록을 할 수 있습니다."
