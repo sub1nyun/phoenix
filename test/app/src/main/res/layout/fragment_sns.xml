@@ -77,13 +77,13 @@
 
 
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/up_arrow"
-                    android:layout_gravity="right|bottom"
-                    android:src="@drawable/up"
-                    android:backgroundTint="#3a539f"/>
+<!--                <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/up_arrow"-->
+<!--                    android:layout_gravity="right|bottom"-->
+<!--                    android:src="@drawable/up"-->
+<!--                    android:backgroundTint="#3a539f"/>-->
 
 
 
