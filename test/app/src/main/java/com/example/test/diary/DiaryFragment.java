@@ -491,7 +491,7 @@ public class DiaryFragment extends Fragment implements  View.OnLongClickListener
                 .appendPath(getResources().getResourceEntryName(R.drawable.ic_launcher_background))
                 .build();
 
-        FirebaseDynamicLinks.getInstance().createDynamicLink().setSocialMetaTagParameters(new DynamicLink.SocialMetaTagParameters.Builder().setTitle("BSS").setDescription("함께해보실래요?").setImageUrl(Uri.parse("https://postfiles.pstatic.net/MjAyMjA1MDNfNDYg/MDAxNjUxNTc4MzQ0ODcw.G54dEZE4tb7f0RASsqJhlX8TDx0KPYpT3nssF7x8lS0g.S53sXxL5dwn-JC2i8WxFkKwiyMR6VDXQgkUx57g1_b8g.PNG.tmdwn4645/icon_bss.png?type=w580")).build())
+        FirebaseDynamicLinks.getInstance().createDynamicLink().setSocialMetaTagParameters(new DynamicLink.SocialMetaTagParameters.Builder().setTitle("BSS").setDescription("함께해보실래요?").setImageUrl(Uri.parse("https://postfiles.pstatic.net/MjAyMjA1MDRfMTc3/MDAxNjUxNjM2NTQzNTYw.Mkdsv8WJJKmEEiuM1Vgqv55NxThvwjjj7znCDkDvx6kg.bKSTxV2sDz5l8hFAJ4-39Zezp7HOx401cLs3sE2LkZwg.PNG.tmdwn4645/invite_logo.png?type=w580")).build())
                 .setLink(Uri.parse(invitationLink))    //정보를 담는 json 사이트를 넣자!!
                 .setDomainUriPrefix("https://babysmilesupport.page.link")
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
