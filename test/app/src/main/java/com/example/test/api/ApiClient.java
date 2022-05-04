@@ -10,8 +10,8 @@ public class ApiClient {
     public static Retrofit getApiClient(){
         if(retrofit == null){
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(BASE_URL) //사용할 주소
+                    .addConverterFactory(GsonConverterFactory.create()) //json -> dto 자동변환
                     .build();
         }
         return  retrofit;
