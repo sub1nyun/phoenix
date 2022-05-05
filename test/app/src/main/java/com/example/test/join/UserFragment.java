@@ -163,12 +163,13 @@ public class UserFragment extends Fragment {
         imv_naver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                naverLogin();
                 join_naver.callOnClick();
             }
         });
             
 
-        naverLogin();
+
 
 
         edt_id.setOnKeyListener(new View.OnKeyListener() {

@@ -127,8 +127,63 @@ public class JoinMainActivity extends AppCompatActivity {
     }//onCreate()
 
     public void socialNaver(){
-        changeFrag(newFamilyFragment);
-        go++;
+        if (family_id != null) {
+            //emptychk(invite);
+            //Log.d("TAG", "gogo: "+result);
+                AlertDialog.Builder builder = new AlertDialog.Builder(JoinMainActivity.this);
+                builder.setTitle("회원가입을 완료 하시겠습니까?").setMessage("");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        CommonVal.curuser = JoinMainActivity.vo;
+                        //      회원가입 들어가는 ----------------------------------------------------------------------------------------------------------------------                                                                                                      =부분
+
+                        AskTask invite_task1 = new AskTask(CommonVal.httpip, "user_join.us");
+                        Gson gson = new Gson();
+                        invite_task1.addParam("vo", gson.toJson(CommonVal.curuser));
+                        InputStream invite_in1 = CommonMethod.excuteGet(invite_task1);
+                        boolean isSucc1 = gson.fromJson(new InputStreamReader(invite_in1), Boolean.class);
+                        if (isSucc1) {
+                            AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
+                            FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+                            familyInfoVO.setTitle(family_id);
+                            familyInfoVO.setFamily_rels(rels);
+                            familyInfoVO.setId(CommonVal.curuser.getId());
+                            invite_task.addParam("vo", gson.toJson(familyInfoVO));
+                            InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                            boolean isSucc2 = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                            if (isSucc2) {
+                                //아기 리스트 불러오기
+                                AskTask task = new AskTask(CommonVal.httpip, "list.bif");
+                                //로그인 정보로 수정 필요
+                                task.addParam("id", CommonVal.curuser.getId());
+                                InputStream in = CommonMethod.excuteGet(task);
+                                CommonVal.baby_list = gson.fromJson(new InputStreamReader(in), new TypeToken<List<BabyInfoVO>>() {}.getType());
+                                CommonVal.curbaby = CommonVal.baby_list.get(0);
+                                CommonVal.family_title.add(CommonVal.baby_list.get(0).getTitle());
+
+                                Intent intent = new Intent(JoinMainActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                                vo = new UserVO();
+                                babyInfoVO = new BabyInfoVO();
+                            }
+                        }
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+        } else {
+            changeFrag(newFamilyFragment);
+            go++;
+        }
     }
 
     public void gogo() {//앞으로
