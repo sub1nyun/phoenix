@@ -19,39 +19,48 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class SplashActivity extends AppCompatActivity {
-    SharedPreferences preferences;
+    //SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
 
-        preferences = getPreferences(SplashActivity.MODE_PRIVATE) ;
+        SharedPreferences preferences = getSharedPreferences("test", MODE_PRIVATE) ;
 
         if(preferences.getBoolean("first",true)){
-
-            getHashKey();
-            moveMain();
+            //getHashKey();
+            moveHome();
         }else{
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-            startActivity(intent);
+            moveMain();
         }
     }
 
 
-    private void moveMain() {
+    private void moveHome() {
         runOnUiThread(()->{
             new Handler(Looper.myLooper()).postDelayed(()->{
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("first" , false);
-                editor.apply();
+//                SharedPreferences.Editor editor = preferences.edit();
+//                editor.putBoolean("first" , false);
+//                editor.apply();
                 Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
                 finish();
             }, 3500);
         });
     }
-
+    private void moveMain() {
+        runOnUiThread(()->{
+            new Handler(Looper.myLooper()).postDelayed(()->{
+//                SharedPreferences.Editor editor = preferences.edit();
+//                editor.putBoolean("first" , false);
+//                editor.apply();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }, 3500);
+        });
+    }
     private void getHashKey(){
         PackageInfo packageInfo = null;
         try {

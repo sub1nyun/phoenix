@@ -32,10 +32,10 @@ public class HomeActivity extends AppCompatActivity {
 
         pagerAdapter = new MyAdapter(this, num_page);
         mPager.setAdapter(pagerAdapter);
-        if(intent.getStringExtra("restart")!=null){
-
-        mPager.setCurrentItem(4);
-        }
+//        if(intent.getStringExtra("restart")!=null){
+//
+//        mPager.setCurrentItem(4);
+//        }
 
 //        nIndicator = findViewById(R.id.indicator);
 //        nIndicator.setViewPager(mPager);

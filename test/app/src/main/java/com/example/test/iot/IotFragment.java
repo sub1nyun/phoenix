@@ -116,6 +116,7 @@ public class IotFragment extends Fragment {
                 String current_tile = sdf.format(time);
 
                 Request_Capture(iot_cctv, current_tile+"_capture");
+                Toast.makeText(getContext(), "/DCIM/Camera/ 에 저장됨", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -263,7 +264,7 @@ public class IotFragment extends Fragment {
 
         if(!uploadFolder.exists()) uploadFolder.mkdir();
 
-        String str_path = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/DCIM/Camera";
+        String str_path = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/DCIM/Camera/";
         try{
             fos = new FileOutputStream(str_path + title + ".jpg");
             bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);

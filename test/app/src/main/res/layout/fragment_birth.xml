@@ -17,6 +17,8 @@
         android:textSize="30dp"
         android:lines="2"
         android:textStyle="bold"
+        android:fontFamily="@font/aa"
+        android:includeFontPadding="false"
         >
 
     </TextView>
@@ -37,6 +39,8 @@
             android:layout_marginLeft="20dp"
             android:background="#ffffff"
             android:layout_gravity="center_vertical"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             />
     </LinearLayout>
 </LinearLayout>

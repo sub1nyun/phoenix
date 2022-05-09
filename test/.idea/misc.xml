@@ -52,10 +52,14 @@
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/dialog_rels.xml" value="0.33" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fontf.xml" value="0.234375" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_add.xml" value="0.33" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_baby.xml" value="0.36614583333333334" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_birth.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_body.xml" value="0.33" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_child_birth.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_co_parent.xml" value="0.22" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_dairy.xml" value="0.33" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_edit.xml" value="0.25" />
+        <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_gender.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_iot.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_map.xml" value="0.36614583333333334" />
         <entry key="..\:/BSS/phoenix/test/app/src/main/res/layout/fragment_music.xml" value="0.22826086956521738" />

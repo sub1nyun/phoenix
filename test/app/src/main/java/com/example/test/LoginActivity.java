@@ -51,11 +51,10 @@ import kotlin.jvm.functions.Function2;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "테스트" ;
-    Button btn_login, btn_forget;
+    Button btn_login, btn_join;
     EditText edt_id, edt_pw;
     CheckBox chk_auto;
     ImageView btn_kakao, imv_naver;
-    Button btn_logout;
     String id , pw;
 
     String invite_title = null;
@@ -169,20 +168,15 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        /*btn_join.setOnClickListener(new View.OnClickListener() {
+        btn_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, JoinMainActivity.class);
                 startActivity(intent);
                 finish();
             }
-        });*/
-        btn_forget.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
         });
+
         btn_kakao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,8 +220,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void binding() {
         btn_login = findViewById(R.id.btn_login);
-        //btn_join = findViewById(R.id.btn_join);
-        btn_forget = findViewById(R.id.btn_forget);
+        btn_join = findViewById(R.id.btn_join);
         edt_id = findViewById(R.id.edt_id);
         edt_pw = findViewById(R.id.edt_pw);
         chk_auto = findViewById(R.id.chk_auto);
@@ -310,27 +303,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void changeFrag(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-    }
-
-
-    private void createDynamicLink() {
-        String familyId = "tmdwn12345";
-        String invitationLink = "https://babysmilesupport.page.link/invite?familyId="+familyId; //생성할 다이나믹 링크
-
-        DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse(invitationLink))    //정보를 담는 json 사이트를 넣자!!
-                .setDomainUriPrefix("https://babysmilesupport.page.link")
-                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
-                .buildDynamicLink();
-
-        Uri dynamicLinkUri = dynamicLink.getUri();   //긴 URI
-        Log.d("asd: ", "long uri : " + dynamicLinkUri);
-
-    }
-
-
     public void saveLoginInfo() {
         //체크박스 자동로그인이 체크가 된 상태라면 임시 데이터를 저장함 ( 로그인 정보를 )
         try {
@@ -340,7 +312,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putBoolean("autologin" , true);
                 editor.putString("id", edt_id.getText() + "");
                 editor.putString("pw", edt_pw.getText() + "");
-                editor.putBoolean("first" , true);
+                //editor.putBoolean("first" , true);
             } else {  // 로그인 정보를 삭제함.
                 editor.remove("autologin");
                 editor.remove("id");

@@ -13,7 +13,10 @@
         android:text="아기가 태어났나요?"
         android:textColor="#44526C"
         android:textSize="30dp"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="50dp"
+        android:fontFamily="@font/aa"
+        android:includeFontPadding="false"
+        android:textStyle="bold"/>
     <LinearLayout
         android:id="@+id/linear_birth_yes"
         android:layout_width="match_parent"
@@ -28,6 +31,8 @@
             android:textSize="20dp"
             android:layout_gravity="center"
             android:textAlignment="center"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             />
     </LinearLayout>
     <LinearLayout
@@ -44,6 +49,8 @@
             android:textSize="20dp"
             android:layout_gravity="center"
             android:textAlignment="center"
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             />
     </LinearLayout>
 
