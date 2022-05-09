@@ -395,8 +395,8 @@ public class MainActivity extends AppCompatActivity {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    public void changeTab(){
-        TabLayout.Tab tab = tab_main.getTabAt(4);
+    public void changeTab(int index){
+        TabLayout.Tab tab = tab_main.getTabAt(index);
         tab.select();
     }
 }

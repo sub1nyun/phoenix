@@ -283,12 +283,12 @@ public class GraphActivity extends AppCompatActivity{
             //bottom x axis 설정
             xAxis.setValueFormatter(new IndexAxisValueFormatter(time_date));
 
-            LimitLine min_limit = new LimitLine(36.4f, "36.4");
+            LimitLine min_limit = new LimitLine(36.4f, "36.4°C");
             min_limit.setLineWidth(4f);
             min_limit.enableDashedLine(10f, 10f, 10f);
             min_limit.setLineColor(Color.parseColor("#4f81ff"));
 
-            LimitLine max_limit = new LimitLine(38.0f, "38.0");
+            LimitLine max_limit = new LimitLine(38.0f, "38.0°C");
             max_limit.setLineWidth(4f);
             max_limit.enableDashedLine(10f, 10f, 10f);
             max_limit.setLineColor(Color.parseColor("#ff5e5e"));

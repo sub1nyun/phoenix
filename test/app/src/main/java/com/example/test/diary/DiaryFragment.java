@@ -207,7 +207,7 @@ public class DiaryFragment extends Fragment implements  View.OnLongClickListener
 
         //탭도 옮기기-----------------------------
         baby_img.setOnClickListener(v -> {
-            ((MainActivity)getActivity()).changeTab();
+            ((MainActivity)getActivity()).changeTab(4);
             ((MainActivity)getActivity()).changeFrag(new MyFragment());
         });
 

@@ -20,6 +20,7 @@ import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;
+import com.example.test.my.MyFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -59,9 +60,10 @@ public class SnsFragment extends Fragment {
        // up_arrow = (FloatingActionButton) rootView.findViewById(R.id.up_arrow);
         scrollView =rootView.findViewById(R.id.scrollView);
 
+        ((MainActivity)getActivity()).changeTab(3);
+
         return rootView;
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
