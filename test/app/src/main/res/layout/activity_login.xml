@@ -58,6 +58,8 @@
             android:padding="5dp"
             >
             <EditText
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -81,6 +83,8 @@
             android:padding="5dp"
             >
             <EditText
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -100,6 +104,8 @@
 
             >
         <CheckBox
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="로그인 정보 저장"
@@ -110,6 +116,8 @@
         </LinearLayout>
 
         <Button
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:backgroundTint="#3a539f"
@@ -164,6 +172,8 @@
                 android:background="#8C8C8C"
                 android:layout_gravity="center"/>
             <TextView
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" SNS계정으로 로그인하기 "
@@ -177,6 +187,7 @@
                 android:layout_gravity="center"/>
         </LinearLayout>
         <ImageView
+
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="55dp"

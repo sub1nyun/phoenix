@@ -14,6 +14,8 @@
         android:layout_weight="0.7">
 
         <TextView
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:layout_gravity="center"
             android:id="@+id/gal_cancel"
             android:layout_width="wrap_content"
@@ -24,6 +26,8 @@
             android:textSize="25dp" />
 
         <TextView
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:layout_gravity="center"
             android:id="@+id/gal_select"
             android:layout_width="match_parent"

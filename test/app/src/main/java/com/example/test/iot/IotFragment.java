@@ -1,4 +1,4 @@
-package com.example.test;
+package com.example.test.iot;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 
@@ -27,6 +27,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.test.MainActivity;
+import com.example.test.R;
 import com.example.test.common.AskTask;
 import com.example.test.common.CommonMethod;
 import com.example.test.common.CommonVal;

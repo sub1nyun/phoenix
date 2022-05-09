@@ -38,7 +38,7 @@ public class SnsFragment extends Fragment {
     Activity activity;
     View sns_none;
     RecyclerView sns_view_rec;
-    FloatingActionButton up_arrow;
+    //FloatingActionButton up_arrow;
     ScrollView scrollView;
 
 
@@ -56,7 +56,7 @@ public class SnsFragment extends Fragment {
 
         sns_view_rec = rootView.findViewById(R.id.sns_view_rec);
         sns_plus = rootView.findViewById(R.id.sns_plus);
-        up_arrow = (FloatingActionButton) rootView.findViewById(R.id.up_arrow);
+       // up_arrow = (FloatingActionButton) rootView.findViewById(R.id.up_arrow);
         scrollView =rootView.findViewById(R.id.scrollView);
 
         return rootView;
@@ -98,9 +98,9 @@ public class SnsFragment extends Fragment {
             startActivity(intent);
         });
 
-        up_arrow.setOnClickListener(v -> {
-            scrollView.smoothScrollTo(0,0);
-        });
+//        up_arrow.setOnClickListener(v -> {
+//            scrollView.smoothScrollTo(0,0);
+//        });
     }
 
     // null값이라면 true를 반환

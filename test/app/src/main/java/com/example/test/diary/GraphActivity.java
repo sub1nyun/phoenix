@@ -297,7 +297,7 @@ public class GraphActivity extends AppCompatActivity{
             yLAxis.addLimitLine(min_limit);
             yLAxis.addLimitLine(max_limit);
 
-            yLAxis.setAxisMinimum(30);
+            yLAxis.setAxisMinimum(34);
             yLAxis.setAxisMaximum(40);
         }else{
             if(category.equals("cm")){

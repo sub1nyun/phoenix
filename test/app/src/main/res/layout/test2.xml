@@ -12,6 +12,8 @@
         android:orientation="vertical"
         android:layout_weight="8">
         <TextView
+            android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,6 +34,7 @@
         <TextView
             android:textStyle="bold"
             android:fontFamily="@font/aa"
+            android:includeFontPadding="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="아이와 떨어져 있어도 걱정 끝!\n아이의 상태를 실시간으로 확인할 수 있습니다."

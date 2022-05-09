@@ -31,6 +31,8 @@
                 />
 
             <TextView
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,6 +79,8 @@
                 android:text="놓치기 싫은 아이와의 행복한 순간들을 지금바로\n공유하세요"
                 android:textAlignment="center"
                 android:textColor="#000"
+                android:fontFamily="@font/aa"
+                android:includeFontPadding="false"
                />
 
 

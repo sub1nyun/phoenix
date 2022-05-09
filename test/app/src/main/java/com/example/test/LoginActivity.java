@@ -58,6 +58,9 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_logout;
     String id , pw;
 
+    String invite_title = null;
+    String invite_rels = null;
+
     NidOAuthLoginButton naverlogin;
     Gson gson = new Gson();
     public static OAuthLogin mOAuthLoginModule;
@@ -109,8 +112,8 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         Intent invite_intent = getIntent();
-        String invite_title = invite_intent.getStringExtra("family_id");
-        String invite_rels = invite_intent.getStringExtra("rels");
+        invite_title = invite_intent.getStringExtra("family_id");
+        invite_rels = invite_intent.getStringExtra("rels");
         //Log.d("", "invite: "+invite_title);
 
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -245,16 +248,32 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(NidProfileResponse nidProfileResponse) {
                         Log.d("naver","onSuccess:성공" + nidProfileResponse.getProfile().getEmail());
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
-                        intent.putExtra("name", nidProfileResponse.getProfile().getName());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
-                        finish();
+//                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//                        intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
+//                        intent.putExtra("name", nidProfileResponse.getProfile().getName());
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                        startActivity(intent);
+//                        finish();
       //                  Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         String email = nidProfileResponse.getProfile().getEmail();
-                        getinfo( email );
+                        //getinfo( email );
+                        AskTask task = new AskTask( CommonVal.httpip,"social_login.user");
+                        task.addParam("id" , email);
+                        InputStream in =  CommonMethod.excuteGet(task);
+                        Gson gson = new Gson();
+                        boolean data = gson.fromJson(new InputStreamReader(in) , Boolean.class);
+                        //String aa = "";
+                        if( data ){
+                            getinfo(email);
+                        }else{
+                            //아이디가 없음
+                            altdialog("알림" ,"아이디가 없어 회원가입 화면으로 이동합니다.");
+                            Intent intent = new Intent(LoginActivity.this , JoinMainActivity.class);
+                            startActivity(intent);
+
+                        }
+
        //                 intent.putExtra("email", nidProfileResponse.getProfile().getEmail());
        //                 intent.putExtra("name", nidProfileResponse.getProfile().getName());
       //                  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -424,7 +443,25 @@ public class LoginActivity extends AppCompatActivity {
     public void getinfo(String email){
         //아이디가 있음
         if(email != null){
+            //초대로 왔을 때
+
+
             CommonVal.curuser.setId( email );
+
+            if (invite_title != null) {
+                if(!in_family(invite_title)) {
+                    AskTask invite_task = new AskTask(CommonVal.httpip, "invite_login.join");
+                    FamilyInfoVO familyInfoVO = new FamilyInfoVO();
+                    familyInfoVO.setTitle(invite_title);
+                    familyInfoVO.setFamily_rels(invite_rels);
+                    familyInfoVO.setId(CommonVal.curuser.getId());
+                    Gson gson = new Gson();
+                    invite_task.addParam("vo", gson.toJson(familyInfoVO));
+                    InputStream invite_in = CommonMethod.excuteGet(invite_task);
+                    boolean isSucc = gson.fromJson(new InputStreamReader(invite_in), Boolean.class);
+                }
+            }
+
             Intent intent = new Intent( LoginActivity.this , MainActivity.class);
             startActivity(intent);
             //아기 리스트 불러오기

@@ -163,12 +163,13 @@ public class UserFragment extends Fragment {
         imv_naver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                naverLogin();
                 join_naver.callOnClick();
             }
         });
             
 
-        naverLogin();
+
 
 
         edt_id.setOnKeyListener(new View.OnKeyListener() {
@@ -259,7 +260,10 @@ public class UserFragment extends Fragment {
             auto_id_check.setText("아이디를 입력해주세요.");
             auto_id_check.setTextColor(Color.parseColor("#FF7575"));
             return false;
-        } else if (Pattern.matches("^[0-9]{1,28}+[a-z0-9]{1,28}$", JoinMainActivity.vo.getId()) || Pattern.matches("^[a-z]{1,28}+[a-z0-9]{1,28}$", JoinMainActivity.vo.getId())) {
+        } else if(edt_id.getText().toString().length() < 5 || edt_id.getText().toString().length() > 10){
+            auto_id_check.setText("ID는 영어 소문자/숫자를 5~10글자 입력하셔야합니다.");
+            auto_id_check.setTextColor(Color.parseColor("#FF7575"));
+        }else if (Pattern.matches("^[0-9]{1,28}+[a-z0-9]{1,28}$", JoinMainActivity.vo.getId()) || Pattern.matches("^[a-z]{1,28}+[a-z0-9]{1,28}$", JoinMainActivity.vo.getId())) {
             //"(?:\\w{4,10}[a-z][0-9]+)$"
             auto_id_check.setText("사용가능한 ID 형식입니다.");
             auto_id_check.setTextColor(Color.parseColor("#3a539f"));
@@ -288,6 +292,9 @@ public class UserFragment extends Fragment {
             pw_check.setText("비밀번호를 입력해주세요.");
             pw_check.setTextColor(Color.parseColor("#FF7575"));
             return false;
+        } else if(edt_pw.getText().toString().length() < 5 || edt_pw.getText().toString().length() > 10){
+            pw_check.setText("PW는 영어 소문자/숫자를 5~10글자 입력하셔야합니다.");
+            pw_check.setTextColor(Color.parseColor("#FF7575"));
         } else if (Pattern.matches("^[0-9]{1,28}+[a-z0-9]{1,28}$", JoinMainActivity.vo.getPw()) || Pattern.matches("^[a-z]{1,28}+[a-z0-9]{1,28}$", JoinMainActivity.vo.getPw())) {
             pw_check.setText("사용 가능한 비밀번호입니다.");
             pw_check.setTextColor(Color.parseColor("#3a539f"));

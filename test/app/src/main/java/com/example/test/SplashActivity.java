@@ -38,6 +38,7 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
+
     private void moveMain() {
         runOnUiThread(()->{
             new Handler(Looper.myLooper()).postDelayed(()->{
