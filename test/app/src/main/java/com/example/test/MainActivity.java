@@ -399,4 +399,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout.Tab tab = tab_main.getTabAt(index);
         tab.select();
     }
+
+//테스트용
 }
